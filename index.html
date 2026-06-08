@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBA Doceria - Cardápio & Pedidos</title>
+  <!-- Tailwind CSS para estilização rápida, fluida e responsiva -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts para design editorial luxuoso -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #FDFBF7; /* Tom de creme sofisticado e acolhedor */
+    }
+    .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+  </style>
+</head>
+<body class="text-stone-800 antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- Cabeçalho Principal -->
+  <header class="border-b border-stone-200/60 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <div class="max-w-xl mx-auto px-6 py-4 flex flex-col items-center text-center">
+      <h1 class="font-serif text-3xl font-bold tracking-wide text-amber-950">Oba!</h1>
+      <p class="text-[10px] tracking-widest uppercase text-stone-500 font-bold mt-1">Brigadeiros Gourmet • Santo Cristo, RS</p>
+    </div>
+    
+    <!-- Navegação de Abas Principal -->
+    <nav class="max-w-xl mx-auto px-4 pb-2 flex justify-around text-xs font-semibold">
+      <button onclick="switchTab('cardapio')" id="tab-cardapio" class="pb-2 px-3 border-b-2 border-amber-950 text-amber-950 transition-all focus:outline-none">
+        ✨ O Cardápio
+      </button>
+      <button onclick="switchTab('comofunciona')" id="tab-comofunciona" class="pb-2 px-3 border-b-2 border-transparent text-stone-400 hover:text-stone-600 transition-all focus:outline-none">
+        📋 Como Funciona
+      </button>
+      <button onclick="switchTab('simulador')" id="tab-simulador" class="pb-2 px-3 border-b-2 border-transparent text-stone-400 hover:text-stone-600 transition-all focus:outline-none">
+        🛒 Monte seu Pedido
+      </button>
+    </nav>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="flex-grow max-w-xl mx-auto w-full px-5 py-6">
+
+    <!-- ================= SEÇÃO 1: O CARDÁPIO DIGITAL VISUAL ================= -->
+    <section id="content-cardapio" class="space-y-6">
+      
+      <div class="text-center space-y-2">
+        <h2 class="font-serif text-2xl font-bold text-amber-950">Nosso Menu de Sabores</h2>
+        <p class="text-xs text-stone-500 leading-relaxed max-w-xs mx-auto">
+          Toque em qualquer doce para ver sua receita detalhada e sua belíssima ilustração artesanal.
+        </p>
+        <div class="w-12 h-[1px] bg-amber-800/20 mx-auto pt-2"></div>
+      </div>
+
+      <!-- Barra de Busca de Sabores -->
+      <div class="bg-white rounded-xl shadow-sm border border-stone-100 p-2 flex items-center gap-2">
+        <span class="text-stone-400 pl-2">🔍</span>
+        <input type="text" id="flavorSearch" oninput="filterFlavors()" placeholder="Buscar sabor (ex: Pistache, Ninho, Uva)..." 
+               class="w-full text-sm bg-transparent outline-none py-2 text-stone-800 focus:outline-none">
+      </div>
+
+      <!-- Lista de Sabores por Categoria de Preço -->
+      <div class="space-y-6" id="menu-flavors-list">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </section>
+
+    <!-- ================= SEÇÃO 2: COMO FUNCIONA (INSTITUCIONAL DO PDF) ================= -->
+    <section id="content-comofunciona" class="hidden space-y-6">
+      <div class="text-center space-y-2">
+        <h2 class="font-serif text-2xl font-bold text-amber-950">A Experiência OBA</h2>
+        <p class="text-xs text-stone-500">Regras de encomenda, cuidado técnico e padrão artesanal.</p>
+        <div class="w-12 h-[1px] bg-amber-800/20 mx-auto pt-2"></div>
+      </div>
+
+      <!-- Cards Informativos -->
+      <div class="space-y-4">
+        
+        <!-- Manifesto da Confeitaria -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-150 shadow-sm space-y-3">
+          <h3 class="font-serif text-base font-semibold text-amber-950 flex items-center gap-2">
+            🌱 Sabor Puro & Equilíbrio
+          </h3>
+          <ul class="text-xs text-stone-600 space-y-2.5 leading-relaxed list-disc pl-4">
+            <li><span class="font-semibold text-stone-800">Sem pastes prontas:</span> Não utilizamos pastas industrializadas ou aditivos químicos. O sabor vem do ingrediente real.</li>
+            <li><span class="font-semibold text-stone-800">Produção 100% Própria:</span> Todas as reduções de frutas frescas e geleias são feitas à mão em nossa cozinha.</li>
+            <li><span class="font-semibold text-stone-800">Equilíbrio de Doçura:</span> Menos açúcar e mais sabor. Nossas receitas contêm 64,6% de creme de leite premium, conferindo cremosidade aveludada sem ser enjoativa.</li>
+          </ul>
+        </div>
+
+        <!-- Instruções de Compra -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-150 shadow-sm space-y-3">
+          <h3 class="font-serif text-base font-semibold text-amber-950 flex items-center gap-2">
+            📅 Informações Importantes
+          </h3>
+          <ul class="text-xs text-stone-600 space-y-2.5 leading-relaxed list-disc pl-4">
+            <li><span class="font-semibold text-stone-800">Antecedência Mínima:</span> Produzimos sob encomenda. Consulte nossa disponibilidade de data.</li>
+            <li><span class="font-semibold text-stone-800">Pedido Mínimo:</span> Produzimos caixas e centos a partir de 25 unidades.</li>
+            <li><span class="font-semibold text-stone-800">Valor Final:</span> Depende estritamente dos sabores que escolher. O simulador calcula o valor exato para você.</li>
+            <li><span class="font-semibold text-stone-800">Pagamento:</span> Aceitamos PIX ou Dinheiro físico no momento da retirada.</li>
+          </ul>
+        </div>
+
+        <!-- Embalagens & Forminhas -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-150 shadow-sm space-y-3">
+          <h3 class="font-serif text-base font-semibold text-amber-950 flex items-center gap-2">
+            🎁 Embalagens & Apresentação
+          </h3>
+          <p class="text-xs text-stone-600 leading-relaxed">
+            De padrão, todos os doces são dispostos em forminhas tradicionais de papel. Para eventos sofisticados, oferecemos a opção de alteração para <span class="font-semibold text-stone-800">forminhas de acetato transparente</span> com taxa adicional de R$ 0,24 por doce (R$ 12,00 por meio cento / R$ 24,00 por cento).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SEÇÃO 3: O SIMULADOR INTERATIVO ================= -->
+    <section id="content-simulador" class="hidden space-y-6">
+      
+      <!-- FORMULÁRIO -->
+      <form id="orderForm" onsubmit="event.preventDefault();" class="space-y-6">
+        
+        <!-- PASSO 1: IDENTIFICAÇÃO DO CLIENTE -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+          <h3 class="font-serif text-lg font-semibold text-amber-950 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-amber-900/10 text-amber-950 text-xs flex items-center justify-center font-sans font-bold">1</span>
+            Seus Dados de Contato
+          </h3>
+          
+          <div class="space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label for="clientName" class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Nome Completo</label>
+                <input type="text" id="clientName" required placeholder="Digite o seu nome completo" 
+                       class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-800 transition-colors">
+              </div>
+              <div>
+                <label for="clientPhone" class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">WhatsApp / Telefone</label>
+                <input type="tel" id="clientPhone" required placeholder="Ex: (55) 99911-7626" 
+                       class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-800 transition-colors">
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="eventDate" class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Data Desejada</label>
+                <input type="date" id="eventDate" required
+                       class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-800 transition-colors">
+              </div>
+              <div>
+                <label for="pickupTime" class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Horário da Retirada</label>
+                <select id="pickupTime" required class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-800 transition-colors">
+                  <!-- Preenchido via JS -->
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSO 2: ESCOLHA DA CAIXA (QUANTIDADE) -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+          <h3 class="font-serif text-lg font-semibold text-amber-950 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-amber-900/10 text-amber-950 text-xs flex items-center justify-center font-sans font-bold">2</span>
+            Escolha o Tamanho da Caixa
+          </h3>
+          
+          <div class="grid grid-cols-2 gap-2" id="package-grid">
+            <!-- Renderizado Dinamicamente -->
+          </div>
+
+          <!-- Banner Interativo de Feedback Rápido -->
+          <div id="interactiveStepMessage" class="hidden transform scale-95 opacity-0 transition-all duration-300 bg-amber-500/10 border border-amber-900/10 p-3.5 rounded-xl text-center">
+            <p class="text-xs font-semibold text-amber-950" id="interactiveMessageText"></p>
+          </div>
+
+          <!-- Adicional de Forminhas de Acetato -->
+          <div class="pt-3 border-t border-stone-100">
+            <label class="flex items-center justify-between p-3 rounded-xl bg-amber-500/5 border border-amber-900/10 cursor-pointer hover:bg-amber-500/10 transition-colors">
+              <div class="flex items-center gap-3">
+                <input type="checkbox" id="forminhaAcetato" onchange="calculateTotals()" class="w-4 h-4 rounded text-amber-900 focus:ring-amber-900">
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-amber-950">Deseja Forminhas de Acetato?</span>
+                  <span class="text-[10px] text-stone-500">Valor adicional proporcional de R$ 0,24 por unidade</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-amber-900 font-mono" id="forminhaCostPreview">+ R$ 0,00</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- PASSO 3: SABORES -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+          <div class="flex flex-col">
+            <h3 class="font-serif text-lg font-semibold text-amber-950 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-amber-900/10 text-amber-950 text-xs flex items-center justify-center font-sans font-bold">3</span>
+              Escolha Seus Sabores Favoritos
+            </h3>
+            <p class="text-[11px] text-stone-500 mt-1" id="flavorLimitsInfo">
+              Selecione até <span class="font-bold text-amber-950">5 sabores</span> diferentes para esta caixa.
+            </p>
+          </div>
+
+          <!-- ACCORDIONS DE CATEGORIAS -->
+          <div class="space-y-3" id="categoriesContainer">
+            <!-- Renderizado via JS -->
+          </div>
+        </div>
+
+        <!-- BARRA DE CONTROLE FLUTUANTE -->
+        <div class="sticky bottom-4 z-40 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-stone-200/80 max-w-xl mx-auto w-full transition-all duration-300">
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-[10px] text-stone-500 uppercase tracking-widest font-bold">Progresso dos Doces</p>
+                <p class="text-lg font-bold text-amber-950 font-mono">
+                  <span id="currentTotal">0</span> <span class="text-stone-400 text-xs">/ <span id="targetTotal">25</span> unid.</span>
+                </p>
+              </div>
+              
+              <div class="text-right">
+                <p class="text-[10px] text-stone-500 uppercase tracking-widest font-bold">Variedade de Sabores</p>
+                <p class="text-xs font-bold text-stone-700" id="flavorVarietyCounter">
+                  0 de 5 sabores escolhidos
+                </p>
+              </div>
+            </div>
+
+            <!-- Total Financeiro Real e Enviar -->
+            <div class="flex items-center justify-between pt-3 border-t border-stone-100 gap-3">
+              <div>
+                <p class="text-[9px] text-stone-500 uppercase font-bold">Valor Estimado</p>
+                <p class="text-2xl font-serif font-bold text-amber-950" id="estimatedPrice">
+                  R$ 0,00
+                </p>
+              </div>
+
+              <button type="button" id="submitBtn" onclick="sendOrder()" disabled
+                      class="flex-grow md:flex-grow-0 bg-stone-300 text-stone-500 cursor-not-allowed font-semibold text-sm px-6 py-3.5 rounded-xl transition-all text-center">
+                Validar Pedido
+              </button>
+            </div>
+            
+            <div id="validationWarning" class="text-[10px] text-center text-red-600 font-semibold hidden">
+              Você selecionou mais sabores do que o permitido por este pacote!
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </section>
+  </main>
+
+  <!-- MODAL SENSORIAL DE DETALHES GOURMET ("SAIBA MAIS") -->
+  <div id="detailsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm hidden transition-all duration-300">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-stone-100 transform scale-95 transition-all duration-300 flex flex-col space-y-4">
+      
+      <!-- Cabeçalho do Modal -->
+      <div class="flex justify-between items-start">
+        <span class="text-[10px] uppercase tracking-wider font-extrabold text-amber-950 px-2 py-1 rounded bg-amber-900/10" id="modalCategoryTag"></span>
+        <button onclick="closeDetailsModal()" class="text-stone-400 hover:text-stone-600 font-bold text-lg focus:outline-none">&times;</button>
+      </div>
+
+      <!-- Representação Gráfica Sensorial (SVG Dinâmico) -->
+      <div class="w-full py-4 flex justify-center bg-stone-50 rounded-2xl" id="modalSVGContainer">
+        <!-- SVG Gerado via JS de acordo com a receita -->
+      </div>
+
+      <!-- Informações do Sabor -->
+      <div class="space-y-2">
+        <h3 class="font-serif text-xl font-bold text-amber-950" id="modalFlavorName"></h3>
+        <p class="text-xs text-stone-600 leading-relaxed" id="modalFlavorDesc"></p>
+        <p class="text-xs text-amber-900/80 italic font-serif leading-relaxed" id="modalFlavorCraftSecrets"></p>
+      </div>
+
+      <!-- Rodapé do Modal com Preço e Ação -->
+      <div class="flex items-center justify-between pt-4 border-t border-stone-150">
+        <div>
+          <p class="text-[9px] uppercase tracking-wider text-stone-400 font-bold">Unidade</p>
+          <p class="text-lg font-mono font-bold text-amber-950" id="modalFlavorPrice"></p>
+        </div>
+        <button id="modalAddBtn" onclick="addFlavorFromModal()" 
+                class="bg-amber-950 text-white font-semibold text-xs px-5 py-3 rounded-xl hover:bg-stone-900 transition-colors focus:outline-none">
+          Adicionar ao Pedido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST DE NOTIFICAÇÃO DE SUCESSO -->
+  <div id="toastNotification" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-stone-900 text-stone-100 text-xs font-semibold px-4 py-3 rounded-full shadow-lg flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 translate-y-2">
+    <span>✨</span> <span id="toastMessage">Doce adicionado com sucesso!</span>
+  </div>
+
+  <!-- Rodapé Geral -->
+  <footer class="bg-stone-900 text-stone-400 py-10 text-center border-t border-stone-800">
+    <div class="max-w-xl mx-auto px-6 space-y-3">
+      <h2 class="font-serif text-lg text-stone-200 font-bold">OBA Doceria</h2>
+      <p class="text-xs leading-relaxed max-w-xs mx-auto">
+        Técnica, equilíbrio e o verdadeiro sabor artesanal diretamente de Santo Cristo, RS.
+      </p>
+      <p class="text-[10px] text-stone-600 uppercase tracking-widest">
+        © 2026 OBA Doceria • Atualizado em 15/04/2026
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // 1. Configurações Globais e Variáveis de Estado (Definidas no topo absoluto para evitar TDZ em iFrames de preview)
+    var OBA_PHONE = "5555999117626"; 
+
+    var packages = {
+      p25: { label: "Caixa c/ 25", count: 25, maxFlavors: 5 },
+      p35: { label: "Caixa c/ 35", count: 35, maxFlavors: 7 },
+      p40: { label: "Caixa c/ 40", count: 40, maxFlavors: 7 },
+      p45: { label: "Caixa c/ 45", count: 45, maxFlavors: 7 },
+      p50: { label: "Caixa c/ 50", count: 50, maxFlavors: 10 },
+      p100: { label: "Caixa c/ 100", count: 100, maxFlavors: 14 }
+    };
+
+    var categories = {
+      trad1: { label: "Tradicionais I (R$ 2,50)", count: 0 },
+      trad2: { label: "Tradicionais II (R$ 2,60)", count: 0 },
+      class: { label: "Clássicos (R$ 2,75)", count: 0 },
+      esp1: { label: "Especiais I (R$ 3,00)", count: 0 },
+      esp2: { label: "Especiais II (R$ 3,25)", count: 0 },
+      prem: { label: "Premium / Morango e Pistache (R$ 4,00 - R$ 4,25)", count: 0 }
+    };
+
+    var flavors = [
+      // Tradicionais I - R$ 2,50
+      { id: 'ninho_trad', name: 'Leite Ninho', desc: 'Massa clássica de Leite Ninho integral cozida em panela de cobre.', price: 2.50, cat: 'trad1', secret: 'Utilizamos Leite Ninho integral puro para uma cremosidade e riqueza láctea incomparáveis.' },
+      { id: 'nesquik', name: 'Nesquik', desc: 'Massa suave com o sabor marcante e nostálgico de morango Nesquik.', price: 2.50, cat: 'trad1', secret: 'O clássico sabor frutado e adocicado da infância, com consistência super macia.' },
+      { id: 'casadinho', name: 'Casadinho', desc: 'Harmonia perfeita entre massas Ao Leite e Leite Ninho.', price: 2.50, cat: 'trad1', secret: 'Metade chocolate ao leite belga, metade ninho puro moldados artesanalmente juntos.' },
+      { id: 'dois_amores', name: 'Dois Amores', desc: 'Mescla deliciosa do brigadeiro clássico com sabor frutado de Nesquik.', price: 2.50, cat: 'trad1', secret: 'Um visual bicolor charmoso com o encontro dos sabores de morango e chocolate.' },
+      { id: 'cappuccino', name: 'Cappuccino', desc: 'Equilíbrio sutil de chocolate Ao Leite, Ninho e toque suave de café.', price: 2.50, cat: 'trad1', secret: 'Aromatizado levemente com café torrado e moído especial.' },
+      { id: 'napolitano', name: 'Napolitano', desc: 'O trio irresistível: chocolate Ao Leite, Leite Ninho e Nesquik juntos.', price: 2.50, cat: 'trad1', secret: 'Processo demorado onde três massas delicadas são unidas com perfeição.' },
+      { id: 'coco', name: 'Coco', desc: 'O legítimo beijinho gourmet, sedoso, enrolado em coco ralado fresco.', price: 2.50, cat: 'trad1', secret: 'Adicionamos leite de coco artesanal durante a cozedura para extrair o máximo do sabor.' },
+      { id: 'coco_queimado', name: 'Coco Queimado', desc: 'Beijinho cremoso envolvido em raspas tostadas de coco queimado.', price: 2.50, cat: 'trad1', secret: 'O coco é queimado lentamente em nossa cozinha para caramelizar os óleos essenciais.' },
+
+      // Tradicionais II - R$ 2,60
+      { id: 'branco_nob', name: 'Branco com Granulado Nobre', desc: 'Brigadeiro branco de baunilha Bourbon envolto em raspas de chocolate nobre.', price: 2.60, cat: 'trad2', secret: 'Massa clarinha, saborizada com favas de baunilha naturais, sem essências.' },
+      { id: 'leite_nob', name: 'Ao Leite com Granulado Nobre', desc: 'Massa ultra sedosa de chocolate ao leite belga de altíssimo padrão.', price: 2.60, cat: 'trad2', secret: 'Leva cacau de origem sustentável e manteiga extra com 82% de gordura.' },
+      { id: 'amargo_nob', name: 'Meio Amargo com Granulado Nobre', desc: 'Brigadeiro equilibrado com teor de cacau 54% cacau nobre.', price: 2.60, cat: 'trad2', secret: 'Perfeito para paladares que apreciam a intensidade do cacau com dulçor reduzido.' },
+      { id: 'caramelo_nob', name: 'Caramelo com Granulado Nobre', desc: 'Massa cremosa caramelizada lentamente em panela.', price: 2.60, cat: 'trad2', secret: 'Usamos o método dry caramel para obter notas ricas de toffee artesanal.' },
+      { id: 'duo_leite', name: 'Duo Ao Leite', desc: 'Brigadeiro Ao Leite e Branco em perfeita fusão com splits belgas.', price: 2.60, cat: 'trad2', secret: 'Rico em contraste de cor e texturas na boca.' },
+      { id: 'duo_amargo', name: 'Duo Amargo', desc: 'União da massa meio amarga com a doçura suave do brigadeiro branco.', price: 2.60, cat: 'trad2', secret: 'Equilibra perfeitamente o amargor do cacau nobre com as raspas de chocolate.' },
+      { id: 'cafe_nob', name: 'Café com Granulado Nobre', desc: 'Brigadeiro cremoso de café arábica de torra média.', price: 2.60, cat: 'trad2', secret: 'Sabor marcante de grãos selecionados, ideal para acompanhar licores.' },
+      { id: 'amendoim_trit', name: 'Amendoim com Amendoim', desc: 'Massa aveludada de amendoim torrado envolvida em farofa crocante.', price: 2.60, cat: 'trad2', secret: 'Nós mesmos torramos e moemos o amendoim para garantir frescor absoluto.' },
+
+      // Clássicos - R$ 2,75
+      { id: 'ninho_nutella', name: 'Ninho com Nutella', desc: 'Creme de leite Ninho recheado com Nutella italiana.', price: 2.75, cat: 'class', secret: 'Decorado com uma pitanga generosa de Nutella pura em cima.' },
+      { id: 'oreo', name: 'Oreo', desc: 'Brigadeiro de baunilha com pedacinhos de biscoito Oreo.', price: 2.75, cat: 'class', secret: 'Mantém a crocância do biscoito graças ao nosso processo de mistura a frio.' },
+      { id: 'nesquik_nutella', name: 'Nesquik com Nutella', desc: 'O clássico sabor frutado com recheio cremoso de avelã.', price: 2.75, cat: 'class', secret: 'Um contraste perfeito de acidez e cremosidade do cacau.' },
+      { id: 'confete', name: 'Confete', desc: 'Brigadeiro de chocolate ao leite inteiramente coberto por mini pastilhas coloridas.', price: 2.75, cat: 'class', secret: 'Textura extremamente divertida e crocante para festas infantis.' },
+      { id: 'charge', name: 'Charge', desc: 'Deliciosa união de amendoim torrado com doce de leite caseiro.', price: 2.75, cat: 'class', secret: 'Inspirado no famoso bombom, com dulçor balanceado.' },
+      { id: 'cocadinha', name: 'Cocadinha', desc: 'Coco queimado artesanal contrastado com recheio de doce de leite.', price: 2.75, cat: 'class', secret: 'Doce de leite cozido na pressão por horas para adquirir consistência ideal.' },
+      { id: 'queijadinha', name: 'Queijadinha', desc: 'Doce de leite cremoso finalizado com raspas finas de queijo parmesão.', price: 2.75, cat: 'class', secret: 'Toque agridoce sutil típico das melhores receitas coloniais gaúchas.' },
+      { id: 'prestigio', name: 'Prestígio', desc: 'Camada de brigadeiro de coco unida ao chocolate ao leite e ralado.', price: 2.75, cat: 'class', secret: 'Sabor clássico reinventado com o melhor do cacau artesanal.' },
+      { id: 'damasco', name: 'Damasco', desc: 'Brigadeiro suave finalizado com redução e topo de damasco turco.', price: 2.75, cat: 'class', secret: 'A geleia de damasco é reduzida sem açúcares adicionais, apenas com a fruta.' },
+      { id: 'ameixa', name: 'Ameixa', desc: 'Massa clássica enriquecida com compota artesanal de ameixa preta.', price: 2.75, cat: 'class', secret: 'Utilizamos ameixas premium cozidas lentamente até desmancharem.' },
+
+      // Especiais I - R$ 3,00
+      { id: 'nozes', name: 'Nozes', desc: 'Massa sofisticada com nozes chilenas moídas de textura super fina.', price: 3.00, cat: 'esp1', secret: 'As nozes são levemente tostadas antes de serem incorporadas à massa.' },
+      { id: 'queijo_goiabada', name: 'Queijo e Goiabada (Romeu & Julieta)', desc: 'Brigadeiro de cream cheese e parmesão com gota de goiabada cascão cremosa.', price: 3.00, cat: 'esp1', secret: 'Contraste salgado/doce impecável com goiabada cascão mineira autêntica.' },
+      { id: 'queijo_doce_leite', name: 'Queijo e Doce de Leite', desc: 'Massa suave de queijo com topo decorado em doce de leite.', price: 3.00, cat: 'esp1', secret: 'Mescla o toque salgado do parmesão com o caramelo do doce de leite.' },
+      { id: 'maracuja', name: 'Maracujá', desc: 'Brigadeiro cítrico com polpa e redução de maracujá fresco.', price: 3.00, cat: 'esp1', secret: 'Usamos maracujá azedo natural direto do produtor local.' },
+      { id: 'maracuja_leite', name: 'Maracujá Ao Leite', desc: 'Massa de maracujá com granulado nobre e geleia artesanal.', price: 3.00, cat: 'esp1', secret: 'Visual belíssimo com brilho dourado e sementes de maracujá caramelizadas.' },
+      { id: 'maracuja_nutella', name: 'Maracujá com Nutella', desc: 'A acidez vibrante da fruta harmonizada com a cremosidade do avelã.', price: 3.00, cat: 'esp1', secret: 'Uma das combinações prediletas de nossos clientes para casamentos.' },
+      { id: 'damasco_amendoas', name: 'Damasco e Amêndoas', desc: 'Brigadeiro de damasco envolvido em lâminas crocantes de amêndoas.', price: 3.00, cat: 'esp1', secret: 'As amêndoas são tostadas na hora para preservar a crocância.' },
+
+      // Especiais II - R$ 3,25
+      { id: 'caramelo_salgado', name: 'Caramelo Salgado & Crocante', desc: 'Caramelo toffee artesanal, crocante de sucrilhos e flor de sal.', price: 3.25, cat: 'esp2', secret: 'Usamos cristais de flor de sal selecionados para estourar o sabor do caramelo na boca.' },
+      { id: 'abacaxi_coco', name: 'Abacaxi com Coco', desc: 'Brigadeiro de coco com geleia e pedaços de abacaxi reduzido.', price: 3.25, cat: 'esp2', secret: 'O abacaxi é cozido por 3 horas até atingir textura translúcida de compota.' },
+      { id: 'ferrero', name: 'Ferrero Rocher Gourmet', desc: 'Brigadeiro ao leite com avelãs tostadas inteiras e Nutella.', price: 3.25, cat: 'esp2', secret: 'Contém uma avelã inteira no coração do doce para surpreender.' },
+      { id: 'crocante_nutella', name: 'Crocante de Nutella', desc: 'Brigadeiro de Nutella envolto em flocos crocantes de wafer belga.', price: 3.25, cat: 'esp2', secret: 'Textura leve e crocância prolongada de alta confeitaria.' },
+      { id: 'bacon_abacaxi', name: 'Bacon com Abacaxi', desc: 'Ousadia agridoce: brigadeiro de bacon com geleia de abacaxi.', price: 3.25, cat: 'esp2', secret: 'Bacon frito ultra sequinho e picado finamente, equilibrado pela acidez do abacaxi.' },
+      { id: 'cheesecake', name: 'Cheesecake', desc: 'Massa de cream cheese com geleia artesanal de morango.', price: 3.25, cat: 'esp2', secret: 'Geleia fresca de morango cozida sem conservantes em nossa doceria.' },
+      { id: 'laranja_amendoas', name: 'Laranja com Amêndoas', desc: 'Brigadeiro de laranja com amêndoas laminadas e geleia.', price: 3.25, cat: 'esp2', secret: 'Aromatizado com raspas frescas de laranjas colhidas em pomares locais.' },
+      { id: 'laranja_coco', name: 'Laranja com Coco', desc: 'Combinação cítrica de laranja envolta em coco ralado fino.', price: 3.25, cat: 'esp2', secret: 'Leve, refrescante e ideal para dias quentes de verão.' },
+      { id: 'nozes_figo', name: 'Nozes e Figo', desc: 'Cream cheese com pedaços de nozes e figo verde em calda.', price: 3.25, cat: 'esp2', secret: 'O figo colonial em calda traz doçura aromática única a esta receita.' },
+      { id: 'gorgonzola_geleia', name: 'Gorgonzola e Geleia', desc: 'Massa exótica de queijo azul harmonizada com morango.', price: 3.25, cat: 'esp2', secret: 'A intensidade picante do gorgonzola é suavizada pelo leite condensado premium.' },
+      { id: 'gorgonzola_damasco', name: 'Gorgonzola com Damasco', desc: 'Sabor nobre que une queijo azul com damasco turco.', price: 3.25, cat: 'esp2', secret: 'Excelente harmonia de sabores salgados e frutados.' },
+      { id: 'uva_branca', name: 'Uva (Branco)', desc: 'Uva verde fresca envolvida em brigadeiro branco de baunilha.', price: 3.25, cat: 'esp2', secret: 'Utilizamos apenas uvas Thompson sem semente, higienizadas e secas uma a uma.' },
+      { id: 'uva_leite', name: 'Uva (Ao Leite)', desc: 'Brigadeiro de chocolate ao leite cobrindo uva verde crocante.', price: 3.25, cat: 'esp2', secret: 'A uva verde estoura na boca liberando suco fresco que contrasta com o chocolate.' },
+      { id: 'uva_amarga', name: 'Uva (Meio Amargo)', desc: 'Uva verde Thompson envolvida em cacau meio amargo 54%.', price: 3.25, cat: 'esp2', secret: 'Opção refinada que equilibra acidez e amargor de forma brilhante.' },
+
+      // Premium / Pistache e Frutas - R$ 4,00 a R$ 4,25
+      { id: 'morango_branco', name: 'Morango (Branco)', desc: 'Morango fresco inteiro envolto em fina camada de brigadeiro branco.', price: 4.00, cat: 'prem', secret: 'Compramos morangos hidropónicos frescos diariamente. Consumir no mesmo dia.' },
+      { id: 'morango_leite', name: 'Morango (Ao Leite)', desc: 'Morango inteiro coberto por chocolate ao leite e granulado nobre.', price: 4.00, cat: 'prem', secret: 'Clássico absoluto das festas, feito com morangos gigantes e brilhantes.' },
+      { id: 'morango_amargo', name: 'Morango (Meio Amargo)', desc: 'Morango gigante envolto em chocolate meio amargo de origem controlada.', price: 4.00, cat: 'prem', secret: 'O contraste ideal entre o doce/azedo da fruta e a nobreza do chocolate escuro.' },
+      { id: 'pistache_puro', name: 'Pistache Tradicional', desc: 'Brigadeiro de pistache feito com pasta 100% pura.', price: 4.00, cat: 'prem', secret: 'Não leva essências artificiais. O tom verde oliva é 100% natural do fruto.' },
+      { id: 'pistache_geleia', name: 'Pistache com Geleia', desc: 'Doce de pistache finalizado com gota brilhante de morango artesanal.', price: 4.25, cat: 'prem', secret: 'A acidez do morango realça as notas amanteigadas do pistache tostado.' }
+    ];
+
+    var currentPackageKey = "p25";
+    var selections = {};
+    var openCategory = "trad1"; // Categoria inicialmente aberta
+    var currentModalFlavorId = null; // Controla o sabor focado no modal
+
+    // Inicialização da Página e Renderização Primária
+    window.onload = function() {
+      const dateInput = document.getElementById('eventDate');
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      dateInput.min = tomorrow.toISOString().split('T')[0];
+
+      generatePickupHours();
+      setupPhoneMask();
+
+      flavors.forEach(f => {
+        selections[f.id] = 0;
+      });
+
+      renderPackageGrid();
+      renderAccordions();
+      renderMenuTabList(flavors); 
+      triggerInteractiveFeedback("p25");
+      calculateTotals();
+    };
+
+    // Controle de Abas
+    function switchTab(tabId) {
+      const tabs = ['cardapio', 'comofunciona', 'simulador'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        const sec = document.getElementById(`content-${t}`);
+        if (t === tabId) {
+          btn.classList.add('border-amber-950', 'text-amber-950');
+          btn.classList.remove('border-transparent', 'text-stone-400');
+          sec.classList.remove('hidden');
+        } else {
+          btn.classList.remove('border-amber-950', 'text-amber-950');
+          btn.classList.add('border-transparent', 'text-stone-400');
+          sec.classList.add('hidden');
+        }
+      });
+    }
+
+    // Filtra sabores em tempo real na aba O Cardápio
+    function filterFlavors() {
+      const query = document.getElementById('flavorSearch').value.toLowerCase().trim();
+      const filtered = flavors.filter(f => f.name.toLowerCase().includes(query) || f.desc.toLowerCase().includes(query));
+      renderMenuTabList(filtered);
+    }
+
+    // Gerador de Ilustrações em SVG Dinâmico para Surpreender no Modal
+    function getFlavorSVG(flavorId) {
+      const f = flavors.find(x => x.id === flavorId);
+      let baseColor = "#5C3A21"; // Padrão chocolate ao leite
+      let sprinkleColor = "#3D2513";
+      let topElement = ""; // Confeito ou detalhe superior
+
+      if (f.cat === 'trad1') {
+        if (flavorId === 'nesquik' || flavorId === 'dois_amores') {
+          baseColor = "#FFB7C5"; // Rosa Nesquik
+          sprinkleColor = "#FF8DA1";
+        } else if (flavorId === 'ninho_trad' || flavorId === 'casadinho') {
+          baseColor = "#FFFDD0"; // Leite Ninho creme
+          sprinkleColor = "#F0E68C";
+        } else if (flavorId.includes('coco')) {
+          baseColor = "#FFFFFF"; // Coco
+          sprinkleColor = "#EAEAEA";
+        }
+      } else if (f.cat === 'trad2') {
+        if (flavorId === 'branco_nob') {
+          baseColor = "#FFFDF9";
+          sprinkleColor = "#FFFDD0";
+        } else if (flavorId === 'amargo_nob' || flavorId === 'duo_amargo' || flavorId === 'cafe_nob') {
+          baseColor = "#3D2513";
+          sprinkleColor = "#24150B";
+        } else if (flavorId === 'caramelo_nob') {
+          baseColor = "#C68E17";
+          sprinkleColor = "#8C6212";
+        } else if (flavorId === 'amendoim_trit') {
+          baseColor = "#DEB887";
+          sprinkleColor = "#CD853F";
+        }
+      } else if (f.cat === 'class') {
+        if (flavorId.includes('ninho')) {
+          baseColor = "#FFFDD0";
+          topElement = `<circle cx="45" cy="30" r="14" fill="#3D2513" filter="blur(1px)"/>
+                        <path d="M 41,27 Q 45,35 49,27" stroke="#FFFFFF" stroke-width="1.5" fill="none" />`; // Pitanga Nutella
+        } else if (flavorId === 'confete') {
+          baseColor = "#5C3A21";
+          topElement = `<circle cx="35" cy="25" r="4" fill="#FF0000" />
+                        <circle cx="55" cy="22" r="4" fill="#00FF00" />
+                        <circle cx="45" cy="38" r="4" fill="#FFFF00" />
+                        <circle cx="48" cy="18" r="4" fill="#0000FF" />`; // M&Ms
+        } else if (flavorId.includes('damasco')) {
+          baseColor = "#FFFDD0";
+          topElement = `<ellipse cx="45" cy="25" r="10" rx="14" ry="7" fill="#FF8C00" />`; // Geleia Damasco
+        }
+      } else if (f.cat === 'esp1') {
+        if (flavorId === 'queijo_goiabada') {
+          baseColor = "#FFFDD0"; // Base Queijo
+          topElement = `<path d="M45,15 Q35,28 45,38 Q55,28 45,15 Z" fill="#8B0000" />`; // Gota Goiabada
+        } else if (flavorId.includes('maracuja')) {
+          baseColor = "#FFE4C4";
+          topElement = `<circle cx="45" cy="25" r="8" fill="#FFD700" />
+                        <circle cx="43" cy="23" r="1.5" fill="#3D2513" />
+                        <circle cx="47" cy="27" r="1.5" fill="#3D2513" />`; // Geleia com Sementes
+        }
+      } else if (f.cat === 'esp2') {
+        if (flavorId === 'caramelo_salgado') {
+          baseColor = "#CD7F32";
+          sprinkleColor = "#F5DEB3";
+          topElement = `<circle cx="45" cy="22" r="3" fill="#FFFFFF" opacity="0.9" />`; // Cristais de sal
+        } else if (flavorId.includes('uva')) {
+          baseColor = flavorId.includes('branca') ? "#FFFDD0" : "#5C3A21";
+          topElement = `<circle cx="45" cy="25" r="11" fill="#90EE90" />`; // Uva Verde escondida
+        } else if (flavorId === 'ferrero') {
+          baseColor = "#3D2513";
+          sprinkleColor = "#CD853F";
+          topElement = `<circle cx="45" cy="20" r="7" fill="#8B5A2B" stroke="#CD853F" stroke-width="1"/>`; // Avelã Inteira
+        }
+      } else if (f.cat === 'prem') {
+        if (flavorId.includes('morango')) {
+          baseColor = flavorId.includes('branco') ? "#FFFDD0" : "#5C3A21";
+          topElement = `<path d="M45,10 Q32,25 45,42 Q58,25 45,10 Z" fill="#FF0000" />
+                        <circle cx="41" cy="22" r="0.8" fill="#FFFF00" />
+                        <circle cx="49" cy="25" r="0.8" fill="#FFFF00" />
+                        <path d="M41,12 Q45,16 49,12 Q45,10 41,12" fill="#228B22" />`; // Morango Inteiro Gigante
+        } else if (flavorId.includes('pistache')) {
+          baseColor = "#808000"; // Pistache Oliva
+          sprinkleColor = "#556B2F";
+          topElement = flavorId.includes('geleia') ? `<circle cx="45" cy="20" r="7" fill="#8B0000" />` : ""; // Gota Vermelha se tiver geleia
+        }
+      }
+
+      return `
+        <svg viewBox="0 0 90 70" width="120" height="90" class="drop-shadow-md">
+          <!-- Forminha tradicional pregueada -->
+          <path d="M 20,50 L 10,25 L 80,25 L 70,50 Z" fill="#EADCC9" stroke="#D3B8A5" stroke-width="1.5" />
+          <line x1="28" y1="48" x2="23" y2="25" stroke="#D3B8A5" stroke-width="1" />
+          <line x1="38" y1="48" x2="36" y2="25" stroke="#D3B8A5" stroke-width="1" />
+          <line x1="48" y1="48" x2="50" y2="25" stroke="#D3B8A5" stroke-width="1" />
+          <line x1="58" y1="48" x2="63" y2="25" stroke="#D3B8A5" stroke-width="1" />
+          
+          <!-- Corpo Esférico do Doce -->
+          <circle cx="45" cy="35" r="23" fill="${baseColor}" />
+          
+          <!-- Texturização de granulados/confeitos -->
+          <ellipse cx="33" cy="28" r="3" rx="4" ry="1.5" fill="${sprinkleColor}" transform="rotate(15 33 28)" />
+          <ellipse cx="57" cy="32" r="3" rx="4" ry="1.5" fill="${sprinkleColor}" transform="rotate(-30 57 32)" />
+          <ellipse cx="45" cy="45" r="3" rx="4" ry="1.5" fill="${sprinkleColor}" transform="rotate(45 45 45)" />
+          <ellipse cx="38" cy="38" r="3" rx="4" ry="1.5" fill="${sprinkleColor}" transform="rotate(-15 38 38)" />
+          
+          <!-- Elemento decorativo superior exclusivo -->
+          ${topElement}
+        </svg>
+      `;
+    }
+
+    // Renderiza a lista de sabores com a opção "Ver Detalhes"
+    function renderMenuTabList(flavorList) {
+      const listContainer = document.getElementById('menu-flavors-list');
+      listContainer.innerHTML = "";
+
+      Object.keys(categories).forEach(catId => {
+        const catFlavors = flavorList.filter(f => f.cat === catId);
+        if (catFlavors.length === 0) return; 
+
+        let itemsHtml = "";
+        catFlavors.forEach(f => {
+          itemsHtml += `
+            <div class="flex items-center justify-between py-3 border-b border-stone-100 last:border-b-0">
+              <div class="pr-4 flex-grow">
+                <h4 class="text-xs font-bold text-stone-900">${f.name}</h4>
+                <p class="text-[10px] text-stone-500 mt-0.5 leading-relaxed">${f.desc}</p>
+              </div>
+              <div class="flex items-center gap-3">
+                <button type="button" onclick="openDetailsModal('${f.id}')" 
+                        class="text-[10px] font-bold text-amber-900/80 bg-amber-900/5 hover:bg-amber-900/10 px-2.5 py-1.5 rounded-lg transition-colors focus:outline-none">
+                  Ver Detalhes
+                </button>
+                <span class="text-xs font-bold font-mono text-amber-950 whitespace-nowrap">R$ ${f.price.toFixed(2)}</span>
+              </div>
+            </div>
+          `;
+        });
+
+        listContainer.innerHTML += `
+          <div class="bg-white rounded-2xl p-5 border border-stone-100 shadow-sm space-y-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-950 border-b border-stone-100 pb-2">${categories[catId].label}</h3>
+            <div class="divide-y divide-stone-50">
+              ${itemsHtml}
+            </div>
+          </div>
+        `;
+      });
+
+      if (listContainer.innerHTML === "") {
+        listContainer.innerHTML = `<p class="text-center text-xs text-stone-400 py-10">Nenhum sabor encontrado para a sua busca.</p>`;
+      }
+    }
+
+    // Abre o Modal com Ficha Técnica Sensorial
+    function openDetailsModal(flavorId) {
+      currentModalFlavorId = flavorId;
+      const f = flavors.find(x => x.id === flavorId);
+      
+      document.getElementById('modalCategoryTag').innerText = categories[f.cat].label.split(" (")[0];
+      document.getElementById('modalFlavorName').innerText = f.name;
+      document.getElementById('modalFlavorDesc').innerText = f.desc;
+      document.getElementById('modalFlavorCraftSecrets').innerText = `✨ Segredo de Preparo: ${f.secret}`;
+      document.getElementById('modalFlavorPrice').innerText = `R$ ${f.price.toFixed(2)}`;
+      
+      // Renderiza o SVG específico
+      document.getElementById('modalSVGContainer').innerHTML = getFlavorSVG(flavorId);
+
+      // Abre com transição suave
+      const modal = document.getElementById('detailsModal');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.firstElementChild.classList.remove('scale-95', 'opacity-0');
+        modal.firstElementChild.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    // Fecha o Modal
+    function closeDetailsModal() {
+      const modal = document.getElementById('detailsModal');
+      modal.firstElementChild.classList.remove('scale-100', 'opacity-100');
+      modal.firstElementChild.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        currentModalFlavorId = null;
+      }, 200);
+    }
+
+    // Conversão Cruzada: Adicionar o Doce a partir do Modal
+    function addFlavorFromModal() {
+      if (!currentModalFlavorId) return;
+      const f = flavors.find(x => x.id === currentModalFlavorId);
+      
+      // 1. Muda de aba para o Simulador
+      switchTab('simulador');
+      
+      // 2. Abre a categoria correspondente
+      openCategory = f.cat;
+      renderAccordions();
+
+      // 3. Adiciona o doce
+      adjustFlavor(f.id, 1);
+
+      // 4. Exibe o toast de sucesso
+      showToast(`1x ${f.name} adicionado ao seu pedido!`);
+
+      // 5. Fecha o modal
+      closeDetailsModal();
+    }
+
+    // Sistema de feedback flutuante (Toast)
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastMessage').innerText = message;
+      toast.classList.remove('opacity-0', 'translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-2');
+      }, 2500);
+    }
+
+    // Cria as opções de 30 em 30 minutos para retirada
+    function generatePickupHours() {
+      const select = document.getElementById('pickupTime');
+      select.innerHTML = "";
+      for (let h = 8; h <= 20; h++) {
+        const hourStr = String(h).padStart(2, '0');
+        select.innerHTML += `<option value="${hourStr}:00">${hourStr}:00</option>`;
+        if (h !== 20) {
+          select.innerHTML += `<option value="${hourStr}:30">${hourStr}:30</option>`;
+        }
+      }
+    }
+
+    // Máscara reativa para formato de telefone brasileiro: (XX) XXXXX-XXXX
+    function setupPhoneMask() {
+      const phoneInput = document.getElementById('clientPhone');
+      phoneInput.addEventListener('input', function(e) {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+      });
+    }
+
+    // Renderiza os pacotes com base nos dados reais de 2026
+    function renderPackageGrid() {
+      const grid = document.getElementById('package-grid');
+      grid.innerHTML = "";
+      
+      Object.keys(packages).forEach(key => {
+        const p = packages[key];
+        const isChecked = key === currentPackageKey;
+        grid.innerHTML += `
+          <label class="relative flex flex-col justify-between p-3.5 rounded-2xl border-2 cursor-pointer transition-all ${isChecked ? 'border-amber-800 bg-amber-50/25' : 'border-stone-200 bg-white hover:border-stone-300'}" id="label-${key}">
+            <input type="radio" name="packageSize" value="${key}" class="sr-only" ${isChecked ? 'checked' : ''} onchange="selectPackage('${key}')">
+            <span class="text-xs font-bold text-stone-800">${p.label}</span>
+            <span class="text-[10px] text-stone-500 mt-0.5">Até ${p.maxFlavors} sabores</span>
+          </label>
+        `;
+      });
+    }
+
+    // Altera a embalagem selecionada
+    function selectPackage(key) {
+      currentPackageKey = key;
+      flavors.forEach(f => selections[f.id] = 0);
+      
+      renderPackageGrid();
+      renderAccordions();
+      triggerInteractiveFeedback(key);
+      calculateTotals();
+    }
+
+    // Feedback visual animado de passo a passo de acordo com o tamanho selecionado
+    function triggerInteractiveFeedback(key) {
+      const p = packages[key];
+      const banner = document.getElementById('interactiveStepMessage');
+      const text = document.getElementById('interactiveMessageText');
+      
+      text.innerHTML = `Perfeito! Você selecionou a <span class="font-bold text-amber-900">${p.label}</span>. Agora selecione até <span class="font-bold text-amber-900">${p.maxFlavors} sabores</span> diferentes no Passo 3 abaixo até completar os <span class="font-bold text-amber-900">${p.count} doces</span>! 👇`;
+      
+      banner.classList.remove('hidden', 'scale-95', 'opacity-0');
+      banner.classList.add('scale-100', 'opacity-100');
+    }
+
+    // Toggles do Accordion das Categorias de Doces
+    function toggleCategory(catId) {
+      openCategory = openCategory === catId ? "" : catId;
+      renderAccordions();
+    }
+
+    // Renderiza as categorias recolhíveis com contadores e detalhes na aba do Simulador
+    function renderAccordions() {
+      const container = document.getElementById('categoriesContainer');
+      container.innerHTML = "";
+
+      Object.keys(categories).forEach(catId => {
+        categories[catId].count = 0;
+      });
+      flavors.forEach(f => {
+        if (selections[f.id] > 0) {
+          categories[f.cat].count += selections[f.id];
+        }
+      });
+
+      Object.keys(categories).forEach(catId => {
+        const cat = categories[catId];
+        const isOpen = catId === openCategory;
+        const catFlavors = flavors.filter(f => f.cat === catId);
+
+        let itemsHtml = "";
+        catFlavors.forEach(f => {
+          const count = selections[f.id] || 0;
+          itemsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-stone-50/60 border border-stone-100 hover:border-stone-200/80 transition-all">
+              <div class="pr-3 flex-grow">
+                <div class="flex items-baseline gap-2">
+                  <h4 class="text-xs font-bold text-stone-900">${f.name}</h4>
+                  <span class="text-[10px] font-mono font-bold text-amber-900">R$ ${f.price.toFixed(2)}</span>
+                </div>
+                <p class="text-[11px] text-stone-500 mt-0.5 leading-relaxed">${f.desc}</p>
+              </div>
+              
+              <div class="flex items-center gap-2.5">
+                <button type="button" onclick="adjustFlavor('${f.id}', -1)"
+                        class="w-7 h-7 rounded-lg bg-white border border-stone-200 text-stone-600 font-bold flex items-center justify-center hover:bg-stone-100 active:scale-95 transition-all text-xs">
+                  -
+                </button>
+                <span class="w-5 text-center text-xs font-bold font-mono text-stone-800">${count}</span>
+                <button type="button" onclick="adjustFlavor('${f.id}', 1)"
+                        class="w-7 h-7 rounded-lg bg-amber-900/10 text-amber-950 font-bold flex items-center justify-center hover:bg-amber-900/20 active:scale-95 transition-all text-xs">
+                  +
+                </button>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML += `
+          <div class="border border-stone-200/80 rounded-xl overflow-hidden bg-white">
+            <button type="button" onclick="toggleCategory('${catId}')"
+                    class="w-full flex items-center justify-between p-4 bg-stone-50/30 hover:bg-stone-50/70 transition-colors text-left">
+              <div class="flex items-center gap-2.5">
+                <span class="text-xs font-bold text-stone-900">${cat.label}</span>
+                ${cat.count > 0 ? `<span class="bg-amber-900 text-white text-[10px] px-2 py-0.5 rounded-full font-bold font-mono">${cat.count}</span>` : ''}
+              </div>
+              <span class="text-stone-400 text-sm transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}">▼</span>
+            </button>
+            
+            <div class="${isOpen ? 'block' : 'hidden'} p-3 space-y-2 border-t border-stone-100">
+              ${itemsHtml}
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Executa as validações e calcula os valores em tempo real (Forminhas + Preço de cada Sabor)
+    function calculateTotals() {
+      const pkg = packages[currentPackageKey];
+      
+      const totalSelected = Object.values(selections).reduce((a, b) => a + b, 0);
+      const uniqueFlavors = Object.keys(selections).filter(id => selections[id] > 0).length;
+
+      let priceSum = 0;
+      flavors.forEach(f => {
+        priceSum += (selections[f.id] || 0) * f.price;
+      });
+
+      const wantsAcetato = document.getElementById('forminhaAcetato').checked;
+      const acetatoCost = wantsAcetato ? (pkg.count * 0.24) : 0;
+      const finalPrice = priceSum + acetatoCost;
+
+      document.getElementById('currentTotal').innerText = totalSelected;
+      document.getElementById('targetTotal').innerText = pkg.count;
+      document.getElementById('forminhaCostPreview').innerText = `+ R$ ${(pkg.count * 0.24).toFixed(2)}`;
+      document.getElementById('flavorVarietyCounter').innerText = `${uniqueFlavors} de ${pkg.maxFlavors} sabores`;
+      document.getElementById('estimatedPrice').innerText = `R$ ${finalPrice.toFixed(2)}`;
+      
+      document.getElementById('flavorLimitsInfo').innerHTML = `Selecione até <span class="font-bold text-amber-950">${pkg.maxFlavors} sabores</span> diferentes para esta caixa.`;
+
+      const submitBtn = document.getElementById('submitBtn');
+      const warning = document.getElementById('validationWarning');
+
+      const isFlavorLimitExceeded = uniqueFlavors > pkg.maxFlavors;
+
+      if (isFlavorLimitExceeded) {
+        warning.classList.remove('hidden');
+        submitBtn.disabled = true;
+        submitBtn.className = "w-full md:w-auto bg-stone-300 text-stone-400 cursor-not-allowed font-semibold text-sm px-6 py-3.5 rounded-xl transition-all";
+        return;
+      } else {
+        warning.classList.add('hidden');
+      }
+
+      if (totalSelected === 0) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Escolha os doces";
+        submitBtn.className = "w-full md:w-auto bg-stone-200 text-stone-400 cursor-not-allowed font-semibold text-xs px-6 py-3.5 rounded-xl uppercase tracking-wider";
+      } else if (totalSelected < pkg.count) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = `Faltam ${pkg.count - totalSelected} doces`;
+        submitBtn.className = "w-full md:w-auto bg-stone-200 text-stone-500 cursor-not-allowed font-semibold text-xs px-6 py-3.5 rounded-xl uppercase tracking-wider";
+      } else if (totalSelected === pkg.count) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Finalizar Pedido";
+        submitBtn.className = "w-full md:w-auto bg-amber-950 text-white font-semibold text-sm px-6 py-3.5 rounded-xl hover:bg-stone-900 cursor-pointer active:scale-95 transition-all";
+      }
+    }
+
+    // Prepara e direciona a mensagem formatada para o WhatsApp da OBA
+    function sendOrder() {
+      const name = document.getElementById('clientName').value.trim();
+      const phone = document.getElementById('clientPhone').value.trim();
+      const date = document.getElementById('eventDate').value;
+      const pickupTime = document.getElementById('pickupTime').value;
+      const wantsAcetato = document.getElementById('forminhaAcetato').checked;
+
+      if (!name || !phone || !date || !pickupTime) {
+        const emptyField = !name ? document.getElementById('clientName') : (!phone ? document.getElementById('clientPhone') : document.getElementById('eventDate'));
+        emptyField.focus();
+        emptyField.classList.add('border-red-500');
+        setTimeout(() => emptyField.classList.remove('border-red-500'), 2000);
+        return;
+      }
+
+      const itemsSelected = [];
+      let calculatedSubtotal = 0;
+      flavors.forEach(f => {
+        const qty = selections[f.id] || 0;
+        if (qty > 0) {
+          itemsSelected.push(`- *${qty}x* ${f.name} (R$ ${f.price.toFixed(2)}/un)`);
+          calculatedSubtotal += qty * f.price;
+        }
+      });
+
+      const pkg = packages[currentPackageKey];
+      const acetatoCost = wantsAcetato ? (pkg.count * 0.24) : 0;
+      const finalPrice = calculatedSubtotal + acetatoCost;
+
+      const textMessage = 
+`Olá, OBA Doceria! Gostaria de agendar a minha encomenda:
+
+✨ *DADOS DO CLIENTE*
+*Nome:* ${name}
+*WhatsApp/Telefone:* ${phone}
+*Data Desejada:* ${date.split('-').reverse().join('/')}
+*Horário da Retirada:* ${pickupTime}
+
+📦 *PACOTE:* ${pkg.label}
+*Forminhas:* ${wantsAcetato ? 'Forminha de Acetato (+ R$ ' + acetatoCost.toFixed(2) + ')' : 'Forminhas Tradicionais de Papel'}
+
+🍫 *SABORES SELECIONADOS:*
+${itemsSelected.join('\n')}
+
+💰 *VALOR TOTAL ESTIMADO:* R$ ${finalPrice.toFixed(2)}
+
+_Gerado automaticamente pelo Cardápio Interativo OBA._`;
+
+      const encodedMessage = encodeURIComponent(textMessage);
+      const finalUrl = `https://api.whatsapp.com/send?phone=${OBA_PHONE}&text=${encodedMessage}`;
+
+      window.open(finalUrl, '_blank');
+    }
+  </script>
+</body>
+</html>
