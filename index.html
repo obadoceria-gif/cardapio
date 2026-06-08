@@ -161,7 +161,7 @@
                 <label for="pickupTime" class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Horário da Retirada</label>
                 <select id="pickupTime" required class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-800 transition-colors">
                   <!-- Preenchido via JS -->
-                </select>
+                </</select>
               </div>
             </div>
           </div>
@@ -416,11 +416,22 @@
     var openCategory = "trad1"; // Categoria inicialmente aberta
     var currentModalFlavorId = null; // Controla o sabor focado no modal
 
-    // Função de URL Segura: evita super-codificação de parênteses e caracteres especiais aceitos pelo GitHub
-    function getSafeURL(folder, filename) {
+    // Função de URL Segura: constrói um caminho absoluto resiliente que respeita subpastas e resolve erros de rota
+    function getSafeURL(filename) {
       if (!filename) return "";
+      const path = window.location.pathname;
+      const segments = path.split('/').filter(Boolean);
+      let basePath = "/";
+      
+      // Detecção dinâmica de projeto GitHub Pages para prepender a subpasta do repositório
+      if (window.location.hostname.endsWith('.github.io') && segments.length > 0) {
+        if (!window.location.hostname.startsWith(segments[0])) {
+          basePath = "/" + segments[0] + "/";
+        }
+      }
+      
       const safeName = filename.replace(/ /g, "%20");
-      return folder ? (folder + "/" + safeName) : safeName;
+      return basePath + safeName;
     }
 
     // Função de Fallback Adaptativa e Resiliente de Imagem
@@ -435,16 +446,16 @@
       const prefix = "WhatsApp Image 2026-06-08 at ";
 
       if (attempt === 1) {
-        // Tenta images/ com nome curto direto
-        imgElement.src = getSafeURL("images", imgName);
+        // Tenta encontrar em uma pasta images/ caso as fotos sejam movidas no futuro
+        imgElement.src = getSafeURL("images/" + prefix + imgName);
       } else if (attempt === 2) {
-        // Tenta na raiz do site com o nome curto
-        imgElement.src = getSafeURL("", imgName);
+        // Tenta nome curto direto na raiz
+        imgElement.src = getSafeURL(imgName);
       } else if (attempt === 3) {
-        // Tenta na raiz com o prefixo completo de WhatsApp
-        imgElement.src = getSafeURL("", prefix + imgName);
+        // Tenta nome curto dentro de images/
+        imgElement.src = getSafeURL("images/" + imgName);
       } else {
-        // Falhou tudo (ex: visualizando no simulador do chat), oculta e mostra o SVG
+        // Falhou todas as tentativas, oculta e mostra o desenho em vetor (SVG)
         imgElement.style.display = 'none';
         const fallbackDiv = imgElement.nextElementSibling;
         if (fallbackDiv) {
@@ -453,11 +464,11 @@
       }
     }
 
-    // Renderiza a Imagem Real com verificação prévia e Fallback dinâmico para SVG
+    // Renderiza a Imagem Real de forma robusta e integrada
     function renderImageOrSVG(f, sizeClass = "w-14 h-14", svgSizeClass = "w-10 h-10") {
       if (f.img) {
         const prefix = "WhatsApp Image 2026-06-08 at ";
-        const initialSrc = getSafeURL("images", prefix + f.img);
+        const initialSrc = getSafeURL(prefix + f.img);
         return `
           <div class="${sizeClass} rounded-xl overflow-hidden bg-stone-100 border border-stone-100/50 flex-shrink-0 flex items-center justify-center relative shadow-sm">
             <img src="${initialSrc}" alt="${f.name}" class="w-full h-full object-cover animate-fade-in" onerror="handleImageError(this, '${f.img}', '${f.id}')">
@@ -693,7 +704,7 @@
       
       if (f.img) {
         const prefix = "WhatsApp Image 2026-06-08 at ";
-        const initialSrc = getSafeURL("images", prefix + f.img);
+        const initialSrc = getSafeURL(prefix + f.img);
         modalContainer.innerHTML = `
           <div class="w-full h-full flex items-center justify-center relative">
             <img src="${initialSrc}" alt="${f.name}" class="w-full h-full object-cover animate-fade-in" onerror="handleImageError(this, '${f.img}', '${f.id}')">
