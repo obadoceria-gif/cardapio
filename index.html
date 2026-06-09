@@ -10,6 +10,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <script>
+    // Força o redirecionamento para barra final (trailing slash) no GitHub Pages.
+    // Isso garante que caminhos de imagens relativos na raiz funcionem sem erros.
+    if (window.location.hostname.endsWith('.github.io') && !window.location.pathname.endsWith('/')) {
+      window.location.replace(window.location.protocol + '//' + window.location.host + window.location.pathname + '/' + window.location.search + window.location.hash);
+    }
+  </script>
+
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -87,7 +96,7 @@
             🌱 O Verdadeiro Sabor Artesanal
           </h3>
           <ul class="text-xs text-stone-600 space-y-2.5 leading-relaxed list-disc pl-4">
-            <li><span class="font-semibold text-stone-800">Sem pastas prontas:</span> Acreditamos no sabor puro. Nenhum dos nossos doces leva pastas prontas ou saborizantes artificiais.</li>
+            <li><span class="font-semibold text-stone-800">Sem atalhos:</span> Nenhum dos nossos doces leva pastas prontas, essências ou saborizantes artificiais. O sabor vem do ingrediente real.</li>
             <li><span class="font-semibold text-stone-800">Produção 100% própria:</span> Todas as geleias e reduções de frutas frescas usadas nos doces são preparadas artesanalmente aqui na doceria.</li>
             <li><span class="font-semibold text-stone-800">Equilíbrio:</span> Nossas receitas foram pensadas para não serem enjoativas, valorizando a textura e o sabor real de cada ingrediente.</li>
             <li><span class="font-semibold text-stone-800">Resultado:</span> Um doce equilibrado que surpreende a cada mordida e sempre deixa aquele gostinho de 'quero mais'.</li>
@@ -100,11 +109,11 @@
             📅 Como comprar?
           </h3>
           <ul class="text-xs text-stone-600 space-y-2.5 leading-relaxed list-disc pl-4">
-            <li><span class="font-semibold text-stone-800">Encomenda Antecipada:</span> Faça sua encomenda com antecedência. Consulte disponibilidade de data.</li>
-            <li><span class="font-semibold text-stone-800">Pedido Mínimo:</span> Caixas a partir de 25 doces.</li>
-            <li><span class="font-semibold text-stone-800">Defina os Sabores:</span> Escolha seus favoritos no nosso simulador de montagem.</li>
-            <li><span class="font-semibold text-stone-800">Valor Final:</span> O valor final depende estritamente dos sabores que escolher.</li>
-            <li><span class="font-semibold text-stone-800">Pagamento:</span> Aceitamos PIX ou Dinheiro no momento da retirada.</li>
+            <li><span class="font-semibold text-stone-800">Encomenda Antecipada:</span> Faça sua encomenda com antecedência. Consulte disponibilidade de vaga na agenda.</li>
+            <li><span class="font-semibold text-stone-800">Pedido Mínimo:</span> Caixa a partir de 25 doces.</li>
+            <li><span class="font-semibold text-stone-800">Defina os Sabores:</span> Escolha seus favoritos no nosso simulador de montagem ou opte pela caixa degustação.</li>
+            <li><span class="font-semibold text-stone-800">Valor Final:</span> O valor final depende dos sabores que escolher.</li>
+            <li><span class="font-semibold text-stone-800">Pagamento:</span> PIX ou Dinheiro.</li>
           </ul>
         </div>
 
@@ -114,7 +123,7 @@
             🎁 Forminhas & Apresentação
           </h3>
           <p class="text-xs text-stone-600 leading-relaxed">
-            Usamos nos doces forminhas tradicionais de papel. Podemos deixar seus doces ainda mais bonitos, usando as forminhas de acetato com os seguintes valores adicionais fixos:
+            Usamos de padrão nos doces forminhas tradicionais de papel. Podemos deixar seus doces ainda mais bonitos, usando as forminhas de acetato com os seguintes valores adicionais fixos:
           </p>
           <ul class="text-xs text-stone-700 font-mono font-bold space-y-1 pl-4 list-disc">
             <li>R$ 12,00 para Meio Cento (50 doces)</li>
@@ -161,13 +170,13 @@
                 <label for="pickupTime" class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Horário da Retirada</label>
                 <select id="pickupTime" required class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-800 transition-colors">
                   <!-- Preenchido via JS -->
-                </</select>
+                </select>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- PASSO 2: ESCOLHA DA QUANTIDADE (LIMITES DO PDF) -->
+        <!-- PASSO 2: ESCOLHA DA QUANTIDADE (LIMITES DO PDF 2026 ATUALIZADOS) -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
           <h3 class="font-serif text-lg font-semibold text-amber-950 flex items-center gap-2">
             <span class="w-6 h-6 rounded-full bg-amber-900/10 text-amber-950 text-xs flex items-center justify-center font-sans font-bold">2</span>
@@ -184,7 +193,7 @@
           </div>
 
           <!-- Opção Opcional de Forminhas de Acetato Transparente -->
-          <div class="pt-3 border-t border-stone-100">
+          <div id="forminhaSection" class="pt-3 border-t border-stone-100">
             <label class="flex items-center justify-between p-3 rounded-xl bg-amber-500/5 border border-amber-900/10 cursor-pointer hover:bg-amber-500/10 transition-colors">
               <div class="flex items-center gap-3">
                 <input type="checkbox" id="forminhaAcetato" onchange="calculateTotals()" class="w-4 h-4 rounded text-amber-900 focus:ring-amber-900">
@@ -199,14 +208,14 @@
         </div>
 
         <!-- PASSO 3: SABORES COM ACCORDION -->
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
+        <div id="flavorsSelectionSection" class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
           <div class="flex flex-col">
             <h3 class="font-serif text-lg font-semibold text-amber-950 flex items-center gap-2">
               <span class="w-6 h-6 rounded-full bg-amber-900/10 text-amber-950 text-xs flex items-center justify-center font-sans font-bold">3</span>
               Monte a sua combinação
             </h3>
             <p class="text-[11px] text-stone-500 mt-1" id="flavorLimitsInfo">
-              Selecione até <span class="font-bold text-amber-950">5 sabores</span> diferentes para esta caixa.
+              Selecione até <span class="font-bold text-amber-950">7 sabores</span> diferentes para esta caixa.
             </p>
           </div>
 
@@ -219,7 +228,7 @@
         <!-- BARRA DE SELEÇÃO E CONTROLE DOS TOTAIS FLUTUANTE -->
         <div class="sticky bottom-4 z-40 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-stone-200/80 max-w-xl mx-auto w-full transition-all duration-300">
           <div class="flex flex-col gap-3">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between" id="progressIndicators">
               <div>
                 <p class="text-[10px] text-stone-500 uppercase tracking-widest font-bold">Progresso dos Doces</p>
                 <p class="text-lg font-bold text-amber-950 font-mono">
@@ -230,7 +239,7 @@
               <div class="text-right">
                 <p class="text-[10px] text-stone-500 uppercase tracking-widest font-bold">Variedade de Sabores</p>
                 <p class="text-xs font-bold text-stone-700" id="flavorVarietyCounter">
-                  0 de 5 sabores escolhidos
+                  0 de 7 sabores escolhidos
                 </p>
               </div>
             </div>
@@ -318,13 +327,13 @@
     // 1. Configurações Globais da Marca OBA (Definições estritas baseadas nos lotes de fotos oficiais)
     var OBA_PHONE = "5555999117626"; 
 
+    // Quantidades e Limites Atualizados do PDF 2026 (Caixa de 25 agora permite até 7 sabores!)
     var packages = {
-      p25: { label: "25 doces", count: 25, maxFlavors: 5 },
-      p35: { label: "35 doces", count: 35, maxFlavors: 7 },
-      p40: { label: "40 doces", count: 40, maxFlavors: 7 },
-      p45: { label: "45 doces", count: 45, maxFlavors: 7 },
-      p50: { label: "50 doces", count: 50, maxFlavors: 10 },
-      p100: { label: "100 doces", count: 100, maxFlavors: 14 }
+      p25: { label: "Caixa c/ 25 doces", count: 25, maxFlavors: 7, isCustom: true },
+      p35: { label: "Caixa c/ 35 doces", count: 35, maxFlavors: 7, isCustom: true },
+      p50: { label: "Caixa c/ 50 doces", count: 50, maxFlavors: 10, isCustom: true },
+      p100: { label: "Caixa c/ 100 doces", count: 100, maxFlavors: 14, isCustom: true },
+      pDegustacao: { label: "Caixa Degustação (Mista)", count: 25, price: 75.00, isCustom: false }
     };
 
     var categories = {
@@ -416,25 +425,19 @@
     var openCategory = "trad1"; // Categoria inicialmente aberta
     var currentModalFlavorId = null; // Controla o sabor focado no modal
 
-    // Função de URL Segura: constrói um caminho absoluto resiliente que respeita subpastas e resolve erros de rota
+    // Função de URL Segura: constrói caminhos relativos perfeitos codificando espaços para %20 para segurança nativa
     function getSafeURL(filename) {
       if (!filename) return "";
-      const path = window.location.pathname;
-      const segments = path.split('/').filter(Boolean);
-      let basePath = "/";
-      
-      // Detecção dinâmica de projeto GitHub Pages para prepender a subpasta do repositório
-      if (window.location.hostname.endsWith('.github.io') && segments.length > 0) {
-        if (!window.location.hostname.startsWith(segments[0])) {
-          basePath = "/" + segments[0] + "/";
-        }
-      }
-      
-      const safeName = filename.replace(/ /g, "%20");
-      return basePath + safeName;
+      const prefix = "WhatsApp Image 2026-06-08 at ";
+      const fullName = prefix + filename;
+      // Substitui espaços por %20 e trata parênteses de forma compatível
+      const safeName = fullName.replace(/ /g, "%20")
+                                .replace(/\(/g, "%28")
+                                .replace(/\)/g, "%29");
+      return "./" + safeName;
     }
 
-    // Função de Fallback Adaptativa e Resiliente de Imagem
+    // Função de Fallback Adaptativa de Imagem (Tenta caminhos diferentes caso falhe)
     function handleImageError(imgElement, imgName, flavorId) {
       if (!imgElement.dataset.attempt) {
         imgElement.dataset.attempt = "1";
@@ -447,15 +450,15 @@
 
       if (attempt === 1) {
         // Tenta encontrar em uma pasta images/ caso as fotos sejam movidas no futuro
-        imgElement.src = getSafeURL("images/" + prefix + imgName);
+        imgElement.src = "./images/" + (prefix + imgName).replace(/ /g, "%20").replace(/\(/g, "%28").replace(/\)/g, "%29");
       } else if (attempt === 2) {
         // Tenta nome curto direto na raiz
-        imgElement.src = getSafeURL(imgName);
+        imgElement.src = "./" + imgName.replace(/ /g, "%20");
       } else if (attempt === 3) {
         // Tenta nome curto dentro de images/
-        imgElement.src = getSafeURL("images/" + imgName);
+        imgElement.src = "./images/" + imgName.replace(/ /g, "%20");
       } else {
-        // Falhou todas as tentativas, oculta e mostra o desenho em vetor (SVG)
+        // Se todas as tentativas falharem, oculta e mostra o desenho em vetor (SVG)
         imgElement.style.display = 'none';
         const fallbackDiv = imgElement.nextElementSibling;
         if (fallbackDiv) {
@@ -467,8 +470,7 @@
     // Renderiza a Imagem Real de forma robusta e integrada
     function renderImageOrSVG(f, sizeClass = "w-14 h-14", svgSizeClass = "w-10 h-10") {
       if (f.img) {
-        const prefix = "WhatsApp Image 2026-06-08 at ";
-        const initialSrc = getSafeURL(prefix + f.img);
+        const initialSrc = getSafeURL(f.img);
         return `
           <div class="${sizeClass} rounded-xl overflow-hidden bg-stone-100 border border-stone-100/50 flex-shrink-0 flex items-center justify-center relative shadow-sm">
             <img src="${initialSrc}" alt="${f.name}" class="w-full h-full object-cover animate-fade-in" onerror="handleImageError(this, '${f.img}', '${f.id}')">
@@ -789,7 +791,7 @@
       });
     }
 
-    // Renderiza a Grade de Quantidades com os Limites de Sabores do PDF
+    // Renderiza a Grade de Quantidades com os Limites de Sabores do PDF 2026
     function renderPackageGrid() {
       const grid = document.getElementById('package-grid');
       grid.innerHTML = "";
@@ -797,11 +799,19 @@
       Object.keys(packages).forEach(key => {
         const p = packages[key];
         const isChecked = key === currentPackageKey;
+        
+        let labelText = p.label;
+        if (key === 'pDegustacao') {
+          labelText += ` (R$ ${p.price.toFixed(2)})`;
+        }
+        
         grid.innerHTML += `
           <label class="relative flex flex-col justify-between p-3.5 rounded-2xl border-2 cursor-pointer transition-all ${isChecked ? 'border-amber-800 bg-amber-50/25' : 'border-stone-200 bg-white hover:border-stone-300'}" id="label-${key}">
             <input type="radio" name="packageSize" value="${key}" class="sr-only" ${isChecked ? 'checked' : ''} onchange="selectPackage('${key}')">
-            <span class="text-xs font-bold text-stone-800">${p.label}</span>
-            <span class="text-[10px] text-stone-500 mt-0.5">Até ${p.maxFlavors} sabores</span>
+            <span class="text-xs font-bold text-stone-800">${labelText}</span>
+            <span class="text-[10px] text-stone-500 mt-0.5">
+              ${p.isCustom ? `Até ${p.maxFlavors} sabores` : '25 sabores mistos'}
+            </span>
           </label>
         `;
       });
@@ -811,6 +821,25 @@
     function selectPackage(key) {
       currentPackageKey = key;
       flavors.forEach(f => selections[f.id] = 0); // Reseta para evitar conflitos de limites
+      
+      const p = packages[key];
+      const forminhaSec = document.getElementById('forminhaSection');
+      const flavorsSec = document.getElementById('flavorsSelectionSection');
+      const progressInd = document.getElementById('progressIndicators');
+      
+      if (p.isCustom) {
+        forminhaSec.classList.remove('hidden');
+        flavorsSec.classList.remove('hidden');
+        progressInd.classList.remove('hidden');
+      } else {
+        // Se for caixa degustação, esconde forminhas adicionais e seleção de sabores
+        forminhaSec.classList.add('hidden');
+        flavorsSec.classList.add('hidden');
+        progressInd.classList.add('hidden');
+        
+        // Desmarca opcional de forminhas
+        document.getElementById('forminhaAcetato').checked = false;
+      }
       
       renderPackageGrid();
       renderAccordions();
@@ -824,7 +853,11 @@
       const banner = document.getElementById('interactiveStepMessage');
       const text = document.getElementById('interactiveMessageText');
       
-      text.innerHTML = `Perfeito! Para esta quantidade de <span class="font-bold text-amber-900">${p.label}</span>, você pode selecionar um mix de até <span class="font-bold text-amber-900">${p.maxFlavors} sabores</span> diferentes abaixo! 👇`;
+      if (p.isCustom) {
+        text.innerHTML = `Perfeito! Para esta quantidade de <span class="font-bold text-amber-900">${p.label}</span>, você pode selecionar um mix de até <span class="font-bold text-amber-900">${p.maxFlavors} sabores</span> diferentes no Passo 3 abaixo! 👇`;
+      } else {
+        text.innerHTML = `Excelente escolha! A <span class="font-bold text-amber-900">Caixa Degustação</span> é montada com 25 sabores incríveis do dia selecionados por nós. Não requer escolha de sabores! 🎁`;
+      }
       
       banner.classList.remove('hidden', 'scale-95', 'opacity-0');
       banner.classList.add('scale-100', 'opacity-100');
@@ -909,6 +942,8 @@
     // Ajuste individual de unidades na caixa do cliente
     function adjustFlavor(flavorId, amount) {
       const pkg = packages[currentPackageKey];
+      if (!pkg.isCustom) return; // Caixa degustação não altera sabores manuais
+
       const currentTotal = Object.values(selections).reduce((a, b) => a + b, 0);
       const currentQuantity = selections[flavorId] || 0;
       const newQuantity = currentQuantity + amount;
@@ -929,27 +964,37 @@
       const totalSelected = Object.values(selections).reduce((a, b) => a + b, 0);
       const uniqueFlavors = Object.keys(selections).filter(id => selections[id] > 0).length;
 
-      let priceSum = 0;
-      flavors.forEach(f => {
-        priceSum += (selections[f.id] || 0) * f.price;
-      });
-
-      const wantsAcetato = document.getElementById('forminhaAcetato').checked;
-      const wantsAcetatoLabelVal = wantsAcetato ? (pkg.count * 0.24) : 0;
-      const finalPrice = priceSum + wantsAcetatoLabelVal;
-
-      document.getElementById('currentTotal').innerText = totalSelected;
-      document.getElementById('targetTotal').innerText = pkg.count;
-      document.getElementById('forminhaCostPreview').innerText = `+ R$ ${(pkg.count * 0.24).toFixed(2)}`;
-      document.getElementById('flavorVarietyCounter').innerText = `${uniqueFlavors} de ${pkg.maxFlavors} sabores`;
-      document.getElementById('estimatedPrice').innerText = `R$ ${finalPrice.toFixed(2)}`;
+      let finalPrice = 0;
       
-      document.getElementById('flavorLimitsInfo').innerHTML = `Selecione até <span class="font-bold text-amber-950">${pkg.maxFlavors} sabores</span> diferentes para esta caixa.`;
+      if (pkg.isCustom) {
+        // Cálculo personalizado com base nos doces adicionados
+        let priceSum = 0;
+        flavors.forEach(f => {
+          priceSum += (selections[f.id] || 0) * f.price;
+        });
+
+        // Cálculo das forminhas de acetato proporcional (R$ 0,24 por doce)
+        const wantsAcetato = document.getElementById('forminhaAcetato').checked;
+        const wantsAcetatoCost = wantsAcetato ? (pkg.count * 0.24) : 0;
+        finalPrice = priceSum + wantsAcetatoCost;
+
+        // Atualização de elementos dinâmicos
+        document.getElementById('currentTotal').innerText = totalSelected;
+        document.getElementById('targetTotal').innerText = pkg.count;
+        document.getElementById('forminhaCostPreview').innerText = `+ R$ ${(pkg.count * 0.24).toFixed(2)}`;
+        document.getElementById('flavorVarietyCounter').innerText = `${uniqueFlavors} de ${pkg.maxFlavors} sabores`;
+        document.getElementById('flavorLimitsInfo').innerHTML = `Selecione até <span class="font-bold text-amber-950">${pkg.maxFlavors} sabores</span> diferentes para esta caixa.`;
+      } else {
+        // Caixa Degustação (Preço Fixo)
+        finalPrice = pkg.price;
+      }
+
+      document.getElementById('estimatedPrice').innerText = `R$ ${finalPrice.toFixed(2)}`;
 
       const submitBtn = document.getElementById('submitBtn');
       const warning = document.getElementById('validationWarning');
 
-      const isFlavorLimitExceeded = uniqueFlavors > pkg.maxFlavors;
+      const isFlavorLimitExceeded = pkg.isCustom && (uniqueFlavors > pkg.maxFlavors);
 
       if (isFlavorLimitExceeded) {
         warning.classList.remove('hidden');
@@ -960,18 +1005,25 @@
         warning.classList.add('hidden');
       }
 
-      if (totalSelected === 0) {
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Escolha os doces";
-        submitBtn.className = "w-full md:w-auto bg-stone-200 text-stone-400 cursor-not-allowed font-semibold text-xs px-6 py-3.5 rounded-xl uppercase tracking-wider";
-      } else if (totalSelected < pkg.count) {
-        submitBtn.disabled = true;
-        submitBtn.innerText = `Faltam ${pkg.count - totalSelected} doces`;
-        submitBtn.className = "w-full md:w-auto bg-stone-200 text-stone-500 cursor-not-allowed font-semibold text-xs px-6 py-3.5 rounded-xl uppercase tracking-wider";
-      } else if (totalSelected === pkg.count) {
+      if (!pkg.isCustom) {
+        // Caixa degustação está sempre pronta para envio
         submitBtn.disabled = false;
         submitBtn.innerText = "Finalizar Pedido";
         submitBtn.className = "w-full md:w-auto bg-amber-950 text-white font-semibold text-sm px-6 py-3.5 rounded-xl hover:bg-stone-900 cursor-pointer active:scale-95 transition-all";
+      } else {
+        if (totalSelected === 0) {
+          submitBtn.disabled = true;
+          submitBtn.innerText = "Escolha os doces";
+          submitBtn.className = "w-full md:w-auto bg-stone-200 text-stone-400 cursor-not-allowed font-semibold text-xs px-6 py-3.5 rounded-xl uppercase tracking-wider";
+        } else if (totalSelected < pkg.count) {
+          submitBtn.disabled = true;
+          submitBtn.innerText = `Faltam ${pkg.count - totalSelected} doces`;
+          submitBtn.className = "w-full md:w-auto bg-stone-200 text-stone-500 cursor-not-allowed font-semibold text-xs px-6 py-3.5 rounded-xl uppercase tracking-wider";
+        } else if (totalSelected === pkg.count) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Finalizar Pedido";
+          submitBtn.className = "w-full md:w-auto bg-amber-950 text-white font-semibold text-sm px-6 py-3.5 rounded-xl hover:bg-stone-900 cursor-pointer active:scale-95 transition-all";
+        }
       }
     }
 
@@ -991,21 +1043,24 @@
         return;
       }
 
-      const itemsSelected = [];
-      let calculatedSubtotal = 0;
-      flavors.forEach(f => {
-        const qty = selections[f.id] || 0;
-        if (qty > 0) {
-          itemsSelected.push(`- *${qty}x* ${f.name} (R$ ${f.price.toFixed(2)}/un)`);
-          calculatedSubtotal += qty * f.price;
-        }
-      });
-
       const pkg = packages[currentPackageKey];
-      const acetatoCost = wantsAcetato ? (pkg.count * 0.24) : 0;
-      const finalPrice = calculatedSubtotal + acetatoCost;
+      var textMessage = "";
 
-      const textMessage = 
+      if (pkg.isCustom) {
+        const itemsSelected = [];
+        let calculatedSubtotal = 0;
+        flavors.forEach(f => {
+          const qty = selections[f.id] || 0;
+          if (qty > 0) {
+            itemsSelected.push(`- *${qty}x* ${f.name} (R$ ${f.price.toFixed(2)}/un)`);
+            calculatedSubtotal += qty * f.price;
+          }
+        });
+
+        const acetatoCost = wantsAcetato ? (pkg.count * 0.24) : 0;
+        const finalPrice = calculatedSubtotal + acetatoCost;
+
+        textMessage = 
 `Olá, OBA Doceria! Gostaria de agendar a minha encomenda:
 
 ✨ *DADOS DO CLIENTE*
@@ -1023,6 +1078,23 @@ ${itemsSelected.join('\n')}
 💰 *VALOR TOTAL ESTIMADO:* R$ ${finalPrice.toFixed(2)}
 
 _Gerado automaticamente pelo Cardápio Interativo OBA._`;
+      } else {
+        // Texto específico para Caixa Degustação
+        textMessage = 
+`Olá, OBA Doceria! Gostaria de agendar a minha encomenda:
+
+✨ *DADOS DO CLIENTE*
+*Nome:* ${name}
+*WhatsApp/Telefone:* ${phone}
+*Data Desejada:* ${date.split('-').reverse().join('/')}
+*Horário da Retirada:* ${pickupTime}
+
+📦 *PACOTE:* Caixa Degustação Mista (25 sabores do dia)
+
+💰 *VALOR TOTAL:* R$ ${pkg.price.toFixed(2)}
+
+_Gerado automaticamente pelo Cardápio Interativo OBA._`;
+      }
 
       const encodedMessage = encodeURIComponent(textMessage);
       const finalUrl = `https://api.whatsapp.com/send?phone=${OBA_PHONE}&text=${encodedMessage}`;
