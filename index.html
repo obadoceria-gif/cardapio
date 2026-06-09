@@ -4,12 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OBA Doceria - Cardápio & Pedidos</title>
-  <!-- Tailwind CSS para estilização rápida, fluida e responsiva -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts para design editorial luxuoso -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&family=Playfair+Display:ital,wght=0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
   <script>
     // Força o redirecionamento para barra final (trailing slash) no GitHub Pages.
@@ -31,14 +29,12 @@
 </head>
 <body class="text-stone-800 antialiased min-h-screen flex flex-col justify-between">
 
-  <!-- Cabeçalho Principal -->
   <header class="border-b border-stone-200/60 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
     <div class="max-w-xl mx-auto px-6 py-4 flex flex-col items-center text-center">
       <h1 class="font-serif text-3xl font-bold tracking-wide text-amber-950">Oba!</h1>
       <p class="text-[10px] tracking-widest uppercase text-stone-500 font-bold mt-1">Brigadeiros Gourmet • Santo Cristo, RS</p>
     </div>
     
-    <!-- Navegação de Abas Principal -->
     <nav class="max-w-xl mx-auto px-4 pb-2 flex justify-around text-xs font-semibold">
       <button onclick="switchTab('cardapio')" id="tab-cardapio" class="pb-2 px-3 border-b-2 border-amber-950 text-amber-950 transition-all focus:outline-none">
         ✨ O Cardápio
@@ -52,10 +48,8 @@
     </nav>
   </header>
 
-  <!-- Conteúdo Principal -->
   <main class="flex-grow max-w-xl mx-auto w-full px-5 py-6">
 
-    <!-- ================= SEÇÃO 1: O CARDÁPIO DIGITAL VISUAL ================= -->
     <section id="content-cardapio" class="space-y-6">
       
       <div class="text-center space-y-2">
@@ -66,20 +60,16 @@
         <div class="w-12 h-[1px] bg-amber-800/20 mx-auto pt-2"></div>
       </div>
 
-      <!-- Barra de Busca de Sabores -->
       <div class="bg-white rounded-xl shadow-sm border border-stone-100 p-2 flex items-center gap-2">
         <span class="text-stone-400 pl-2">🔍</span>
         <input type="text" id="flavorSearch" oninput="filterFlavors()" placeholder="Buscar sabor (ex: Pistache, Ninho, Uva)..." 
                class="w-full text-sm bg-transparent outline-none py-2 text-stone-800 focus:outline-none">
       </div>
 
-      <!-- Lista de Sabores por Categoria de Preço -->
       <div class="space-y-6" id="menu-flavors-list">
-        <!-- Renderizado dinamicamente via JS -->
-      </div>
+        </div>
     </section>
 
-    <!-- ================= SEÇÃO 2: COMO FUNCIONA (INSTITUCIONAL FIEL AO PDF) ================= -->
     <section id="content-comofunciona" class="hidden space-y-6">
       <div class="text-center space-y-2">
         <h2 class="font-serif text-2xl font-bold text-amber-950">A Experiência OBA</h2>
@@ -87,10 +77,8 @@
         <div class="w-12 h-[1px] bg-amber-800/20 mx-auto pt-2"></div>
       </div>
 
-      <!-- Cards Informativos -->
       <div class="space-y-4">
         
-        <!-- Manifesto da Confeitaria -->
         <div class="bg-white rounded-2xl p-5 border border-stone-150 shadow-sm space-y-3">
           <h3 class="font-serif text-base font-semibold text-amber-950 flex items-center gap-2">
             🌱 O Verdadeiro Sabor Artesanal
@@ -103,7 +91,6 @@
           </ul>
         </div>
 
-        <!-- Instruções de Compra -->
         <div class="bg-white rounded-2xl p-5 border border-stone-150 shadow-sm space-y-3">
           <h3 class="font-serif text-base font-semibold text-amber-950 flex items-center gap-2">
             📅 Como comprar?
@@ -113,11 +100,10 @@
             <li><span class="font-semibold text-stone-800">Pedido Mínimo:</span> Caixa a partir de 25 doces.</li>
             <li><span class="font-semibold text-stone-800">Defina os Sabores:</span> Escolha seus favoritos no nosso simulador de montagem ou opte pela caixa degustação.</li>
             <li><span class="font-semibold text-stone-800">Valor Final:</span> O valor final depende dos sabores que escolher.</li>
-            <li><span class="font-semibold text-stone-800">Pagamento:</span> PIX ou Dinheiro.</li>
+            <li><span class="font-semibold text-stone-800">Pagamento:</span> Aceitamos PIX ou Dinheiro.</li>
           </ul>
         </div>
 
-        <!-- Embalagens & Forminhas -->
         <div class="bg-white rounded-2xl p-5 border border-stone-150 shadow-sm space-y-3">
           <h3 class="font-serif text-base font-semibold text-amber-950 flex items-center gap-2">
             🎁 Forminhas & Apresentação
@@ -133,13 +119,10 @@
       </div>
     </section>
 
-    <!-- ================= SEÇÃO 3: O SIMULADOR INTERATIVO DE COMPRA ================= -->
     <section id="content-simulador" class="hidden space-y-6">
       
-      <!-- FORMULÁRIO -->
       <form id="orderForm" onsubmit="event.preventDefault();" class="space-y-6">
         
-        <!-- PASSO 1: IDENTIFICAÇÃO DO CLIENTE -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
           <h3 class="font-serif text-lg font-semibold text-amber-950 flex items-center gap-2">
             <span class="w-6 h-6 rounded-full bg-amber-900/10 text-amber-950 text-xs flex items-center justify-center font-sans font-bold">1</span>
@@ -169,14 +152,12 @@
               <div>
                 <label for="pickupTime" class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Horário da Retirada</label>
                 <select id="pickupTime" required class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-800 transition-colors">
-                  <!-- Preenchido via JS -->
-                </select>
+                  </select>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- PASSO 2: ESCOLHA DA QUANTIDADE (LIMITES DO PDF 2026 ATUALIZADOS) -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
           <h3 class="font-serif text-lg font-semibold text-amber-950 flex items-center gap-2">
             <span class="w-6 h-6 rounded-full bg-amber-900/10 text-amber-950 text-xs flex items-center justify-center font-sans font-bold">2</span>
@@ -184,15 +165,12 @@
           </h3>
           
           <div class="grid grid-cols-2 gap-2" id="package-grid">
-            <!-- Renderizado Dinamicamente no JS -->
-          </div>
+            </div>
 
-          <!-- Banner Interativo de Feedback Rápido de Variedade -->
           <div id="interactiveStepMessage" class="hidden transform scale-95 opacity-0 transition-all duration-300 bg-amber-500/10 border border-amber-900/10 p-3.5 rounded-xl text-center">
             <p class="text-xs font-semibold text-amber-950" id="interactiveMessageText"></p>
           </div>
 
-          <!-- Opção Opcional de Forminhas de Acetato Transparente -->
           <div id="forminhaSection" class="pt-3 border-t border-stone-100">
             <label class="flex items-center justify-between p-3 rounded-xl bg-amber-500/5 border border-amber-900/10 cursor-pointer hover:bg-amber-500/10 transition-colors">
               <div class="flex items-center gap-3">
@@ -207,7 +185,6 @@
           </div>
         </div>
 
-        <!-- PASSO 3: SABORES COM ACCORDION -->
         <div id="flavorsSelectionSection" class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 space-y-4">
           <div class="flex flex-col">
             <h3 class="font-serif text-lg font-semibold text-amber-950 flex items-center gap-2">
@@ -219,13 +196,10 @@
             </p>
           </div>
 
-          <!-- CONTAINER DOS ACCORDIONS POR SEÇÃO -->
           <div class="space-y-3" id="categoriesContainer">
-            <!-- Renderizado via JS -->
-          </div>
+            </div>
         </div>
 
-        <!-- BARRA DE SELEÇÃO E CONTROLE DOS TOTAIS FLUTUANTE -->
         <div class="sticky bottom-4 z-40 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-stone-200/80 max-w-xl mx-auto w-full transition-all duration-300">
           <div class="flex flex-col gap-3">
             <div class="flex items-center justify-between" id="progressIndicators">
@@ -244,7 +218,6 @@
               </div>
             </div>
 
-            <!-- Total Financeiro Real Baseado nos Sabores Escolhidos -->
             <div class="flex items-center justify-between pt-3 border-t border-stone-100 gap-3">
               <div>
                 <p class="text-[9px] text-stone-500 uppercase font-bold">Valor Total Estimado</p>
@@ -269,29 +242,23 @@
     </section>
   </main>
 
-  <!-- MODAL SENSORIAL REAL DO PRODUTO ("SAIBA MAIS / VER DETALHES") -->
   <div id="detailsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm hidden transition-all duration-300">
     <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-stone-100 transform scale-95 transition-all duration-300 flex flex-col space-y-4">
       
-      <!-- Cabeçalho do Modal -->
       <div class="flex justify-between items-start">
         <span class="text-[10px] uppercase tracking-wider font-extrabold text-amber-950 px-2 py-1 rounded bg-amber-900/10" id="modalCategoryTag"></span>
         <button onclick="closeDetailsModal()" class="text-stone-400 hover:text-stone-600 font-bold text-lg focus:outline-none">&times;</button>
       </div>
 
-      <!-- Representação Gráfica Sensorial (Foto Real com Fallback SVG) -->
       <div class="w-full flex items-center justify-center bg-stone-50 rounded-2xl overflow-hidden relative h-52 border border-stone-100 shadow-inner" id="modalSVGContainer">
-        <!-- Gerado Dinamicamente -->
-      </div>
+        </div>
 
-      <!-- Informações do Sabor -->
       <div class="space-y-1.5">
         <h3 class="font-serif text-xl font-bold text-amber-950" id="modalFlavorName"></h3>
         <p class="text-xs text-stone-600 leading-relaxed" id="modalFlavorDesc"></p>
         <p class="text-[11px] text-amber-900 font-medium italic leading-relaxed bg-amber-500/5 p-2 rounded-lg border border-amber-900/5" id="modalFlavorCraftSecrets"></p>
       </div>
 
-      <!-- Rodapé do Modal com Preço e Ação de Compra Direta -->
       <div class="flex items-center justify-between pt-3 border-t border-stone-150">
         <div>
           <p class="text-[9px] uppercase tracking-wider text-stone-400 font-bold">Unidade</p>
@@ -305,12 +272,10 @@
     </div>
   </div>
 
-  <!-- TOAST ALERTA DE FLUXO DE SUCESSO -->
   <div id="toastNotification" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-stone-900 text-stone-100 text-xs font-semibold px-4 py-3 rounded-full shadow-lg flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 translate-y-2">
     <span>✨</span> <span id="toastMessage">Doce adicionado com sucesso!</span>
   </div>
 
-  <!-- Rodapé Geral -->
   <footer class="bg-stone-900 text-stone-400 py-10 text-center border-t border-stone-800">
     <div class="max-w-xl mx-auto px-6 space-y-3">
       <h2 class="font-serif text-lg text-stone-200 font-bold">OBA Doceria</h2>
@@ -327,7 +292,7 @@
     // 1. Configurações Globais da Marca OBA (Definições estritas baseadas nos lotes de fotos oficiais)
     var OBA_PHONE = "5555999117626"; 
 
-    // Quantidades e Limites Atualizados do PDF 2026 (Caixa de 25 agora permite até 7 sabores!)
+    // Quantidades e Limites Atualizados do PDF 2026
     var packages = {
       p25: { label: "Caixa c/ 25 doces", count: 25, maxFlavors: 7, isCustom: true },
       p35: { label: "Caixa c/ 35 doces", count: 35, maxFlavors: 7, isCustom: true },
@@ -425,12 +390,11 @@
     var openCategory = "trad1"; // Categoria inicialmente aberta
     var currentModalFlavorId = null; // Controla o sabor focado no modal
 
-    // Função de URL Segura: constrói caminhos relativos perfeitos codificando espaços para %20 para segurança nativa
+    // Constrói caminhos relativos perfeitos codificando espaços e parênteses de forma nativa
     function getSafeURL(filename) {
       if (!filename) return "";
       const prefix = "WhatsApp Image 2026-06-08 at ";
       const fullName = prefix + filename;
-      // Substitui espaços por %20 e trata parênteses de forma compatível
       const safeName = fullName.replace(/ /g, "%20")
                                 .replace(/\(/g, "%28")
                                 .replace(/\)/g, "%29");
@@ -449,16 +413,16 @@
       const prefix = "WhatsApp Image 2026-06-08 at ";
 
       if (attempt === 1) {
-        // Tenta encontrar em uma pasta images/ caso as fotos sejam movidas no futuro
+        // Tenta images/ com prefixo de WhatsApp
         imgElement.src = "./images/" + (prefix + imgName).replace(/ /g, "%20").replace(/\(/g, "%28").replace(/\)/g, "%29");
       } else if (attempt === 2) {
-        // Tenta nome curto direto na raiz
+        // Tenta na raiz com o nome curto direto caso renomeie futuramente
         imgElement.src = "./" + imgName.replace(/ /g, "%20");
       } else if (attempt === 3) {
         // Tenta nome curto dentro de images/
         imgElement.src = "./images/" + imgName.replace(/ /g, "%20");
       } else {
-        // Se todas as tentativas falharem, oculta e mostra o desenho em vetor (SVG)
+        // Se falhar, oculta a tag de imagem e abre o SVG vetorial
         imgElement.style.display = 'none';
         const fallbackDiv = imgElement.nextElementSibling;
         if (fallbackDiv) {
@@ -622,23 +586,19 @@
 
       return `
         <svg viewBox="0 0 90 70" class="${className} drop-shadow-md">
-          <!-- Forminha tradicional pregueada -->
           <path d="M 20,50 L 10,25 L 80,25 L 70,50 Z" fill="#EADCC9" stroke="#D3B8A5" stroke-width="1.5" />
           <line x1="28" y1="48" x2="23" y2="25" stroke="#D3B8A5" stroke-width="1" />
           <line x1="38" y1="48" x2="36" y2="25" stroke="#D3B8A5" stroke-width="1" />
           <line x1="48" y1="48" x2="50" y2="25" stroke="#D3B8A5" stroke-width="1" />
           <line x1="58" y1="48" x2="63" y2="25" stroke="#D3B8A5" stroke-width="1" />
           
-          <!-- Corpo Esférico do Doce -->
           <circle cx="45" cy="35" r="23" fill="${baseColor}" />
           
-          <!-- Texturização de confeitos -->
           <ellipse cx="33" cy="28" r="3" rx="4" ry="1.5" fill="${sprinkleColor}" transform="rotate(15 33 28)" />
           <ellipse cx="57" cy="32" r="3" rx="4" ry="1.5" fill="${sprinkleColor}" transform="rotate(-30 57 32)" />
           <ellipse cx="45" cy="45" r="3" rx="4" ry="1.5" fill="${sprinkleColor}" transform="rotate(45 45 45)" />
           <ellipse cx="38" cy="38" r="3" rx="4" ry="1.5" fill="${sprinkleColor}" transform="rotate(-15 38 38)" />
           
-          <!-- Elemento decorativo superior exclusivo -->
           ${topElement}
         </svg>
       `;
@@ -658,7 +618,6 @@
           itemsHtml += `
             <div class="flex items-center justify-between py-3 border-b border-stone-100 last:border-b-0">
               <div class="flex items-center gap-3 pr-4 flex-grow">
-                <!-- Imagem Real com Fallback Inteligente -->
                 ${renderImageOrSVG(f, "w-14 h-14", "w-10 h-10")}
                 <div class="flex-grow">
                   <h4 class="text-xs font-bold text-stone-900">${f.name}</h4>
@@ -706,7 +665,7 @@
       
       if (f.img) {
         const prefix = "WhatsApp Image 2026-06-08 at ";
-        const initialSrc = getSafeURL(prefix + f.img);
+        const initialSrc = getSafeURL(f.img);
         modalContainer.innerHTML = `
           <div class="w-full h-full flex items-center justify-center relative">
             <img src="${initialSrc}" alt="${f.name}" class="w-full h-full object-cover animate-fade-in" onerror="handleImageError(this, '${f.img}', '${f.id}')">
@@ -894,7 +853,6 @@
           itemsHtml += `
             <div class="flex items-center justify-between p-3 rounded-xl bg-stone-50/60 border border-stone-100 hover:border-stone-200/80 transition-all">
               <div class="pr-3 flex-grow flex items-center gap-3">
-                <!-- Foto Real Adaptativa no simulador -->
                 ${renderImageOrSVG(f, "w-10 h-10", "w-8 h-8")}
                 <div>
                   <div class="flex items-baseline gap-2">
@@ -1079,7 +1037,6 @@ ${itemsSelected.join('\n')}
 
 _Gerado automaticamente pelo Cardápio Interativo OBA._`;
       } else {
-        // Texto específico para Caixa Degustação
         textMessage = 
 `Olá, OBA Doceria! Gostaria de agendar a minha encomenda:
 
