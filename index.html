@@ -172,95 +172,97 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (25 Sabores Sortidos)', limiteSabores: 0, totalDoces: 25, precoFixo: 75.00 }
     };
 
-    // BANCO DE DADOS COMPLETO - 55 SABORES EXTRAÍDOS DO CARDÁPIO OFICIAL 2026
+    // BANCO DE DADOS COMPLETO - 56 SABORES EXTRAÍDOS DO CARDÁPIO OFICIAL OBA DOCERIA 2026
     const catalogo = [
       {
-        categoria: "Tradicionais (R$ 3,25)",
+        categoria: "Tradicionais I (R$ 2,50)",
         itens: [
-          { id: "brigadeiro_trad", nome: "Brigadeiro Tradicional", preco: 3.25, desc: "Cacau nobre com textura ultra cremosa, enrolado com o granulado clássico.", img: "images/Brigadeiro Tradicional.jpg" },
-          { id: "meio_amargo", nome: "Brigadeiro Meio Amargo", preco: 3.25, desc: "Cacau 54% nobre, perfeito equilíbrio entre o dulçor e a intensidade do cacau.", img: "images/Brigadeiro Meio Amargo.jpg" },
-          { id: "amargo_70", nome: "Brigadeiro Amargo 70%", preco: 3.25, desc: "Intenso sabor de chocolate amargo 70% belga, finalizado com granulado nobre amargo.", img: "images/Brigadeiro Amargo 70%.jpg" },
-          { id: "branquinho", nome: "Branquinho Clássico", preco: 3.25, desc: "O tradicional brigadeiro branco feito com leite condensado premium e cozido lentamente.", img: "images/Branquinho Clássico.jpg" },
-          { id: "beijinho", nome: "Beijinho de Coco", preco: 3.25, desc: "Massa super cremosa cozida com coco ralado fresco e envolvida em flocos de coco.", img: "images/Beijinho de Coco.jpg" },
-          { id: "leite_ninho_trad", nome: "Leite Ninho", preco: 3.25, desc: "O clássico favorito da nossa doceria, feito inteiramente com Leite Ninho premium.", img: "images/Leite Ninho.jpg" },
-          { id: "doce_leite_artesanal", nome: "Doce de Leite Artesanal", preco: 3.25, desc: "Brigadeiro feito com doce de leite de cozimento lento e textura aveludada.", img: "images/Doce de Leite Artesanal.jpg" },
-          { id: "bicho_de_pe", nome: "Bicho de Pé (Morango)", preco: 3.25, desc: "O marcante e nostálgico brigadeiro rosa de morango de infância.", img: "images/Bicho de Pé.jpg" },
-          { id: "cajuzinho", nome: "Cajuzinho da Vovó", preco: 3.25, desc: "Deliciosa massa de amendoim tostado artesanal moído, cozido e enrolado no açúcar.", img: "images/Cajuzinho da Vovó.jpg" }
+          { id: "leite_ninho_250", nome: "Leite Ninho", preco: 2.50, desc: "O clássico favorito feito inteiramente com leite em pó premium.", img: "images/Leite Ninho.jpg" },
+          { id: "nesquik_250", nome: "Nesquik", preco: 2.50, desc: "A doçura marcante e nostálgica do brigadeiro de morango Nesquik.", img: "images/Nesquik.jpg" },
+          { id: "casadinho_250", nome: "Casadinho", preco: 2.50, desc: "A fusão perfeita entre brigadeiro ao leite e branquinho de leite ninho.", img: "images/Casadinho.jpg" },
+          { id: "dois_amores_250", nome: "Dois amores", preco: 2.50, desc: "A deliciosa união entre brigadeiro ao leite tradicional e Nesquik.", img: "images/Dois amores.jpg" },
+          { id: "cappuccino_250", nome: "Cappuccino", preco: 2.50, desc: "Delicioso equilíbrio aromático de brigadeiro ao leite, leite ninho e um toque de café.", img: "images/Cappuccino.jpg" },
+          { id: "napolitano_250", nome: "Napolitano", preco: 2.50, desc: "Três deliciosos sabores integrados: ao leite, leite ninho e Nesquik.", img: "images/Napolitano.jpg" },
+          { id: "coco_250", nome: "Coco", preco: 2.50, desc: "Brigadeiro branco cozido lentamente envolvido por flocos de coco ralado.", img: "images/Coco.jpg" },
+          { id: "coco_queimado_250", nome: "Coco queimado", preco: 2.50, desc: "Cremosa massa de coco envolvida por coco queimado crocante e tostado na panela.", img: "images/Coco queimado.jpg" }
         ]
       },
       {
-        categoria: "Especiais & Recheados",
+        categoria: "Tradicionais II (R$ 2,60)",
         itens: [
-          { id: "casadinho", nome: "Casadinho Clássico", preco: 3.25, desc: "A combinação perfeita de tradicional ao leite e branquinho enrolados juntos.", img: "images/Casadinho Clássico.jpg" },
-          { id: "dois_amores", nome: "Dois Amores", preco: 3.25, desc: "Destaque visual e de sabor das duas massas clássicas da OBA enroladas em sintonia.", img: "images/Dois Amores.jpg" },
-          { id: "ninho_nutella", nome: "Ninho com Nutella", preco: 4.00, desc: "Massa de Leite Ninho super cremosa com recheio generoso de Nutella pura.", img: "images/Ninho com Nutella.jpg" },
-          { id: "nutella_puro", nome: "Nutella Puro", preco: 4.00, desc: "Brigadeiro ao leite premium recheado e coberto com Nutella italiana cremosa.", img: "images/Nutella Puro.jpg" },
-          { id: "churros", nome: "Churros Artesanal", preco: 3.25, desc: "Massa com toque leve de canela, recheada com doce de leite artesanal no topo.", img: "images/Churros Gourmet.jpg" },
-          { id: "palha_italiana", nome: "Palha Italiana", preco: 3.25, desc: "Nosso brigadeiro de chocolate cozido com crocantes de biscoito Maizena triturado.", img: "images/Palha Italiana.jpg" },
-          { id: "oreo", nome: "Oreo Crocante", preco: 3.25, desc: "Brigadeiro de branquinho recheado e envolvido por biscoitos Oreo picados.", img: "images/Oreo Crocante.jpg" },
-          { id: "doce_leite_coco", nome: "Doce de Leite com Coco", preco: 3.25, desc: "Cremosa massa de doce de leite envolvida por coco ralado tostado na panela.", img: "images/Doce de Leite com Coco.jpg" },
-          { id: "kitkat", nome: "KitKat Lovers", preco: 4.00, desc: "Brigadeiro de chocolate belga envolto por generosos pedacinhos crocantes de KitKat.", img: "images/KitKat Lovers.jpg" },
-          { id: "kinder_bueno", nome: "Kinder Bueno Gourmet", preco: 4.00, desc: "Massa com creme de avelã nobre e pedaço de Kinder Bueno no acabamento.", img: "images/Kinder Bueno Gourmet.jpg" },
-          { id: "sonho_de_valsa", nome: "Sonho de Valsa", preco: 4.00, desc: "Brigadeiro cremoso recheado com pedaços do bombom Sonho de Valsa.", img: "images/Sonho de Valsa.jpg" },
-          { id: "ouro_branco", nome: "Ouro Branco Gourmet", preco: 4.00, desc: "Cremoso branquinho gourmet com lascas crocantes do bombom Ouro Branco.", img: "images/Ouro Branco Gourmet.jpg" },
-          { id: "ferrero_rocher", nome: "Ferrero Rocher", preco: 4.00, desc: "Brigadeiro de avelã com recheio crocante e cobertura de amendoim picado.", img: "images/Ferrero Rocher Gourmet.jpg" },
-          { id: "sensacao_morango", nome: "Sensação de Morango", preco: 4.00, desc: "Chocolate meio amargo com o contraste perfeito da nossa geleia artesanal de morango.", img: "images/Sensação de Morango.jpg" }
+          { id: "branco_260", nome: "Branco", preco: 2.60, desc: "Clássico brigadeiro de panela branco coberto com granulado nobre de chocolate branco.", img: "images/Branco.jpg" },
+          { id: "ao_leite_260", nome: "Ao leite", preco: 2.60, desc: "O brigadeiro tradicional insubstituível, finalizado com granulado nobre de alta qualidade.", img: "images/Ao leite.jpg" },
+          { id: "meio_amargo_260", nome: "Meio amargo", preco: 2.60, desc: "Brigadeiro preparado com cacau 50% nobre para um sabor equilibrado e envolvente.", img: "images/Meio amargo.jpg" },
+          { id: "amargo_260", nome: "Amargo", preco: 2.60, desc: "Sabor profundo de chocolate meio amargo com cobertura de granulado nobre 70%.", img: "images/Amargo.jpg" },
+          { id: "caramelo_260", nome: "Caramelo", preco: 2.60, desc: "Brigadeiro suave de caramelo artesanal envolvido por granulado gourmet.", img: "images/Caramelo.jpg" },
+          { id: "duo_ao_leite_260", nome: "Duo ao leite", preco: 2.60, desc: "A combinação perfeita de chocolate ao leite e brigadeiro branco.", img: "images/Duo ao leite.jpg" },
+          { id: "duo_amargo_260", nome: "Duo amargo", preco: 2.60, desc: "Elegante combinação de chocolate meio amargo e brigadeiro branco.", img: "images/Duo amargo.jpg" },
+          { id: "cafe_260", nome: "Café", preco: 2.60, desc: "Aroma e sabor marcante de café nobre combinado com granulado selecionado.", img: "images/Café.jpg" },
+          { id: "amendoim_260", nome: "Amendoim", preco: 2.60, desc: "Cremosa massa de brigadeiro com xerém triturado de amendoim tostado.", img: "images/Amendoim.jpg" }
         ]
       },
       {
-        categoria: "Nozes e Castanhas",
+        categoria: "Clássicos (R$ 2,75)",
         itens: [
-          { id: "camafeu", nome: "Camafeu de Nozes", preco: 4.00, desc: "Doce refinado de nozes selecionadas moídas, coberto com um fondant de açúcar especial.", img: "images/Camafeu de Nozes.jpg" },
-          { id: "brigadeiro_nozes", nome: "Brigadeiro de Nozes", preco: 4.00, desc: "Cremosa massa de chocolate branco cozida com pedaços graúdos de nozes chilenas.", img: "images/Brigadeiro de Nozes.jpg" },
-          { id: "castanha_caju", nome: "Castanha de Caju", preco: 4.00, desc: "Tradicional doce enrolado no crocante xerém de castanhas de caju tostadas.", img: "images/Castanha de Caju.jpg" },
-          { id: "amendoas", nome: "Amêndoas Tostadas", preco: 4.00, desc: "Massa de cacau nobre decorada com finas lâminas douradas de amêndoas tostadas.", img: "images/Amêndoas Tostadas.jpg" },
-          { id: "macadamia", nome: "Macadâmia Caramelizada", preco: 4.00, desc: "Harmonia espetacular de macadâmias crocantes e brigadeiro gourmet de panela.", img: "images/Macadâmia Caramelizada.jpg" },
-          { id: "nozes_doce_leite", nome: "Nozes com Doce de Leite", preco: 4.00, desc: "Brigadeiro de doce de leite de panela com pedaços crocantes de nozes nobres.", img: "images/Nozes com Doce de Leite.jpg" },
-          { id: "nozes_damasco", nome: "Nozes com Damasco", preco: 4.00, desc: "Brigadeiro de nozes refinado decorado com tiras de damascos turcos no acabamento.", img: "images/Nozes com Damasco.jpg" }
+          { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, desc: "Deliciosa massa de leite ninho recheada com a genuína Nutella italiana.", img: "images/Ninho com Nutella.jpg" },
+          { id: "oreo_275", nome: "Oreo", preco: 2.75, desc: "Massa branca misturada com biscoitos Oreo triturados e crocantes.", img: "images/Oreo.jpg" },
+          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, desc: "O sabor doce do Nesquik harmonizado com o creme de avelã nobre no recheio.", img: "images/Nesquik com Nutella.jpg" },
+          { id: "confete_275", nome: "Confete", preco: 2.75, desc: "O clássico brigadeiro ao leite revestido por pastilhas coloridas e crocantes de chocolate.", img: "images/Confete.jpg" },
+          { id: "charge_275", nome: "Charge", preco: 2.75, desc: "Inspirado no chocolate clássico, com amendoim picado e caramelo aveludado.", img: "images/Charge.jpg" },
+          { id: "amendoim_doce_leite_275", nome: "Amendoim com doce de leite", preco: 2.75, desc: "Mistura incrível de amendoim moído com recheio de doce de leite artesanal.", img: "images/Amendoim com doce de leite.jpg" },
+          { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, desc: "Massa de coco queimado combinada com generosa cobertura de doce de leite de panela.", img: "images/Cocadinha.jpg" },
+          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, desc: "Doce de leite cozido com um toque sutil e marcante de queijo parmesão selecionado.", img: "images/Queijadinha.jpg" },
+          { id: "prestigio_275", nome: "Prestígio", preco: 2.75, desc: "O eterno encontro de coco com chocolate ao leite finalizado em coco ralado fino.", img: "images/Prestígio.jpg" },
+          { id: "damasco_275", nome: "Damasco", preco: 2.75, desc: "Fino doce branco decorado com deliciosos pedacinhos de damascos turcos nobres.", img: "images/Damasco.jpg" },
+          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, desc: "Brigadeiro recheado com nossa maravilhosa compota artesanal de ameixa preta.", img: "images/Ameixa.jpg" }
         ]
       },
       {
-        categoria: "Frutas Finas",
+        categoria: "Especiais I (R$ 3,00)",
         itens: [
-          { id: "uva_branco", nome: "Uva com Brigadeiro Branco", preco: 3.25, desc: "Uva verde sem semente crocante e fresca, envolta por finíssima massa de branquinho.", img: "images/Uva com Brigadeiro Branco.jpg" },
-          { id: "limao_siciliano", nome: "Limão Siciliano", preco: 3.25, desc: "Cítrico e aveludado, preparado com raspas frescas de limão siciliano.", img: "images/Limão Siciliano.jpg" },
-          { id: "maracuja_silvestre", nome: "Maracujá Silvestre", preco: 3.25, desc: "Brigadeiro branco cítrico feito com redução artesanal de maracujá da horta.", img: "images/Maracujá Silvestre.jpg" },
-          { id: "abacaxi_coco", nome: "Coco com Abacaxi", preco: 3.25, desc: "Brigadeiro de coco super cremoso preenchido com geleia fresca de abacaxi da horta.", img: "images/Coco com Abacaxi.jpg" },
-          { id: "damasco_nobre", nome: "Damasco Nobre", preco: 4.00, desc: "Doce refinado de chocolate branco cozido com cubos macios de damascos selecionados.", img: "images/Damasco Nobre.jpg" },
-          { id: "limao_torta", nome: "Limão Torta Gourmet", preco: 3.25, desc: "Brigadeiro de limão envolvido em farofa doce de biscoito e toque de raspas.", img: "images/Brigadeiro de Limão Torta.jpg" },
-          { id: "maracuja_chocolate", nome: "Maracujá com Chocolate", preco: 3.25, desc: "Massa de maracujá cítrico recheada com brigadeiro de cacau belga.", img: "images/Brigadeiro de Maracujá com Chocolate.jpg" },
-          { id: "cereja_marrasquino", nome: "Cereja ao Marrasquino", preco: 4.00, desc: "Brigadeiro branco recheado com cereja inteira em calda e finalizado elegantemente.", img: "images/Brigadeiro de Cereja ao Marrasquino.jpg" }
+          { id: "mega_300", nome: "Mega", preco: 3.00, desc: "O rei das encomendas: Brigadeiro ao leite coroado com espiral de Nutella.", img: "images/Mega.jpg" },
+          { id: "nozes_300", nome: "Nozes", preco: 3.00, desc: "Chocolate branco com farta quantidade de nozes chilenas trituradas na panela.", img: "images/Nozes.jpg" },
+          { id: "queijo_goiabada_300", nome: "Queijo e goiabada", preco: 3.00, desc: "Perfeita combinação mineira de queijo nobre com nossa goiabada cascão artesanal.", img: "images/Queijo e goiabada.jpg" },
+          { id: "queijo_doce_leite_300", nome: "Queijo e doce de leite", preco: 3.00, desc: "Doce de leite cremoso nobre contrastando suavemente com queijo especial.", img: "images/Queijo e doce de leite.jpg" },
+          { id: "maracuja_300", nome: "Maracujá", preco: 3.00, desc: "Azedinho refrescante do maracujá selvagem com sementes brilhantes decorativas.", img: "images/Maracujá.jpg" },
+          { id: "maracuja_ao_leite_300", nome: "Maracujá ao leite", preco: 3.00, desc: "Massa cítrica de maracujá finalizada com granulado nobre e sementes frescas de maracujá.", img: "images/Maracujá ao leite.jpg" },
+          { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, desc: "Doce cítrico de maracujá com recheio generoso de creme de avelã Nutella.", img: "images/Maracujá com Nutella.jpg" },
+          { id: "damasco_amendoas_300", nome: "Damasco e amêndoas", preco: 3.00, desc: "Massa branca cozida com pedaços de damascos decorada com amêndoas tostadas douradas.", img: "images/Damasco e amêndoas.jpg" }
         ]
       },
       {
-        categoria: "Café & Sofisticados",
+        categoria: "Especiais II (R$ 3,25)",
         itens: [
-          { id: "creme_brulee", nome: "Crème Brûlée", preco: 4.00, desc: "Brigadeiro de baunilha caramelizado na hora com casquinha crocante de açúcar maçaricado.", img: "images/Crème Brûlée.jpg" },
-          { id: "cappuccino", nome: "Cappuccino com Doce de Leite", preco: 4.00, desc: "Massa de café aromático com recheio cremoso e acabamento de canela fina.", img: "images/Cappuccino com Doce de Leite.jpg" },
-          { id: "cafe_espresso", nome: "Café Espresso", preco: 3.25, desc: "Brigadeiro meio amargo com o toque profundo de grãos de café espresso artesanal.", img: "images/Café Espresso.jpg" },
-          { id: "red_velvet", nome: "Red Velvet", preco: 4.00, desc: "Aveludada massa vermelha de cacau recheada com frosting suave de cream cheese.", img: "images/Red Velvet.jpg" },
-          { id: "amarula_gourmet", nome: "Brigadeiro de Amarula", preco: 4.00, desc: "Massa de chocolate nobre com sabor marcante do licor fino de Amarula.", img: "images/Brigadeiro de Amarula.jpg" },
-          { id: "champagne", nome: "Brigadeiro de Champagne", preco: 4.00, desc: "Massa branca refinada infusionada com champagne nobre, para eventos marcantes.", img: "images/Brigadeiro de Champagne.jpg" },
-          { id: "belga_caramelizado", nome: "Belga Caramelizado", preco: 4.00, desc: "Cacau nobre caramelizado lentamente no processo de cozimento artesanal.", img: "images/Brigadeiro Belga Caramelizado.jpg" }
+          { id: "caramelo_salgado_325", nome: "Caramelo Salgado", preco: 3.25, desc: "Massa requintada de caramelo de panela equilibrada com pitada fina de flor de sal.", img: "images/Caramelo Salgado.jpg" },
+          { id: "abacaxi_coco_325", nome: "Abacaxi com coco", preco: 3.25, desc: "Brigadeiro de coco decorado no topo com a nossa maravilhosa geleia caseira de abacaxi.", img: "images/Abacaxi com coco.jpg" },
+          { id: "ferrero_325", nome: "Ferrero", preco: 3.25, desc: "Brigadeiro de chocolate trufado envolto em xerém de avelãs tostadas com topo de Nutella.", img: "images/Ferrero.jpg" },
+          { id: "crocante_nutella_325", nome: "Crocante de Nutella", preco: 3.25, desc: "Brigadeiro de Nutella recheado com flocos crocantes que estalam a cada mordida.", img: "images/Crocante de Nutella.jpg" },
+          { id: "bacon_abacaxi_325", nome: "Bacon com Abacaxi", preco: 3.25, desc: "Ousada e deliciosa receita de geleia de abacaxi ácida com bacon crocante defumado.", img: "images/Bacon com Abacaxi.jpg" },
+          { id: "bacon_chocolate_325", nome: "Bacon com Chocolate", preco: 3.25, desc: "Contraste surpreendente de bacon defumado moído cozido com cacau nobre ao leite.", img: "images/Bacon com Chocolate.jpg" },
+          { id: "laranja_amendoas_325", nome: "Laranja com amêndoas", preco: 3.25, desc: "Brigadeiro cítrico de laranja com lâminas tostadas finas de amêndoas crocantes.", img: "images/Laranja com amêndoas.jpg" },
+          { id: "laranja_coco_325", nome: "Laranja com coco", preco: 3.25, desc: "Massa de laranja fresca decorada no topo com coco ralado fino.", img: "images/Laranja com coco.jpg" },
+          { id: "nozes_figo_325", nome: "Nozes e Figo", preco: 3.25, desc: "Brigadeiro rico em nozes chilenas decorado com o doce artesanal de figo em calda.", img: "images/Nozes e Figo.jpg" },
+          { id: "cheesecake_325", nome: "Cheesecake", preco: 3.25, desc: "Suave e aveludada massa de cream cheese decorada com nossa calda caseira de morango.", img: "images/Cheesecake.jpg" },
+          { id: "gorgonzola_geleia_325", nome: "Gorgonzola e Geléia", preco: 3.25, desc: "A surpreendente combinação gourmet de queijo gorgonzola suave e geleia de morango.", img: "images/Gorgonzola e Geléia.jpg" },
+          { id: "gorgonzola_damasco_325", nome: "Gorgonzola e Damasco", preco: 3.25, desc: "Elegante e requintado brigadeiro de queijo azul gorgonzola finalizado com damasco seco.", img: "images/Gorgonzola e Damasco.jpg" },
+          { id: "uva_branco_325", nome: "Uva com Brigadeiro Branco", preco: 3.25, desc: "Uva verde fresca e sumarenta, sem grainha, envolvida pela clássica massa branca.", img: "images/Uva com Brigadeiro Branco.jpg" },
+          { id: "uva_ao_leite_325", nome: "Uva com Brigadeiro ao Leite", preco: 3.25, desc: "Uva verde fresca sem sementes envolta no tradicional brigadeiro ao leite.", img: "images/Uva com Brigadeiro ao Leite.jpg" },
+          { id: "uva_meio_amargo_325", nome: "Uva com Brigadeiro Meio Amargo", preco: 3.25, desc: "Uva verde crocante e fresca revestida por brigadeiro de chocolate meio amargo.", img: "images/Uva com Brigadeiro Meio Amargo.jpg" }
         ]
       },
       {
-        categoria: "Queijos Especiais",
+        categoria: "Frutas & Especiais III (R$ 4,00)",
         itens: [
-          { id: "romeu_julieta", nome: "Romeu e Julieta", preco: 3.25, desc: "Incrível fusão de brigadeiro de cream cheese com goiabada cascão artesanal.", img: "images/Romeu e Julieta.jpg" },
-          { id: "gorgonzola_damasco", nome: "Gorgonzola com Damasco", preco: 4.25, desc: "Brigadeiro suave de gorgonzola premium recheado com geleia turca de damasco.", img: "images/Gorgonzola com Damasco.jpg" },
-          { id: "gorgonzola_morango", nome: "Gorgonzola com Geleia de Morango", preco: 4.25, desc: "Mistura sofisticada de gorgonzola gourmet suave com nossa geleia caseira de morango.", img: "images/Gorgonzola com Geleia de Morango.jpg" },
-          { id: "queijo_doce_leite", nome: "Queijo com Doce de Leite", preco: 3.25, desc: "União deliciosa de queijo cremoso suave com recheio de doce de leite artesanal.", img: "images/Queijo com Doce de Leite.jpg" },
-          { id: "mascarpone_frutas", nome: "Mascarpone com Frutas Vermelhas", preco: 4.25, desc: "Brigadeiro de queijo mascarpone gourmet com nossa exclusiva redução de frutas vermelhas.", img: "images/Brigadeiro de Mascarpone com Frutas Vermelhas.jpg" }
+          { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, desc: "Morango fresco e suculento envolvido inteiramente por farta massa branca.", img: "images/Morango com Brigadeiro Branco.jpg" },
+          { id: "morango_ao_leite_400", nome: "Morango com Brigadeiro ao Leite", preco: 4.00, desc: "Morango selecionado revestido por brigadeiro tradicional ao leite.", img: "images/Morango com Brigadeiro ao Leite.jpg" },
+          { id: "morango_meio_amargo_400", nome: "Morango com Brigadeiro Meio Amargo", preco: 4.00, desc: "A harmonia perfeita do morango fresco com chocolate meio amargo nobre.", img: "images/Morango com Brigadeiro Meio Amargo.jpg" },
+          { id: "pistache_400", nome: "Pistache", preco: 4.00, desc: "Brigadeiro gourmet de pistache feito exclusivamente com a nossa pasta artesanal pura.", img: "images/Pistache.jpg" }
         ]
       },
       {
-        categoria: "Linha Pistache Puro",
+        categoria: "Linha Pistache Premium (R$ 4,25)",
         itens: [
-          { id: "pistache_puro", nome: "Pistache Puro", preco: 4.25, desc: "Feito exclusivamente com nossa pasta artesanal de puro pistache (sem essências artificiais).", img: "images/Pistache Puro.jpg" },
-          { id: "pistache_morango", nome: "Pistache com Geleia de Morango", preco: 4.25, desc: "Brigadeiro de pistache artesanal harmonizado com nossa geleia fresca de morango.", img: "images/Pistache com Geleia de Morango.jpg" },
-          { id: "pistache_crocante", nome: "Pistache Crocante", preco: 4.25, desc: "Massa fina de pistache envolta em pedaços tostados e crocantes de pistache.", img: "images/Pistache Crocante.jpg" },
-          { id: "pistache_belga", nome: "Pistache com Chocolate Belga", preco: 4.25, desc: "Brigadeiro de pistache cozido envolto com granulado belga nobre de chocolate.", img: "images/Pistache com Chocolate Belga.jpg" }
+          { id: "pistache_geleia_425", nome: "Pistache com geléia", preco: 4.25, desc: "Doce requintado de puro pistache com nossa geleia artesanal ácida de morango.", img: "images/Pistache com geléia.jpg" }
         ]
       }
     ];
