@@ -292,8 +292,9 @@
       const container = document.getElementById('abas-categorias');
       container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">Todos</button>`;
       catalogo.forEach(g => {
+        const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
         container.innerHTML += `
-          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">${g.categoria.split(" (")[0]}</button>
+          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">${g.categoria.split(" (")[0]}</button>
         `;
       });
       atualizarVisualAbas();
@@ -313,8 +314,8 @@
         abaTodos.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5] hover:bg-gray-50";
       }
       catalogo.forEach(g => {
-        const idAba = `aba-${g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')}`;
-        const btn = document.getElementById(idAba);
+        const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+        const btn = document.getElementById(`aba-${idSafe}`);
         if (btn) {
           if (categoriaAtiva === g.categoria) {
             btn.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-[#8B4513] text-white shadow-md";
