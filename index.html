@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OBA Doceria | Cardápio 2026</title>
+  <title>OBA Doceria | Catálogo</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#FFF8F0] text-[#3B2A1E]">
 
   <!-- Modal de Detalhes -->
-  <div id="modal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-0" onclick="closeModal()">
-    <div class="bg-white w-full h-full md:h-auto md:max-w-2xl md:rounded-3xl relative shadow-2xl flex flex-col overflow-hidden" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 rounded-full p-2 z-20 text-white text-2xl">✕</button>
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-2" onclick="closeModal()">
+    <div class="bg-white max-w-2xl w-full max-h-[90vh] rounded-3xl p-4 relative shadow-2xl overflow-y-auto" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-20 rounded-full p-2 z-10 text-white text-xl">✕</button>
       
-      <div class="flex-1 flex items-center justify-center bg-white p-4">
-          <img id="modal-img" src="" alt="Doce" class="max-h-[60vh] w-auto object-contain">
-      </div>
+      <!-- Imagem inteira com destaque -->
+      <img id="modal-img" src="" alt="Doce" class="w-full h-auto max-h-[60vh] object-contain rounded-2xl mb-6 mx-auto">
       
-      <div class="p-6 border-t border-gray-100">
-        <h2 id="modal-title" class="text-3xl font-bold text-[#8B4513] mb-2"></h2>
-        <p id="modal-desc" class="text-lg text-gray-700 mb-6 leading-relaxed"></p>
-        <div class="flex items-center justify-between pt-2">
-          <span id="modal-price" class="text-2xl font-bold text-[#8B4513]"></span>
-          <button class="px-8 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710]">Adicionar ao Pedido</button>
+      <div class="px-2">
+        <h2 id="modal-title" class="text-3xl font-bold text-[#8B4513] mb-3"></h2>
+        <p id="modal-desc" class="text-lg text-gray-700 mb-8 leading-relaxed"></p>
+        
+        <div class="flex items-center justify-between border-t border-gray-100 pt-6">
+          <span class="text-2xl font-bold text-[#8B4513]">Consultar valor</span>
+          <button class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95">Adicionar ao Pedido</button>
         </div>
       </div>
     </div>
@@ -30,53 +30,45 @@
 
   <header class="py-10 text-center">
     <h1 class="text-4xl font-bold text-[#8B4513]">OBA Doceria</h1>
-    <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-2">O verdadeiro sabor artesanal</p>
+    <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-2">O sabor artesanal</p>
   </header>
 
   <main class="max-w-4xl mx-auto px-4 pb-20">
-    <div id="grid-sabores" class="grid grid-cols-2 md:grid-cols-3 gap-6">
-      <!-- Os sabores serão carregados aqui via JavaScript -->
+    <div class="grid grid-cols-2 gap-4">
+      
+      <!-- Doce 1 -->
+      <div class="bg-white rounded-3xl shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden">
+        <img src="WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg" alt="Brigadeiro" class="w-full h-40 object-cover">
+        <div class="p-4 w-full">
+            <h3 class="font-bold text-sm mb-1">Brigadeiro Tradicional</h3>
+            <button onclick="openModal('WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg', 'Brigadeiro Tradicional', 'Nosso clássico indispensável. Feito com cacau 64% de alta qualidade, garantindo um equilíbrio perfeito entre o dulçor e o amargor do chocolate. Textura aveludada, finalizado com granulado belga nobre.')" class="text-[11px] text-[#8B4513] underline mb-3">Ver detalhes</button>
+            <button class="w-full py-2 bg-[#8B4513] text-white rounded-xl text-xs font-bold">+ Selecionar</button>
+        </div>
+      </div>
+
+      <!-- Doce 2 -->
+      <div class="bg-white rounded-3xl shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden">
+        <img src="WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg" alt="Ninho" class="w-full h-40 object-cover">
+        <div class="p-4 w-full">
+            <h3 class="font-bold text-sm mb-1">Leite Ninho</h3>
+            <button onclick="openModal('WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg', 'Leite Ninho', 'O favorito de quem ama o sabor reconfortante do leite. Nossa massa de Leite Ninho premium tem uma textura incrivelmente cremosa que desmancha na boca. Uma verdadeira experiência de doçura delicada.')" class="text-[11px] text-[#8B4513] underline mb-3">Ver detalhes</button>
+            <button class="w-full py-2 bg-[#8B4513] text-white rounded-xl text-xs font-bold">+ Selecionar</button>
+        </div>
+      </div>
+
     </div>
   </main>
 
   <script>
-    // Base de dados do seu PDF 2026
-    const sabores = [
-      { id: 'brigadeiro_trad', nome: 'Brigadeiro Tradicional', preco: '3,25', img: 'WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg', desc: 'Nosso clássico indispensável. Feito com cacau 64% de alta qualidade.' },
-      { id: 'leite_ninho', nome: 'Leite Ninho', preco: '3,25', img: 'WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg', desc: 'Massa de Leite Ninho premium, textura incrivelmente cremosa.' }
-    ];
-
-    function carregarSabores() {
-      const grid = document.getElementById('grid-sabores');
-      sabores.forEach(sabor => {
-        grid.innerHTML += `
-          <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden">
-            <div class="w-full h-64 bg-white flex items-center justify-center p-2">
-                <img src="${sabor.img}" alt="${sabor.nome}" class="h-full w-full object-contain">
-            </div>
-            <div class="p-4 w-full">
-                <h3 class="font-bold text-base mb-1">${sabor.nome}</h3>
-                <button onclick="openModal('${sabor.img}', '${sabor.nome}', '${sabor.desc}', 'R$ ${sabor.preco}')" class="text-sm text-[#8B4513] underline mb-4">Ver detalhes</button>
-                <button class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-bold">+ Selecionar</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function openModal(src, title, desc, price) {
+    function openModal(src, title, desc) {
       document.getElementById('modal-img').src = src;
       document.getElementById('modal-title').innerText = title;
       document.getElementById('modal-desc').innerText = desc;
-      document.getElementById('modal-price').innerText = price;
       document.getElementById('modal').classList.remove('hidden');
     }
-    
     function closeModal() {
       document.getElementById('modal').classList.add('hidden');
     }
-
-    carregarSabores();
   </script>
 
 </body>
