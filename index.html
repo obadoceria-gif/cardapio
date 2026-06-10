@@ -3,19 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OBA Doceria | Catálogo</title>
+  <title>OBA Doceria | Cardápio Interativo Oficial 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Barra de rolagem horizontal invisível mas funcional */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body class="bg-[#FFF8F0] text-[#3B2A1E]">
+<body class="bg-[#FFF8F0] text-[#3B2A1E] font-sans antialiased">
 
-  <!-- Modal de Detalhes -->
+  <!-- Toast de Notificação -->
+  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
+    <span id="toast-text" class="font-bold text-center w-full"></span>
+  </div>
+
+  <!-- Modal de Detalhes (Visual perfeito aprovado) -->
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-2" onclick="closeModal()">
     <div class="bg-white max-w-2xl w-full max-h-[90vh] rounded-3xl p-4 relative shadow-2xl overflow-y-auto" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-20 rounded-full p-2 z-10 text-white text-xl">✕</button>
       
       <!-- Imagem grande e centralizada -->
       <div class="w-full h-[50vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-6 overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain">
+          <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain" onerror="handleImageError(this, this.alt)">
       </div>
       
       <div class="px-2">
@@ -23,58 +38,674 @@
         <p id="modal-desc" class="text-lg text-gray-700 mb-8 leading-relaxed"></p>
         
         <div class="flex items-center justify-between border-t border-gray-100 pt-6">
-          <span class="text-2xl font-bold text-[#8B4513]">Consultar valor</span>
-          <button class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95">Adicionar ao Pedido</button>
+          <span id="modal-price" class="text-2xl font-bold text-[#8B4513]"></span>
+          <button id="modal-add-btn" class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95">Adicionar ao Pedido</button>
         </div>
       </div>
     </div>
   </div>
 
-  <header class="py-10 text-center">
-    <h1 class="text-4xl font-bold text-[#8B4513]">OBA Doceria</h1>
-    <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-2">O sabor artesanal</p>
+  <!-- Cabeçalho -->
+  <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
+    <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight">OBA Doceria</h1>
+    <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
+    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reduções de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 pb-20">
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+  <main class="max-w-6xl mx-auto px-4 pb-32">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
-      <!-- Doce 1 -->
-      <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden">
-        <div class="w-full h-64 flex items-center justify-center bg-gray-50">
-            <img src="WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg" alt="Brigadeiro" class="h-full w-full object-contain">
-        </div>
-        <div class="p-4 w-full">
-            <h3 class="font-bold text-base mb-1">Brigadeiro Tradicional</h3>
-            <button onclick="openModal('WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg', 'Brigadeiro Tradicional', 'Nosso clássico indispensável. Feito com cacau 64% de alta qualidade, garantindo um equilíbrio perfeito entre o dulçor e o amargor do chocolate. Textura aveludada, finalizado com granulado belga nobre.')" class="text-sm text-[#8B4513] underline mb-4">Ver detalhes</button>
-            <button class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-bold">+ Selecionar</button>
-        </div>
+      <!-- COLUNA PRINCIPAL -->
+      <div class="lg:col-span-8 space-y-8">
+        
+        <!-- PASSO 1: CONFIGURAÇÃO DE EMBALAGEM -->
+        <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="bg-[#8B4513] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <h2 class="text-xl font-bold text-[#8B4513]">Selecione o tamanho da sua caixa</h2>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="opcoes-caixas">
+            <!-- Gerado dinamicamente -->
+          </div>
+        </section>
+
+        <!-- PASSO 2: FILTROS E PESQUISA -->
+        <section class="space-y-4">
+          <div class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+              <input type="text" id="busca-sabor" oninput="filtrarSabores()" placeholder="🔎 Digite para buscar um sabor..." class="w-full px-5 py-4 bg-white rounded-2xl border border-[#E8D5B5] focus:outline-none focus:ring-2 focus:ring-[#8B4513] text-[#3B2A1E]">
+            </div>
+          </div>
+
+          <!-- Abas de Categorias -->
+          <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar" id="abas-categorias">
+            <!-- Gerado dinamicamente -->
+          </div>
+        </section>
+
+        <!-- GRID DE DOCES -->
+        <section>
+          <div id="cardapio-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            <!-- Gerado dinamicamente -->
+          </div>
+        </section>
+
       </div>
 
-      <!-- Doce 2 -->
-      <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden">
-        <div class="w-full h-64 flex items-center justify-center bg-gray-50">
-            <img src="WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg" alt="Ninho" class="h-full w-full object-contain">
-        </div>
-        <div class="p-4 w-full">
-            <h3 class="font-bold text-base mb-1">Leite Ninho</h3>
-            <button onclick="openModal('WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg', 'Leite Ninho', 'O favorito de quem ama o sabor reconfortante do leite. Nossa massa de Leite Ninho premium tem uma textura incrivelmente cremosa que desmancha na boca. Uma verdadeira experiência de doçura delicada.')" class="text-sm text-[#8B4513] underline mb-4">Ver detalhes</button>
-            <button class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-bold">+ Selecionar</button>
-        </div>
+      <!-- COLUNA LATERAL DE RESUMO -->
+      <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
+        <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-lg space-y-6">
+          <div class="border-b border-[#E8D5B5] pb-4">
+            <h2 class="text-xl font-bold text-[#8B4513]">Resumo da Encomenda</h2>
+            <p class="text-xs text-gray-500 mt-1">Configure sua caixa para finalizar</p>
+          </div>
+
+          <!-- Progresso -->
+          <div class="space-y-3" id="painel-progresso">
+            <div class="flex justify-between text-sm font-semibold">
+              <span id="label-progresso-doces">Selecione uma caixa</span>
+              <span id="contagem-doces">0 / 0</span>
+            </div>
+            <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+              <div id="barra-progresso" class="bg-[#8B4513] h-full transition-all duration-300 w-0"></div>
+            </div>
+            <div id="status-sabores" class="text-xs font-medium text-gray-600">
+              Escolha de sabores: 0 sabores escolhidos.
+            </div>
+          </div>
+
+          <!-- Sabores selecionados -->
+          <div class="border-t border-b border-gray-100 py-4 max-h-[25vh] overflow-y-auto space-y-2 no-scrollbar" id="lista-selecionados">
+            <p class="text-sm text-gray-400 text-center py-4">Nenhum sabor selecionado ainda.</p>
+          </div>
+
+          <!-- Preço e Envio -->
+          <div class="space-y-4">
+            <div class="flex justify-between items-center text-lg font-bold">
+              <span>Valor Total:</span>
+              <span class="text-2xl text-[#8B4513]" id="valor-total">R$ 0,00</span>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Seu Nome *</label>
+                <input type="text" id="nome-cliente" placeholder="Seu nome completo" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="atualizarEstadoBotao()">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Data de Entrega Desejada *</label>
+                <input type="date" id="data-desejada" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="atualizarEstadoBotao()">
+              </div>
+            </div>
+
+            <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-bold text-lg shadow-lg hover:bg-[#6e3710] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none transition-all flex items-center justify-center gap-2">
+              WhatsApp Encomendar
+            </button>
+            <p class="text-[10px] text-gray-400 text-center">Pedido mínimo de 25 doces. Confirmação de agenda e pagamentos via Pix são finalizados no chat.</p>
+          </div>
+        </section>
       </div>
 
     </div>
+
   </main>
 
+  <!-- Rodapé Móvel -->
+  <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B5] shadow-2xl p-4 flex justify-between items-center z-40">
+    <div>
+      <p id="mobile-resumo-caixa" class="text-xs text-gray-500 font-bold">Selecione uma caixa</p>
+      <p id="mobile-resumo-total" class="text-lg font-extrabold text-[#8B4513]">R$ 0,00</p>
+    </div>
+    <button onclick="scrollParaCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md">
+      Ver Pedido
+    </button>
+  </div>
+
   <script>
-    function openModal(src, title, desc) {
-      document.getElementById('modal-img').src = src;
+    // Regras de Embalagem e Limites do Cardápio 2026
+    const caixas = {
+      '25': { id: '25', titulo: 'Caixa de 25 Doces', limiteSabores: 7, totalDoces: 25 },
+      '35': { id: '35', titulo: 'Caixa de 35 Doces', limiteSabores: 7, totalDoces: 35 },
+      '50': { id: '50', titulo: 'Caixa de 50 Doces', limiteSabores: 10, totalDoces: 50 },
+      '100': { id: '100', titulo: 'Caixa de 100 Doces', limiteSabores: 14, totalDoces: 100 },
+      'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (25 Sabores Sortidos)', limiteSabores: 0, totalDoces: 25, precoFixo: 75.00 }
+    };
+
+    // BANCO DE DADOS COMPLETO - 55 SABORES EXTRAÍDOS DO CARDÁPIO OFICIAL 2026
+    const catalogo = [
+      {
+        categoria: "Tradicionais (R$ 3,25)",
+        itens: [
+          { id: "brigadeiro_trad", nome: "Brigadeiro Tradicional", preco: 3.25, desc: "Cacau nobre com textura ultra cremosa, enrolado com o granulado clássico.", img: "images/Brigadeiro Tradicional.jpg" },
+          { id: "meio_amargo", nome: "Brigadeiro Meio Amargo", preco: 3.25, desc: "Cacau 54% nobre, perfeito equilíbrio entre o dulçor e a intensidade do cacau.", img: "images/Brigadeiro Meio Amargo.jpg" },
+          { id: "amargo_70", nome: "Brigadeiro Amargo 70%", preco: 3.25, desc: "Intenso sabor de chocolate amargo 70% belga, finalizado com granulado nobre amargo.", img: "images/Brigadeiro Amargo 70%.jpg" },
+          { id: "branquinho", nome: "Branquinho Clássico", preco: 3.25, desc: "O tradicional brigadeiro branco feito com leite condensado premium e cozido lentamente.", img: "images/Branquinho Clássico.jpg" },
+          { id: "beijinho", nome: "Beijinho de Coco", preco: 3.25, desc: "Massa super cremosa cozida com coco ralado fresco e envolvida em flocos de coco.", img: "images/Beijinho de Coco.jpg" },
+          { id: "leite_ninho_trad", nome: "Leite Ninho", preco: 3.25, desc: "O clássico favorito da nossa doceria, feito inteiramente com Leite Ninho premium.", img: "images/Leite Ninho.jpg" },
+          { id: "doce_leite_artesanal", nome: "Doce de Leite Artesanal", preco: 3.25, desc: "Brigadeiro feito com doce de leite de cozimento lento e textura aveludada.", img: "images/Doce de Leite Artesanal.jpg" },
+          { id: "bicho_de_pe", nome: "Bicho de Pé (Morango)", preco: 3.25, desc: "O marcante e nostálgico brigadeiro rosa de morango de infância.", img: "images/Bicho de Pé.jpg" },
+          { id: "cajuzinho", nome: "Cajuzinho da Vovó", preco: 3.25, desc: "Deliciosa massa de amendoim tostado artesanal moído, cozido e enrolado no açúcar.", img: "images/Cajuzinho da Vovó.jpg" }
+        ]
+      },
+      {
+        categoria: "Especiais & Recheados",
+        itens: [
+          { id: "casadinho", nome: "Casadinho Clássico", preco: 3.25, desc: "A combinação perfeita de tradicional ao leite e branquinho enrolados juntos.", img: "images/Casadinho Clássico.jpg" },
+          { id: "dois_amores", nome: "Dois Amores", preco: 3.25, desc: "Destaque visual e de sabor das duas massas clássicas da OBA enroladas em sintonia.", img: "images/Dois Amores.jpg" },
+          { id: "ninho_nutella", nome: "Ninho com Nutella", preco: 4.00, desc: "Massa de Leite Ninho super cremosa com recheio generoso de Nutella pura.", img: "images/Ninho com Nutella.jpg" },
+          { id: "nutella_puro", nome: "Nutella Puro", preco: 4.00, desc: "Brigadeiro ao leite premium recheado e coberto com Nutella italiana cremosa.", img: "images/Nutella Puro.jpg" },
+          { id: "churros", nome: "Churros Artesanal", preco: 3.25, desc: "Massa com toque leve de canela, recheada com doce de leite artesanal no topo.", img: "images/Churros Gourmet.jpg" },
+          { id: "palha_italiana", nome: "Palha Italiana", preco: 3.25, desc: "Nosso brigadeiro de chocolate cozido com crocantes de biscoito Maizena triturado.", img: "images/Palha Italiana.jpg" },
+          { id: "oreo", nome: "Oreo Crocante", preco: 3.25, desc: "Brigadeiro de branquinho recheado e envolvido por biscoitos Oreo picados.", img: "images/Oreo Crocante.jpg" },
+          { id: "doce_leite_coco", nome: "Doce de Leite com Coco", preco: 3.25, desc: "Cremosa massa de doce de leite envolvida por coco ralado tostado na panela.", img: "images/Doce de Leite com Coco.jpg" },
+          { id: "kitkat", nome: "KitKat Lovers", preco: 4.00, desc: "Brigadeiro de chocolate belga envolto por generosos pedacinhos crocantes de KitKat.", img: "images/KitKat Lovers.jpg" },
+          { id: "kinder_bueno", nome: "Kinder Bueno Gourmet", preco: 4.00, desc: "Massa com creme de avelã nobre e pedaço de Kinder Bueno no acabamento.", img: "images/Kinder Bueno Gourmet.jpg" },
+          { id: "sonho_de_valsa", nome: "Sonho de Valsa", preco: 4.00, desc: "Brigadeiro cremoso recheado com pedaços do bombom Sonho de Valsa.", img: "images/Sonho de Valsa.jpg" },
+          { id: "ouro_branco", nome: "Ouro Branco Gourmet", preco: 4.00, desc: "Cremoso branquinho gourmet com lascas crocantes do bombom Ouro Branco.", img: "images/Ouro Branco Gourmet.jpg" },
+          { id: "ferrero_rocher", nome: "Ferrero Rocher", preco: 4.00, desc: "Brigadeiro de avelã com recheio crocante e cobertura de amendoim picado.", img: "images/Ferrero Rocher Gourmet.jpg" },
+          { id: "sensacao_morango", nome: "Sensação de Morango", preco: 4.00, desc: "Chocolate meio amargo com o contraste perfeito da nossa geleia artesanal de morango.", img: "images/Sensação de Morango.jpg" }
+        ]
+      },
+      {
+        categoria: "Nozes e Castanhas",
+        itens: [
+          { id: "camafeu", nome: "Camafeu de Nozes", preco: 4.00, desc: "Doce refinado de nozes selecionadas moídas, coberto com um fondant de açúcar especial.", img: "images/Camafeu de Nozes.jpg" },
+          { id: "brigadeiro_nozes", nome: "Brigadeiro de Nozes", preco: 4.00, desc: "Cremosa massa de chocolate branco cozida com pedaços graúdos de nozes chilenas.", img: "images/Brigadeiro de Nozes.jpg" },
+          { id: "castanha_caju", nome: "Castanha de Caju", preco: 4.00, desc: "Tradicional doce enrolado no crocante xerém de castanhas de caju tostadas.", img: "images/Castanha de Caju.jpg" },
+          { id: "amendoas", nome: "Amêndoas Tostadas", preco: 4.00, desc: "Massa de cacau nobre decorada com finas lâminas douradas de amêndoas tostadas.", img: "images/Amêndoas Tostadas.jpg" },
+          { id: "macadamia", nome: "Macadâmia Caramelizada", preco: 4.00, desc: "Harmonia espetacular de macadâmias crocantes e brigadeiro gourmet de panela.", img: "images/Macadâmia Caramelizada.jpg" },
+          { id: "nozes_doce_leite", nome: "Nozes com Doce de Leite", preco: 4.00, desc: "Brigadeiro de doce de leite de panela com pedaços crocantes de nozes nobres.", img: "images/Nozes com Doce de Leite.jpg" },
+          { id: "nozes_damasco", nome: "Nozes com Damasco", preco: 4.00, desc: "Brigadeiro de nozes refinado decorado com tiras de damascos turcos no acabamento.", img: "images/Nozes com Damasco.jpg" }
+        ]
+      },
+      {
+        categoria: "Frutas Finas",
+        itens: [
+          { id: "uva_branco", nome: "Uva com Brigadeiro Branco", preco: 3.25, desc: "Uva verde sem semente crocante e fresca, envolta por finíssima massa de branquinho.", img: "images/Uva com Brigadeiro Branco.jpg" },
+          { id: "limao_siciliano", nome: "Limão Siciliano", preco: 3.25, desc: "Cítrico e aveludado, preparado com raspas frescas de limão siciliano.", img: "images/Limão Siciliano.jpg" },
+          { id: "maracuja_silvestre", nome: "Maracujá Silvestre", preco: 3.25, desc: "Brigadeiro branco cítrico feito com redução artesanal de maracujá da horta.", img: "images/Maracujá Silvestre.jpg" },
+          { id: "abacaxi_coco", nome: "Coco com Abacaxi", preco: 3.25, desc: "Brigadeiro de coco super cremoso preenchido com geleia fresca de abacaxi da horta.", img: "images/Coco com Abacaxi.jpg" },
+          { id: "damasco_nobre", nome: "Damasco Nobre", preco: 4.00, desc: "Doce refinado de chocolate branco cozido com cubos macios de damascos selecionados.", img: "images/Damasco Nobre.jpg" },
+          { id: "limao_torta", nome: "Limão Torta Gourmet", preco: 3.25, desc: "Brigadeiro de limão envolvido em farofa doce de biscoito e toque de raspas.", img: "images/Brigadeiro de Limão Torta.jpg" },
+          { id: "maracuja_chocolate", nome: "Maracujá com Chocolate", preco: 3.25, desc: "Massa de maracujá cítrico recheada com brigadeiro de cacau belga.", img: "images/Brigadeiro de Maracujá com Chocolate.jpg" },
+          { id: "cereja_marrasquino", nome: "Cereja ao Marrasquino", preco: 4.00, desc: "Brigadeiro branco recheado com cereja inteira em calda e finalizado elegantemente.", img: "images/Brigadeiro de Cereja ao Marrasquino.jpg" }
+        ]
+      },
+      {
+        categoria: "Café & Sofisticados",
+        itens: [
+          { id: "creme_brulee", nome: "Crème Brûlée", preco: 4.00, desc: "Brigadeiro de baunilha caramelizado na hora com casquinha crocante de açúcar maçaricado.", img: "images/Crème Brûlée.jpg" },
+          { id: "cappuccino", nome: "Cappuccino com Doce de Leite", preco: 4.00, desc: "Massa de café aromático com recheio cremoso e acabamento de canela fina.", img: "images/Cappuccino com Doce de Leite.jpg" },
+          { id: "cafe_espresso", nome: "Café Espresso", preco: 3.25, desc: "Brigadeiro meio amargo com o toque profundo de grãos de café espresso artesanal.", img: "images/Café Espresso.jpg" },
+          { id: "red_velvet", nome: "Red Velvet", preco: 4.00, desc: "Aveludada massa vermelha de cacau recheada com frosting suave de cream cheese.", img: "images/Red Velvet.jpg" },
+          { id: "amarula_gourmet", nome: "Brigadeiro de Amarula", preco: 4.00, desc: "Massa de chocolate nobre com sabor marcante do licor fino de Amarula.", img: "images/Brigadeiro de Amarula.jpg" },
+          { id: "champagne", nome: "Brigadeiro de Champagne", preco: 4.00, desc: "Massa branca refinada infusionada com champagne nobre, para eventos marcantes.", img: "images/Brigadeiro de Champagne.jpg" },
+          { id: "belga_caramelizado", nome: "Belga Caramelizado", preco: 4.00, desc: "Cacau nobre caramelizado lentamente no processo de cozimento artesanal.", img: "images/Brigadeiro Belga Caramelizado.jpg" }
+        ]
+      },
+      {
+        categoria: "Queijos Especiais",
+        itens: [
+          { id: "romeu_julieta", nome: "Romeu e Julieta", preco: 3.25, desc: "Incrível fusão de brigadeiro de cream cheese com goiabada cascão artesanal.", img: "images/Romeu e Julieta.jpg" },
+          { id: "gorgonzola_damasco", nome: "Gorgonzola com Damasco", preco: 4.25, desc: "Brigadeiro suave de gorgonzola premium recheado com geleia turca de damasco.", img: "images/Gorgonzola com Damasco.jpg" },
+          { id: "gorgonzola_morango", nome: "Gorgonzola com Geleia de Morango", preco: 4.25, desc: "Mistura sofisticada de gorgonzola gourmet suave com nossa geleia caseira de morango.", img: "images/Gorgonzola com Geleia de Morango.jpg" },
+          { id: "queijo_doce_leite", nome: "Queijo com Doce de Leite", preco: 3.25, desc: "União deliciosa de queijo cremoso suave com recheio de doce de leite artesanal.", img: "images/Queijo com Doce de Leite.jpg" },
+          { id: "mascarpone_frutas", nome: "Mascarpone com Frutas Vermelhas", preco: 4.25, desc: "Brigadeiro de queijo mascarpone gourmet com nossa exclusiva redução de frutas vermelhas.", img: "images/Brigadeiro de Mascarpone com Frutas Vermelhas.jpg" }
+        ]
+      },
+      {
+        categoria: "Linha Pistache Puro",
+        itens: [
+          { id: "pistache_puro", nome: "Pistache Puro", preco: 4.25, desc: "Feito exclusivamente com nossa pasta artesanal de puro pistache (sem essências artificiais).", img: "images/Pistache Puro.jpg" },
+          { id: "pistache_morango", nome: "Pistache com Geleia de Morango", preco: 4.25, desc: "Brigadeiro de pistache artesanal harmonizado com nossa geleia fresca de morango.", img: "images/Pistache com Geleia de Morango.jpg" },
+          { id: "pistache_crocante", nome: "Pistache Crocante", preco: 4.25, desc: "Massa fina de pistache envolta em pedaços tostados e crocantes de pistache.", img: "images/Pistache Crocante.jpg" },
+          { id: "pistache_belga", nome: "Pistache com Chocolate Belga", preco: 4.25, desc: "Brigadeiro de pistache cozido envolto com granulado belga nobre de chocolate.", img: "images/Pistache com Chocolate Belga.jpg" }
+        ]
+      }
+    ];
+
+    // Estado Geral da Aplicação
+    let caixaAtiva = null;
+    let quantidades = {}; 
+    let categoriaAtiva = "Todos";
+
+    // Tolerância Dinâmica de Formato de Imagem (Tratamento de Erros)
+    function handleImageError(imgElement, name) {
+      imgElement.onerror = null; // Evita loop infinito de erro
+      
+      const currentSrc = imgElement.src;
+      
+      // Tenta alternar entre formatos de arquivo dentro de images/ antes do backup
+      if (currentSrc.endsWith('.jpg')) {
+        imgElement.src = `images/${name}.png`;
+      } else if (currentSrc.endsWith('.png')) {
+        imgElement.src = `images/${name}.jpeg`;
+      } else if (currentSrc.endsWith('.jpeg')) {
+        imgElement.src = `images/${name}.JPG`;
+      } else {
+        // Se todas as tentativas falharem, usa um dos arquivos reais que temos na raiz
+        const fallbacks = [
+          "WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg",
+          "WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg"
+        ];
+        const hash = name.charCodeAt(0) || 0;
+        imgElement.src = fallbacks[hash % 2];
+      }
+    }
+
+    // Inicialização
+    function init() {
+      renderizarOpcoesCaixas();
+      renderizarAbasCategorias();
+      renderizarDoces();
+      atualizarInterface();
+    }
+
+    // Etapa 1: Opções de Caixas
+    function renderizarOpcoesCaixas() {
+      const container = document.getElementById('opcoes-caixas');
+      container.innerHTML = "";
+      Object.values(caixas).forEach(box => {
+        container.innerHTML += `
+          <button onclick="selecionarCaixa('${box.id}')" id="btn-caixa-${box.id}" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm">
+            <div>
+              <span id="badge-caixa-${box.id}" class="hidden absolute top-3 right-3 bg-[#8B4513] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">ATIVADA</span>
+              <h3 class="font-extrabold text-sm text-[#8B4513] pr-12">${box.titulo}</h3>
+              <p class="text-[11px] text-gray-500 mt-1">
+                ${box.id === 'degustacao' ? 'Sabores variados selecionados pela doceria no dia.' : `Escolha até ${box.limiteSabores} sabores diferentes.`}
+              </p>
+            </div>
+            <div class="mt-3 text-xs font-bold text-gray-700">
+              ${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculado conforme sabores'}
+            </div>
+          </button>
+        `;
+      });
+    }
+
+    function selecionarCaixa(id) {
+      caixaAtiva = caixas[id];
+      quantidades = {}; // Reseta seleções
+      
+      Object.keys(caixas).forEach(boxId => {
+        const btn = document.getElementById(`btn-caixa-${boxId}`);
+        const badge = document.getElementById(`badge-caixa-${boxId}`);
+        if (boxId === id) {
+          btn.className = "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-md";
+          badge.classList.remove('hidden');
+        } else {
+          btn.className = "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm";
+          badge.classList.add('hidden');
+        }
+      });
+
+      if (id === 'degustacao') {
+        mostrarNotificacao("Caixa Degustação ativada! Nós selecionamos os sabores para você.", "sucesso");
+      } else {
+        mostrarNotificacao(`Você ativou a ${caixaAtiva.titulo}. Escolha os doces!`, "sucesso");
+      }
+
+      renderizarDoces();
+      atualizarInterface();
+    }
+
+    // Etapa 2: Categorias
+    function renderizarAbasCategorias() {
+      const container = document.getElementById('abas-categorias');
+      container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">Todos</button>`;
+      
+      catalogo.forEach(g => {
+        container.innerHTML += `
+          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.categoria.replace(/\s+/g, '')}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">
+            ${g.categoria.split(" (")[0]}
+          </button>
+        `;
+      });
+      atualizarVisualAbas();
+    }
+
+    function filtrarCategoria(cat) {
+      categoriaAtiva = cat;
+      atualizarVisualAbas();
+      renderizarDoces();
+    }
+
+    function atualizarVisualAbas() {
+      const abaTodos = document.getElementById('aba-Todos');
+      if (categoriaAtiva === 'Todos') {
+        abaTodos.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-[#8B4513] text-white shadow-md";
+      } else {
+        abaTodos.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5] hover:bg-gray-50";
+      }
+
+      catalogo.forEach(g => {
+        const idAba = `aba-${g.categoria.replace(/\s+/g, '')}`;
+        const btn = document.getElementById(idAba);
+        if (btn) {
+          if (categoriaAtiva === g.categoria) {
+            btn.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-[#8B4513] text-white shadow-md";
+          } else {
+            btn.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5] hover:bg-gray-50";
+          }
+        }
+      });
+    }
+
+    // Etapa 3: Grid de Doces
+    function renderizarDoces() {
+      const grid = document.getElementById('cardapio-grid');
+      const termoBusca = document.getElementById('busca-sabor').value.toLowerCase();
+      grid.innerHTML = "";
+
+      let docesExibidos = 0;
+
+      catalogo.forEach(g => {
+        if (categoriaAtiva !== "Todos" && categoriaAtiva !== g.categoria) return;
+
+        g.itens.forEach(item => {
+          if (termoBusca && !item.nome.toLowerCase().includes(termoBusca) && !item.desc.toLowerCase().includes(termoBusca)) return;
+
+          const qtd = quantidades[item.id] || 0;
+          docesExibidos++;
+
+          grid.innerHTML += `
+            <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden transition-all hover:shadow-lg">
+              <div class="w-full h-48 md:h-56 flex items-center justify-center bg-gray-50 overflow-hidden relative">
+                <!-- Busca a foto na pasta images/ com fallback inteligente -->
+                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-contain" onerror="handleImageError(this, '${item.nome}')">
+              </div>
+              <div class="p-4 w-full flex flex-col flex-1 justify-between">
+                <div>
+                  <h3 class="font-bold text-sm md:text-base mb-1 text-[#3B2A1E] line-clamp-1">${item.nome}</h3>
+                  <button onclick="openModal('${item.img}', '${item.nome}', '${item.desc}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-xs text-[#8B4513] underline mb-3 inline-block">Ver detalhes</button>
+                </div>
+
+                <div class="w-full">
+                  <p class="text-xs text-gray-500 font-semibold mb-2">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
+                  
+                  ${caixaAtiva && caixaAtiva.id !== 'degustacao' ? `
+                    <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1">
+                      <button onclick="alterarQtd('${item.id}', -1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-white hover:bg-gray-100 text-[#8B4513] transition-colors">-</button>
+                      <span class="font-bold text-sm mx-2 text-[#3B2A1E]">${qtd}</span>
+                      <button onclick="alterarQtd('${item.id}', 1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-[#8B4513] text-white hover:bg-[#6e3710] transition-colors">+</button>
+                    </div>
+                  ` : `
+                    <button onclick="lembreteCaixa()" class="w-full py-2 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold transition-all hover:bg-gray-200">
+                      Escolha a caixa
+                    </button>
+                  `}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      });
+
+      if (docesExibidos === 0) {
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-gray-400 font-medium">Nenhum sabor encontrado. Tente buscar outro termo!</div>`;
+      }
+    }
+
+    function filtrarSabores() {
+      renderizarDoces();
+    }
+
+    function lembreteCaixa() {
+      mostrarNotificacao("Ative o tamanho da caixa na Etapa 1 primeiro!", "aviso");
+      document.getElementById('opcoes-caixas').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Regra Matemática de Seleção de Doces e Sabores
+    function alterarQtd(id, delta) {
+      if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
+
+      const qtdAtual = quantidades[id] || 0;
+      const novaQtd = qtdAtual + delta;
+
+      if (novaQtd < 0) return;
+
+      const totalDesejado = caixaAtiva.totalDoces;
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+
+      // 1. Bloquear se tentar adicionar mais do que o limite da caixa
+      if (delta > 0 && totalSelecionado >= totalDesejado) {
+        mostrarNotificacao(`Sua caixa de ${totalDesejado} doces já está completa!`, "aviso");
+        return;
+      }
+
+      // 2. Bloquear se ultrapassar o limite de sabores diferentes permitidos
+      const saboresAtivos = Object.entries(quantidades).filter(([_, v]) => v > 0);
+      const jaContemSabor = quantidades[id] > 0;
+
+      if (delta > 0 && !jaContemSabor && saboresAtivos.length >= caixaAtiva.limiteSabores) {
+        mostrarNotificacao(`Essa caixa permite até ${caixaAtiva.limiteSabores} sabores diferentes.`, "aviso");
+        return;
+      }
+
+      if (novaQtd === 0) {
+        delete quantidades[id];
+      } else {
+        quantidades[id] = novaQtd;
+      }
+
+      renderizarDoces();
+      atualizarInterface();
+    }
+
+    function encontrarDoce(id) {
+      for (let g of catalogo) {
+        for (let item of g.itens) {
+          if (item.id === id) return item;
+        }
+      }
+      return null;
+    }
+
+    // Atualização do Resumo
+    function atualizarInterface() {
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      const listaContainer = document.getElementById('lista-selecionados');
+      const progressLabel = document.getElementById('label-progresso-doces');
+      const progressContagem = document.getElementById('contagem-doces');
+      const progressBar = document.getElementById('barra-progresso');
+      const textStatusSabores = document.getElementById('status-sabores');
+      const labelValor = document.getElementById('valor-total');
+      
+      const mobileCaixa = document.getElementById('mobile-resumo-caixa');
+      const mobileTotal = document.getElementById('mobile-resumo-total');
+
+      listaContainer.innerHTML = "";
+
+      if (!caixaAtiva) {
+        progressLabel.innerText = "Selecione uma caixa";
+        progressContagem.innerText = "0 / 0";
+        progressBar.style.width = "0%";
+        textStatusSabores.innerText = "Escolha de sabores: 0 sabores.";
+        listaContainer.innerHTML = `<p class="text-sm text-gray-400 text-center py-4">Escolha a caixa para iniciar.</p>`;
+        labelValor.innerText = "R$ 0,00";
+        mobileCaixa.innerText = "Selecione uma caixa";
+        mobileTotal.innerText = "R$ 0,00";
+        atualizarEstadoBotao();
+        return;
+      }
+
+      // Se for Caixa Degustação (Sabores Sortidos do Dia)
+      if (caixaAtiva.id === 'degustacao') {
+        progressLabel.innerText = "Caixa Pronta";
+        progressContagem.innerText = "25 / 25";
+        progressBar.style.width = "100%";
+        textStatusSabores.innerText = "Sabores mistos selecionados pela doceria.";
+        listaContainer.innerHTML = `
+          <div class="flex justify-between items-center bg-gray-50 p-2.5 rounded-xl border border-[#E8D5B5]">
+            <span class="text-sm font-semibold">25 Sabores Sortidos do Dia</span>
+            <span class="text-xs bg-[#8B4513] text-white px-2 py-0.5 rounded-full font-bold">1 Caixa</span>
+          </div>
+        `;
+        const total = caixaAtiva.precoFixo;
+        labelValor.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        mobileCaixa.innerText = "Caixa Degustação";
+        mobileTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        atualizarEstadoBotao();
+        return;
+      }
+
+      // Caixa Customizada
+      const totalDesejado = caixaAtiva.totalDoces;
+      progressLabel.innerText = "Seu progresso da caixa:";
+      progressContagem.innerText = `${totalSelecionado} / ${totalDesejado}`;
+      
+      const pct = (totalSelecionado / totalDesejado) * 100;
+      progressBar.style.width = `${pct}%`;
+
+      const saboresAtivos = Object.entries(quantidades).filter(([_, v]) => v > 0);
+      textStatusSabores.innerText = `Sabores: ${saboresAtivos.length} de no máximo ${caixaAtiva.limiteSabores} diferentes.`;
+
+      let valorCalculado = 0;
+
+      if (saboresAtivos.length > 0) {
+        saboresAtivos.forEach(([id, q]) => {
+          const doce = encontrarDoce(id);
+          if (doce) {
+            valorCalculado += doce.preco * q;
+            listaContainer.innerHTML += `
+              <div class="flex justify-between items-center bg-[#FFF8F0] p-2 rounded-xl border border-[#E8D5B5] text-xs">
+                <span class="font-bold text-[#3B2A1E]">${doce.nome}</span>
+                <div class="flex items-center gap-2">
+                  <span class="text-gray-500">(${q} un)</span>
+                  <button onclick="alterarQtd('${id}', -1)" class="text-[#8B4513] font-bold px-1 hover:bg-gray-100 rounded">✕</button>
+                </div>
+              </div>
+            `;
+          }
+        });
+      } else {
+        listaContainer.innerHTML = `<p class="text-sm text-gray-400 text-center py-4">Nenhum sabor adicionado ainda.</p>`;
+      }
+
+      labelValor.innerText = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
+      mobileCaixa.innerText = `${caixaAtiva.titulo} (${totalSelecionado}/${totalDesejado})`;
+      mobileTotal.innerText = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
+      
+      atualizarEstadoBotao();
+    }
+
+    function atualizarEstadoBotao() {
+      const btn = document.getElementById('btn-whatsapp');
+      const nome = document.getElementById('nome-cliente').value.trim();
+      const data = document.getElementById('data-desejada').value;
+
+      if (!caixaAtiva) {
+        btn.disabled = true;
+        return;
+      }
+
+      if (caixaAtiva.id === 'degustacao') {
+        btn.disabled = !(nome.length > 2 && data !== "");
+        return;
+      }
+
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      const totalDesejado = caixaAtiva.totalDoces;
+
+      // Habilita somente se o nome for válido, data estiver preenchida e a caixa estiver exatamente cheia
+      btn.disabled = !(nome.length > 2 && data !== "" && totalSelecionado === totalDesejado);
+    }
+
+    // Disparar Encomenda para o WhatsApp
+    function enviarPedidoWhatsApp() {
+      const nome = document.getElementById('nome-cliente').value.trim();
+      const data = document.getElementById('data-desejada').value;
+      const [ano, mes, dia] = data.split('-');
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+
+      let valorTotalStr = document.getElementById('valor-total').innerText;
+
+      let texto = `Olá, OBA Doceria! Gostaria de agendar uma encomenda:\n\n`;
+      texto += `*CLIENTE:* ${nome}\n`;
+      texto += `*DATA DESEJADA:* ${dataFormatada}\n`;
+      texto += `*OPÇÃO:* ${caixaAtiva.titulo}\n`;
+      texto += `*VALOR ESTIMADO:* ${valorTotalStr}\n\n`;
+
+      if (caixaAtiva.id !== 'degustacao') {
+        texto += `*SABORES ESCOLHIDOS:*\n`;
+        Object.entries(quantidades).forEach(([id, q]) => {
+          if (q > 0) {
+            const doceObj = encontrarDoce(id);
+            if (doceObj) {
+              texto += `- ${q} un. ${doceObj.nome} (R$ ${doceObj.preco.toFixed(2).replace('.', ',')} / un)\n`;
+            }
+          }
+        });
+      } else {
+        texto += `_Caixa degustação com os 25 sabores sortidos do dia selecionados pela doceria._\n`;
+      }
+
+      // Número oficial da doceria do PDF
+      const fone = "5555999117626"; 
+      const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
+      
+      window.open(url, '_blank');
+    }
+
+    // Modal
+    function openModal(src, title, desc, price, id) {
+      const modalImg = document.getElementById('modal-img');
+      modalImg.src = src;
+      modalImg.alt = title;
       document.getElementById('modal-title').innerText = title;
       document.getElementById('modal-desc').innerText = desc;
+      document.getElementById('modal-price').innerText = price;
+      
+      const modalBtn = document.getElementById('modal-add-btn');
+
+      if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
+        modalBtn.innerText = "Adicionar ao Pedido";
+        modalBtn.disabled = false;
+        modalBtn.onclick = function() {
+          alterarQtd(id, 1);
+          closeModal();
+        };
+      } else {
+        modalBtn.innerText = "Selecione a Caixa Primeiro";
+        modalBtn.onclick = function() {
+          closeModal();
+          lembreteCaixa();
+        };
+      }
+
       document.getElementById('modal').classList.remove('hidden');
     }
+
     function closeModal() {
       document.getElementById('modal').classList.add('hidden');
     }
+
+    // Toast Premium de Aviso
+    function mostrarNotificacao(mensagem, tipo = 'aviso') {
+      const toast = document.getElementById('custom-toast');
+      const toastText = document.getElementById('toast-text');
+      
+      toastText.innerText = message = mensagem;
+      
+      if (tipo === 'sucesso') {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#3B2A1E] text-white font-bold text-sm text-center";
+      } else {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#8B4513] text-white font-bold text-sm text-center";
+      }
+      
+      setTimeout(() => {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none";
+      }, 4000);
+    }
+
+    function scrollParaCheckout() {
+      const el = document.getElementById('nome-cliente');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.focus();
+    }
+
+    window.onload = init;
   </script>
 
 </body>
