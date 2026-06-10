@@ -9,20 +9,22 @@
 <body class="bg-[#FFF8F0] text-[#3B2A1E]">
 
   <!-- Modal de Detalhes -->
-  <div id="modal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-2" onclick="closeModal()">
-    <div class="bg-white max-w-2xl w-full max-h-[90vh] rounded-3xl p-4 relative shadow-2xl overflow-y-auto" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-20 rounded-full p-2 z-10 text-white text-xl">✕</button>
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-0" onclick="closeModal()">
+    <div class="bg-white w-full h-full md:h-auto md:max-w-2xl md:rounded-3xl relative shadow-2xl flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 rounded-full p-2 z-20 text-white text-2xl">✕</button>
       
-      <!-- Imagem inteira com destaque -->
-      <img id="modal-img" src="" alt="Doce" class="w-full h-auto max-h-[60vh] object-contain rounded-2xl mb-6 mx-auto">
+      <!-- Imagem ocupando espaço generoso no modal -->
+      <div class="flex-1 flex items-center justify-center bg-white p-4">
+          <img id="modal-img" src="" alt="Doce" class="max-h-[60vh] w-auto object-contain">
+      </div>
       
-      <div class="px-2">
-        <h2 id="modal-title" class="text-3xl font-bold text-[#8B4513] mb-3"></h2>
-        <p id="modal-desc" class="text-lg text-gray-700 mb-8 leading-relaxed"></p>
+      <div class="p-6 border-t border-gray-100">
+        <h2 id="modal-title" class="text-3xl font-bold text-[#8B4513] mb-2"></h2>
+        <p id="modal-desc" class="text-lg text-gray-700 mb-6 leading-relaxed"></p>
         
-        <div class="flex items-center justify-between border-t border-gray-100 pt-6">
+        <div class="flex items-center justify-between pt-2">
           <span class="text-2xl font-bold text-[#8B4513]">Consultar valor</span>
-          <button class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95">Adicionar ao Pedido</button>
+          <button class="px-8 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710]">Adicionar ao Pedido</button>
         </div>
       </div>
     </div>
@@ -38,8 +40,8 @@
       
       <!-- Doce 1 -->
       <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden">
-        <div class="w-full h-64 overflow-hidden">
-            <img src="WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg" alt="Brigadeiro" class="w-full h-full object-cover object-center">
+        <div class="w-full h-64 bg-white flex items-center justify-center p-2">
+            <img src="WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg" alt="Brigadeiro" class="h-full w-full object-contain">
         </div>
         <div class="p-4 w-full">
             <h3 class="font-bold text-base mb-1">Brigadeiro Tradicional</h3>
@@ -50,8 +52,8 @@
 
       <!-- Doce 2 -->
       <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden">
-        <div class="w-full h-64 overflow-hidden">
-            <img src="WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg" alt="Ninho" class="w-full h-full object-cover object-center">
+        <div class="w-full h-64 bg-white flex items-center justify-center p-2">
+            <img src="WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg" alt="Leite Ninho" class="h-full w-full object-contain">
         </div>
         <div class="p-4 w-full">
             <h3 class="font-bold text-base mb-1">Leite Ninho</h3>
