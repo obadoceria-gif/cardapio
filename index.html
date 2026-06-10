@@ -6,37 +6,25 @@
   <title>OBA Doceria | Cardápio Interativo Oficial 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Barra de rolagem horizontal invisível mas funcional */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-[#FFF8F0] text-[#3B2A1E] font-sans antialiased">
 
-  <!-- Toast de Notificação -->
   <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
     <span id="toast-text" class="font-bold text-center w-full"></span>
   </div>
 
-  <!-- Modal de Detalhes (Visual perfeito aprovado) -->
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-2" onclick="closeModal()">
     <div class="bg-white max-w-2xl w-full max-h-[90vh] rounded-3xl p-4 relative shadow-2xl overflow-y-auto" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-20 rounded-full p-2 z-10 text-white text-xl">✕</button>
-      
-      <!-- Imagem grande e centralizada -->
       <div class="w-full h-[50vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-6 overflow-hidden">
           <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain" onerror="handleImageError(this, this.alt)">
       </div>
-      
       <div class="px-2">
         <h2 id="modal-title" class="text-3xl font-bold text-[#8B4513] mb-3"></h2>
         <p id="modal-desc" class="text-lg text-gray-700 mb-8 leading-relaxed"></p>
-        
         <div class="flex items-center justify-between border-t border-gray-100 pt-6">
           <span id="modal-price" class="text-2xl font-bold text-[#8B4513]"></span>
           <button id="modal-add-btn" class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95">Adicionar ao Pedido</button>
@@ -45,7 +33,6 @@
     </div>
   </div>
 
-  <!-- Cabeçalho -->
   <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
     <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight">OBA Doceria</h1>
     <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
@@ -53,48 +40,30 @@
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-32">
-    
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      
-      <!-- COLUNA PRINCIPAL -->
       <div class="lg:col-span-8 space-y-8">
-        
-        <!-- PASSO 1: CONFIGURAÇÃO DE EMBALAGEM -->
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <span class="bg-[#8B4513] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm">1</span>
             <h2 class="text-xl font-bold text-[#8B4513]">Selecione o tamanho da sua caixa</h2>
           </div>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="opcoes-caixas">
-            <!-- Gerado dinamicamente -->
-          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="opcoes-caixas"></div>
         </section>
 
-        <!-- PASSO 2: FILTROS E PESQUISA -->
         <section class="space-y-4">
           <div class="flex flex-col sm:flex-row gap-3">
             <div class="relative flex-1">
               <input type="text" id="busca-sabor" oninput="filtrarSabores()" placeholder="🔎 Digite para buscar um sabor..." class="w-full px-5 py-4 bg-white rounded-2xl border border-[#E8D5B5] focus:outline-none focus:ring-2 focus:ring-[#8B4513] text-[#3B2A1E]">
             </div>
           </div>
-
-          <!-- Abas de Categorias -->
-          <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar" id="abas-categorias">
-            <!-- Gerado dinamicamente -->
-          </div>
+          <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar" id="abas-categorias"></div>
         </section>
 
-        <!-- GRID DE DOCES -->
         <section>
-          <div id="cardapio-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            <!-- Gerado dinamicamente -->
-          </div>
+          <div id="cardapio-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
         </section>
-
       </div>
 
-      <!-- COLUNA LATERAL DE RESUMO -->
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-lg space-y-6">
           <div class="border-b border-[#E8D5B5] pb-4">
@@ -102,7 +71,6 @@
             <p class="text-xs text-gray-500 mt-1">Configure sua caixa para finalizar</p>
           </div>
 
-          <!-- Progresso -->
           <div class="space-y-3" id="painel-progresso">
             <div class="flex justify-between text-sm font-semibold">
               <span id="label-progresso-doces">Selecione uma caixa</span>
@@ -111,17 +79,13 @@
             <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
               <div id="barra-progresso" class="bg-[#8B4513] h-full transition-all duration-300 w-0"></div>
             </div>
-            <div id="status-sabores" class="text-xs font-medium text-gray-600">
-              Escolha de sabores: 0 sabores escolhidos.
-            </div>
+            <div id="status-sabores" class="text-xs font-medium text-gray-600">Escolha de sabores: 0 sabores escolhidos.</div>
           </div>
 
-          <!-- Sabores selecionados -->
           <div class="border-t border-b border-gray-100 py-4 max-h-[25vh] overflow-y-auto space-y-2 no-scrollbar" id="lista-selecionados">
             <p class="text-sm text-gray-400 text-center py-4">Nenhum sabor selecionado ainda.</p>
           </div>
 
-          <!-- Preço e Envio -->
           <div class="space-y-4">
             <div class="flex justify-between items-center text-lg font-bold">
               <span>Valor Total:</span>
@@ -146,24 +110,18 @@
           </div>
         </section>
       </div>
-
     </div>
-
   </main>
 
-  <!-- Rodapé Móvel -->
   <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B5] shadow-2xl p-4 flex justify-between items-center z-40">
     <div>
       <p id="mobile-resumo-caixa" class="text-xs text-gray-500 font-bold">Selecione uma caixa</p>
       <p id="mobile-resumo-total" class="text-lg font-extrabold text-[#8B4513]">R$ 0,00</p>
     </div>
-    <button onclick="scrollParaCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md">
-      Ver Pedido
-    </button>
+    <button onclick="scrollParaCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md">Ver Pedido</button>
   </div>
 
   <script>
-    // Regras de Embalagem e Limites do Cardápio 2026
     const caixas = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', limiteSabores: 7, totalDoces: 25 },
       '35': { id: '35', titulo: 'Caixa de 35 Doces', limiteSabores: 7, totalDoces: 35 },
@@ -172,7 +130,6 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (25 Sabores Sortidos)', limiteSabores: 0, totalDoces: 25, precoFixo: 75.00 }
     };
 
-    // BANCO DE DADOS COMPLETO - 56 SABORES EXTRAÍDOS DO CARDÁPIO OFICIAL OBA DOCERIA 2026
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -267,18 +224,13 @@
       }
     ];
 
-    // Estado Geral da Aplicação
     let caixaAtiva = null;
     let quantidades = {}; 
     let categoriaAtiva = "Todos";
 
-    // Tolerância Dinâmica de Formato de Imagem (Tratamento de Erros)
     function handleImageError(imgElement, name) {
-      imgElement.onerror = null; // Evita loop infinito de erro
-      
+      imgElement.onerror = null;
       const currentSrc = imgElement.src;
-      
-      // Tenta alternar entre formatos de arquivo dentro de images/ antes do backup
       if (currentSrc.endsWith('.jpg')) {
         imgElement.src = `images/${name}.png`;
       } else if (currentSrc.endsWith('.png')) {
@@ -286,7 +238,6 @@
       } else if (currentSrc.endsWith('.jpeg')) {
         imgElement.src = `images/${name}.JPG`;
       } else {
-        // Se todas as tentativas falharem, usa um dos arquivos reais que temos na raiz
         const fallbacks = [
           "WhatsApp Image 2026-06-08 at 11.30.06 (1).jpeg",
           "WhatsApp Image 2026-06-08 at 11.30.06 (2).jpeg"
@@ -296,7 +247,6 @@
       }
     }
 
-    // Inicialização
     function init() {
       renderizarOpcoesCaixas();
       renderizarAbasCategorias();
@@ -304,7 +254,6 @@
       atualizarInterface();
     }
 
-    // Etapa 1: Opções de Caixas
     function renderizarOpcoesCaixas() {
       const container = document.getElementById('opcoes-caixas');
       container.innerHTML = "";
@@ -314,13 +263,9 @@
             <div>
               <span id="badge-caixa-${box.id}" class="hidden absolute top-3 right-3 bg-[#8B4513] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">ATIVADA</span>
               <h3 class="font-extrabold text-sm text-[#8B4513] pr-12">${box.titulo}</h3>
-              <p class="text-[11px] text-gray-500 mt-1">
-                ${box.id === 'degustacao' ? 'Sabores variados selecionados pela doceria no dia.' : `Escolha até ${box.limiteSabores} sabores diferentes.`}
-              </p>
+              <p class="text-[11px] text-gray-500 mt-1">${box.id === 'degustacao' ? 'Sabores variados selecionados pela doceria no dia.' : `Escolha até ${box.limiteSabores} sabores diferentes.`}</p>
             </div>
-            <div class="mt-3 text-xs font-bold text-gray-700">
-              ${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculado conforme sabores'}
-            </div>
+            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculado conforme sabores'}</div>
           </button>
         `;
       });
@@ -328,8 +273,7 @@
 
     function selecionarCaixa(id) {
       caixaAtiva = caixas[id];
-      quantidades = {}; // Reseta seleções
-      
+      quantidades = {};
       Object.keys(caixas).forEach(boxId => {
         const btn = document.getElementById(`btn-caixa-${boxId}`);
         const badge = document.getElementById(`badge-caixa-${boxId}`);
@@ -341,27 +285,21 @@
           badge.classList.add('hidden');
         }
       });
-
       if (id === 'degustacao') {
         mostrarNotificacao("Caixa Degustação ativada! Nós selecionamos os sabores para você.", "sucesso");
       } else {
         mostrarNotificacao(`Você ativou a ${caixaAtiva.titulo}. Escolha os doces!`, "sucesso");
       }
-
       renderizarDoces();
       atualizarInterface();
     }
 
-    // Etapa 2: Categorias
     function renderizarAbasCategorias() {
       const container = document.getElementById('abas-categorias');
       container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">Todos</button>`;
-      
       catalogo.forEach(g => {
         container.innerHTML += `
-          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.categoria.replace(/\s+/g, '')}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">
-            ${g.categoria.split(" (")[0]}
-          </button>
+          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.categoria.replace(/\s+/g, '')}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">${g.categoria.split(" (")[0]}</button>
         `;
       });
       atualizarVisualAbas();
@@ -380,7 +318,6 @@
       } else {
         abaTodos.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5] hover:bg-gray-50";
       }
-
       catalogo.forEach(g => {
         const idAba = `aba-${g.categoria.replace(/\s+/g, '')}`;
         const btn = document.getElementById(idAba);
@@ -394,27 +331,22 @@
       });
     }
 
-    // Etapa 3: Grid de Doces
     function renderizarDoces() {
       const grid = document.getElementById('cardapio-grid');
       const termoBusca = document.getElementById('busca-sabor').value.toLowerCase();
       grid.innerHTML = "";
-
       let docesExibidos = 0;
 
       catalogo.forEach(g => {
         if (categoriaAtiva !== "Todos" && categoriaAtiva !== g.categoria) return;
-
         g.itens.forEach(item => {
           if (termoBusca && !item.nome.toLowerCase().includes(termoBusca) && !item.desc.toLowerCase().includes(termoBusca)) return;
-
           const qtd = quantidades[item.id] || 0;
           docesExibidos++;
 
           grid.innerHTML += `
             <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden transition-all hover:shadow-lg">
               <div class="w-full h-48 md:h-56 flex items-center justify-center bg-gray-50 overflow-hidden relative">
-                <!-- Busca a foto na pasta images/ com fallback inteligente -->
                 <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-contain" onerror="handleImageError(this, '${item.nome}')">
               </div>
               <div class="p-4 w-full flex flex-col flex-1 justify-between">
@@ -422,10 +354,8 @@
                   <h3 class="font-bold text-sm md:text-base mb-1 text-[#3B2A1E] line-clamp-1">${item.nome}</h3>
                   <button onclick="openModal('${item.img}', '${item.nome}', '${item.desc}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-xs text-[#8B4513] underline mb-3 inline-block">Ver detalhes</button>
                 </div>
-
                 <div class="w-full">
                   <p class="text-xs text-gray-500 font-semibold mb-2">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
-                  
                   ${caixaAtiva && caixaAtiva.id !== 'degustacao' ? `
                     <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1">
                       <button onclick="alterarQtd('${item.id}', -1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-white hover:bg-gray-100 text-[#8B4513] transition-colors">-</button>
@@ -433,9 +363,7 @@
                       <button onclick="alterarQtd('${item.id}', 1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-[#8B4513] text-white hover:bg-[#6e3710] transition-colors">+</button>
                     </div>
                   ` : `
-                    <button onclick="lembreteCaixa()" class="w-full py-2 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold transition-all hover:bg-gray-200">
-                      Escolha a caixa
-                    </button>
+                    <button onclick="lembreteCaixa()" class="w-full py-2 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold transition-all hover:bg-gray-200">Escolha a caixa</button>
                   `}
                 </div>
               </div>
@@ -449,34 +377,25 @@
       }
     }
 
-    function filtrarSabores() {
-      renderizarDoces();
-    }
-
     function lembreteCaixa() {
       mostrarNotificacao("Ative o tamanho da caixa na Etapa 1 primeiro!", "aviso");
       document.getElementById('opcoes-caixas').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Regra Matemática de Seleção de Doces e Sabores
     function alterarQtd(id, delta) {
       if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
-
       const qtdAtual = quantidades[id] || 0;
       const novaQtd = qtdAtual + delta;
-
       if (novaQtd < 0) return;
 
       const totalDesejado = caixaAtiva.totalDoces;
       const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
 
-      // 1. Bloquear se tentar adicionar mais do que o limite da caixa
       if (delta > 0 && totalSelecionado >= totalDesejado) {
         mostrarNotificacao(`Sua caixa de ${totalDesejado} doces já está completa!`, "aviso");
         return;
       }
 
-      // 2. Bloquear se ultrapassar o limite de sabores diferentes permitidos
       const saboresAtivos = Object.entries(quantidades).filter(([_, v]) => v > 0);
       const jaContemSabor = quantidades[id] > 0;
 
@@ -504,7 +423,6 @@
       return null;
     }
 
-    // Atualização do Resumo
     function atualizarInterface() {
       const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
       const listaContainer = document.getElementById('lista-selecionados');
@@ -532,7 +450,6 @@
         return;
       }
 
-      // Se for Caixa Degustação (Sabores Sortidos do Dia)
       if (caixaAtiva.id === 'degustacao') {
         progressLabel.innerText = "Caixa Pronta";
         progressContagem.innerText = "25 / 25";
@@ -552,7 +469,6 @@
         return;
       }
 
-      // Caixa Customizada
       const totalDesejado = caixaAtiva.totalDoces;
       progressLabel.innerText = "Seu progresso da caixa:";
       progressContagem.innerText = `${totalSelecionado} / ${totalDesejado}`;
@@ -601,26 +517,20 @@
         btn.disabled = true;
         return;
       }
-
       if (caixaAtiva.id === 'degustacao') {
         btn.disabled = !(nome.length > 2 && data !== "");
         return;
       }
-
       const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
       const totalDesejado = caixaAtiva.totalDoces;
-
-      // Habilita somente se o nome for válido, data estiver preenchida e a caixa estiver exatamente cheia
       btn.disabled = !(nome.length > 2 && data !== "" && totalSelecionado === totalDesejado);
     }
 
-    // Disparar Encomenda para o WhatsApp
     function enviarPedidoWhatsApp() {
       const nome = document.getElementById('nome-cliente').value.trim();
       const data = document.getElementById('data-desejada').value;
       const [ano, mes, dia] = data.split('-');
       const dataFormatada = `${dia}/${mes}/${ano}`;
-
       let valorTotalStr = document.getElementById('valor-total').innerText;
 
       let texto = `Olá, OBA Doceria! Gostaria de agendar uma encomenda:\n\n`;
@@ -643,14 +553,11 @@
         texto += `_Caixa degustação com os 25 sabores sortidos do dia selecionados pela doceria._\n`;
       }
 
-      // Número oficial da doceria do PDF
       const fone = "5555999117626"; 
       const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
-      
       window.open(url, '_blank');
     }
 
-    // Modal
     function openModal(src, title, desc, price, id) {
       const modalImg = document.getElementById('modal-img');
       modalImg.src = src;
@@ -660,7 +567,6 @@
       document.getElementById('modal-price').innerText = price;
       
       const modalBtn = document.getElementById('modal-add-btn');
-
       if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
         modalBtn.innerText = "Adicionar ao Pedido";
         modalBtn.disabled = false;
@@ -675,7 +581,6 @@
           lembreteCaixa();
         };
       }
-
       document.getElementById('modal').classList.remove('hidden');
     }
 
@@ -683,19 +588,15 @@
       document.getElementById('modal').classList.add('hidden');
     }
 
-    // Toast Premium de Aviso
     function mostrarNotificacao(mensagem, tipo = 'aviso') {
       const toast = document.getElementById('custom-toast');
       const toastText = document.getElementById('toast-text');
-      
       toastText.innerText = mensagem;
-      
       if (tipo === 'sucesso') {
         toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#3B2A1E] text-white font-bold text-sm text-center";
       } else {
         toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#8B4513] text-white font-bold text-sm text-center";
       }
-      
       setTimeout(() => {
         toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none";
       }, 4000);
@@ -709,6 +610,5 @@
 
     window.onload = init;
   </script>
-
 </body>
 </html>
