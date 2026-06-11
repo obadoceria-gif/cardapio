@@ -168,7 +168,7 @@
           { id: "confete_275", nome: "Confete", preco: 2.75, desc: "O clássico brigadeiro ao leite revestido por pastilhas coloridas crocantes.", img: "Images/Confete.jpeg" },
           { id: "charge_275", nome: "Charge", preco: 2.75, desc: "Inspirado no chocolate clássico, com amendoim picado and caramelo aveludado.", img: "Images/Charge.jpeg" },
           { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, desc: "Massa de coco queimado combinada com generosa cobertura de doce de leite de panela.", img: "Images/Cocadinha.jpeg" },
-          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, desc: "Doce de leite cremoso cozido com um toque sutil e marcante de queijo parmesão.", img: "Images/Queijadinha.jpeg" },
+          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, desc: "Doce de leite cremoso cookies com um toque sutil e marcante de queijo parmesão.", img: "Images/Queijadinha.jpeg" },
           { id: "prestigio_275", nome: "Prestígio", preco: 2.75, desc: "O eterno encontro de coco com chocolate ao leite finalizado em coco ralado.", img: "Images/Prestígio.jpeg" },
           { id: "damasco_275", nome: "Damasco", preco: 2.75, desc: "Fino doce branco decorado com deliciosos pedacinhos de damascos turcos nobres.", img: "Images/Damasco.jpeg" },
           { id: "ameixa_275", nome: "Ameixa", preco: 2.75, desc: "Brigadeiro recheado com nossa maravilhosa compota artesanal de ameixa preta.", img: "Images/Ameixa.jpeg" }
@@ -246,7 +246,7 @@
               <h3 class="font-extrabold text-sm text-[#8B4513] pr-12">${box.titulo}</h3>
               <p class="text-[11px] text-gray-500 mt-1">${box.id === 'degustacao' ? 'Sabores variados selecionados pela doceria no dia.' : `Escolha até ${box.limiteSabores} sabores diferentes.`}</p>
             </div>
-            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculado conforme sabores'}</div>
+            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculated conforme sabores'}</div>
           </button>
         `;
       });
@@ -333,7 +333,7 @@
           grid.innerHTML += `
             <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden transition-all hover:shadow-lg w-full">
               <div class="w-full aspect-square flex items-center justify-center bg-gray-50 overflow-hidden relative">
-                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover object-[center_35%] scale-[0.80]" onerror="handleImageError(this, '${item.nome}')">
+                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover object-center scale-[1.55]" onerror="handleImageError(this, '${item.nome}')">
               </div>
               <div class="p-4 w-full flex flex-col flex-1 justify-between">
                 <div>
