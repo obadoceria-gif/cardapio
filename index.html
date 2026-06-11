@@ -17,18 +17,18 @@
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-2xl w-full rounded-3xl p-6 relative shadow-2xl" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 rounded-full p-2 z-10 transition-all text-gray-600">✕</button>
+    <div class="bg-white max-w-2xl w-full rounded-3xl p-8 relative shadow-2xl" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 rounded-full p-3 z-10 transition-all text-gray-600">✕</button>
       
       <h2 id="modal-title" class="text-3xl font-extrabold text-[#8B4513] mb-6 text-center"></h2>
       
-      <div class="w-full h-[50vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-6 overflow-hidden border border-gray-100">
-          <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain" onerror="handleImageError(this, this.alt)">
+      <div class="w-full h-[60vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-8 border border-gray-100">
+          <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain p-2">
       </div>
       
       <div class="flex items-center justify-between border-t border-gray-100 pt-6">
         <div class="flex flex-col">
-          <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Preço</span>
+          <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
           <span id="modal-price" class="text-3xl font-black text-[#8B4513]"></span>
         </div>
         <button id="modal-add-btn" class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95 text-lg"></button>
@@ -38,10 +38,35 @@
 
   <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
     <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight">OBA Doceria</h1>
+    <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-32">
-    <div id="cardapio-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6"></div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <div class="lg:col-span-8 space-y-8">
+        <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
+          <h2 class="text-xl font-bold text-[#8B4513] mb-4">1. Selecione o tamanho da sua caixa</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="opcoes-caixas"></div>
+        </section>
+
+        <section>
+          <div id="cardapio-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
+        </section>
+      </div>
+
+      <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
+        <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-lg space-y-6">
+          <h2 class="text-xl font-bold text-[#8B4513]">Resumo da Encomenda</h2>
+          <div class="border-t border-b border-gray-100 py-4 max-h-[25vh] overflow-y-auto" id="lista-selecionados"></div>
+          <div class="flex justify-between items-center text-lg font-bold">
+            <span>Valor Total:</span>
+            <span class="text-2xl text-[#8B4513]" id="valor-total">R$ 0,00</span>
+          </div>
+          <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg disabled:bg-gray-200">WhatsApp Encomendar</button>
+        </section>
+      </div>
+    </div>
   </main>
 
   <script>
@@ -51,17 +76,33 @@
     };
 
     const catalogo = [
-      {
-        categoria: "Tradicionais I",
-        itens: [
-          { id: "leite_ninho", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
+      { categoria: "Tradicionais I", itens: [
+          { id: "ninho", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
           { id: "nesquik", nome: "Nesquik", preco: 2.50, img: "Images/Nesquik.jpeg" }
-        ]
+        ] 
       }
     ];
 
-    let caixaAtiva = caixas['25'];
+    let caixaAtiva = null;
     let quantidades = {};
+
+    function init() {
+      renderizarOpcoesCaixas();
+      renderizarDoces();
+    }
+
+    function renderizarOpcoesCaixas() {
+      const container = document.getElementById('opcoes-caixas');
+      Object.values(caixas).forEach(box => {
+        container.innerHTML += `<button onclick="selecionarCaixa('${box.id}')" class="bg-white p-4 rounded-2xl border border-[#E8D5B5] text-left">${box.titulo}</button>`;
+      });
+    }
+
+    function selecionarCaixa(id) {
+      caixaAtiva = caixas[id];
+      mostrarNotificacao(caixaAtiva.titulo + " selecionada!");
+      renderizarDoces();
+    }
 
     function renderizarDoces() {
       const grid = document.getElementById('cardapio-grid');
@@ -86,16 +127,31 @@
       document.getElementById('modal-title').innerText = title;
       document.getElementById('modal-price').innerText = price;
       
-      const modalBtn = document.getElementById('modal-add-btn');
-      modalBtn.innerText = "Adicionar ao Pedido";
-      modalBtn.onclick = () => { closeModal(); };
-      
+      const btn = document.getElementById('modal-add-btn');
+      if (caixaAtiva) {
+        btn.innerText = "Adicionar ao Pedido";
+        btn.onclick = () => { quantidades[id] = (quantidades[id] || 0) + 1; closeModal(); };
+      } else {
+        btn.innerText = "Selecionar Caixa Primeiro";
+        btn.onclick = () => { closeModal(); lembreteCaixa(); };
+      }
       document.getElementById('modal').classList.remove('hidden');
     }
 
     function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-    
-    window.onload = renderizarDoces;
+
+    function lembreteCaixa() { mostrarNotificacao("Escolha uma caixa primeiro!"); }
+
+    function mostrarNotificacao(msg) {
+      const toast = document.getElementById('custom-toast');
+      document.getElementById('toast-text').innerText = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => toast.style.opacity = '0', 3000);
+    }
+
+    function enviarPedidoWhatsApp() { /* Lógica de envio */ }
+
+    window.onload = init;
   </script>
 </body>
 </html>
