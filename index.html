@@ -171,7 +171,7 @@
           { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, desc: "Massa de coco queimado combinada com generosa cobertura de doce de leite de panela.", img: "Images/Cocadinha.jpeg" },
           { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, desc: "Doce de leite cremoso cozido com um toque sutil e marcante de queijo parmesão.", img: "Images/Queijadinha.jpeg" },
           { id: "prestigio_275", nome: "Prestígio", preco: 2.75, desc: "O eterno encontro de coco com chocolate ao leite finalizado em coco ralado.", img: "Images/Prestígio.jpeg" },
-          { id: "damasco_275", nome: "Damasco", preco: 2.75, desc: "Fino doce branco decorado com deliciosos pedacinhos de damascos turcos nobres.", img: "Images/Damasco e Amêndoas.jpeg" },
+          { id: "damasco_275", nome: "Damasco", preco: 2.75, desc: "Fino doce branco decorado com deliciosos pedacinhos de damascos turcos nobres.", img: "Images/Damasco e Branco.jpeg" },
           { id: "ameixa_275", nome: "Ameixa", preco: 2.75, desc: "Brigadeiro recheado com nossa maravilhosa compota artesanal de ameixa preta.", img: "Images/Ameixa e Branco.jpeg" }
         ]
       },
@@ -197,7 +197,7 @@
           { id: "crocante_nutella_325", nome: "Crocante de Nutella", preco: 3.25, desc: "Brigadeiro de Nutella recheado com flocos crocantes que estalam na boca.", img: "Images/Crocante de Nutella.jpeg" },
           { id: "bacon_abacaxi_325", nome: "Bacon com Abacaxi", preco: 3.25, desc: "Ousada e deliciosa receita de geleia de abacaxi ácida com bacon crocante.", img: "Images/Bacon e Abacaxi.jpeg" },
           { id: "bacon_chocolate_325", nome: "Bacon com Chocolate", preco: 3.25, desc: "Contraste surpreendente de bacon defumado moído cozido com cacau nobre ao leite.", img: "Images/Bacon com Chocolate.jpeg" },
-          { id: "laranja_amendoas_325", nome: "Laranja com amêndoas", preco: 3.25, desc: "Brigadeiro cítrico de laranja com lâminas tostadas finas de amêndoas crocantes.", img: "Images/Laranja com Amêndoas.jpeg" },
+          { id: "laranja_amendoas_325", nome: "Laranja com amêndoas", preco: 3.25, desc: "Brigadeiro cítrico de laranja com lâminas tostadas finas de amêendoas crocantes.", img: "Images/Laranja com Amêndoas.jpeg" },
           { id: "laranja_coco_325", nome: "Laranja com coco", preco: 3.25, desc: "Massa de laranja fresca decorada no topo com coco ralado fino.", img: "Images/Laranja com Coco.jpeg" },
           { id: "nozes_figo_325", nome: "Nozes e Figo", preco: 3.25, desc: "Brigadeiro rico in nozes chilenas decorado com o doce artesanal de figo em calda.", img: "Images/Nozes e Figo.jpeg" },
           { id: "cheesecake_325", nome: "Cheesecake", preco: 3.25, desc: "Suave e aveludada massa de cream cheese decorada com nossa calda caseira de morango.", img: "Images/Cheesecake.jpeg" },
@@ -274,7 +274,7 @@
         if (boxId === id) {
           btn.className = "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-md w-full";
           badge.classList.remove('hidden');
-         } else {
+        } else {
           btn.className = "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm w-full";
           badge.classList.add('hidden');
         }
@@ -544,4 +544,70 @@
           if (q > 0) {
             const doceObj = encontrarDoce(id);
             if (doceObj) {
-              texto += `- ${q} un. ${doceObj.nome} (R$ ${doceObj.preco.toFixed(2).replace('.', ',')}
+              texto += `- ${q} un. ${doceObj.nome} (R$ ${doceObj.preco.toFixed(2).replace('.', ',')} / un)\n`;
+            }
+          }
+        });
+      } else {
+        texto += `_Caixa degustação com os 25 sabores sortidos do dia selecionados pela doceria._\n`;
+      }
+
+      const fone = "5555999117626";
+      const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+
+    function openModal(src, title, desc, price, id) {
+      const modalImg = document.getElementById('modal-img');
+      modalImg.src = src;
+      modalImg.alt = title;
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-desc').innerText = desc;
+      document.getElementById('modal-price').innerText = price;
+      
+      const modalBtn = document.getElementById('modal-add-btn');
+      if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
+        modalBtn.innerText = "Adicionar ao Pedido";
+        modalBtn.disabled = false;
+        modalBtn.onclick = function() {
+          alterarQtd(id, 1);
+          closeModal();
+        };
+      } else {
+        modalBtn.innerText = "Selecione a Caixa Primeiro";
+        modalBtn.onclick = function() {
+          closeModal();
+          lembreteCaixa();
+        };
+      }
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    function mostrarNotificacao(mensagem, tipo = 'aviso') {
+      const toast = document.getElementById('custom-toast');
+      const toastText = document.getElementById('toast-text');
+      toastText.innerText = mensagem;
+      if (tipo === 'sucesso') {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#3B2A1E] text-white font-bold text-sm text-center";
+      } else {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#8B4513] text-white font-bold text-sm text-center";
+      }
+      setTimeout(() => {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none";
+      }, 4000);
+    }
+
+    function scrollParaCheckout() {
+      const el = document.getElementById('nome-cliente');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.focus();
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
