@@ -12,7 +12,7 @@
 </head>
 <body class="bg-[#FFF8F0] text-[#3B2A1E] font-sans antialiased">
 
-  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
+  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-0 pointer-events-none">
     <span id="toast-text" class="font-bold text-center w-full"></span>
   </div>
 
@@ -196,7 +196,7 @@
           { id: "crocante_nutella_325", nome: "Crocante de Nutella", preco: 3.25, desc: "Brigadeiro de Nutella recheado com flocos crocantes que estalam na boca.", img: "Images/Crocante de Nutella.jpeg" },
           { id: "bacon_abacaxi_325", nome: "Bacon com Abacaxi", preco: 3.25, desc: "Ousada e deliciosa receita de geleia de abacaxi ácida com bacon crocante.", img: "Images/Bacon e Abacaxi.jpeg" },
           { id: "bacon_chocolate_325", nome: "Bacon com Chocolate", preco: 3.25, desc: "Contraste surpreendente de bacon defumado moído cozido com cacau nobre ao leite.", img: "Images/Bacon com Chocolate.jpeg" },
-          { id: "laranja_amendoas_325", nome: "Laranja com amêndoas", preco: 3.25, desc: "Brigadeiro cítrico de laranja com lâminas tostadas finas de amêndoas crocantes.", img: "Images/Laranja com Amêndoas.jpeg" },
+          { id: "laranja_amendoas_325", nome: "Laranja com amêndoas", preco: 3.25, desc: "Brigadeiro cítrico de laranja com lâminas tostadas finas de amêndoas crocantes.", img: "Images/Laranja com amêndoas.jpeg" },
           { id: "laranja_coco_325", nome: "Laranja com coco", preco: 3.25, desc: "Massa de laranja fresca decorada no topo com coco ralado fino.", img: "Images/Laranja com Coco.jpeg" },
           { id: "nozes_figo_325", nome: "Nozes e Figo", preco: 3.25, desc: "Brigadeiro rico in nozes chilenas decorado com o doce artesanal de figo em calda.", img: "Images/Nozes e Figo.jpeg" },
           { id: "cheesecake_325", nome: "Cheesecake", preco: 3.25, desc: "Suave e aveludada massa de cream cheese decorada com nossa calda caseira de morango.", img: "Images/Cheesecake.jpeg" },
@@ -213,13 +213,8 @@
           { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, desc: "Morango fresco e suculento envolvido inteiramente por farta massa branca.", img: "Images/Morango - Branco.jpeg" },
           { id: "morango_ao_leite_400", nome: "Morango com Brigadeiro ao Leite", preco: 4.00, desc: "Morango selecionado revestido por brigadeiro tradicional ao leite.", img: "Images/Morango - Ao Leite.jpeg" },
           { id: "morango_meio_amargo_400", nome: "Morango com Brigadeiro Meio Amargo", preco: 4.00, desc: "A harmonia perfeita do morango fresco com chocolate meio amargo nobre.", img: "Images/Morango - Meio Amargo.jpeg" },
-          { id: "pistache_400", nome: "Pistache", preco: 4.00, desc: "Brigadeiro gourmet de pistache feito exclusivamente com a nossa pasta artesanal pura.", img: "Images/Pistache.jpeg" }
-        ]
-      },
-      {
-        categoria: "Linha Pistache Premium (R$ 4,25)",
-        itens: [
-          { id: "pistache_geleia_425", nome: "Pistache com geléia", preco: 4.25, desc: "Doce requintado de puro pistache com nossa geleia artesanal ácida de morango.", img: "Images/Pistache com geléia.jpeg" }
+          { id: "pistache_400", nome: "Pistache", preco: 4.00, desc: "Brigadeiro gourmet de pistache feito exclusivamente com a nossa pasta artesanal pura.", img: "Images/Pistache.jpeg" },
+          { id: "pistache_geleia_400", nome: "Pistache com geléia", preco: 4.00, desc: "Doce requintado de puro pistache com nossa geleia artesanal ácida de morango.", img: "Images/Pistache com Geleia.jpeg" }
         ]
       }
     ];
@@ -324,9 +319,9 @@
 
     function renderizarDoces() {
       const grid = document.getElementById('cardapio-grid');
-      const termoBusca = document.getElementById('busca-sabor').value.toLowerCase();
       grid.innerHTML = "";
       let docesExibidos = 0;
+      const termoBusca = document.getElementById('busca-sabor').value.toLowerCase();
 
       catalogo.forEach(g => {
         if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
@@ -582,7 +577,7 @@
     function mostrarNotificacao(mensagem, tipo = 'aviso') {
       const toast = document.getElementById('custom-toast');
       const toastText = document.getElementById('toast-text');
-      toastText.innerText = message = mensagem;
+      toastText.innerText = mensagem;
       if (tipo === 'sucesso') {
         toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#3B2A1E] text-white font-bold text-sm text-center";
       } else {
@@ -599,15 +594,10 @@
       el.focus();
     }
 
-    // Corrigido para sincronizar a variável categoryActive e forçar a renderização imediata do catálogo ao carregar
-    function forcarCarregamentoInicial() {
-      categoryActive = "Todos";
-      renderizarDoces();
-    }
-
     window.onload = function() {
       init();
-      forcarCarregamentoInicial();
+      categoryActive = "Todos"; // Garante que a variável correta está definida
+      renderizarDoces(); // Chama a renderização imediata de todos os doces
     };
   </script>
 </body>
