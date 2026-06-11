@@ -164,7 +164,7 @@
         itens: [
           { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, desc: "Deliciosa massa de leite ninho recheada com a genuína Nutella italiana.", img: "Images/Ninho com Nutella.jpeg" },
           { id: "oreo_275", nome: "Oreo", preco: 2.75, desc: "Massa branca misturada com biscoitos Oreo triturados e crocantes.", img: "Images/Oreo.jpeg" },
-          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, desc: "O sabor doce do Nesquik harmonizado com o creme de avelã nobre no recheio.", img: "Images/Nesquik com Nutella.jpeg" },
+          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, desc: "O sabor doce do Nesquik harmonizado com o creme de avelã nobre no recheio.", img: "Images/Nesquik e Nutella.jpeg" },
           { id: "confete_275", nome: "Confete", preco: 2.75, desc: "O clássico brigadeiro ao leite revestido por pastilhas coloridas crocantes.", img: "Images/Confete.jpeg" },
           { id: "charge_275", nome: "Charge", preco: 2.75, desc: "Inspirado no chocolate clássico, com amendoim picado e caramelo aveludado.", img: "Images/Charge.jpeg" },
           { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, desc: "Massa de coco queimado combinada com generosa cobertura de doce de leite de panela.", img: "Images/Cocadinha.jpeg" },
@@ -184,7 +184,7 @@
           { id: "maracuja_300", nome: "Maracujá", preco: 3.00, desc: "Azedinho refrescante do maracujá selvagem com sementes brilhantes decorativas.", img: "Images/Maracujá.jpeg" },
           { id: "maracuja_ao_leite_300", nome: "Maracujá ao leite", preco: 3.00, desc: "Massa cítrica de maracujá finalizada com granulado nobre.", img: "Images/Maracujá ao Leite.jpeg" },
           { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, desc: "Doce cítrico de maracujá com recheio generoso de creme de avelã Nutella.", img: "Images/Maracujá e Nutella.jpeg" },
-          { id: "damasco_amendoas_300", nome: "Damasco e amêndoas", preco: 3.00, desc: "Massa branca cozida com pedaços of damascos decorada com amêndoas tostadas.", img: "Images/Damasco e Amêndoas.jpeg" }
+          { id: "damasco_amendoas_300", nome: "Damasco e amêndoas", preco: 3.00, desc: "Massa branca cozida com pedaços de damascos decorada com amêndoas tostadas.", img: "Images/Damasco e Amêndoas.jpeg" }
         ]
       },
       {
@@ -197,7 +197,7 @@
           { id: "bacon_abacaxi_325", nome: "Bacon com Abacaxi", preco: 3.25, desc: "Ousada e deliciosa receita de geleia de abacaxi ácida com bacon crocante.", img: "Images/Bacon e Abacaxi.jpeg" },
           { id: "bacon_chocolate_325", nome: "Bacon com Chocolate", preco: 3.25, desc: "Contraste surpreendente de bacon defumado moído cozido com cacau nobre ao leite.", img: "Images/Bacon com Chocolate.jpeg" },
           { id: "laranja_amendoas_325", nome: "Laranja com amêndoas", preco: 3.25, desc: "Brigadeiro cítrico de laranja com lâminas tostadas finas de amêndoas crocantes.", img: "Images/Laranja com Amêndoas.jpeg" },
-          { id: "laranja_coco_325", nome: "Laranja com coco", preco: 3.25, desc: "Massa de laranja fresca decorada no topo com coco ralado fino.", img: "Images/Laranja com coco.jpeg" },
+          { id: "laranja_coco_325", nome: "Laranja com coco", preco: 3.25, desc: "Massa de laranja fresca decorada no topo com coco ralado fino.", img: "Images/Laranja e Coco.jpeg" },
           { id: "nozes_figo_325", nome: "Nozes e Figo", preco: 3.25, desc: "Brigadeiro rico in nozes chilenas decorado com o doce artesanal de figo em calda.", img: "Images/Nozes e Figo.jpeg" },
           { id: "cheesecake_325", nome: "Cheesecake", preco: 3.25, desc: "Suave e aveludada massa de cream cheese decorada com nossa calda caseira de morango.", img: "Images/Cheesecake.jpeg" },
           { id: "gorgonzola_geleia_325", nome: "Gorgonzola e Geléia", preco: 3.25, desc: "A surpreendente combinação gourmet de queijo gorgonzola suave e geleia de morango.", img: "Images/Gorgonzola e Geleia.jpeg" },
@@ -226,7 +226,7 @@
 
     let caixaAtiva = null;
     let quantidades = {}; 
-    let categoriaAtiva = "Todos";
+    let categoryActive = "Todos";
 
     function handleImageError(imgElement, name) {
       imgElement.onerror = null;
@@ -582,7 +582,7 @@
     function mostrarNotificacao(mensagem, tipo = 'aviso') {
       const toast = document.getElementById('custom-toast');
       const toastText = document.getElementById('toast-text');
-      toastText.innerText = mensagem;
+      toastText.innerText = message = mensagem;
       if (tipo === 'sucesso') {
         toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#3B2A1E] text-white font-bold text-sm text-center";
       } else {
