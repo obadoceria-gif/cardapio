@@ -12,7 +12,7 @@
 </head>
 <body class="bg-[#FFF8F0] text-[#3B2A1E] font-sans antialiased">
 
-  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
+  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-0 pointer-events-none">
     <span id="toast-text" class="font-bold text-center w-full"></span>
   </div>
 
@@ -319,9 +319,9 @@
 
     function renderizarDoces() {
       const grid = document.getElementById('cardapio-grid');
-      const termoBusca = document.getElementById('busca-sabor').value.toLowerCase();
       grid.innerHTML = "";
       let docesExibidos = 0;
+      const termoBusca = document.getElementById('busca-sabor').value.toLowerCase();
 
       catalogo.forEach(g => {
         if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
