@@ -33,14 +33,16 @@
   </main>
 
   <script>
+    // Seus dados organizados
     const catalogo = [
-      { id: "leite_ninho", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
+      { id: "ninho", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
       { id: "nesquik", nome: "Nesquik", preco: 2.50, img: "Images/Nesquik.jpeg" },
       { id: "casadinho", nome: "Casadinho", preco: 2.50, img: "Images/Casadinho.jpeg" }
     ];
 
     function renderizarDoces() {
       const grid = document.getElementById('cardapio-grid');
+      if (!grid) return;
       grid.innerHTML = "";
       catalogo.forEach(item => {
         grid.innerHTML += `
@@ -65,7 +67,8 @@
 
     function closeModal() { document.getElementById('modal').classList.add('hidden'); }
     
-    window.onload = renderizarDoces;
+    // Garante que o grid só monte após o DOM estar pronto
+    document.addEventListener('DOMContentLoaded', renderizarDoces);
   </script>
 </body>
 </html>
