@@ -22,7 +22,7 @@
       
       <h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513] mb-4 text-center pr-8"></h2>
       
-      <div class="w-full h-[60vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-5 overflow-hidden border border-gray-100 shadow-inner">
+      <div class="w-full h-[65vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-5 overflow-hidden border border-gray-100 shadow-inner">
           <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center scale-[1.15]" onerror="handleImageError(this, this.alt)">
       </div>
       
@@ -547,7 +547,6 @@
       window.open(url, '_blank');
     }
 
-    // MODAL ATUALIZADO: REMOÇÃO DE DESCRIÇÃO E AMPLIÇÃO DA FOTO DO DOCE
     function openModal(src, title, price, id) {
       const modalImg = document.getElementById('modal-img');
       modalImg.src = src;
@@ -581,7 +580,7 @@
     function mostrarNotificacao(mensagem, tipo = 'aviso') {
       const toast = document.getElementById('custom-toast');
       const toastText = document.getElementById('toast-text');
-      toastText.innerText = message = mensagem;
+      toastText.innerText = mensagem;
       if (tipo === 'sucesso') {
         toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-0 opacity-100 bg-[#3B2A1E] text-white font-bold text-sm text-center";
       } else {
