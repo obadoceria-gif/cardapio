@@ -20,6 +20,7 @@
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
+      
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all text-sm shadow-md">✕</button>
       
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
@@ -107,6 +108,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       <div class="lg:col-span-8 space-y-6">
+        
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <span class="bg-[#8B4513] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm">1</span>
@@ -321,10 +323,6 @@
       imgElement.src = "Images/Leite Ninho.jpeg";
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      init();
-    });
-
     function init() {
       renderizarOpcoesCaixas();
       renderizarAbasCategorias();
@@ -460,8 +458,7 @@
       const [ano, mes, dia] = dataEntrega.split('-');
       const dataFormatada = `${dia}/${mes}/${ano}`;
 
-      // Mensagem Simplificada e Direta Conforme Solicitado
-      let msg = `Olá, OBA Doceria! \nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
+      let msg = `Olá, OBA Doceria!\nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
       msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
       msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
       msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
@@ -505,10 +502,9 @@
       renderizarDoces();
       atualizarInterface();
 
-      // Automação: Se atingir o limite exato da caixa, rola até o checkout
       const totalAposAdicionar = Object.values(quantidades).reduce((a, b) => a + b, 0);
       if (totalAposAdicionar === totalDesejado) {
-        mostrarNotificacao("Caixa completa! Por favor, preencha os seus dados de entrega.", "sucesso");
+        mostrarNotificacao("Caixa completa! Por favor, introduza os dados para entrega.", "sucesso");
         setTimeout(focarFormularioCheckout, 800);
       }
     }
@@ -669,7 +665,9 @@
       window.open(url, '_blank');
     }
 
-    function scrollParaCheckout() { document.getElementById('nome-cliente').scrollIntoView({ behavior: 'smooth' }); }
+    window.onload = function() {
+      init();
+    };
   </script>
 </body>
 </html>
