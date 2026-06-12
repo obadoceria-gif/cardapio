@@ -19,18 +19,25 @@
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-2xl w-full rounded-3xl p-8 relative shadow-2xl" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 rounded-full p-3 z-10 transition-all text-gray-600">✕</button>
-      <h2 id="modal-title" class="text-3xl font-extrabold text-[#8B4513] mb-6 text-center"></h2>
-      <div class="w-full h-[50vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-8 border border-gray-100 overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain p-2">
+    <div class="bg-white max-w-lg w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-50 hover:bg-opacity-70 rounded-full p-2.5 z-10 text-white text-sm transition-all">✕</button>
+      
+      <div class="w-full aspect-[4/3] sm:aspect-video bg-gray-100 relative overflow-hidden">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
       </div>
-      <div class="flex items-center justify-between border-t border-gray-100 pt-6">
-        <div class="flex flex-col">
-          <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
-          <span id="modal-price" class="text-3xl font-black text-[#8B4513]"></span>
+      
+      <div class="p-6 space-y-6">
+        <div class="text-center sm:text-left">
+          <h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513]"></h2>
         </div>
-        <button id="modal-add-btn" class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95 text-lg">Adicionar à Caixa</button>
+        
+        <div class="flex items-center justify-between border-t border-gray-100 pt-4">
+          <div class="flex flex-col">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
+            <span id="modal-price" class="text-2xl font-black text-[#8B4513]"></span>
+          </div>
+          <button id="modal-add-btn" class="px-8 py-3.5 bg-[#8B4513] text-white rounded-2xl font-bold shadow-md hover:bg-[#6e3710] transition-transform active:scale-95 text-sm">Adicionar à Caixa</button>
+        </div>
       </div>
     </div>
   </div>
@@ -91,7 +98,7 @@
   <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
     <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight" style="font-family: 'Poppins', sans-serif;">OBA Doceria</h1>
     <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
-    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reduções de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
+    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reductions de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-32">
@@ -570,7 +577,7 @@
       if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
         modalBtn.innerText = "Adicionar ao Pedido";
         modalBtn.disabled = false;
-        modalBtn.className = "px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95 text-lg";
+        modalBtn.className = "px-8 py-3.5 bg-[#8B4513] text-white rounded-2xl font-bold shadow-md hover:bg-[#6e3710] transition-transform active:scale-95 text-sm";
         modalBtn.onclick = function() {
           alterarQtd(id, 1);
           closeModal();
@@ -578,11 +585,11 @@
       } else if (caixaAtiva && caixaAtiva.id === 'degustacao') {
         modalBtn.innerText = "Caixa Sortida Fixa";
         modalBtn.disabled = true;
-        modalBtn.className = "px-10 py-4 bg-gray-200 text-gray-400 rounded-2xl font-bold text-lg cursor-not-allowed";
+        modalBtn.className = "px-8 py-3.5 bg-gray-200 text-gray-400 rounded-2xl font-bold text-sm cursor-not-allowed";
       } else {
         modalBtn.innerText = "Selecionar Caixa Primeiro";
         modalBtn.disabled = false;
-        modalBtn.className = "px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95 text-lg";
+        modalBtn.className = "px-8 py-3.5 bg-[#8B4513] text-white rounded-2xl font-bold shadow-md hover:bg-[#6e3710] transition-transform active:scale-95 text-sm";
         modalBtn.onclick = function() {
           closeModal();
           lembreteCaixa();
@@ -644,6 +651,3 @@
     window.onload = function() {
       init();
     };
-  </script>
-</body>
-</html>
