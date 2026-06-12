@@ -83,9 +83,9 @@
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-3 text-gray-600 font-bold">✕</button>
       
       <div class="text-center mb-6">
-        <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">ORÇAMENTO EXCLUSIVO 2026</span>
+        <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">ORÇAMENTO INTERATIVO 2026</span>
         <h2 id="titulo-modal-especial" class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Orçamento de Doces Personalizados</h2>
-        <p class="text-[#D8B36A] font-bold text-sm">Insira suas informações para verificarmos a disponibilidade na agenda</p>
+        <p class="text-[#D8B36A] font-bold text-sm">Preencha os campos para verificarmos a disponibilidade em nossa agenda</p>
       </div>
 
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
@@ -110,13 +110,9 @@
       </div>
 
       <div class="space-y-4 bg-gray-50 p-5 rounded-xl border border-gray-200">
-         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label id="label-qtd-especial" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
-              <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
-            </div>
-            <div>
-              <label id="label-tema-especial" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
+              <label id="label-campo-dinamico-1" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
               <input type="text" id="pers-tema" placeholder="Ex: Fazendinha" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div>
@@ -124,7 +120,19 @@
               <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
          </div>
-         <button onclick="enviarOrcamentoPersonalizado()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2">
+
+         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="container-campos-quantidade">
+            <div>
+              <label id="label-campo-dinamico-2" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
+              <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
+            </div>
+            <div id="wrapper-qtd-pessoas" class="hidden">
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Quantidade Estimada de Pessoas</label>
+              <input type="number" id="pers-pessoas" placeholder="Ex: 150 convidados" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
+            </div>
+         </div>
+
+         <button onclick="enviarOrcamentoEspecial()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2">
             Solicitar Reserva no WhatsApp
          </button>
       </div>
@@ -188,14 +196,11 @@
               Atendimento Premium
             </div>
             <h3 class="font-extrabold text-lg text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
-            <div class="my-2 bg-yellow-50 px-3 py-1 rounded-xl border border-yellow-100 shadow-inner">
-              <span class="text-yellow-700 font-black text-xs uppercase tracking-wider">✨ Assessoria & Degustação</span>
-            </div>
-            <p class="text-[11px] text-gray-600 leading-relaxed mb-3 max-w-[240px]">
-              Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para a sua mesa de doces.
+            <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">
+              Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.
             </p>
             <button onclick="abrirModalEspecial('eventos')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#5c2d0c] hover:to-yellow-700 transition-all border-b-4 border-[#3a1a05] active:border-b-0 active:translate-y-1">
-              <i class="fa-solid fa-champagne-glasses"></i> Solicitar Orçamento de Festa
+              <i class="fa-solid fa-champagne-glasses"></i> Solicitar Orçamento
             </button>
           </div>
         </section>
@@ -343,6 +348,93 @@
     let caixaAtiva = null;
     let quantidades = {}; 
     let categoryActive = "Todos";
+    let tipoFormularioAtivo = "personalizados";
+
+    function flipActiveForm(type) {
+      tipoFormularioAtivo = type;
+      const title = document.getElementById('titulo-modal-especial');
+      const gridPrecos = document.getElementById('grid-info-precos');
+      const label1 = document.getElementById('label-campo-dinamico-1');
+      const label2 = document.getElementById('label-campo-dinamico-2');
+      const inputQtd = document.getElementById('pers-qtd');
+      const inputTema = document.getElementById('pers-tema');
+      const wrapperPessoas = document.getElementById('wrapper-qtd-pessoas');
+
+      if (type === 'eventos') {
+        if(title) title.innerText = "Orçamento de Grandes Eventos 🥂";
+        if(gridPrecos) gridPrecos.classList.add('hidden');
+        if(label1) label1.innerText = "Tipo de Evento *";
+        if(label2) label2.innerText = "Quantidade de Doces";
+        if(inputTema) inputTema.placeholder = "Ex: Casamento, Formatura";
+        if(inputQtd) inputQtd.placeholder = "Opcional se preencher pessoas";
+        if(wrapperPessoas) wrapperPessoas.classList.remove('hidden');
+      } else {
+        if(title) title.innerText = "Orçamento de Doces Personalizados";
+        if(gridPrecos) gridPrecos.classList.remove('hidden');
+        if(label1) label1.innerText = "Tema da Decoração *";
+        if(label2) label2.innerText = "Número de Doces *";
+        if(inputTema) inputTema.placeholder = "Ex: Fazendinha";
+        if(inputQtd) inputQtd.placeholder = "Mínimo 20";
+        if(wrapperPessoas) wrapperPessoas.classList.add('hidden');
+      }
+    }
+
+    function abrirModalEspecial(type) {
+      flipActiveForm(type);
+      document.getElementById('modal-decorados').classList.remove('hidden');
+    }
+
+    function fecharModalPersonalizados() {
+      document.getElementById('modal-decorados').classList.add('hidden');
+    }
+
+    function enviarOrcamentoEspecial() {
+      const nomeClientM = document.getElementById('pers-nome').value.trim();
+      const temaEscolhido = document.getElementById('pers-tema').value.trim();
+      const dataEntrega = document.getElementById('pers-data').value;
+      const numDoces = document.getElementById('pers-qtd').value.trim();
+      const numPessoas = document.getElementById('pers-pessoas').value.trim();
+      
+      if(!nomeClientM || !temaEscolhido || !dataEntrega) {
+        alert("Por favor, preencha os campos obrigatórios (Nome, Tipo/Tema e Data)!");
+        return;
+      }
+
+      // Validação Inteligente Otimizada: Para grandes eventos, aceita doces OU pessoas preenchidos
+      if (tipoFormularioAtivo === 'eventos' && !numDoces && !numPessoas) {
+        alert("Por favor, preencha pelo menos um dos campos: Quantidade de Doces OU Quantidade de Pessoas!");
+        return;
+      } else if (tipoFormularioAtivo === 'personalizados' && !numDoces) {
+        alert("Por favor, informe a quantidade de doces personalizados que deseja!");
+        return;
+      }
+
+      const [ano, mes, dia] = dataEntrega.split('-');
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+
+      let msg = "";
+      if (tipoFormularioAtivo === 'eventos') {
+        msg = `Olá, OBA Doceria! \nGostaria de solicitar uma proposta para *Grandes Eventos (Casamento/Formatura)*:\n\n`;
+        msg += `👤 *ANFITRIÃO:* ${nomeClientM}\n`;
+        msg += `🥂 *TIPO DE CELEBRAÇÃO:* ${temaEscolhido}\n`;
+        msg += `📅 *DATA DO EVENTO:* ${dataFormatada}\n`;
+        if(numPessoas) msg += `👥 *NÚMERO DE CONVIDADOS:* ${numPessoas} pessoas\n`;
+        if(numDoces) msg += `🔢 *QUANTIDADE DE DOCES:* ${numDoces} unidades\n`;
+        msg += `\nAguardo seu retorno para criarmos o projeto exclusivo.`;
+      } else {
+        msg = `Olá, OBA Doceria! \nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
+        msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
+        msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
+        msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
+        msg += `📅 *DATA PRETENDIDA:* ${dataFormatada}\n\n`;
+        msg += `Aguardo seu retorno.`;
+      }
+
+      const fone = "5555999117626";
+      const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+      fecharModalPersonalizados();
+    }
 
     function verificarCaixaCompleta() {
       if (!caixaAtiva) return;
@@ -436,7 +528,7 @@
       const espacoLivre = caixaAtiva.totalDoces - totalOutrosDoces;
 
       if (qtdDigitada > espacoLivre) {
-        mostrarNotificacao(`Quantidade ajustada para ${espacoLivre} para respeitar o limite máximo da caixa!`, "aviso");
+        mostrarNotificacao(`Quantidade reajustada para ${espacoLivre} para não estourar a capacidade da caixa!`, "aviso");
         qtdDigitada = espacoLivre;
       }
 
@@ -448,4 +540,168 @@
 
       renderizarDoces();
       atualizarInterface();
-      verificarCaixa
+      verificarCaixaCompleta();
+    }
+
+    function atualizarInterface() {
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      const listaContainer = document.getElementById('lista-selecionados');
+      const progressContagem = document.getElementById('contagem-doces');
+      const progressBar = document.getElementById('barra-progresso');
+      const labelValor = document.getElementById('valor-total');
+      const mobileCaixa = document.getElementById('mobile-resumo-caixa');
+      const mobileTotal = document.getElementById('mobile-resumo-total');
+
+      if (!listaContainer) return;
+      listaContainer.innerHTML = "";
+
+      if (!caixaAtiva) {
+        if(mobileCaixa) mobileCaixa.innerText = "Selecione uma caixa";
+        if(mobileTotal) mobileTotal.innerText = "R$ 0,00";
+        actualizarEstadoBotao();
+        return;
+      }
+
+      if (progressContagem) progressContagem.innerText = `${totalSelecionado} / ${caixaAtiva.totalDoces}`;
+      if (progressBar) progressBar.style.width = `${(totalSelecionado / caixaAtiva.totalDoces) * 100}%`;
+
+      let valorCalculado = 0;
+      
+      if (caixaAtiva.precoFixo) {
+        valorCalculado = caixaAtiva.precoFixo;
+        listaContainer.innerHTML = `<p class="text-xs p-1 text-gray-500 italic">Inclusa seleção variada de sabores do catálogo tradicional e clássico.</p>`;
+      } else {
+        Object.entries(quantidades).forEach(([id, q]) => {
+          const doce = encontrarDoce(id);
+          if (doce && q > 0) {
+            valorCalculado += doce.preco * q;
+            listaContainer.innerHTML += `<p class="text-xs p-1 text-gray-700">${doce.nome} x ${q}</p>`;
+          }
+        });
+        if (totalSelecionado === 0) {
+          listaContainer.innerHTML = `<p class="text-sm text-gray-400 text-center py-4">Nenhum sabor selecionado ainda.</p>`;
+        }
+      }
+
+      const valorFormatado = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
+      if(labelValor) labelValor.innerText = valorFormatado;
+      if(mobileTotal) mobileTotal.innerText = valorFormatado;
+      if(mobileCaixa) mobileCaixa.innerText = `${caixaAtiva.titulo} (${totalSelecionado} un.)`;
+
+      actualizarEstadoBotao();
+    }
+
+    function actualizarEstadoBotao() {
+      const btn = document.getElementById('btn-whatsapp');
+      const nome = document.getElementById('nome-cliente') ? document.getElementById('nome-cliente').value.trim() : "";
+      const data = document.getElementById('data-desejada') ? document.getElementById('data-desejada').value : "";
+      const hora = document.getElementById('hora-desejada') ? document.getElementById('hora-desejada').value : "";
+      
+      if(!btn) return;
+
+      if (!caixaAtiva || !nome || !data || !hora) {
+        btn.disabled = true;
+        return;
+      }
+
+      if (!caixaAtiva.precoFixo) {
+        const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+        btn.disabled = (totalSelecionado !== caixaAtiva.totalDoces);
+      } else {
+        btn.disabled = false;
+      }
+    }
+
+    function openModal(src, title, price, id) {
+      document.getElementById('modal-img').src = src;
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-price').innerText = price;
+      
+      const modalBtn = document.getElementById('modal-add-btn');
+      if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
+        modalBtn.innerText = "Adicionar ao Pedido";
+        modalBtn.disabled = false;
+        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider";
+        modalBtn.onclick = function() {
+          alterarQtd(id, 1);
+          closeModal();
+        };
+      } else if (caixaAtiva && caixaAtiva.id === 'degustacao') {
+        modalBtn.innerText = "Caixa Sortida Fixa";
+        modalBtn.disabled = true;
+        modalBtn.className = "px-7 py-3.5 bg-gray-200 text-gray-400 rounded-2xl font-bold text-sm cursor-not-allowed uppercase tracking-wider";
+      } else {
+        modalBtn.innerText = "Selecionar Caixa Primeiro";
+        modalBtn.disabled = false;
+        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all text-sm uppercase tracking-wider";
+        modalBtn.onclick = function() {
+          closeModal();
+          lembreteCaixa();
+        };
+      }
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    function mostrarNotificacao(mensagem, tipo = 'aviso') {
+      const toast = document.getElementById('custom-toast');
+      const toastText = document.getElementById('toast-text');
+      if(toastText) toastText.innerText = mensagem;
+      if(toast) {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold transition-all";
+        setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
+      }
+    }
+
+    function lembreteCaixa() { mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!", "aviso"); }
+
+    function focarFormularioCheckout() {
+      const form = document.getElementById('secao-checkout');
+      const inputNome = document.getElementById('nome-cliente');
+      if (form) {
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if(inputNome) setTimeout(() => inputNome.focus(), 600);
+      }
+    }
+
+    function enviarPedidoWhatsApp() {
+      const nome = document.getElementById('nome-cliente').value.trim();
+      const data = document.getElementById('data-desejada').value;
+      const hora = document.getElementById('hora-desejada').value;
+      const [ano, mes, dia] = data.split('-');
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+      let valorTotalStr = document.getElementById('valor-total').innerText;
+
+      let texto = `Olá, OBA Doceria! Gostaria de agendar uma encomenda:\n\n`;
+      texto += `*CLIENTE:* ${nome}\n`;
+      texto += `*DATA DESEJADA:* ${dataFormatada}\n`;
+      texto += `*HORA DESEJADA:* ${hora}\n`;
+      texto += `*OPÇÃO:* ${caixaAtiva.titulo}\n`;
+      texto += `*VALOR ESTIMADO:* ${valorTotalStr}\n\n`;
+
+      if (caixaAtiva.id !== 'degustacao') {
+        texto += `*SABORES ESCOLHIDOS:*\n`;
+        Object.entries(quantidades).forEach(([id, q]) => {
+          if (q > 0) {
+            const doceObj = encontrarDoce(id);
+            if (doceObj) {
+              texto += `- ${q} un. ${doceObj.nome} (R$ ${doceObj.preco.toFixed(2).replace('.', ',')})\n`;
+            }
+          }
+        });
+      } else {
+        texto += `_Caixa degustação com os 25 sabores sortidos do dia selecionados pela doceria._\n`;
+      }
+
+      const fone = "5555999117626";
+      const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+
+    function scrollParaCheckout() { document.getElementById('nome-cliente').scrollIntoView({ behavior: 'smooth' }); }
+  </script>
+</body>
+</html>
