@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OBA Doceria | Cardápio Interativo Oficial 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
   </style>
 </head>
 <body class="bg-[#FFF8F0] text-[#3B2A1E] font-sans antialiased">
@@ -85,7 +86,7 @@
   <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
     <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight" style="font-family: 'Poppins', sans-serif;">OBA Doceria</h1>
     <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
-    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reductions de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
+    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reduções de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-32">
@@ -112,13 +113,30 @@
 
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-4">
         
-        <section class="bg-gradient-to-br from-amber-50 to-orange-100 rounded-3xl p-5 border-2 border-dashed border-orange-400 shadow-sm flex flex-col items-center text-center space-y-2">
-          <span class="bg-orange-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">60% OFF AGENDA 2026</span>
-          <h3 class="font-extrabold text-md text-[#8B4513]">Quer Doces Personalizados & Decorados?</h3>
-          <p class="text-[11px] text-gray-600 leading-relaxed">Modelagem sob medida em pasta de leite em pó para festas temáticas.</p>
-          <button onclick="abrirModalPersonalizados()" class="w-full py-2 bg-[#8B4513] hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow transition-colors">
-            ✨ Ver Preços e Solicitar Orçamento
-          </button>
+        <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-6 flex flex-col items-center text-center relative overflow-hidden border border-amber-200">
+            <div class="absolute -right-8 -top-8 w-24 h-24 bg-orange-100 rounded-full opacity-40 blur-xl pointer-events-none"></div>
+            
+            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3">
+              <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-ping"></span>
+              Agenda Aberta 2026
+            </div>
+            
+            <h3 class="font-extrabold text-xl text-[#8B4513] leading-tight">Doces Personalizados<br>& Decorados</h3>
+            
+            <div class="flex items-baseline justify-center gap-1 my-3 bg-amber-50 px-4 py-2 rounded-2xl border border-amber-100 shadow-inner">
+              <span class="text-orange-600 font-black text-4xl tracking-tight">60%</span>
+              <span class="text-[#8B4513] font-extrabold text-sm uppercase">OFF</span>
+            </div>
+            
+            <p class="text-xs text-gray-600 leading-relaxed mb-4 max-w-[240px]">
+              Modelagem artesanal fina em pasta de leite para deixar a mesa do seu evento inesquecível.
+            </p>
+            
+            <button onclick="abrirModalPersonalizados()" class="w-full py-3.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all flex items-center justify-center gap-2 border-b-4 border-[#5c2d0c] active:border-b-0 active:translate-y-1">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Ver Preços & Orçar Vaga
+            </button>
+          </div>
         </section>
 
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-lg space-y-6">
@@ -524,7 +542,7 @@
     function mostrarNotificacao(mensagem, tipo = 'aviso') {
       const toast = document.getElementById('custom-toast');
       const toastText = document.getElementById('toast-text');
-      if(toastText) toastText.innerText = message = mensagem;
+      if(toastText) toastText.innerText = mensagem;
       if(toast) {
         toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold transition-all";
         setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
