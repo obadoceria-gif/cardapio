@@ -122,7 +122,7 @@
           <div class="bg-[#FFFDF9] rounded-[1.4rem] p-6 flex flex-col items-center text-center relative overflow-hidden border border-amber-200">
             <div class="absolute -right-8 -top-8 w-24 h-24 bg-orange-100 rounded-full opacity-40 blur-xl pointer-events-none"></div>
             
-            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3 animate-pulse">
+            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3">
               <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></span>
               Agenda Aberta 2026
             </div>
@@ -427,12 +427,12 @@
     }
 
     function enviarOrcamentoPersonalizado() {
-      const nomeClientM = document.getElementById('pers-nome').value.trim(); // Coleta nome no Modal
+      const nomeClientM = document.getElementById('pers-nome').value.trim();
       const numDoces = document.getElementById('pers-qtd').value.trim();
       const temaEscolhido = document.getElementById('pers-tema').value.trim();
       const dataEntrega = document.getElementById('pers-data').value;
       
-      if(!nomeClientM || !numDoces || !temaEscolhido || !dataEntrega) { // Valida campo nome tbm
+      if(!nomeClientM || !numDoces || !temaEscolhido || !dataEntrega) {
         alert("Por favor, preencha todos os campos do orçamento (incluindo seu nome) para verificarmos a agenda!");
         return;
       }
@@ -441,7 +441,7 @@
       const dataFormatada = `${dia}/${mes}/${ano}`;
 
       let msg = `Olá, OBA Doceria! Gostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
-      msg += `👤 *CLIENTE:* ${nomeClientM}\n`; // Insere nome na msg
+      msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
       msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
       msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
       msg += `📅 *DATA PRETENDIDA:* ${dataFormatada}\n\n`;
@@ -491,31 +491,66 @@
       const progressContagem = document.getElementById('contagem-doces');
       const progressBar = document.getElementById('barra-progresso');
       const labelValor = document.getElementById('valor-total');
+      const mobileCaixa = document.getElementById('mobile-resumo-caixa');
+      const mobileTotal = document.getElementById('mobile-resumo-total');
 
       if (!listaContainer) return;
       listaContainer.innerHTML = "";
 
-      if (!caixaAtiva) return;
+      if (!caixaAtiva) {
+        if(mobileCaixa) mobileCaixa.innerText = "Selecione uma caixa";
+        if(mobileTotal) mobileTotal.innerText = "R$ 0,00";
+        actualizarEstadoBotao();
+        return;
+      }
 
       if (progressContagem) progressContagem.innerText = `${totalSelecionado} / ${caixaAtiva.totalDoces}`;
       if (progressBar) progressBar.style.width = `${(totalSelecionado / caixaAtiva.totalDoces) * 100}%`;
 
       let valorCalculado = 0;
-      Object.entries(quantidades).forEach(([id, q]) => {
-        const doce = encontrarDoce(id);
-        if (doce && q > 0) {
-          valorCalculado += doce.preco * q;
-          listaContainer.innerHTML += `<p class="text-xs p-1 text-gray-700">${doce.nome} x ${q}</p>`;
+      
+      if (caixaAtiva.precoFixo) {
+        valorCalculado = caixaAtiva.precoFixo;
+        listaContainer.innerHTML = `<p class="text-xs p-1 text-gray-500 italic">Inclusa seleção variada de sabores do catálogo tradicional e clássico.</p>`;
+      } else {
+        Object.entries(quantidades).forEach(([id, q]) => {
+          const doce = encontrarDoce(id);
+          if (doce && q > 0) {
+            valorCalculado += doce.preco * q;
+            listaContainer.innerHTML += `<p class="text-xs p-1 text-gray-700">${doce.nome} x ${q}</p>`;
+          }
+        });
+        if (totalSelecionado === 0) {
+          listaContainer.innerHTML = `<p class="text-sm text-gray-400 text-center py-4">Nenhum sabor selecionado ainda.</p>`;
         }
-      });
+      }
 
-      if(labelValor) labelValor.innerText = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
+      const valorFormatado = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
+      if(labelValor) labelValor.innerText = valorFormatado;
+      if(mobileTotal) mobileTotal.innerText = valorFormatado;
+      if(mobileCaixa) mobileCaixa.innerText = `${caixaAtiva.titulo} (${totalSelecionado} un.)`;
+
       actualizarEstadoBotao();
     }
 
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp');
-      if(btn) btn.disabled = !caixaAtiva;
+      const nome = document.getElementById('nome-cliente') ? document.getElementById('nome-cliente').value.trim() : "";
+      const data = document.getElementById('data-desejada') ? document.getElementById('data-desejada').value : "";
+      
+      if(!btn) return;
+
+      if (!caixaAtiva || !nome || !data) {
+        btn.disabled = true;
+        return;
+      }
+
+      if (!caixaAtiva.precoFixo) {
+        const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+        btn.disabled = (totalSelecionado !== caixaAtiva.totalDoces);
+      } else {
+        btn.disabled = false;
+      }
     }
 
     function openModal(src, title, price, id) {
@@ -524,14 +559,22 @@
       document.getElementById('modal-price').innerText = price;
       
       const modalBtn = document.getElementById('modal-add-btn');
-      if (caixaAtiva) {
+      if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
         modalBtn.innerText = "Adicionar ao Pedido";
+        modalBtn.disabled = false;
+        modalBtn.className = "px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95 text-lg";
         modalBtn.onclick = function() {
           alterarQtd(id, 1);
           closeModal();
         };
+      } else if (caixaAtiva && caixaAtiva.id === 'degustacao') {
+        modalBtn.innerText = "Caixa Sortida Fixa";
+        modalBtn.disabled = true;
+        modalBtn.className = "px-10 py-4 bg-gray-200 text-gray-400 rounded-2xl font-bold text-lg cursor-not-allowed";
       } else {
         modalBtn.innerText = "Selecionar Caixa Primeiro";
+        modalBtn.disabled = false;
+        modalBtn.className = "px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95 text-lg";
         modalBtn.onclick = function() {
           closeModal();
           lembreteCaixa();
@@ -549,8 +592,8 @@
       const toastText = document.getElementById('toast-text');
       if(toastText) toastText.innerText = mensagem;
       if(toast) {
-        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold transition-all";
-        setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold transition-all";
+        setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
       }
     }
 
