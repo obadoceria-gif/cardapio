@@ -41,8 +41,13 @@
       
       <div class="text-center mb-6">
         <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">PROMOÇÃO AGENDA 2026</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Orçamento de Doces Personalizados</h2>
-        <p class="text-[#D8B36A] font-bold text-sm">Insira as informações básicas para verificar disponibilidade</p>
+        <h2 class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Solicitar Orçamento de Doces Decorados</h2>
+        <p class="text-[#D8B36A] font-bold text-sm">Insira seus dados para verificar disponibilidade de vaga</p>
+      </div>
+
+      <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
+        <label class="block text-xs font-bold uppercase tracking-wider text-[#8B4513] mb-1.5">Seu Nome Completo *</label>
+        <input type="text" id="pers-nome" placeholder="Ex: Maria Oliveira" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none focus:border-orange-500 shadow-sm">
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -117,7 +122,7 @@
           <div class="bg-[#FFFDF9] rounded-[1.4rem] p-6 flex flex-col items-center text-center relative overflow-hidden border border-amber-200">
             <div class="absolute -right-8 -top-8 w-24 h-24 bg-orange-100 rounded-full opacity-40 blur-xl pointer-events-none"></div>
             
-            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3">
+            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3 animate-pulse">
               <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></span>
               Agenda Aberta 2026
             </div>
@@ -130,7 +135,7 @@
             </div>
             
             <p class="text-xs text-gray-600 leading-relaxed mb-4 max-w-[240px]">
-              Modelagem artesanal fina em pasta de leite para deixar a mesa do seu evento inesquecível.
+              Transforme o seu evento em uma obra de arte com doces modelados à mão livre.
             </p>
             
             <button onclick="abrirModalPersonalizados()" class="w-full py-3.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all flex items-center justify-center gap-2 border-b-4 border-[#5c2d0c] active:border-b-0 active:translate-y-1">
@@ -422,13 +427,13 @@
     }
 
     function enviarOrcamentoPersonalizado() {
+      const nomeClientM = document.getElementById('pers-nome').value.trim(); // Coleta nome no Modal
       const numDoces = document.getElementById('pers-qtd').value.trim();
       const temaEscolhido = document.getElementById('pers-tema').value.trim();
       const dataEntrega = document.getElementById('pers-data').value;
-      const nomeCliente = document.getElementById('nome-cliente').value.trim() || "Cliente Especial";
-
-      if(!numDoces || !temaEscolhido || !dataEntrega) {
-        alert("Por favor, preencha todos os campos para prosseguir com o seu orçamento personalizado!");
+      
+      if(!nomeClientM || !numDoces || !temaEscolhido || !dataEntrega) { // Valida campo nome tbm
+        alert("Por favor, preencha todos os campos do orçamento (incluindo seu nome) para verificarmos a agenda!");
         return;
       }
 
@@ -436,7 +441,7 @@
       const dataFormatada = `${dia}/${mes}/${ano}`;
 
       let msg = `Olá, OBA Doceria! Gostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
-      msg += `👤 *CLIENTE:* ${nomeCliente}\n`;
+      msg += `👤 *CLIENTE:* ${nomeClientM}\n`; // Insere nome na msg
       msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
       msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
       msg += `📅 *DATA PRETENDIDA:* ${dataFormatada}\n\n`;
@@ -447,3 +452,145 @@
       window.open(url, '_blank');
       fecharModalPersonalizados();
     }
+
+    function lembreteCaixa() {
+      mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!", "aviso");
+    }
+
+    function alterarQtd(id, delta) {
+      if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
+      const qtdAtual = quantidades[id] || 0;
+      const novaQtd = qtdAtual + delta;
+      if (novaQtd < 0) return;
+
+      const totalDesejado = caixaAtiva.totalDoces;
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+
+      if (delta > 0 && totalSelecionado >= totalDesejado) {
+        mostrarNotificacao("Caixa cheia!", "aviso");
+        return;
+      }
+
+      quantidades[id] = novaQtd;
+      renderizarDoces();
+      atualizarInterface();
+    }
+
+    function encontrarDoce(id) {
+      for (let g of catalogo) {
+        for (let item of g.itens) {
+          if (item.id === id) return item;
+        }
+      }
+      return null;
+    }
+
+    function atualizarInterface() {
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      const listaContainer = document.getElementById('lista-selecionados');
+      const progressContagem = document.getElementById('contagem-doces');
+      const progressBar = document.getElementById('barra-progresso');
+      const labelValor = document.getElementById('valor-total');
+
+      if (!listaContainer) return;
+      listaContainer.innerHTML = "";
+
+      if (!caixaAtiva) return;
+
+      if (progressContagem) progressContagem.innerText = `${totalSelecionado} / ${caixaAtiva.totalDoces}`;
+      if (progressBar) progressBar.style.width = `${(totalSelecionado / caixaAtiva.totalDoces) * 100}%`;
+
+      let valorCalculado = 0;
+      Object.entries(quantidades).forEach(([id, q]) => {
+        const doce = encontrarDoce(id);
+        if (doce && q > 0) {
+          valorCalculado += doce.preco * q;
+          listaContainer.innerHTML += `<p class="text-xs p-1 text-gray-700">${doce.nome} x ${q}</p>`;
+        }
+      });
+
+      if(labelValor) labelValor.innerText = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
+      actualizarEstadoBotao();
+    }
+
+    function actualizarEstadoBotao() {
+      const btn = document.getElementById('btn-whatsapp');
+      if(btn) btn.disabled = !caixaAtiva;
+    }
+
+    function openModal(src, title, price, id) {
+      document.getElementById('modal-img').src = src;
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-price').innerText = price;
+      
+      const modalBtn = document.getElementById('modal-add-btn');
+      if (caixaAtiva) {
+        modalBtn.innerText = "Adicionar ao Pedido";
+        modalBtn.onclick = function() {
+          alterarQtd(id, 1);
+          closeModal();
+        };
+      } else {
+        modalBtn.innerText = "Selecionar Caixa Primeiro";
+        modalBtn.onclick = function() {
+          closeModal();
+          lembreteCaixa();
+        };
+      }
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    function mostrarNotificacao(mensagem, tipo = 'aviso') {
+      const toast = document.getElementById('custom-toast');
+      const toastText = document.getElementById('toast-text');
+      if(toastText) toastText.innerText = mensagem;
+      if(toast) {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold transition-all";
+        setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
+      }
+    }
+
+    function enviarPedidoWhatsApp() {
+      const nome = document.getElementById('nome-cliente').value.trim();
+      const data = document.getElementById('data-desejada').value;
+      const [ano, mes, dia] = data.split('-');
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+      let valorTotalStr = document.getElementById('valor-total').innerText;
+
+      let texto = `Olá, OBA Doceria! Gostaria de agendar uma encomenda:\n\n`;
+      texto += `*CLIENTE:* ${nome}\n`;
+      texto += `*DATA DESEJADA:* ${dataFormatada}\n`;
+      texto += `*OPÇÃO:* ${caixaAtiva.titulo}\n`;
+      texto += `*VALOR ESTIMADO:* ${valorTotalStr}\n\n`;
+
+      if (caixaAtiva.id !== 'degustacao') {
+        texto += `*SABORES ESCOLHIDOS:*\n`;
+        Object.entries(quantidades).forEach(([id, q]) => {
+          if (q > 0) {
+            const doceObj = encontrarDoce(id);
+            if (doceObj) {
+              texto += `- ${q} un. ${doceObj.nome} (R$ ${doceObj.preco.toFixed(2).replace('.', ',')} / un)\n`;
+            }
+          }
+        });
+      } else {
+        texto += `_Caixa degustação com os 25 sabores sortidos do dia selecionados pela doceria._\n`;
+      }
+
+      const fone = "5555999117626";
+      const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+
+    function scrollParaCheckout() { document.getElementById('nome-cliente').scrollIntoView({ behavior: 'smooth' }); }
+
+    window.onload = function() {
+      init();
+    };
+  </script>
+</body>
+</html>
