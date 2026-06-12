@@ -227,4 +227,253 @@
     let categoryActive = "Todos";
 
     function handleImageError(imgElement, name) {
-      imgElement.
+      imgElement.onerror = null;
+      imgElement.src = "Images/Leite Ninho.jpeg";
+    }
+
+    function init() {
+      renderizarOpcoesCaixas();
+      renderizarAbasCategorias();
+      renderizarDoces();
+      atualizarInterface();
+    }
+
+    function renderizarOpcoesCaixas() {
+      const container = document.getElementById('opcoes-caixas');
+      if(!container) return;
+      container.innerHTML = "";
+      Object.values(caixas).forEach(box => {
+        container.innerHTML += `
+          <button onclick="selecionarCaixa('${box.id}')" id="btn-caixa-${box.id}" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm w-full">
+            <div>
+              <span id="badge-caixa-${box.id}" class="hidden absolute top-3 right-3 bg-[#8B4513] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">ATIVADA</span>
+              <h3 class="font-extrabold text-sm text-[#8B4513] pr-12">${box.titulo}</h3>
+              <p class="text-[11px] text-gray-500 mt-1">${box.id === 'degustacao' ? 'Sabores variados.' : `Até ${box.limiteSabores} sabores.`}</p>
+            </div>
+            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculado'}</div>
+          </button>
+        `;
+      });
+    }
+
+    function selecionarCaixa(id) {
+      caixaAtiva = caixas[id];
+      quantidades = {};
+      Object.keys(caixas).forEach(boxId => {
+        const btn = document.getElementById(`btn-caixa-${boxId}`);
+        const badge = document.getElementById(`badge-caixa-${boxId}`);
+        if (btn) {
+          if (boxId === id) {
+            btn.className = "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-md w-full";
+            if(badge) badge.classList.remove('hidden');
+          } else {
+            btn.className = "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm w-full";
+            if(badge) badge.classList.add('hidden');
+          }
+        }
+      });
+      if (id === 'degustacao') {
+        mostrarNotificacao("Caixa Degustação ativa!", "sucesso");
+      } else {
+        mostrarNotificacao(`Caixa de ${caixaAtiva.totalDoces} ativa!`, "sucesso");
+      }
+      renderizarDoces();
+      atualizarInterface();
+    }
+
+    function renderizarAbasCategorias() {
+      const container = document.getElementById('abas-categorias');
+      if (!container) return;
+      container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">Todos</button>`;
+      catalogo.forEach(g => {
+        const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+        container.innerHTML += `
+          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm">${g.categoria.split(" (")[0]}</button>
+        `;
+      });
+      atualizarVisualAbas();
+    }
+
+    function filtrarCategoria(cat) {
+      categoryActive = cat;
+      atualizarVisualAbas();
+      renderizarDoces();
+    }
+
+    function atualizarVisualAbas() {
+      const abaTodos = document.getElementById('aba-Todos');
+      if (!abaTodos) return;
+      if (categoryActive === 'Todos') {
+        abaTodos.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-[#8B4513] text-white shadow-md";
+      } else {
+        abaTodos.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5] hover:bg-gray-50";
+      }
+      catalogo.forEach(g => {
+        const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+        const btn = document.getElementById(`aba-${idSafe}`);
+        if (btn) {
+          if (categoryActive === g.categoria) {
+            btn.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-[#8B4513] text-white shadow-md";
+          } else {
+            btn.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5] hover:bg-gray-50";
+          }
+        }
+      });
+    }
+
+    function filtrarSaboresManual() {
+      renderizarDoces();
+    }
+
+    function renderizarDoces() {
+      const grid = document.getElementById('cardapio-grid');
+      if (!grid) return;
+      grid.innerHTML = "";
+      let docesExibidos = 0;
+      const termoBusca = document.getElementById('busca-sabor').value.toLowerCase();
+
+      catalogo.forEach(g => {
+        if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
+        g.itens.forEach(item => {
+          if (termoBusca && !item.nome.toLowerCase().includes(termoBusca)) return;
+          const qtd = quantidades[item.id] || 0;
+          docesExibidos++;
+
+          grid.innerHTML += `
+            <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden transition-all hover:shadow-lg w-full">
+              <div class="w-full aspect-square flex items-center justify-center bg-gray-50 overflow-hidden relative">
+                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover" onerror="handleImageError(this, '${item.nome}')">
+              </div>
+              <div class="p-4 w-full flex flex-col flex-1 justify-between">
+                <div>
+                  <h3 class="font-bold text-sm md:text-base mb-1 text-[#3B2A1E] line-clamp-1">${item.nome}</h3>
+                  <button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-xs text-[#8B4513] underline mb-3 inline-block">Ver detalhes</button>
+                </div>
+                <div class="w-full">
+                  <p class="text-xs text-gray-500 font-semibold mb-2">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
+                  ${caixaAtiva && caixaAtiva.id !== 'degustacao' ? `
+                    <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
+                      <button onclick="alterarQtd('${item.id}', -1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-white hover:bg-gray-100 text-[#8B4513] transition-colors">-</button>
+                      <span class="font-bold text-sm mx-2 text-[#3B2A1E]">${qtd}</span>
+                      <button onclick="alterarQtd('${item.id}', 1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-[#8B4513] text-white hover:bg-[#6e3710] transition-colors">+</button>
+                    </div>
+                  ` : `
+                    <button onclick="lembreteCaixa()" class="w-full py-2 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold transition-all hover:bg-gray-200">Escolha a caixa</button>
+                  `}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      });
+    }
+
+    function lembreteCaixa() {
+      mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!", "aviso");
+    }
+
+    function alterarQtd(id, delta) {
+      if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
+      const qtdAtual = quantidades[id] || 0;
+      const novaQtd = qtdAtual + delta;
+      if (novaQtd < 0) return;
+
+      const totalDesejado = caixaAtiva.totalDoces;
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+
+      if (delta > 0 && totalSelecionado >= totalDesejado) {
+        mostrarNotificacao("Caixa cheia!", "aviso");
+        return;
+      }
+
+      quantidades[id] = novaQtd;
+      renderizarDoces();
+      atualizarInterface();
+    }
+
+    function encontrarDoce(id) {
+      for (let g of catalogo) {
+        for (let item of g.itens) {
+          if (item.id === id) return item;
+        }
+      }
+      return null;
+    }
+
+    function atualizarInterface() {
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      const listaContainer = document.getElementById('lista-selecionados');
+      const progressContagem = document.getElementById('contagem-doces');
+      const progressBar = document.getElementById('barra-progresso');
+      const labelValor = document.getElementById('valor-total');
+
+      if (!listaContainer) return;
+      listaContainer.innerHTML = "";
+
+      if (!caixaAtiva) return;
+
+      if (progressContagem) progressContagem.innerText = `${totalSelecionado} / ${caixaAtiva.totalDoces}`;
+      if (progressBar) progressBar.style.width = `${(totalSelecionado / caixaAtiva.totalDoces) * 100}%`;
+
+      let valorCalculado = 0;
+      Object.entries(quantidades).forEach(([id, q]) => {
+        const doce = encontrarDoce(id);
+        if (doce && q > 0) {
+          valorCalculado += doce.preco * q;
+          listaContainer.innerHTML += `<p class="text-xs p-1 text-gray-700">${doce.nome} x ${q}</p>`;
+        }
+      });
+
+      if(labelValor) labelValor.innerText = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
+      atualizarEstadoBotao();
+    }
+
+    function atualizarEstadoBotao() {
+      const btn = document.getElementById('btn-whatsapp');
+      if(btn) btn.disabled = !caixaAtiva;
+    }
+
+    function openModal(src, title, price, id) {
+      document.getElementById('modal-img').src = src;
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-price').innerText = price;
+      
+      const modalBtn = document.getElementById('modal-add-btn');
+      if (caixaAtiva) {
+        modalBtn.innerText = "Adicionar ao Pedido";
+        modalBtn.onclick = function() {
+          alterarQtd(id, 1);
+          closeModal();
+        };
+      } else {
+        modalBtn.innerText = "Selecionar Caixa Primeiro";
+        modalBtn.onclick = function() {
+          closeModal();
+          lembreteCaixa();
+        };
+      }
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    function mostrarNotificacao(mensagem, tipo = 'aviso') {
+      const toast = document.getElementById('custom-toast');
+      const toastText = document.getElementById('toast-text');
+      if(toastText) toastText.innerText = mensagem;
+      if(toast) {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold transition-all";
+        setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
+      }
+    }
+
+    function enviarPedidoWhatsApp() {}
+
+    window.onload = function() {
+      init();
+    };
+  </script>
+</body>
+</html>
