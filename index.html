@@ -16,22 +16,22 @@
     <span id="toast-text" class="font-bold text-center w-full"></span>
   </div>
 
-  <div id="modal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-2" onclick="closeModal()">
-    <div class="bg-white max-w-2xl w-full max-h-[90vh] rounded-3xl p-4 relative shadow-2xl overflow-y-auto" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-20 rounded-full p-2 z-10 text-white text-xl">✕</button>
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
+    <div class="bg-white max-w-2xl w-full rounded-3xl p-8 relative shadow-2xl" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 rounded-full p-3 z-10 transition-all text-gray-600">✕</button>
       
-      <div class="w-full h-[50vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-6 overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain" onerror="handleImageError(this, this.alt)">
+      <h2 id="modal-title" class="text-3xl font-extrabold text-[#8B4513] mb-6 text-center"></h2>
+      
+      <div class="w-full h-[50vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-6 overflow-hidden border border-gray-100">
+          <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain p-2" onerror="handleImageError(this, this.alt)">
       </div>
       
-      <div class="px-2">
-        <h2 id="modal-title" class="text-3xl font-bold text-[#8B4513] mb-3"></h2>
-        <p id="modal-desc" class="text-lg text-gray-700 mb-8 leading-relaxed"></p>
-        
-        <div class="flex items-center justify-between border-t border-gray-100 pt-6">
-          <span id="modal-price" class="text-2xl font-bold text-[#8B4513]"></span>
-          <button id="modal-add-btn" class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95">Adicionar ao Pedido</button>
+      <div class="flex items-center justify-between border-t border-gray-100 pt-6">
+        <div class="flex flex-col">
+          <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
+          <span id="modal-price" class="text-3xl font-black text-[#8B4513]"></span>
         </div>
+        <button id="modal-add-btn" class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95 text-lg"></button>
       </div>
     </div>
   </div>
@@ -180,7 +180,7 @@
       {
         categoria: "Especiais I (R$ 3,00)",
         itens: [
-          { id: "mega_300", nome: "Mega", preco: 3.00, desc: "O rei das encomendas: Brigadeiro ao leite coroado with espiral of Nutella.", img: "Images/Mega.jpeg" },
+          { id: "mega_300", nome: "Mega", preco: 3.00, desc: "O rei das encomendas: Brigadeiro ao leite coroado com espiral de Nutella.", img: "Images/Mega.jpeg" },
           { id: "nozes_300", nome: "Nozes", preco: 3.00, desc: "Chocolate branco com farta quantidade de nozes chilenas trituradas na panela.", img: "Images/Nozes.jpeg" },
           { id: "queijo_goiabada_300", nome: "Queijo e goiabada", preco: 3.00, desc: "Perfeita combinação mineira de queijo nobre com nossa goiabada cascão artesanal.", img: "Images/Queijo e Goiabada.jpeg" },
           { id: "queijo_doce_leite_300", nome: "Queijo e doce de leite", preco: 3.00, desc: "Doce de leite cremoso nobre contrastando suavemente com queijo especial.", img: "Images/Queijo e Doce de Leite.jpeg" },
