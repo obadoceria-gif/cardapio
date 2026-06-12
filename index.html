@@ -9,7 +9,7 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @import url('https://fonts.googleapis.com/css2 family=Poppins:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
   </style>
 </head>
 <body class="bg-[#FFF8F0] text-[#3B2A1E] font-sans antialiased">
@@ -41,8 +41,8 @@
       
       <div class="text-center mb-6">
         <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">PROMOÇÃO AGENDA 2026</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Solicitar Orçamento de Doces Decorados</h2>
-        <p class="text-[#D8B36A] font-bold text-sm">Insira seus dados para verificar disponibilidade de vaga</p>
+        <h2 class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Orçamento de Doces Personalizados</h2>
+        <p class="text-[#D8B36A] font-bold text-sm">Insira as informações básicas para verificar disponibilidade</p>
       </div>
 
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
@@ -548,7 +548,6 @@
       
       if(!btn) return;
 
-      // Adicionada a validação da hora
       if (!caixaAtiva || !nome || !data || !hora) {
         btn.disabled = true;
         return;
@@ -617,7 +616,7 @@
       let texto = `Olá, OBA Doceria! Gostaria de agendar uma encomenda:\n\n`;
       texto += `*CLIENTE:* ${nome}\n`;
       texto += `*DATA DESEJADA:* ${dataFormatada}\n`;
-      texto += `*HORA DESEJADA:* ${hora}\n`; // Adicionado no texto do Whats
+      texto += `*HORA DESEJADA:* ${hora}\n`;
       texto += `*OPÇÃO:* ${caixaAtiva.titulo}\n`;
       texto += `*VALOR ESTIMADO:* ${valorTotalStr}\n\n`;
 
