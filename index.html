@@ -118,7 +118,7 @@
             <div class="absolute -right-8 -top-8 w-24 h-24 bg-orange-100 rounded-full opacity-40 blur-xl pointer-events-none"></div>
             
             <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3">
-              <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-ping"></span>
+              <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></span>
               Agenda Aberta 2026
             </div>
             
@@ -440,150 +440,10 @@
       msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
       msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
       msg += `📅 *DATA PRETENDIDA:* ${dataFormatada}\n\n`;
-      msg += `_Fico aguardando o retorno para avaliarmos a complexidade da comemoração!_`;
+      msg += `_Fico aguardando o retorno para avaliarmos a comemoração!_`;
 
       const fone = "5555999117626";
       const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
       fecharModalPersonalizados();
     }
-
-    function lembreteCaixa() {
-      mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!", "aviso");
-    }
-
-    function alterarQtd(id, delta) {
-      if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
-      const qtdAtual = quantidades[id] || 0;
-      const novaQtd = qtdAtual + delta;
-      if (novaQtd < 0) return;
-
-      const totalDesejado = caixaAtiva.totalDoces;
-      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
-
-      if (delta > 0 && totalSelecionado >= totalDesejado) {
-        mostrarNotificacao("Caixa cheia!", "aviso");
-        return;
-      }
-
-      quantidades[id] = novaQtd;
-      renderizarDoces();
-      atualizarInterface();
-    }
-
-    function encontrarDoce(id) {
-      for (let g of catalogo) {
-        for (let item of g.itens) {
-          if (item.id === id) return item;
-        }
-      }
-      return null;
-    }
-
-    function atualizarInterface() {
-      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
-      const listaContainer = document.getElementById('lista-selecionados');
-      const progressContagem = document.getElementById('contagem-doces');
-      const progressBar = document.getElementById('barra-progresso');
-      const labelValor = document.getElementById('valor-total');
-
-      if (!listaContainer) return;
-      listaContainer.innerHTML = "";
-
-      if (!caixaAtiva) return;
-
-      if (progressContagem) progressContagem.innerText = `${totalSelecionado} / ${caixaAtiva.totalDoces}`;
-      if (progressBar) progressBar.style.width = `${(totalSelecionado / caixaAtiva.totalDoces) * 100}%`;
-
-      let valorCalculado = 0;
-      Object.entries(quantidades).forEach(([id, q]) => {
-        const doce = encontrarDoce(id);
-        if (doce && q > 0) {
-          valorCalculado += doce.preco * q;
-          listaContainer.innerHTML += `<p class="text-xs p-1 text-gray-700">${doce.nome} x ${q}</p>`;
-        }
-      });
-
-      if(labelValor) labelValor.innerText = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
-      atualizarEstadoBotao();
-    }
-
-    function atualizarEstadoBotao() {
-      const btn = document.getElementById('btn-whatsapp');
-      if(btn) btn.disabled = !caixaAtiva;
-    }
-
-    function openModal(src, title, price, id) {
-      document.getElementById('modal-img').src = src;
-      document.getElementById('modal-title').innerText = title;
-      document.getElementById('modal-price').innerText = price;
-      
-      const modalBtn = document.getElementById('modal-add-btn');
-      if (caixaAtiva) {
-        modalBtn.innerText = "Adicionar ao Pedido";
-        modalBtn.onclick = function() {
-          alterarQtd(id, 1);
-          closeModal();
-        };
-      } else {
-        modalBtn.innerText = "Selecionar Caixa Primeiro";
-        modalBtn.onclick = function() {
-          closeModal();
-          lembreteCaixa();
-        };
-      }
-      document.getElementById('modal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('modal').classList.add('hidden');
-    }
-
-    function mostrarNotificacao(mensagem, tipo = 'aviso') {
-      const toast = document.getElementById('custom-toast');
-      const toastText = document.getElementById('toast-text');
-      if(toastText) toastText.innerText = mensagem;
-      if(toast) {
-        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold transition-all";
-        setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
-      }
-    }
-
-    function enviarPedidoWhatsApp() {
-      const nome = document.getElementById('nome-cliente').value.trim();
-      const data = document.getElementById('data-desejada').value;
-      const [ano, mes, dia] = data.split('-');
-      const dataFormatada = `${dia}/${mes}/${ano}`;
-      let valorTotalStr = document.getElementById('valor-total').innerText;
-
-      let texto = `Olá, OBA Doceria! Gostaria de agendar uma encomenda:\n\n`;
-      texto += `*CLIENTE:* ${nome}\n`;
-      texto += `*DATA DESEJADA:* ${dataFormatada}\n`;
-      texto += `*OPÇÃO:* ${caixaAtiva.titulo}\n`;
-      texto += `*VALOR ESTIMADO:* ${valorTotalStr}\n\n`;
-
-      if (caixaAtiva.id !== 'degustacao') {
-        texto += `*SABORES ESCOLHIDOS:*\n`;
-        Object.entries(quantidades).forEach(([id, q]) => {
-          if (q > 0) {
-            const doceObj = encontrarDoce(id);
-            if (doceObj) {
-              texto += `- ${q} un. ${doceObj.nome} (R$ ${doceObj.preco.toFixed(2).replace('.', ',')} / un)\n`;
-            }
-          }
-        });
-      } else {
-        texto += `_Caixa degustação com os 25 sabores sortidos do dia selecionados pela doceria._\n`;
-      }
-
-      const fone = "5555999117626";
-      const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
-      window.open(url, '_blank');
-    }
-
-    window.onload = function() {
-      init();
-    };
-  </script>
-</body>
-</html>
