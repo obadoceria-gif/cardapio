@@ -10,6 +10,14 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+    
+    /* Remove as setas padrão do input number para manter o design limpo */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    input[type=number] { -moz-appearance: textfield; }
   </style>
 </head>
 <body class="bg-[#FFF8F0] text-[#3B2A1E] font-sans antialiased">
@@ -20,7 +28,6 @@
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
-      
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all text-sm shadow-md">✕</button>
       
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
@@ -80,15 +87,15 @@
          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
-              <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
+              <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
-              <input type="text" id="pers-tema" placeholder="Ex: Fazendinha" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
+              <input type="text" id="pers-tema" placeholder="Ex: Fazendinha" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Data Pretendida *</label>
-              <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
+              <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
          </div>
          <button onclick="enviarOrcamentoPersonalizado()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2">
@@ -283,26 +290,6 @@
         ]
       },
       {
-        categoria: "Especiais II (R$ 3,25)",
-        itens: [
-          { id: "caramelo_salgado_325", nome: "Caramelo Salgado", preco: 3.25, desc: "Massa requintada de caramelo de panela equilibrada com pitada fina de flor de sal.", img: "Images/Caramelo Salgado.jpeg" },
-          { id: "abacaxi_coco_325", nome: "Abacaxi com coco", preco: 3.25, desc: "Brigadeiro de coco decorado no topo com a nossa maravilhosa geleia caseira de abacaxi.", img: "Images/Abacaxi e Coco.jpeg" },
-          { id: "ferrero_325", nome: "Ferrero", preco: 3.25, desc: "Brigadeiro de chocolate trufado envolto in xerém of avelãs tostadas com topo of Nutella.", img: "Images/Ferrero.jpeg" },
-          { id: "crocante_nutella_325", nome: "Crocante de Nutella", preco: 3.25, desc: "Brigadeiro de Nutella recheado com flocos crocantes que estalam na boca.", img: "Images/Crocante de Nutella.jpeg" },
-          { id: "bacon_abacaxi_325", nome: "Bacon com Abacaxi", preco: 3.25, desc: "Ousada e deliciosa receita de geleia de abacaxi ácida com bacon crocante.", img: "Images/Bacon e Abacaxi.jpeg" },
-          { id: "bacon_chocolate_325", nome: "Bacon com Chocolate", preco: 3.25, desc: "Contraste surpreendente de bacon defumado moído cozido com cacau nobre ao leite.", img: "Images/Bacon com Chocolate.jpeg" },
-          { id: "laranja_amendoas_325", nome: "Laranja com amêndoas", preco: 3.25, desc: "Brigadeiro cítrico de laranja com lâminas tostadas finas de amêndoas crocantes.", img: "Images/Laranja com Amêndoas.jpeg" },
-          { id: "laranja_coco_325", nome: "Laranja com coco", preco: 3.25, desc: "Massa de laranja fresca decorada no topo com coco ralado fino.", img: "Images/Laranja com Coco.jpeg" },
-          { id: "nozes_figo_325", nome: "Nozes e Figo", preco: 3.25, desc: "Brigadeiro rico in nozes chilenas decorado com o doce artesanal de figo in calda.", img: "Images/Nozes e Figo.jpeg" },
-          { id: "cheesecake_325", nome: "Cheesecake", preco: 3.25, desc: "Suave e aveludada massa of cream cheese decorada com nossa calda caseira of morango.", img: "Images/Cheesecake.jpeg" },
-          { id: "gorgonzola_geleia_325", nome: "Gorgonzola e Geléia", preco: 3.25, desc: "A surpreendente combinação gourmet of queijo gorgonzola suave e geleia of morango.", img: "Images/Gorgonzola e Geleia.jpeg" },
-          { id: "gorgonzola_damasco_325", nome: "Gorgonzola e Damasco", preco: 3.25, desc: "Elegante e requintado brigadeiro of queijo azul gorgonzola finalizado com damasco seco.", img: "Images/Gorgonzola e Damasco.jpeg" },
-          { id: "uva_branco_325", nome: "Uva com Brigadeiro Branco", preco: 3.25, desc: "Uva verde fresca e sumarenta, sem grainha, envolvida pela clássica massa branca.", img: "Images/Uva com Brigadeiro Branco.jpeg" },
-          { id: "uva_ao_leite_325", nome: "Uva com Brigadeiro ao Leite", preco: 3.25, desc: "Uva verde fresca sem sementes envolta no tradicional brigadeiro ao leite.", img: "Images/Uva com Brigadeiro ao Leite.jpeg" },
-          { id: "uva_meio_amargo_325", nome: "Uva com Brigadeiro Meio Amargo", preco: 3.25, desc: "Uva verde crocante e fresca revestida por brigadeiro de chocolate meio amargo.", img: "Images/Uva com Brigadeiro Meio Amargo.jpeg" }
-        ]
-      },
-      {
         categoria: "Frutas & Especiais III (R$ 4,00)",
         itens: [
           { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, desc: "Morango fresco e suculento envolvido inteiramente por farta massa branca.", img: "Images/Morango - Branco.jpeg" },
@@ -422,7 +409,7 @@
                   ${caixaAtiva && caixaAtiva.id !== 'degustacao' ? `
                     <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
                       <button onclick="alterarQtd('${item.id}', -1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-white hover:bg-gray-100 text-[#8B4513] transition-colors">-</button>
-                      <span class="font-bold text-sm mx-2 text-[#3B2A1E]">${qtd}</span>
+                      <input type="number" value="${qtd}" min="0" onchange="digitarQtd('${item.id}', this.value)" class="w-12 text-center font-bold text-sm bg-transparent outline-none border-b border-transparent focus:border-[#8B4513] text-[#3B2A1E]">
                       <button onclick="alterarQtd('${item.id}', 1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-[#8B4513] text-white hover:bg-[#6e3710] transition-colors">+</button>
                     </div>
                   ` : `
@@ -458,7 +445,7 @@
       const [ano, mes, dia] = dataEntrega.split('-');
       const dataFormatada = `${dia}/${mes}/${ano}`;
 
-      let msg = `Olá, OBA Doceria!\nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
+      let msg = `Olá, OBA Doceria! \nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
       msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
       msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
       msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
@@ -484,6 +471,15 @@
       }
     }
 
+    function verificarCaixaCompleta() {
+      if (!caixaAtiva) return;
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      if (totalSelecionado === caixaAtiva.totalDoces) {
+        mostrarNotificacao("Caixa preenchida com sucesso! Preencha os dados abaixo.", "sucesso");
+        setTimeout(focarFormularioCheckout, 800);
+      }
+    }
+
     function alterarQtd(id, delta) {
       if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
       const qtdAtual = quantidades[id] || 0;
@@ -491,22 +487,49 @@
       if (novaQtd < 0) return;
 
       const totalDesejado = caixaAtiva.totalDoces;
-      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      const totalSelecionadoGeral = Object.values(quantidades).reduce((a, b) => a + b, 0) - qtdAtual;
 
-      if (delta > 0 && totalSelecionado >= totalDesejado) {
-        mostrarNotificacao("Caixa cheia!", "aviso");
+      if (delta > 0 && (totalSelecionadoGeral + novaQtd) > totalDesejado) {
+        mostrarNotificacao("Sua caixa já está cheia!", "aviso");
         return;
       }
 
-      quantidades[id] = novaQtd;
+      if (novaQtd === 0) {
+        delete quantidades[id];
+      } else {
+        quantidades[id] = novaQtd;
+      }
+      
       renderizarDoces();
       atualizarInterface();
+      verificarCaixaCompleta();
+    }
 
-      const totalAposAdicionar = Object.values(quantidades).reduce((a, b) => a + b, 0);
-      if (totalAposAdicionar === totalDesejado) {
-        mostrarNotificacao("Caixa completa! Por favor, introduza os dados para entrega.", "sucesso");
-        setTimeout(focarFormularioCheckout, 800);
+    // NOVA FUNÇÃO: Trata a inserção de texto manual digitada pelo usuário
+    function digitarQtd(id, valor) {
+      if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
+      
+      let qtdDigitada = parseInt(valor);
+      if (isNaN(qtdDigitada) || qtdDigitada < 0) qtdDigitada = 0;
+
+      const qtdAtualDoce = quantidades[id] || 0;
+      const totalOutrosDoces = Object.values(quantidades).reduce((a, b) => a + b, 0) - qtdAtualDoce;
+      const espacoLivre = caixaAtiva.totalDoces - totalOutrosDoces;
+
+      if (qtdDigitada > espacoLivre) {
+        mostrarNotificacao(`Quantidade ajustada para ${espacoLivre} para não estourar o limite da caixa!`, "aviso");
+        qtdDigitada = espacoLivre;
       }
+
+      if (qtdDigitada === 0) {
+        delete quantidades[id];
+      } else {
+        quantidades[id] = qtdDigitada;
+      }
+
+      renderizarDoces();
+      atualizarInterface();
+      verificarCaixaCompleta();
     }
 
     function encontrarDoce(id) {
@@ -664,6 +687,8 @@
       const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
       window.open(url, '_blank');
     }
+
+    function scrollParaCheckout() { document.getElementById('nome-cliente').scrollIntoView({ behavior: 'smooth' }); }
 
     window.onload = function() {
       init();
