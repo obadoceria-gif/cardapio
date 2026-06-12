@@ -11,7 +11,6 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
     
-    /* Remove as setas padrão do campo numérico para um design limpo */
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: none; 
@@ -29,16 +28,13 @@
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all text-sm shadow-md">✕</button>
-      
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
           <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105" onerror="handleImageError(this, 'Doce')">
       </div>
-      
       <div class="p-6 bg-white">
         <div class="text-center mb-4">
           <h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513] tracking-tight"></h2>
         </div>
-        
         <div class="flex items-center justify-between border-t border-gray-100 pt-4">
           <div class="flex flex-col">
             <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
@@ -52,14 +48,44 @@
     </div>
   </div>
 
+  <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
+    <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-6" onclick="event.stopPropagation()">
+      <div class="w-16 h-16 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
+        <i class="fa-solid fa-box-open"></i>
+      </div>
+      
+      <div class="space-y-2">
+        <h2 class="text-2xl font-black text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
+        <p id="texto-caixa-completa" class="text-xs text-gray-600 leading-relaxed"></p>
+      </div>
+
+      <div id="card-oferta-upgrade" class="bg-gradient-to-br from-amber-50 to-orange-100 border border-orange-200 p-4 rounded-2xl hidden">
+        <span class="text-[9px] bg-orange-600 text-white font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Dica da OBA Doceria</span>
+        <p id="texto-oferta-upgrade" class="text-xs text-[#8B4513] font-bold mt-2 leading-relaxed"></p>
+      </div>
+
+      <div class="flex flex-col gap-2 pt-2">
+        <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
+        </button>
+        <button onclick="fecharModalCompletaAndCheckout()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider transition-all">
+          <i class="fa-solid fa-check"></i> Finalizar Pedido Atual
+        </button>
+        <button onclick="fecharModalCompleta()" class="w-full py-2 text-xs font-bold text-gray-400 hover:text-gray-600 transition-colors">
+          Apenas revisar os sabores escolhidos
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8" onclick="event.stopPropagation()">
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-3 text-gray-600 font-bold">✕</button>
       
       <div class="text-center mb-6">
-        <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">PROMOÇÃO AGENDA 2026</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Orçamento de Doces Personalizados</h2>
-        <p class="text-[#D8B36A] font-bold text-sm">Insira suas informações básicas para verificar disponibilidade</p>
+        <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">ORÇAMENTO EXCLUSIVO 2026</span>
+        <h2 id="titulo-modal-especial" class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Orçamento de Doces Personalizados</h2>
+        <p class="text-[#D8B36A] font-bold text-sm">Insira suas informações para verificarmos a disponibilidade na agenda</p>
       </div>
 
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
@@ -67,7 +93,7 @@
         <input type="text" id="pers-nome" placeholder="Ex: Paulo" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none focus:border-orange-500 shadow-sm">
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div id="grid-info-precos" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div class="bg-orange-50 p-4 rounded-xl border border-orange-200 text-xs text-gray-700 space-y-1.5">
           <h4 class="font-bold text-[#8B4513] uppercase tracking-wider">Especificações:</h4>
           <p>• Modelados com pasta de leite em pó (100% comestível).</p>
@@ -86,11 +112,11 @@
       <div class="space-y-4 bg-gray-50 p-5 rounded-xl border border-gray-200">
          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
+              <label id="label-qtd-especial" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
               <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
+              <label id="label-tema-especial" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
               <input type="text" id="pers-tema" placeholder="Ex: Fazendinha" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div>
@@ -115,7 +141,6 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       <div class="lg:col-span-8 space-y-6">
-        
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <span class="bg-[#8B4513] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm">1</span>
@@ -136,27 +161,39 @@
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-4">
         
         <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-6 flex flex-col items-center text-center relative overflow-hidden border border-amber-200">
-            <div class="absolute -right-8 -top-8 w-24 h-24 bg-orange-100 rounded-full opacity-40 blur-xl pointer-events-none"></div>
-            
-            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3">
+          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-amber-200">
+            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2">
               <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></span>
-              Agenda Aberta 2026
+              Modelagem à Mão Livre
             </div>
-            
-            <h3 class="font-extrabold text-xl text-[#8B4513] leading-tight">Doces Personalizados<br>& Decorados</h3>
-            
-            <div class="flex items-baseline justify-center gap-1 my-3 bg-amber-50 px-4 py-2 rounded-2xl border border-amber-100 shadow-inner">
-              <span class="text-orange-600 font-black text-4xl tracking-tight">60%</span>
-              <span class="text-[#8B4513] font-extrabold text-sm uppercase">OFF</span>
+            <h3 class="font-extrabold text-lg text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
+            <div class="my-2 bg-amber-50 px-3 py-1 rounded-xl border border-amber-100 shadow-inner">
+              <span class="text-orange-600 font-black text-2xl tracking-tight">60% OFF</span>
             </div>
-            
-            <p class="text-xs text-gray-600 leading-relaxed mb-4 max-w-[240px]">
+            <p class="text-[11px] text-gray-600 leading-relaxed mb-3 max-w-[240px]">
               Transforme o seu evento em uma obra de arte com doces modelados à mão livre.
             </p>
-            
-            <button onclick="abrirModalPersonalizados()" class="w-full py-3.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all flex items-center justify-center gap-2 border-b-4 border-[#5c2d0c] active:border-b-0 active:translate-y-1">
+            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-3 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all border-b-4 border-[#5c2d0c] active:border-b-0 active:translate-y-1">
               <i class="fa-solid fa-wand-magic-sparkles"></i> Clique aqui para fazer a sua reserva
+            </button>
+          </div>
+        </section>
+
+        <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+          <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-yellow-200">
+            <div class="flex items-center gap-1.5 bg-yellow-100 text-yellow-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2">
+              <span class="w-1.5 h-1.5 bg-yellow-600 rounded-full animate-pulse"></span>
+              Atendimento Premium
+            </div>
+            <h3 class="font-extrabold text-lg text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
+            <div class="my-2 bg-yellow-50 px-3 py-1 rounded-xl border border-yellow-100 shadow-inner">
+              <span class="text-yellow-700 font-black text-xs uppercase tracking-wider">✨ Assessoria & Degustação</span>
+            </div>
+            <p class="text-[11px] text-gray-600 leading-relaxed mb-3 max-w-[240px]">
+              Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para a sua mesa de doces.
+            </p>
+            <button onclick="abrirModalEspecial('eventos')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#5c2d0c] hover:to-yellow-700 transition-all border-b-4 border-[#3a1a05] active:border-b-0 active:translate-y-1">
+              <i class="fa-solid fa-champagne-glasses"></i> Solicitar Orçamento de Festa
             </button>
           </div>
         </section>
@@ -226,11 +263,11 @@
 
   <script>
     const caixas = {
-      '25': { id: '25', titulo: 'Caixa de 25 Doces', limiteSabores: 7, totalDoces: 25 },
-      '35': { id: '35', titulo: 'Caixa de 35 Doces', limiteSabores: 7, totalDoces: 35 },
-      '50': { id: '50', titulo: 'Caixa de 50 Doces', limiteSabores: 10, totalDoces: 50 },
-      '100': { id: '100', titulo: 'Caixa de 100 Doces', limiteSabores: 14, totalDoces: 100 },
-      'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (25 Sabores Sortidos)', limiteSabores: 0, totalDoces: 25, precoFixo: 75.00 }
+      '25': { id: '25', titulo: 'Caixa de 25 Doces', limiteSabores: 7, totalDoces: 25, proximoId: '35' },
+      '35': { id: '35', titulo: 'Caixa de 35 Doces', limiteSabores: 7, totalDoces: 35, proximoId: '50' },
+      '50': { id: '50', titulo: 'Caixa de 50 Doces', limiteSabores: 10, totalDoces: 50, proximoId: '100' },
+      '100': { id: '100', titulo: 'Caixa de 100 Doces', limiteSabores: 14, totalDoces: 100, proximoId: null },
+      'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (25 Sabores Sortidos)', limiteSabores: 0, totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
     const catalogo = [
@@ -304,130 +341,36 @@
     let caixaAtiva = null;
     let quantidades = {}; 
     let categoryActive = "Todos";
+    let tipoFormularioAtivo = "personalizados"; // Controla se o orçamento atual é personalizado ou grandes eventos
 
-    function handleImageError(imgElement, name) {
-      imgElement.onerror = null;
-      imgElement.src = "Images/Leite Ninho.jpeg";
-    }
+    function flipActiveForm(type) {
+      tipoFormularioAtivo = type;
+      const title = document.getElementById('titulo-modal-especial');
+      const gridPrecos = document.getElementById('grid-info-precos');
+      const labelQtd = document.getElementById('label-qtd-especial');
+      const labelTema = document.getElementById('label-tema-especial');
+      const inputQtd = document.getElementById('pers-qtd');
+      const inputTema = document.getElementById('pers-tema');
 
-    window.onload = function() {
-      init();
-    };
-
-    function init() {
-      renderizarOpcoesCaixas();
-      renderizarAbasCategorias();
-      renderizarDoces();
-      atualizarInterface();
-    }
-
-    function renderizarOpcoesCaixas() {
-      const container = document.getElementById('opcoes-caixas');
-      if(!container) return;
-      container.innerHTML = "";
-      Object.values(caixas).forEach(box => {
-        container.innerHTML += `
-          <button onclick="selecionarCaixa('${box.id}')" id="btn-caixa-${box.id}" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm w-full">
-            <div>
-              <span id="badge-caixa-${box.id}" class="hidden absolute top-3 right-3 bg-[#8B4513] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">ATIVADA</span>
-              <h3 class="font-extrabold text-sm text-[#8B4513] pr-12">${box.titulo}</h3>
-              <p class="text-[11px] text-gray-500 mt-1">${box.id === 'degustacao' ? 'Sabores variados.' : `Até ${box.limiteSabores} sabores.`}</p>
-            </div>
-            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculado'}</div>
-          </button>
-        `;
-      });
-    }
-
-    function selecionarCaixa(id) {
-      caixaAtiva = caixas[id];
-      quantidades = {};
-      Object.keys(caixas).forEach(boxId => {
-        const btn = document.getElementById(`btn-caixa-${boxId}`);
-        const badge = document.getElementById(`badge-caixa-${boxId}`);
-        if (btn) {
-          if (boxId === id) {
-            btn.className = "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-md w-full";
-            if(badge) badge.classList.remove('hidden');
-          } else {
-            btn.className = "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm w-full";
-            if(badge) badge.classList.add('hidden');
-          }
-        }
-      });
-      if (id === 'degustacao') {
-        mostrarNotificacao("Caixa Degustação ativa!", "sucesso");
-        setTimeout(focarFormularioCheckout, 800);
+      if (type === 'eventos') {
+        if(title) title.innerText = "Orçamento de Grandes Eventos 🥂";
+        if(gridPrecos) gridPrecos.classList.add('hidden'); // Oculta a tabela de preços de varejo pequenos
+        if(labelQtd) labelQtd.innerText = "Quantidade Estimada (Mínimo 100) *";
+        if(labelTema) labelTema.innerText = "Tipo de Evento *";
+        if(inputQtd) inputQtd.placeholder = "Ex: 250 doces";
+        if(inputTema) inputTema.placeholder = "Ex: Casamento, Formatura";
       } else {
-        mostrarNotificacao(`Caixa de ${caixaAtiva.totalDoces} ativa!`, "sucesso");
+        if(title) title.innerText = "Orçamento de Doces Personalizados";
+        if(gridPrecos) gridPrecos.classList.remove('hidden');
+        if(labelQtd) labelQtd.innerText = "Número de Doces *";
+        if(labelTema) labelTema.innerText = "Tema da Decoração *";
+        if(inputQtd) inputQtd.placeholder = "Mínimo 20";
+        if(inputTema) inputTema.placeholder = "Ex: Fazendinha";
       }
-      renderizarDoces();
-      atualizarInterface();
     }
 
-    function renderizarAbasCategorias() {
-      const container = document.getElementById('abas-categorias');
-      if (!container) return;
-      container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm bg-[#8B4513] text-white">Todos</button>`;
-      catalogo.forEach(g => {
-        const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
-        container.innerHTML += `
-          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5]">${g.categoria.split(" (")[0]}</button>
-        `;
-      });
-    }
-
-    function filtrarCategoria(cat) {
-      categoryActive = cat;
-      const abas = document.querySelectorAll('#abas-categorias button');
-      abas.forEach(aba => {
-        aba.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5]";
-      });
-      const ativa = document.getElementById(`aba-${cat.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')}`);
-      if(ativa) ativa.className = "px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-[#8B4513] text-white shadow-md";
-      renderizarDoces();
-    }
-
-    function renderizarDoces() {
-      const grid = document.getElementById('cardapio-grid');
-      if (!grid) return;
-      grid.innerHTML = "";
-
-      catalogo.forEach(g => {
-        if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
-        g.itens.forEach(item => {
-          const qtd = quantidades[item.id] || 0;
-
-          grid.innerHTML += `
-            <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden transition-all hover:shadow-lg w-full">
-              <div class="w-full aspect-square flex items-center justify-center bg-gray-50 overflow-hidden relative">
-                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover" onerror="handleImageError(this, '${item.nome}')">
-              </div>
-              <div class="p-4 w-full flex flex-col flex-1 justify-between">
-                <div>
-                  <h3 class="font-bold text-sm md:text-base mb-1 text-[#3B2A1E] line-clamp-1">${item.nome}</h3>
-                  <button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-xs text-[#8B4513] underline mb-3 inline-block">Ver detalhes</button>
-                </div>
-                <div class="w-full">
-                  <p class="text-xs text-gray-500 font-semibold mb-2">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
-                  ${caixaAtiva && caixaAtiva.id !== 'degustacao' ? `
-                    <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
-                      <button onclick="alterarQtd('${item.id}', -1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-white hover:bg-gray-100 text-[#8B4513] transition-colors">-</button>
-                      <input type="number" value="${qtd}" min="0" onchange="digitarQtd('${item.id}', this.value)" class="w-12 text-center font-bold text-sm bg-transparent outline-none border-b border-transparent focus:border-[#8B4513] text-[#3B2A1E]">
-                      <button onclick="alterarQtd('${item.id}', 1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-black bg-[#8B4513] text-white hover:bg-[#6e3710] transition-colors">+</button>
-                    </div>
-                  ` : `
-                    <button onclick="lembreteCaixa()" class="w-full py-2 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold transition-all hover:bg-gray-200">Escolha a caixa</button>
-                  `}
-                </div>
-              </div>
-            </div>
-          `;
-        });
-      });
-    }
-
-    function abrirModalPersonalizados() {
+    function abrirModalEspecial(type) {
+      flipActiveForm(type);
       document.getElementById('modal-decorados').classList.remove('hidden');
     }
 
@@ -442,20 +385,29 @@
       const dataEntrega = document.getElementById('pers-data').value;
       
       if(!nomeClientM || !numDoces || !temaEscolhido || !dataEntrega) {
-        alert("Por favor, preencha todos os campos do orçamento (incluindo seu nome) para verificarmos a agenda!");
+        alert("Por favor, preencha todos os campos do formulário para continuarmos!");
         return;
       }
 
       const [ano, mes, dia] = dataEntrega.split('-');
       const dataFormatada = `${dia}/${mes}/${ano}`;
 
-      // FORMATO DA MENSAGEM DO WHATSAPP SIMPLIFICADO
-      let msg = `Olá, OBA Doceria! \nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
-      msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
-      msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
-      msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
-      msg += `📅 *DATA PRETENDIDA:* ${dataFormatada}\n\n`;
-      msg += `Aguardo seu retorno.`;
+      let msg = "";
+      if (tipoFormularioAtivo === 'eventos') {
+        msg = `Olá, OBA Doceria! \nGostaria de solicitar uma proposta para *Grandes Eventos (Casamento/Formatura)*:\n\n`;
+        msg += `👤 *ANFITRIÃO:* ${nomeClientM}\n`;
+        msg += `🔢 *QUANTIDADE ESTIMADA:* ${numDoces} unidades\n`;
+        msg += `🥂 *TIPO DE CELEBRAÇÃO:* ${temaEscolhido}\n`;
+        msg += `📅 *DATA DO EVENTO:* ${dataFormatada}\n\n`;
+        msg += `Aguardo seu retorno para agendarmos os detalhes.`;
+      } else {
+        msg = `Olá, OBA Doceria! \nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
+        msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
+        msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
+        msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
+        msg += `📅 *DATA PRETENDIDA:* ${dataFormatada}\n\n`;
+        msg += `Aguardo seu retorno.`;
+      }
 
       const fone = "5555999117626";
       const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(msg)}`;
@@ -463,26 +415,58 @@
       fecharModalPersonalizados();
     }
 
-    function lembreteCaixa() {
-      mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!", "aviso");
-    }
-
-    function focarFormularioCheckout() {
-      const form = document.getElementById('secao-checkout');
-      const inputNome = document.getElementById('nome-cliente');
-      if (form) {
-        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        if(inputNome) setTimeout(() => inputNome.focus(), 600);
-      }
-    }
-
     function verificarCaixaCompleta() {
       if (!caixaAtiva) return;
       const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
-      if (totalSelecionado === 25 || totalSelecionado === caixaAtiva.totalDoces) { // AUTOMATIZAÇÃO DE ROLAGEM
-        mostrarNotificacao("Caixa completa! Por favor, preencha seus dados de entrega.", "sucesso");
-        setTimeout(focarFormularioCheckout, 800);
+      
+      if (totalSelecionado === caixaAtiva.totalDoces) {
+        const txtCompleta = document.getElementById('texto-caixa-completa');
+        const cardUpgrade = document.getElementById('card-oferta-upgrade');
+        const txtUpgrade = document.getElementById('texto-oferta-upgrade');
+        const btnUpgrade = document.getElementById('btn-upgrade-caixa');
+
+        txtCompleta.innerText = `Você escolheu todos os ${caixaAtiva.totalDoces} brigadeiros gourmet da sua caixa!`;
+        
+        if (caixaAtiva.proximoId) {
+          const proxBox = caixas[caixaAtiva.proximoId];
+          if (caixaAtiva.id === '25') {
+            txtUpgrade.innerText = `Sabia que o nosso catálogo possui dezenas de sabores exclusivos? Se mudar para a ${proxBox.titulo}, você pode incluir mais opções finas e experimentar receitas incríveis que ficaram de fora!`;
+          } else if (caixaAtiva.id === '35') {
+            txtUpgrade.innerText = `Lembrete importante: em comemorações, os convidados sempre repetem os doces prediletos. Migrar para a ${proxBox.titulo} garante que nenhum convidado fique sem o sabor favorito!`;
+          } else if (caixaAtiva.id === '50') {
+            txtUpgrade.innerText = `Uma mesa farta é o centro das atenções de qualquer comemoração marcante. Que tal estender para a ${proxBox.titulo} e montar uma apresentação espetacular?`;
+          }
+          cardUpgrade.classList.remove('hidden');
+          btnUpgrade.classList.remove('hidden');
+        } else {
+          cardUpgrade.classList.add('hidden');
+          btnUpgrade.classList.add('hidden');
+        }
+
+        document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
+    }
+
+    function aplicarUpgradeCaixa() {
+      if (caixaAtiva && caixaAtiva.proximoId) {
+        const novoId = caixaAtiva.proximoId;
+        fecharModalCompleta();
+        const backupQuantidades = { ...quantidades };
+        selecionarCaixa(novoId);
+        quantidades = backupQuantidades;
+        renderizarDoces();
+        atualizarInterface();
+        mostrarNotificacao(`Caixa expandida com sucesso! Agora você pode escolher mais sabores.`, "sucesso");
+      }
+    }
+
+    function fecharModalCompleta() {
+      document.getElementById('modal-caixa-completa').classList.add('hidden');
+    }
+
+    function fecharModalCompletaAndCheckout() {
+      fecharModalCompleta();
+      focarFormularioCheckout();
     }
 
     function alterarQtd(id, delta) {
@@ -510,7 +494,6 @@
       verificarCaixaCompleta();
     }
 
-    // MANIPULAÇÃO DO INPUT DIGITADO
     function digitarQtd(id, valor) {
       if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
       
@@ -522,7 +505,7 @@
       const espacoLivre = caixaAtiva.totalDoces - totalOutrosDoces;
 
       if (qtdDigitada > espacoLivre) {
-        mostrarNotificacao(`Quantidade ajustada para ${espacoLivre} para não ultrapassar o espaço livre da caixa!`, "aviso");
+        mostrarNotificacao(`Quantidade ajustada para ${espacoLivre} para respeitar o limite máximo da caixa!`, "aviso");
         qtdDigitada = espacoLivre;
       }
 
@@ -586,7 +569,7 @@
         }
       }
 
-      const valorFormatado = `R$ ${valorFormatado = valorCalculado.toFixed(2).replace('.', ',')}`;
+      const valorFormatado = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
       if(labelValor) labelValor.innerText = valorFormatado;
       if(mobileTotal) mobileTotal.innerText = valorFormatado;
       if(mobileCaixa) mobileCaixa.innerText = `${caixaAtiva.titulo} (${totalSelecionado} un.)`;
@@ -636,7 +619,7 @@
       } else {
         modalBtn.innerText = "Selecionar Caixa Primeiro";
         modalBtn.disabled = false;
-        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider";
+        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all text-sm uppercase tracking-wider";
         modalBtn.onclick = function() {
           closeModal();
           lembreteCaixa();
@@ -658,6 +641,8 @@
         setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
       }
     }
+
+    function lembreteCaixa() { mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!", "aviso"); }
 
     function enviarPedidoWhatsApp() {
       const nome = document.getElementById('nome-cliente').value.trim();
