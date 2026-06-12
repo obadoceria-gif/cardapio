@@ -20,11 +20,10 @@
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
-      
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all text-sm shadow-md">✕</button>
       
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105" onerror="handleImageError(this, 'Doce')">
       </div>
       
       <div class="p-6 bg-white">
@@ -57,7 +56,7 @@
 
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
         <label class="block text-xs font-bold uppercase tracking-wider text-[#8B4513] mb-1.5">Seu Nome Completo *</label>
-        <input type="text" id="pers-nome" placeholder="Ex: Maria Oliveira" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none focus:border-orange-500 shadow-sm">
+        <input type="text" id="pers-nome" placeholder="Ex: Paulo" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none focus:border-orange-500 shadow-sm">
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -84,7 +83,7 @@
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
-              <input type="text" id="pers-tema" placeholder="Ex: Safari, Batizado" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
+              <input type="text" id="pers-tema" placeholder="Ex: Fazendinha" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Data Pretendida *</label>
@@ -108,7 +107,6 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       <div class="lg:col-span-8 space-y-6">
-        
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <span class="bg-[#8B4513] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm">1</span>
@@ -133,7 +131,7 @@
             <div class="absolute -right-8 -top-8 w-24 h-24 bg-orange-100 rounded-full opacity-40 blur-xl pointer-events-none"></div>
             
             <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3">
-              <span class="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
+              <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></span>
               Agenda Aberta 2026
             </div>
             
@@ -149,12 +147,12 @@
             </p>
             
             <button onclick="abrirModalPersonalizados()" class="w-full py-3.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all flex items-center justify-center gap-2 border-b-4 border-[#5c2d0c] active:border-b-0 active:translate-y-1">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Ver Preços & Orçar Vaga
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Clique aqui para fazer a sua reserva
             </button>
           </div>
         </section>
 
-        <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-lg space-y-6">
+        <section id="secao-checkout" class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-lg space-y-6">
           <div class="border-b border-[#E8D5B5] pb-4">
             <h2 class="text-xl font-bold text-[#8B4513]">Resumo da Encomenda</h2>
             <p class="text-xs text-gray-500 mt-1">Configure sua caixa para finalizar</p>
@@ -323,6 +321,10 @@
       imgElement.src = "Images/Leite Ninho.jpeg";
     }
 
+    document.addEventListener("DOMContentLoaded", function() {
+      init();
+    });
+
     function init() {
       renderizarOpcoesCaixas();
       renderizarAbasCategorias();
@@ -366,6 +368,7 @@
       });
       if (id === 'degustacao') {
         mostrarNotificacao("Caixa Degustação ativa!", "sucesso");
+        setTimeout(focarFormularioCheckout, 800);
       } else {
         mostrarNotificacao(`Caixa de ${caixaAtiva.totalDoces} ativa!`, "sucesso");
       }
@@ -457,12 +460,13 @@
       const [ano, mes, dia] = dataEntrega.split('-');
       const dataFormatada = `${dia}/${mes}/${ano}`;
 
-      let msg = `Olá, OBA Doceria! Gostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
+      // Mensagem Simplificada e Direta Conforme Solicitado
+      let msg = `Olá, OBA Doceria! \nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
       msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
       msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
       msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
       msg += `📅 *DATA PRETENDIDA:* ${dataFormatada}\n\n`;
-      msg += `_Fico aguardando o retorno para avaliarmos a comemoração!_`;
+      msg += `Aguardo seu retorno.`;
 
       const fone = "5555999117626";
       const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(msg)}`;
@@ -472,6 +476,15 @@
 
     function lembreteCaixa() {
       mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!", "aviso");
+    }
+
+    function focarFormularioCheckout() {
+      const form = document.getElementById('secao-checkout');
+      const inputNome = document.getElementById('nome-cliente');
+      if (form) {
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if(inputNome) setTimeout(() => inputNome.focus(), 600);
+      }
     }
 
     function alterarQtd(id, delta) {
@@ -491,6 +504,13 @@
       quantidades[id] = novaQtd;
       renderizarDoces();
       atualizarInterface();
+
+      // Automação: Se atingir o limite exato da caixa, rola até o checkout
+      const totalAposAdicionar = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      if (totalAposAdicionar === totalDesejado) {
+        mostrarNotificacao("Caixa completa! Por favor, preencha os seus dados de entrega.", "sucesso");
+        setTimeout(focarFormularioCheckout, 800);
+      }
     }
 
     function encontrarDoce(id) {
@@ -580,7 +600,7 @@
       if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
         modalBtn.innerText = "Adicionar ao Pedido";
         modalBtn.disabled = false;
-        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider";
+        modalBtn.className = "px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-xs uppercase tracking-wider";
         modalBtn.onclick = function() {
           alterarQtd(id, 1);
           closeModal();
@@ -588,11 +608,11 @@
       } else if (caixaAtiva && caixaAtiva.id === 'degustacao') {
         modalBtn.innerText = "Caixa Sortida Fixa";
         modalBtn.disabled = true;
-        modalBtn.className = "px-7 py-3.5 bg-gray-200 text-gray-400 rounded-2xl font-bold text-sm cursor-not-allowed uppercase tracking-wider";
+        modalBtn.className = "px-6 py-3.5 bg-gray-200 text-gray-400 rounded-2xl font-bold text-xs cursor-not-allowed uppercase tracking-wider";
       } else {
         modalBtn.innerText = "Selecionar Caixa Primeiro";
         modalBtn.disabled = false;
-        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider";
+        modalBtn.className = "px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-xs uppercase tracking-wider";
         modalBtn.onclick = function() {
           closeModal();
           lembreteCaixa();
@@ -636,7 +656,7 @@
           if (q > 0) {
             const doceObj = encontrarDoce(id);
             if (doceObj) {
-              texto += `- ${q} un. ${doceObj.nome} (R$ ${doceObj.preco.toFixed(2).replace('.', ',')} / un)\n`;
+              texto += `- ${q} un. ${doceObj.nome} (R$ ${doceObj.preco.toFixed(2).replace('.', ',')})\n`;
             }
           }
         });
@@ -650,10 +670,6 @@
     }
 
     function scrollParaCheckout() { document.getElementById('nome-cliente').scrollIntoView({ behavior: 'smooth' }); }
-
-    window.onload = function() {
-      init();
-    };
   </script>
 </body>
 </html>
