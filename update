@@ -17,21 +17,21 @@
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-2xl w-full rounded-3xl p-8 relative shadow-2xl" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 rounded-full p-3 z-10 transition-all text-gray-600">✕</button>
+    <div class="bg-white max-w-lg w-full rounded-3xl p-5 relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 rounded-full p-2.5 z-10 text-white text-base transition-all">✕</button>
       
-      <h2 id="modal-title" class="text-3xl font-extrabold text-[#8B4513] mb-6 text-center"></h2>
+      <h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513] mb-4 text-center pr-8"></h2>
       
-      <div class="w-full h-[50vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-6 overflow-hidden border border-gray-100">
-          <img id="modal-img" src="" alt="Doce" class="max-h-full max-w-full object-contain p-2" onerror="handleImageError(this, this.alt)">
+      <div class="w-full h-[60vh] flex items-center justify-center bg-gray-50 rounded-2xl mb-5 overflow-hidden border border-gray-100 shadow-inner">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center scale-[1.15]" onerror="handleImageError(this, this.alt)">
       </div>
       
-      <div class="flex items-center justify-between border-t border-gray-100 pt-6">
+      <div class="flex items-center justify-between pt-2">
         <div class="flex flex-col">
           <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
-          <span id="modal-price" class="text-3xl font-black text-[#8B4513]"></span>
+          <span id="modal-price" class="text-2xl font-black text-[#8B4513]"></span>
         </div>
-        <button id="modal-add-btn" class="px-10 py-4 bg-[#8B4513] text-white rounded-2xl font-bold shadow-lg hover:bg-[#6e3710] transition-transform active:scale-95 text-lg"></button>
+        <button id="modal-add-btn" class="px-8 py-3.5 bg-[#8B4513] text-white rounded-2xl font-bold shadow-md hover:bg-[#6e3710] transition-transform active:scale-95 text-sm"></button>
       </div>
     </div>
   </div>
@@ -109,12 +109,21 @@
             <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-bold text-lg shadow-lg hover:bg-[#6e3710] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none transition-all flex items-center justify-center gap-2">
               WhatsApp Encomendar
             </button>
+            <p class="text-[10px] text-gray-400 text-center">Pedido mínimo de 25 doces. Confirmação de agenda e pagamentos via Pix são finalizados no chat.</p>
           </div>
         </section>
       </div>
 
     </div>
   </main>
+
+  <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B5] shadow-2xl p-4 flex justify-between items-center z-40">
+    <div>
+      <p id="mobile-resumo-caixa" class="text-xs text-gray-500 font-bold">Selecione uma caixa</p>
+      <p id="mobile-resumo-total" class="text-lg font-extrabold text-[#8B4513]">R$ 0,00</p>
+    </div>
+    <button onclick="scrollParaCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md">Ver Pedido</button>
+  </div>
 
   <script>
     const caixas = {
@@ -152,6 +161,64 @@
           { id: "cafe_260", nome: "Café", preco: 2.60, desc: "Aroma e sabor marcante de café nobre combinado com granulado selecionado.", img: "Images/Café.jpeg" },
           { id: "amendoim_260", nome: "Amendoim", preco: 2.60, desc: "Cremosa massa de brigadeiro com xerém triturado de amendoim tostado.", img: "Images/Amendoim.jpeg" }
         ]
+      },
+      {
+        categoria: "Clássicos (R$ 2,75)",
+        itens: [
+          { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, desc: "Deliciosa massa de leite ninho recheada com a genuína Nutella italiana.", img: "Images/Ninho com Nutella.jpeg" },
+          { id: "oreo_275", nome: "Oreo", preco: 2.75, desc: "Massa branca misturada com biscoitos Oreo triturados e crocantes.", img: "Images/Oreo.jpeg" },
+          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, desc: "O sabor doce do Nesquik harmonizado com o creme de avelã nobre no recheio.", img: "Images/Nesquik com Nutella.jpeg" },
+          { id: "confete_275", nome: "Confete", preco: 2.75, desc: "O clássico brigadeiro ao leite revestido por pastilhas coloridas crocantes.", img: "Images/Confete.jpeg" },
+          { id: "charge_275", nome: "Charge", preco: 2.75, desc: "Inspirado no chocolate clássico, com amendoim picado and caramelo aveludado.", img: "Images/Charge.jpeg" },
+          { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, desc: "Massa de coco queimado combinada com generosa cobertura de doce de leite de panela.", img: "Images/Cocadinha.jpeg" },
+          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, desc: "Doce de leite cremoso cozido com um toque sutil e marcante de queijo parmesão.", img: "Images/Queijadinha.jpeg" },
+          { id: "prestigio_275", nome: "Prestígio", preco: 2.75, desc: "O eterno encontro de coco com chocolate ao leite finalizado em coco ralado.", img: "Images/Prestígio.jpeg" },
+          { id: "damasco_275", nome: "Damasco", preco: 2.75, desc: "Fino doce branco decorado com deliciosos pedacinhos de damascos turcos nobres.", img: "Images/Damasco.jpeg" },
+          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, desc: "Brigadeiro recheado com nossa maravilhosa compota artesanal de ameixa preta.", img: "Images/Ameixa.jpeg" }
+        ]
+      },
+      {
+        categoria: "Especiais I (R$ 3,00)",
+        itens: [
+          { id: "mega_300", nome: "Mega", preco: 3.00, desc: "O rei das encomendas: Brigadeiro ao leite coroado com espiral of Nutella.", img: "Images/Mega.jpeg" },
+          { id: "nozes_300", nome: "Nozes", preco: 3.00, desc: "Chocolate branco com farta quantidade de nozes chilenas trituradas na panela.", img: "Images/Nozes.jpeg" },
+          { id: "queijo_goiabada_300", nome: "Queijo e goiabada", preco: 3.00, desc: "Perfeita combinação mineira de queijo nobre com nossa goiabada cascão artesanal.", img: "Images/Queijo e Goiabada.jpeg" },
+          { id: "queijo_doce_leite_300", nome: "Queijo e doce de leite", preco: 3.00, desc: "Doce de leite cremoso nobre contrastando suavemente com queijo especial.", img: "Images/Queijo e Doce de Leite.jpeg" },
+          { id: "maracuja_300", nome: "Maracujá", preco: 3.00, desc: "Azedinho refrescante do maracujá selvagem com sementes brilhantes decorativas.", img: "Images/Maracujá.jpeg" },
+          { id: "maracuja_ao_leite_300", nome: "Maracujá ao leite", preco: 3.00, desc: "Massa cítrica de maracujá finalizada com granulado nobre.", img: "Images/Maracujá ao Leite.jpeg" },
+          { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, desc: "Doce cítrico de maracujá com recheio generoso de creme de avelã Nutella.", img: "Images/Maracujá e Nutella.jpeg" },
+          { id: "damasco_amendoas_300", nome: "Damasco e amêndoas", preco: 3.00, desc: "Massa branca cozida com pedaços of damascos decorada com amêndoas tostadas.", img: "Images/Damasco e Amêndoas.jpeg" }
+        ]
+      },
+      {
+        categoria: "Especiais II (R$ 3,25)",
+        itens: [
+          { id: "caramelo_salgado_325", nome: "Caramelo Salgado", preco: 3.25, desc: "Massa requintada de caramelo de panela equilibrada com pitada fina de flor de sal.", img: "Images/Caramelo Salgado.jpeg" },
+          { id: "abacaxi_coco_325", nome: "Abacaxi com coco", preco: 3.25, desc: "Brigadeiro de coco decorado no topo com a nossa maravilhosa geleia caseira de abacaxi.", img: "Images/Abacaxi e Coco.jpeg" },
+          { id: "ferrero_325", nome: "Ferrero", preco: 3.25, desc: "Brigadeiro de chocolate trufado envolto in xerém of avelãs tostadas com topo of Nutella.", img: "Images/Ferrero.jpeg" },
+          { id: "crocante_nutella_325", nome: "Crocante de Nutella", preco: 3.25, desc: "Brigadeiro de Nutella recheado com flocos crocantes que estalam na boca.", img: "Images/Crocante de Nutella.jpeg" },
+          { id: "bacon_abacaxi_325", nome: "Bacon com Abacaxi", preco: 3.25, desc: "Ousada e deliciosa receita de geleia de abacaxi ácida com bacon crocante.", img: "Images/Bacon e Abacaxi.jpeg" },
+          { id: "bacon_chocolate_325", nome: "Bacon com Chocolate", preco: 3.25, desc: "Contraste surpreendente de bacon defumado moído cozido com cacau nobre ao leite.", img: "Images/Bacon com Chocolate.jpeg" },
+          { id: "laranja_amendoas_325", nome: "Laranja com amêndoas", preco: 3.25, desc: "Brigadeiro cítrico de laranja com lâminas tostadas finas de amêndoas crocantes.", img: "Images/Laranja com Amêndoas.jpeg" },
+          { id: "laranja_coco_325", nome: "Laranja com coco", preco: 3.25, desc: "Massa de laranja fresca decorada no topo com coco ralado fino.", img: "Images/Laranja com Coco.jpeg" },
+          { id: "nozes_figo_325", nome: "Nozes e Figo", preco: 3.25, desc: "Brigadeiro rico in nozes chilenas decorado com o doce artesanal de figo in calda.", img: "Images/Nozes e Figo.jpeg" },
+          { id: "cheesecake_325", nome: "Cheesecake", preco: 3.25, desc: "Suave e aveludada massa of cream cheese decorada com nossa calda caseira of morango.", img: "Images/Cheesecake.jpeg" },
+          { id: "gorgonzola_geleia_325", nome: "Gorgonzola e Geléia", preco: 3.25, desc: "A surpreendente combinação gourmet of queijo gorgonzola suave e geleia of morango.", img: "Images/Gorgonzola e Geleia.jpeg" },
+          { id: "gorgonzola_damasco_325", nome: "Gorgonzola e Damasco", preco: 3.25, desc: "Elegante e requintado brigadeiro of queijo azul gorgonzola finalizado com damasco seco.", img: "Images/Gorgonzola e Damasco.jpeg" },
+          { id: "uva_branco_325", nome: "Uva com Brigadeiro Branco", preco: 3.25, desc: "Uva verde fresca e sumarenta, sem grainha, envolvida pela clássica massa branca.", img: "Images/Uva com Brigadeiro Branco.jpeg" },
+          { id: "uva_ao_leite_325", nome: "Uva com Brigadeiro ao Leite", preco: 3.25, desc: "Uva verde fresca sem sementes envolta no tradicional brigadeiro ao leite.", img: "Images/Uva com Brigadeiro ao Leite.jpeg" },
+          { id: "uva_meio_amargo_325", nome: "Uva com Brigadeiro Meio Amargo", preco: 3.25, desc: "Uva verde crocante e fresca revestida por brigadeiro de chocolate meio amargo.", img: "Images/Uva com Brigadeiro Meio Amargo.jpeg" }
+        ]
+      },
+      {
+        categoria: "Frutas & Especiais III (R$ 4,00)",
+        itens: [
+          { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, desc: "Morango fresco e suculento envolvido inteiramente por farta massa branca.", img: "Images/Morango - Branco.jpeg" },
+          { id: "morango_ao_leite_400", nome: "Morango com Brigadeiro ao Leite", preco: 4.00, desc: "Morango selecionado revestido por brigadeiro tradicional ao leite.", img: "Images/Morango - Ao Leite.jpeg" },
+          { id: "morango_meio_amargo_400", nome: "Morango com Brigadeiro Meio Amargo", preco: 4.00, desc: "A harmonia perfeita do morango fresco com chocolate meio amargo nobre.", img: "Images/Morango - Meio Amargo.jpeg" },
+          { id: "pistache_400", nome: "Pistache", preco: 4.00, desc: "Brigadeiro gourmet de pistache feito exclusivamente com a nossa pasta artesanal pura.", img: "Images/Pistache.jpeg" },
+          { id: "pistache_geleia_400", nome: "Pistache com geléia", preco: 4.00, desc: "Doce requintado de puro pistache com nossa geleia artesanal ácida de morango.", img: "Images/Pistache com Geleia.jpeg" }
+        ]
       }
     ];
 
@@ -173,6 +240,7 @@
 
     function renderizarOpcoesCaixas() {
       const container = document.getElementById('opcoes-caixas');
+      if(!container) return;
       container.innerHTML = "";
       Object.values(caixas).forEach(box => {
         container.innerHTML += `
@@ -180,8 +248,9 @@
             <div>
               <span id="badge-caixa-${box.id}" class="hidden absolute top-3 right-3 bg-[#8B4513] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">ATIVADA</span>
               <h3 class="font-extrabold text-sm text-[#8B4513] pr-12">${box.titulo}</h3>
+              <p class="text-[11px] text-gray-500 mt-1">${box.id === 'degustacao' ? 'Sabores variados.' : `Até ${box.limiteSabores} sabores.`}</p>
             </div>
-            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço por un.'}</div>
+            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculado'}</div>
           </button>
         `;
       });
@@ -193,14 +262,21 @@
       Object.keys(caixas).forEach(boxId => {
         const btn = document.getElementById(`btn-caixa-${boxId}`);
         const badge = document.getElementById(`badge-caixa-${boxId}`);
-        if (boxId === id) {
-          btn.className = "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-md w-full";
-          if(badge) badge.classList.remove('hidden');
-        } else {
-          btn.className = "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm w-full";
-          if(badge) badge.classList.add('hidden');
+        if (btn) {
+          if (boxId === id) {
+            btn.className = "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-md w-full";
+            if(badge) badge.classList.remove('hidden');
+          } else {
+            btn.className = "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left transition-all relative flex flex-col justify-between shadow-sm w-full";
+            if(badge) badge.classList.add('hidden');
+          }
         }
       });
+      if (id === 'degustacao') {
+        mostrarNotificacao("Caixa Degustação ativa!", "sucesso");
+      } else {
+        mostrarNotificacao(`Caixa de ${caixaAtiva.totalDoces} ativa!`, "sucesso");
+      }
       renderizarDoces();
       atualizarInterface();
     }
@@ -293,7 +369,7 @@
     }
 
     function lembreteCaixa() {
-      mostrarNotificacao("Ative o tamanho da caixa na Etapa 1 primeiro!", "aviso");
+      mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!", "aviso");
     }
 
     function alterarQtd(id, delta) {
@@ -301,6 +377,14 @@
       const qtdAtual = quantidades[id] || 0;
       const novaQtd = qtdAtual + delta;
       if (novaQtd < 0) return;
+
+      const totalDesejado = caixaAtiva.totalDoces;
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+
+      if (delta > 0 && totalSelecionado >= totalDesejado) {
+        mostrarNotificacao("Caixa cheia!", "aviso");
+        return;
+      }
 
       quantidades[id] = novaQtd;
       renderizarDoces();
@@ -326,11 +410,7 @@
       if (!listaContainer) return;
       listaContainer.innerHTML = "";
 
-      if (!caixaAtiva) {
-        if(progressContagem) progressContagem.innerText = "0 / 0";
-        if(progressBar) progressBar.style.width = "0%";
-        return;
-      }
+      if (!caixaAtiva) return;
 
       if (progressContagem) progressContagem.innerText = `${totalSelecionado} / ${caixaAtiva.totalDoces}`;
       if (progressBar) progressBar.style.width = `${(totalSelecionado / caixaAtiva.totalDoces) * 100}%`;
@@ -340,7 +420,7 @@
         const doce = encontrarDoce(id);
         if (doce && q > 0) {
           valorCalculado += doce.preco * q;
-          listaContainer.innerHTML += `<p class="text-xs p-1">${doce.nome} x ${q}</p>`;
+          listaContainer.innerHTML += `<p class="text-xs p-1 text-gray-700">${doce.nome} x ${q}</p>`;
         }
       });
 
@@ -379,12 +459,12 @@
       document.getElementById('modal').classList.add('hidden');
     }
 
-    function mostrarNotificacao(mensagem) {
+    function mostrarNotificacao(mensagem, tipo = 'aviso') {
       const toast = document.getElementById('custom-toast');
       const toastText = document.getElementById('toast-text');
       if(toastText) toastText.innerText = mensagem;
       if(toast) {
-        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl bg-[#8B4513] text-white opacity-100 transition-all";
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold transition-all";
         setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
       }
     }
