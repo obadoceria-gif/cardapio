@@ -11,7 +11,7 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
     
-    /* Remove as setas padrão do input number para manter o design limpo */
+    /* Remove as setas padrão do campo numérico para um design limpo */
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: none; 
@@ -310,6 +310,10 @@
       imgElement.src = "Images/Leite Ninho.jpeg";
     }
 
+    window.onload = function() {
+      init();
+    };
+
     function init() {
       renderizarOpcoesCaixas();
       renderizarAbasCategorias();
@@ -445,6 +449,7 @@
       const [ano, mes, dia] = dataEntrega.split('-');
       const dataFormatada = `${dia}/${mes}/${ano}`;
 
+      // FORMATO DA MENSAGEM DO WHATSAPP SIMPLIFICADO
       let msg = `Olá, OBA Doceria! \nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
       msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
       msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
@@ -474,8 +479,8 @@
     function verificarCaixaCompleta() {
       if (!caixaAtiva) return;
       const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
-      if (totalSelecionado === caixaAtiva.totalDoces) {
-        mostrarNotificacao("Caixa preenchida com sucesso! Preencha os dados abaixo.", "sucesso");
+      if (totalSelecionado === 25 || totalSelecionado === caixaAtiva.totalDoces) { // AUTOMATIZAÇÃO DE ROLAGEM
+        mostrarNotificacao("Caixa completa! Por favor, preencha seus dados de entrega.", "sucesso");
         setTimeout(focarFormularioCheckout, 800);
       }
     }
@@ -505,7 +510,7 @@
       verificarCaixaCompleta();
     }
 
-    // NOVA FUNÇÃO: Trata a inserção de texto manual digitada pelo usuário
+    // MANIPULAÇÃO DO INPUT DIGITADO
     function digitarQtd(id, valor) {
       if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
       
@@ -517,7 +522,7 @@
       const espacoLivre = caixaAtiva.totalDoces - totalOutrosDoces;
 
       if (qtdDigitada > espacoLivre) {
-        mostrarNotificacao(`Quantidade ajustada para ${espacoLivre} para não estourar o limite da caixa!`, "aviso");
+        mostrarNotificacao(`Quantidade ajustada para ${espacoLivre} para não ultrapassar o espaço livre da caixa!`, "aviso");
         qtdDigitada = espacoLivre;
       }
 
@@ -581,7 +586,7 @@
         }
       }
 
-      const valorFormatado = `R$ ${valorCalculado.toFixed(2).replace('.', ',')}`;
+      const valorFormatado = `R$ ${valorFormatado = valorCalculado.toFixed(2).replace('.', ',')}`;
       if(labelValor) labelValor.innerText = valorFormatado;
       if(mobileTotal) mobileTotal.innerText = valorFormatado;
       if(mobileCaixa) mobileCaixa.innerText = `${caixaAtiva.titulo} (${totalSelecionado} un.)`;
@@ -619,7 +624,7 @@
       if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
         modalBtn.innerText = "Adicionar ao Pedido";
         modalBtn.disabled = false;
-        modalBtn.className = "px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-xs uppercase tracking-wider";
+        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider";
         modalBtn.onclick = function() {
           alterarQtd(id, 1);
           closeModal();
@@ -627,11 +632,11 @@
       } else if (caixaAtiva && caixaAtiva.id === 'degustacao') {
         modalBtn.innerText = "Caixa Sortida Fixa";
         modalBtn.disabled = true;
-        modalBtn.className = "px-6 py-3.5 bg-gray-200 text-gray-400 rounded-2xl font-bold text-xs cursor-not-allowed uppercase tracking-wider";
+        modalBtn.className = "px-7 py-3.5 bg-gray-200 text-gray-400 rounded-2xl font-bold text-sm cursor-not-allowed uppercase tracking-wider";
       } else {
         modalBtn.innerText = "Selecionar Caixa Primeiro";
         modalBtn.disabled = false;
-        modalBtn.className = "px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-xs uppercase tracking-wider";
+        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider";
         modalBtn.onclick = function() {
           closeModal();
           lembreteCaixa();
@@ -689,10 +694,6 @@
     }
 
     function scrollParaCheckout() { document.getElementById('nome-cliente').scrollIntoView({ behavior: 'smooth' }); }
-
-    window.onload = function() {
-      init();
-    };
   </script>
 </body>
 </html>
