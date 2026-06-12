@@ -36,7 +36,7 @@
 
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8" onclick="event.stopPropagation()">
-      <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-3 text-gray-600 font-bold">✕</button>
+      <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 rounded-full p-3 text-gray-600 font-bold">✕</button>
       
       <div class="text-center mb-6">
         <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">PROMOÇÃO AGENDA 2026</span>
@@ -52,10 +52,11 @@
           <p>• Forminhas em acetato transparente inclusas.</p>
         </div>
         <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs text-gray-700 space-y-1.5">
-          <h4 class="font-bold text-[#8B4513] uppercase tracking-wider">Condições:</h4>
-          <p>• Mínimo de 20 unidades por pedido.</p>
-          <p>• Antecedência mínima de 20 dias da data do evento.</p>
-          <p>• Promoção de até 60% OFF válida para reservas em Maio e Junho.</p>
+          <h4 class="font-bold text-[#8B4513] uppercase tracking-wider">Preços com Desconto (Até 60% OFF):</h4>
+          <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
+          <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
+          <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
+          <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
         </div>
       </div>
 
@@ -63,11 +64,11 @@
          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
-              <input type="number" id="pers-qtd" placeholder="Ex: 25" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
+              <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
-              <input type="text" id="pers-tema" placeholder="Ex: Batizado, Safari" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
+              <input type="text" id="pers-tema" placeholder="Ex: Safari, Batizado" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:border-[#8B4513]">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Data Pretendida *</label>
@@ -347,7 +348,7 @@
       catalogo.forEach(g => {
         const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
         container.innerHTML += `
-          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm bg-white text-[#8B4513] border border-[#E8D5B5]">${g.categoria.split(" (")[0]}</button>
+          <button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-5 py-2.5 rounded-full font-bold text-xs whitespace-nowrap transition-all bg-white text-[#8B4513] border border-[#E8D5B5]">${g.categoria.split(" (")[0]}</button>
         `;
       });
     }
@@ -408,7 +409,7 @@
       });
     }
 
-    // CONTROLE FLUXO MODAL PERSONALIZADOS
+    // FUNÇÕES DO MODAL DE CORREÇÃO (ALVO DE CLIQUE ATUALIZADO)
     function abrirModalPersonalizados() {
       document.getElementById('modal-decorados').classList.remove('hidden');
     }
