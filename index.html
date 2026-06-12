@@ -19,16 +19,17 @@
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-lg w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-50 hover:bg-opacity-70 rounded-full p-2.5 z-10 text-white text-sm transition-all">✕</button>
+    <div class="bg-white max-w-md w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
       
-      <div class="w-full aspect-[4/3] sm:aspect-video bg-gray-100 relative overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all text-sm shadow-md">✕</button>
+      
+      <div class="w-full aspect-[4/3] bg-gray-100 relative overflow-hidden">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105">
       </div>
       
-      <div class="p-6 space-y-6">
+      <div class="p-6 space-y-5 bg-white">
         <div class="text-center sm:text-left">
-          <h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513]"></h2>
+          <h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513] tracking-tight"></h2>
         </div>
         
         <div class="flex items-center justify-between border-t border-gray-100 pt-4">
@@ -36,7 +37,9 @@
             <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
             <span id="modal-price" class="text-2xl font-black text-[#8B4513]"></span>
           </div>
-          <button id="modal-add-btn" class="px-8 py-3.5 bg-[#8B4513] text-white rounded-2xl font-bold shadow-md hover:bg-[#6e3710] transition-transform active:scale-95 text-sm">Adicionar à Caixa</button>
+          <button id="modal-add-btn" class="px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider">
+            Adicionar à Caixa
+          </button>
         </div>
       </div>
     </div>
@@ -49,7 +52,7 @@
       <div class="text-center mb-6">
         <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">PROMOÇÃO AGENDA 2026</span>
         <h2 class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Orçamento de Doces Personalizados</h2>
-        <p class="text-[#D8B36A] font-bold text-sm">Insira as informações básicas para verificar disponibilidade</p>
+        <p class="text-[#D8B36A] font-bold text-sm">Insira suas informações básicas para verificar disponibilidade</p>
       </div>
 
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
@@ -98,7 +101,7 @@
   <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
     <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight" style="font-family: 'Poppins', sans-serif;">OBA Doceria</h1>
     <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
-    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reductions de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
+    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reduções de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-32">
@@ -129,8 +132,8 @@
           <div class="bg-[#FFFDF9] rounded-[1.4rem] p-6 flex flex-col items-center text-center relative overflow-hidden border border-amber-200">
             <div class="absolute -right-8 -top-8 w-24 h-24 bg-orange-100 rounded-full opacity-40 blur-xl pointer-events-none"></div>
             
-            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3">
-              <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></span>
+            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-3 animate-pulse">
+              <span class="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
               Agenda Aberta 2026
             </div>
             
@@ -339,7 +342,7 @@
               <h3 class="font-extrabold text-sm text-[#8B4513] pr-12">${box.titulo}</h3>
               <p class="text-[11px] text-gray-500 mt-1">${box.id === 'degustacao' ? 'Sabores variados.' : `Até ${box.limiteSabores} sabores.`}</p>
             </div>
-            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculado'}</div>
+            <div class="mt-3 text-xs font-bold text-gray-700">${box.precoFixo ? `Preço: R$ ${box.precoFixo.toFixed(2).replace('.', ',')}` : 'Preço calculated'}</div>
           </button>
         `;
       });
@@ -577,7 +580,7 @@
       if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
         modalBtn.innerText = "Adicionar ao Pedido";
         modalBtn.disabled = false;
-        modalBtn.className = "px-8 py-3.5 bg-[#8B4513] text-white rounded-2xl font-bold shadow-md hover:bg-[#6e3710] transition-transform active:scale-95 text-sm";
+        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider";
         modalBtn.onclick = function() {
           alterarQtd(id, 1);
           closeModal();
@@ -585,11 +588,11 @@
       } else if (caixaAtiva && caixaAtiva.id === 'degustacao') {
         modalBtn.innerText = "Caixa Sortida Fixa";
         modalBtn.disabled = true;
-        modalBtn.className = "px-8 py-3.5 bg-gray-200 text-gray-400 rounded-2xl font-bold text-sm cursor-not-allowed";
+        modalBtn.className = "px-7 py-3.5 bg-gray-200 text-gray-400 rounded-2xl font-bold text-sm cursor-not-allowed uppercase tracking-wider";
       } else {
         modalBtn.innerText = "Selecionar Caixa Primeiro";
         modalBtn.disabled = false;
-        modalBtn.className = "px-8 py-3.5 bg-[#8B4513] text-white rounded-2xl font-bold shadow-md hover:bg-[#6e3710] transition-transform active:scale-95 text-sm";
+        modalBtn.className = "px-7 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-sm uppercase tracking-wider";
         modalBtn.onclick = function() {
           closeModal();
           lembreteCaixa();
@@ -651,3 +654,6 @@
     window.onload = function() {
       init();
     };
+  </script>
+</body>
+</html>
