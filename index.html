@@ -10,12 +10,7 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
-    
-    input[type=number]::-webkit-inner-spin-button, 
-    input[type=number]::-webkit-outer-spin-button { 
-      -webkit-appearance: none; 
-      margin: 0; 
-    }
+    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; }
   </style>
 </head>
@@ -26,26 +21,19 @@
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all text-sm shadow-md">✕</button>
-      
+    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105" onerror="handleImageError(this, 'Doce')">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center">
       </div>
-      
       <div class="p-6 bg-white">
-        <div class="text-center mb-4">
-          <h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513] tracking-tight"></h2>
-        </div>
-        
+        <div class="text-center mb-4"><h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
         <div class="flex items-center justify-between border-t border-gray-100 pt-4">
           <div class="flex flex-col">
             <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
             <span id="modal-price" class="text-2xl font-black text-[#8B4513]"></span>
           </div>
-          <button id="modal-add-btn" class="px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-xs uppercase tracking-wider">
-            Adicionar à Caixa
-          </button>
+          <button id="modal-add-btn" class="px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold text-xs uppercase tracking-wider">Adicionar à Caixa</button>
         </div>
       </div>
     </div>
@@ -53,30 +41,19 @@
 
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-6" onclick="event.stopPropagation()">
-      <div class="w-16 h-16 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
-        <i class="fa-solid fa-box-open"></i>
-      </div>
-      
+      <div class="w-16 h-16 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-3xl mx-auto"><i class="fa-solid fa-box-open"></i></div>
       <div class="space-y-2">
         <h2 class="text-2xl font-black text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
         <p id="texto-caixa-completa" class="text-xs text-gray-600 leading-relaxed"></p>
       </div>
-
       <div id="card-oferta-upgrade" class="bg-gradient-to-br from-amber-50 to-orange-100 border border-orange-200 p-4 rounded-2xl hidden">
         <span class="text-[9px] bg-orange-600 text-white font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Sugestão OBA Doceria</span>
         <p id="texto-oferta-upgrade" class="text-xs text-[#8B4513] font-bold mt-2 leading-relaxed"></p>
       </div>
-
       <div class="flex flex-col gap-2 pt-2">
-        <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider transition-all flex items-center justify-center gap-2">
-          <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
-        </button>
-        <button onclick="fecharModalCompletaAndCheckout()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider transition-all">
-          <i class="fa-solid fa-check"></i> Finalizar Pedido Atual
-        </button>
-        <button onclick="fecharModalCompleta()" class="w-full py-2 text-xs font-bold text-gray-400 hover:text-gray-600 transition-colors">
-          Apenas revisar os sabores escolhidos
-        </button>
+        <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores</button>
+        <button onclick="fecharModalCompletaAndCheckout()" class="w-full py-3.5 bg-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider">Finalizar Pedido Atual</button>
+        <button onclick="fecharModalCompleta()" class="w-full py-2 text-xs font-bold text-gray-400">Revisar os sabores escolhidos</button>
       </div>
     </div>
   </div>
@@ -84,73 +61,61 @@
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8" onclick="event.stopPropagation()">
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-3 text-gray-600 font-bold">✕</button>
-      
       <div class="text-center mb-6">
-        <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest animate-pulse">ORÇAMENTO EXCLUSIVO 2026</span>
+        <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest">ORÇAMENTO INTERATIVO 2026</span>
         <h2 id="titulo-modal-especial" class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Orçamento de Doces Personalizados</h2>
-        <p class="text-[#D8B36A] font-bold text-sm">Insira suas informações para verificarmos a disponibilidade na agenda</p>
+        <p class="text-[#D8B36A] font-bold text-sm">Preencha os campos para verificarmos a disponibilidade em nossa agenda</p>
       </div>
-
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
         <label class="block text-xs font-bold uppercase tracking-wider text-[#8B4513] mb-1.5">Seu Nome Completo *</label>
-        <input type="text" id="pers-nome" placeholder="Ex: Paulo" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none focus:border-orange-500 shadow-sm">
+        <input type="text" id="pers-nome" placeholder="Ex: Paulo" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none">
       </div>
-
       <div id="grid-info-precos" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div class="bg-orange-50 p-4 rounded-xl border border-orange-200 text-xs text-gray-700 space-y-1.5">
           <h4 class="font-bold text-[#8B4513] uppercase tracking-wider">Especificações:</h4>
           <p>• Modelados com pasta de leite em pó (100% comestível).</p>
           <p>• Base de Brigadeiro Gourmet (Branco ou Ao Leite).</p>
-          <p>• Forminhas em acetato transparente inclusas.</p>
         </div>
         <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs text-gray-700 space-y-1.5">
           <h4 class="font-bold text-[#8B4513] uppercase tracking-wider">Preços com Desconto (Até 60% OFF):</h4>
           <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
           <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
-          <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
-          <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
         </div>
       </div>
-
       <div class="space-y-4 bg-gray-50 p-5 rounded-xl border border-gray-200">
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label id="label-campo-dinamico-1" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
-              <input type="text" id="pers-tema" placeholder="Ex: Fazendinha" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
+              <input type="text" id="pers-tema" placeholder="Ex: Fazendinha" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Data Pretendida *</label>
-              <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
+              <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none">
             </div>
          </div>
-
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label id="label-campo-dinamico-2" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
-              <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
+              <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none">
             </div>
             <div id="wrapper-qtd-pessoas" class="hidden">
               <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Quantidade Estimada de Pessoas</label>
-              <input type="number" id="pers-pessoas" placeholder="Ex: 150 convidados" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
+              <input type="number" id="pers-pessoas" placeholder="Ex: 150 convidados" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none">
             </div>
          </div>
-
-         <button onclick="enviarOrcamentoEspecial()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2">
-            Solicitar Reserva no WhatsApp
-         </button>
+         <button onclick="enviarOrcamentoEspecial()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">Solicitar Reserva no WhatsApp</button>
       </div>
     </div>
   </div>
 
   <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
-    <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight" style="font-family: 'Poppins', sans-serif;">OBA Doceria</h1>
+    <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight">OBA Doceria</h1>
     <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
     <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reduções de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-32">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      
       <div class="lg:col-span-8 space-y-6">
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
           <div class="flex items-center gap-3 mb-4">
@@ -159,117 +124,49 @@
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="opcoes-caixas"></div>
         </section>
-
-        <section>
-          <div class="flex flex-wrap gap-2 pb-2" id="abas-categorias"></div>
-        </section>
-
-        <section>
-          <div id="cardapio-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
-        </section>
+        <section><div class="flex flex-wrap gap-2 pb-2" id="abas-categorias"></div></section>
+        <section><div id="cardapio-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div></section>
       </div>
 
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-4">
-        
-        <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-amber-200">
-            <div class="absolute -right-8 -top-8 w-24 h-24 bg-orange-100 rounded-full opacity-40 blur-xl pointer-events-none"></div>
-            
-            <div class="flex items-center gap-1.5 bg-orange-100 text-orange-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2">
-              <span class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></span>
-              Modelagem à Mão Livre
-            </div>
+        <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-xl">
+          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative border border-amber-200">
             <h3 class="font-extrabold text-lg text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
-            <div class="my-2 bg-amber-50 px-3 py-1 rounded-xl border border-amber-100 shadow-inner">
-              <span class="text-orange-600 font-black text-2xl tracking-tight">60% OFF</span>
-            </div>
-            <p class="text-[11px] text-gray-600 leading-relaxed mb-3 max-w-[240px]">
-              Transforme o seu evento em uma obra de arte com doces modelados à mão livre.
-            </p>
-            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-3 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all border-b-4 border-[#5c2d0c] active:border-b-0 active:translate-y-1">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> CLIQUE AQUI PARA FAZER A SUA RESERVA
-            </button>
+            <p class="text-[11px] text-gray-600 my-2">Transforme o seu evento em uma obra de arte com doces modelados à mão livre.</p>
+            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-3 bg-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider">CLIQUE AQUI PARA FAZER A SUA RESERVA</button>
           </div>
         </section>
 
-        <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-          <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-yellow-200">
-            <div class="flex items-center gap-1.5 bg-yellow-100 text-yellow-800 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider mb-2">
-              <span class="w-1.5 h-1.5 bg-yellow-600 rounded-full animate-pulse"></span>
-              Atendimento Premium
-            </div>
+        <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-xl">
+          <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-yellow-200">
             <h3 class="font-extrabold text-lg text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
-            <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">
-              Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.
-            </p>
-            <button onclick="abrirModalEspecial('eventos')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#5c2d0c] hover:to-yellow-700 transition-all border-b-4 border-[#3a1a05]">
-              Solicitar Orçamento
-            </button>
+            <p class="text-[11px] text-gray-600 leading-relaxed my-2">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
+            <button onclick="abrirModalEspecial('eventos')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider">Solicitar Orçamento</button>
           </div>
         </section>
 
         <section id="secao-checkout" class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-lg space-y-6">
-          <div class="border-b border-[#E8D5B5] pb-4">
-            <h2 class="text-xl font-bold text-[#8B4513]">Resumo da Encomenda</h2>
-            <p class="text-xs text-gray-500 mt-1">Configure sua caixa para finalizar</p>
+          <div class="border-b border-[#E8D5B5] pb-4"><h2 class="text-xl font-bold text-[#8B4513]">Resumo da Encomenda</h2></div>
+          <div class="space-y-3">
+            <div class="flex justify-between text-sm font-semibold"><span>Selecione uma caixa</span><span id="contagem-doces">0 / 0</span></div>
+            <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden"><div id="barra-progresso" class="bg-[#8B4513] h-full w-0"></div></div>
           </div>
-
-          <div class="space-y-3" id="painel-progresso">
-            <div class="flex justify-between text-sm font-semibold">
-              <span id="label-progresso-doces">Selecione uma caixa</span>
-              <span id="contagem-doces">0 / 0</span>
-            </div>
-            <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-              <div id="barra-progresso" class="bg-[#8B4513] h-full transition-all duration-300 w-0"></div>
-            </div>
-          </div>
-
-          <div class="border-t border-b border-gray-100 py-4 max-h-[25vh] overflow-y-auto space-y-2 no-scrollbar" id="lista-selecionados">
-            <p class="text-sm text-gray-400 text-center py-4">Nenhum sabor selecionado ainda.</p>
-          </div>
-
+          <div class="border-t border-b border-gray-100 py-4 max-h-[25vh] overflow-y-auto space-y-2 no-scrollbar" id="lista-selecionados"></div>
           <div class="space-y-4">
-            <div class="flex justify-between items-center text-lg font-bold">
-              <span>Valor Total:</span>
-              <span class="text-2xl text-[#8B4513]" id="valor-total">R$ 0,00</span>
-            </div>
-
+            <div class="flex justify-between items-center text-lg font-bold"><span>Valor Total:</span><span class="text-2xl text-[#8B4513]" id="valor-total">R$ 0,00</span></div>
             <div class="space-y-3">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Seu Nome *</label>
-                <input type="text" id="nome-cliente" placeholder="Seu nome completo" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="atualizarInterface()">
-              </div>
-              
+              <div><label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Seu Nome *</label><input type="text" id="nome-cliente" placeholder="Seu nome completo" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm" oninput="atualizarInterface()"></div>
               <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Data Desejada *</label>
-                  <input type="date" id="data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="atualizarInterface()">
-                </div>
-                <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Hora Desejada *</label>
-                  <input type="time" id="hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="atualizarInterface()">
-                </div>
+                <div><label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Data *</label><input type="date" id="data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm" oninput="atualizarInterface()"></div>
+                <div><label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Hora *</label><input type="time" id="hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm" oninput="atualizarInterface()"></div>
               </div>
             </div>
-
-            <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-bold text-lg shadow-lg hover:bg-[#6e3710] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none transition-all flex items-center justify-center gap-2">
-              WhatsApp Encomendar
-            </button>
-            <p class="text-[10px] text-gray-400 text-center">Pedido mínimo de 25 doces. Confirmação de agenda e pagamentos via Pix são finalizados no chat.</p>
+            <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-bold text-lg disabled:bg-gray-200 disabled:text-gray-400">WhatsApp Encomendar</button>
           </div>
         </section>
       </div>
-
     </div>
   </main>
-
-  <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B5] shadow-2xl p-4 flex justify-between items-center z-40">
-    <div>
-      <p id="mobile-resumo-caixa" class="text-xs text-gray-500 font-bold">Selecione uma caixa</p>
-      <p id="mobile-resumo-total" class="text-lg font-extrabold text-[#8B4513]">R$ 0,00</p>
-    </div>
-    <button onclick="scrollParaCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md">Ver Pedido</button>
-  </div>
 
   <script>
     const caixas = {
@@ -282,160 +179,40 @@
 
     const catalogo = [
       {
-        categoria: "Tradicionais I (R$ 2,50)",
+        categoria: "Doces Gourmet",
         itens: [
-          { id: "leite_ninho_250", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
-          { id: "nesquik_250", nome: "Nesquik", preco: 2.50, img: "Images/Nesquik.jpeg" },
-          { id: "casadinho_250", nome: "Casadinho", preco: 2.50, img: "Images/Casadinho.jpeg" },
-          { id: "dois_amores_250", nome: "Dois amores", preco: 2.50, img: "Images/Dois Amores.jpeg" },
-          { id: "cappuccino_250", nome: "Cappuccino", preco: 2.50, img: "Images/Cappuccino.jpeg" },
-          { id: "napolitano_250", nome: "Napolitano", preco: 2.50, img: "Images/Napolitano.jpeg" },
-          { id: "coco_250", nome: "Coco", preco: 2.50, img: "Images/Coco.jpeg" },
-          { id: "coco_queimado_250", nome: "Coco queimado", preco: 2.50, img: "Images/Coco Queimado.jpeg" }
-        ]
-      },
-      {
-        categoria: "Tradicionais II (R$ 2,60)",
-        itens: [
-          { id: "branco_260", nome: "Branco", preco: 2.60, img: "Images/Branco.jpeg" },
-          { id: "ao_leite_260", nome: "Ao leite", preco: 2.60, img: "Images/Ao Leite.jpeg" },
-          { id: "meio_amargo_260", nome: "Meio amargo", preco: 2.60, img: "Images/Meio Amargo.jpeg" },
-          { id: "amargo_260", nome: "Amargo", preco: 2.60, img: "Images/Amargo.jpeg" },
-          { id: "caramelo_260", nome: "Caramelo", preco: 2.60, img: "Images/Caramelo.jpeg" },
-          { id: "duo_ao_leite_260", nome: "Duo ao leite", preco: 2.60, img: "Images/Duo Ao Leite.jpeg" },
-          { id: "duo_amargo_260", nome: "Duo amargo", preco: 2.60, img: "Images/Duo Amargo.jpeg" },
-          { id: "cafe_260", nome: "Café", preco: 2.60, img: "Images/Café.jpeg" },
-          { id: "amendoim_260", nome: "Amendoim", preco: 2.60, img: "Images/Amendoim.jpeg" }
-        ]
-      },
-      {
-        categoria: "Clássicos (R$ 2,75)",
-        itens: [
-          { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, img: "Images/Ninho com Nutella.jpeg" },
-          { id: "oreo_275", nome: "Oreo", preco: 2.75, img: "Images/Oreo.jpeg" },
-          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, img: "Images/Nesquik com Nutella.jpeg" },
-          { id: "confete_275", nome: "Confete", preco: 2.75, img: "Images/Confete.jpeg" },
-          { id: "charge_275", nome: "Charge", preco: 2.75, img: "Images/Charge.jpeg" },
-          { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, img: "Images/Cocadinha.jpeg" },
-          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, img: "Images/Queijadinha.jpeg" },
-          { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: "Images/Prestígio.jpeg" },
-          { id: "damasco_275", nome: "Damasco", preco: 2.75, img: "Images/Damasco.jpeg" },
-          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" }
-        ]
-      },
-      {
-        categoria: "Especiais I (R$ 3,00)",
-        itens: [
-          { id: "mega_300", nome: "Mega", preco: 3.00, img: "Images/Mega.jpeg" },
-          { id: "nozes_300", nome: "Nozes", preco: 3.00, img: "Images/Nozes.jpeg" },
-          { id: "queijo_goiabada_300", nome: "Queijo e goiabada", preco: 3.00, img: "Images/Queijo e Goiabada.jpeg" },
-          { id: "queijo_doce_leite_300", nome: "Queijo e doce de leite", preco: 3.00, img: "Images/Queijo e Doce de Leite.jpeg" },
-          { id: "maracuja_300", nome: "Maracujá", preco: 3.00, img: "Images/Maracujá.jpeg" },
-          { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, img: "Images/Maracujá e Nutella.jpeg" }
-        ]
-      },
-      {
-        categoria: "Frutas & Especiais III (R$ 4,00)",
-        itens: [
-          { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, img: "Images/Morango - Branco.jpeg" },
-          { id: "morango_ao_leite_400", nome: "Morango com Brigadeiro ao Leite", preco: 4.00, img: "Images/Morango - Ao Leite.jpeg" },
-          { id: "pistache_400", nome: "Pistache", preco: 4.00, img: "Images/Pistache.jpeg" },
-          { id: "pistache_geleia_400", nome: "Pistache com geléia", preco: 4.00, img: "Images/Pistache com Geleia.jpeg" }
+          { id: "leite_ninho", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
+          { id: "nesquik", nome: "Nesquik", preco: 2.50, img: "Images/Nesquik.jpeg" },
+          { id: "casadinho", nome: "Casadinho", preco: 2.50, img: "Images/Casadinho.jpeg" },
+          { id: "dois_amores", nome: "Dois Amores", preco: 2.50, img: "Images/Dois Amores.jpeg" },
+          { id: "oreo", nome: "Oreo", preco: 2.75, img: "Images/Oreo.jpeg" },
+          { id: "ninho_nutella", nome: "Ninho com Nutella", preco: 2.75, img: "Images/Ninho com Nutella.jpeg" },
+          { id: "mega_nutella", nome: "Mega Nutella", preco: 3.00, img: "Images/Mega.jpeg" },
+          { id: "pistache", nome: "Pistache Puro", preco: 4.00, img: "Images/Pistache.jpeg" }
         ]
       }
     ];
 
-    function flipActiveForm(type) {
-      tipoFormularioAtivo = type;
-      const title = document.getElementById('titulo-modal-especial');
-      const gridPrecos = document.getElementById('grid-info-precos');
-      const label1 = document.getElementById('label-campo-dinamico-1');
-      const label2 = document.getElementById('label-campo-dinamico-2');
-      const inputQtd = document.getElementById('pers-qtd');
-      const inputTema = document.getElementById('pers-tema');
-      const wrapperPessoas = document.getElementById('wrapper-qtd-pessoas');
-
-      if (type === 'eventos') {
-        if(title) title.innerText = "Orçamento de Grandes Eventos 🥂";
-        if(gridPrecos) gridPrecos.classList.add('hidden');
-        if(label1) label1.innerText = "Tipo de Evento *";
-        if(label2) label2.innerText = "Quantidade de Doces";
-        if(inputTema) inputTema.placeholder = "Ex: Casamento, Formatura";
-        if(inputQtd) inputQtd.placeholder = "Opcional se preencher pessoas";
-        if(wrapperPessoas) wrapperPessoas.classList.remove('hidden');
-      } else {
-        if(title) title.innerText = "Orçamento de Doces Personalizados";
-        if(gridPrecos) gridPrecos.classList.remove('hidden');
-        if(label1) label1.innerText = "Tema da Decoração *";
-        if(label2) label2.innerText = "Número de Doces *";
-        if(inputTema) inputTema.placeholder = "Ex: Fazendinha";
-        if(inputQtd) inputQtd.placeholder = "Mínimo 20";
-        if(wrapperPessoas) wrapperPessoas.classList.add('hidden');
-      }
-    }
-
-    function abrirModalEspecial(type) {
-      flipActiveForm(type);
-      document.getElementById('modal-decorados').classList.remove('hidden');
-    }
-
-    function fecharModalPersonalizados() {
-      document.getElementById('modal-decorados').classList.add('hidden');
-    }
-
-    function enviarOrcamentoEspecial() {
-      const nomeClientM = document.getElementById('pers-nome').value.trim();
-      const temaEscolhido = document.getElementById('pers-tema').value.trim();
-      const dataEntrega = document.getElementById('pers-data').value;
-      const numDoces = document.getElementById('pers-qtd').value.trim();
-      const numPessoas = document.getElementById('pers-pessoas').value.trim();
-      
-      if(!nomeClientM || !temaEscolhido || !dataEntrega) {
-        alert("Por favor, preencha os campos obrigatórios!");
-        return;
-      }
-
-      if (tipoFormularioAtivo === 'eventos' && !numDoces && !numPessoas) {
-        alert("Por favor, informe a Quantidade de Doces OU a Quantidade de Pessoas!");
-        return;
-      } else if (tipoFormularioAtivo === 'personalizados' && !numDoces) {
-        alert("Por favor, informe a quantidade de doces!");
-        return;
-      }
-
-      const [ano, mes, dia] = dataEntrega.split('-');
-      const dataFormatada = `${dia}/${mes}/${ano}`;
-
-      let msg = "";
-      if (tipoFormularioAtivo === 'eventos') {
-        msg = `Olá, OBA Doceria! \nGostaria de solicitar uma proposta para *Grandes Eventos (Casamento/Formatura)*:\n\n`;
-        msg += `👤 *ANFITRIÃO:* ${nomeClientM}\n`;
-        msg += `🥂 *TIPO DE CELEBRAÇÃO:* ${temaEscolhido}\n`;
-        msg += `📅 *DATA DO EVENTO:* ${dataFormatada}\n`;
-        if(numPessoas) msg += `👥 *NÚMERO DE CONVIDADOS:* ${numPessoas} pessoas\n`;
-        if(numDoces) msg += `🔢 *QUANTIDADE DE DOCES:* ${numDoces} unidades\n`;
-        msg += `\nAguardo seu retorno.`;
-      } else {
-        msg = `Olá, OBA Doceria! \nGostaria de um orçamento para *Doces Personalizados & Decorados*:\n\n`;
-        msg += `👤 *CLIENTE:* ${nomeClientM}\n`;
-        msg += `🔢 *NÚMERO DE DOCES:* ${numDoces} unidades\n`;
-        msg += `🎨 *TEMA ESCOLHIDO:* ${temaEscolhido}\n`;
-        msg += `📅 *DATA PRETENDIDA:* ${dataFormatada}\n\n`;
-        msg += `Aguardo seu retorno.`;
-      }
-
-      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank');
-      fecharModalPersonalizados();
-    }
+    let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let tipoFormularioAtivo = "personalizados";
 
     function selecionarCaixa(id) {
       caixaAtiva = caixas[id]; quantidades = {};
       Object.keys(caixas).forEach(bId => {
         const btn = document.getElementById(`btn-caixa-${bId}`);
-        if(btn) btn.className = (bId === id) ? "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left shadow-md w-full" : "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left w-full";
+        if(btn) btn.className = (bId === id) ? "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left shadow-md w-full" : "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left w-full";
       });
-      if(id==='degustacao') setTimeout(focarFormularioCheckout, 600);
       renderizarDoces(); atualizarInterface();
+    }
+
+    function renderizarOpcoesCaixas() {
+      const container = document.getElementById('opcoes-caixas'); if(!container) return; container.innerHTML = "";
+      Object.values(caixas).forEach(box => {
+        container.innerHTML += `<button onclick="selecionarCaixa('${box.id}')" id="btn-caixa-${box.id}" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left w-full"><div><h3 class="font-bold text-sm text-[#8B4513]">${box.titulo}</h3></div></button>`;
+      });
+    }
+
+    function renderizarAbasCategorias() {
+      const container = document.getElementById('abas-categorias'); if(!container) return; container.innerHTML = `<button class="px-5 py-2.5 rounded-full font-bold text-xs bg-[#8B4513] text-white">Todos os Sabores</button>`;
     }
 
     function renderizarDoces() {
@@ -454,7 +231,7 @@
                     <button onclick="alterarQtd('${item.id}', -1)" class="w-8 h-8 rounded-lg font-black bg-white text-[#8B4513]">-</button>
                     <input type="number" value="${qtd}" min="0" onchange="digitarQtd('${item.id}', this.value)" class="w-12 text-center font-bold text-sm bg-transparent outline-none">
                     <button onclick="alterarQtd('${item.id}', 1)" class="w-8 h-8 rounded-lg font-black bg-[#8B4513] text-white">+</button>
-                  </div>` : `<button onclick="lembreteCaixa()" class="w-full py-2 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold">Escolha a caixa</button>`}
+                  </div>` : `<button onclick="lembreteCaixa()" class="w-full py-2 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold">Escolha a caixa primeiro</button>`}
                 </div>
               </div>
             </div>`;
@@ -466,10 +243,10 @@
       if (!caixaAtiva) return;
       const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
       if (total === caixaAtiva.totalDoces) {
-        document.getElementById('texto-caixa-completa').innerText = `Você escolheu com sucesso todos os ${caixaAtiva.totalDoces} brigadeiros gourmet da sua caixa!`;
+        document.getElementById('texto-caixa-completa').innerText = `Você escolheu todos os ${caixaAtiva.totalDoces} brigadeiros gourmet da sua caixa!`;
         if (caixaAtiva.proximoId) {
           const proxBox = caixas[caixaAtiva.proximoId];
-          document.getElementById('texto-oferta-upgrade').innerText = caixaAtiva.id === '25' ? `Sabia que o nosso catálogo possui dezenas de sabores exclusivos? Se mudar para a ${proxBox.titulo}, você pode incluir mais opções finas e experimentar receitas incríveis que ficaram de fora!` : `Lembrete importante: em comemorações, os convidados sempre repetem os doces prediletos. Migrar para a ${proxBox.titulo} garante que nenhum convidado fique sem o sabor favorito!`;
+          document.getElementById('texto-oferta-upgrade').innerText = `Sabia que o nosso catálogo possui dezenas de sabores exclusivos? Se mudar para a de maior capacidade, você pode incluir mais opções finas e experimentar receitas incríveis que ficaram de fora!`;
           document.getElementById('card-oferta-upgrade').classList.remove('hidden');
           document.getElementById('btn-upgrade-caixa').classList.remove('hidden');
         } else {
@@ -477,6 +254,14 @@
           document.getElementById('btn-upgrade-caixa').classList.add('hidden');
         }
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
+      }
+    }
+
+    function aplicarUpgradeCaixa() {
+      if (caixaAtiva && caixaAtiva.proximoId) {
+        const novoId = caixaAtiva.proximoId; fecharModalCompleta();
+        const backupQuantidades = { ...quantidades }; selecionarCaixa(novoId);
+        quantidades = backupQuantidades; renderizarDoces(); atualizarInterface();
       }
     }
 
@@ -531,7 +316,6 @@
       const hora = document.getElementById('hora-desejada').value;
       let texto = `Olá, OBA Doceria! Encomenda de Caixa:\n\n*CLIENTE:* ${nome}\n*ENTREGA:* ${data[2]}/${data[1]}/${data[0]} às ${hora}\n*CAIXA:* ${caixaAtiva.titulo}\n\n*SABORES:*\n`;
       if (!caixaAtiva.precoFixo) { Object.entries(quantidades).forEach(([id, q]) => { if(q>0) texto += `- ${q} un. ${encontrarDoce(id).nome}\n`; }); }
-      else { texto += `_Seleção sortida do dia._\n`; }
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
     }
 
@@ -542,19 +326,17 @@
       document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
       const modalBtn = document.getElementById('modal-add-btn');
       if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
-        modalBtn.innerText = "Adicionar ao Pedido"; modalBtn.disabled = false;
         modalBtn.onclick = function() { alterarQtd(id, 1); closeModal(); };
-      } else {
-        modalBtn.innerText = caixaAtiva ? "Caixa Sortida Fixa" : "Selecionar Caixa Primeiro";
-        modalBtn.disabled = !!caixaAtiva;
-        modalBtn.onclick = function() { closeModal(); if(!caixaAtiva) lembreteCaixa(); };
       }
       document.getElementById('modal').classList.remove('hidden');
     }
     function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-    function mostrarNotificacao(m) { const t = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if(txt) txt.innerText = m; if(t) { t.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold"; setTimeout(() => { t.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
+    function mostrarNotificacao(m) { const t = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if(txt) txt.innerText = m; if(t) { t.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] text-sm font-bold animate-pulse"; setTimeout(() => { t.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
     function lembreteCaixa() { mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!"); }
-    function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); const inputNome = document.getElementById('nome-cliente'); if (form) { form.scrollIntoView({ behavior: 'smooth', block: 'center' }); if(inputNome) setTimeout(() => inputNome.focus(), 600); } }
+    function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+
+    function init() { renderizarOpcoesCaixas(); renderizarAbasCategorias(); renderizarDoces(); }
+    init();
   </script>
 </body>
 </html>
