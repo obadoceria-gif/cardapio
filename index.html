@@ -27,7 +27,7 @@
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm shadow-md">✕</button>
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105" onerror="handleImageError(this, 'Doce')">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105">
       </div>
       <div class="p-6 bg-white">
         <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
@@ -91,7 +91,7 @@
           <button onclick="enviarPedidoWhatsAppPeloModal()" class="w-full py-4 bg-green-600 hover:bg-green-700 text-white font-black text-sm rounded-xl shadow-lg uppercase tracking-wider flex items-center justify-center gap-2">
             <i class="fa-brands fa-whatsapp text-lg"></i> Enviar Encomenda no WhatsApp
           </button>
-          <button onclick="voltarParaEstadosEscolhaModal()" class="w-full py-2.5 text-center text-xs font-bold text-gray-400 hover:text-gray-600">Voltar para as opções anteriores</button>
+          <button onclick="voltarParaEstadosEscolhaModal()" class="w-full py-2.5 text-center text-xs font-bold text-gray-400">Voltar para as opções anteriores</button>
         </div>
       </div>
     </div>
@@ -171,8 +171,8 @@
           </div>
         </section>
 
-        <section class="sticky top-0 bg-[#FAF5F0] z-30 py-2">
-          <div class="flex overflow-x-auto gap-2 pb-1 no-scrollbar snap-x" id="abas-categorias"></div>
+        <section class="bg-white p-4 rounded-3xl border border-[#E8D5B5] shadow-sm">
+          <div class="flex flex-wrap gap-2 justify-start items-center" id="abas-categorias"></div>
         </section>
 
         <section>
@@ -182,7 +182,7 @@
 
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-4">
         <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-md">
-          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-amber-100">
+          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative border border-amber-100">
             <h3 class="font-extrabold text-base text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
             <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-sm tracking-tight">60% OFF</span></div>
             <p class="text-[11px] text-gray-500 mb-2.5 max-w-[240px]">Doces exclusivos modelados à mão livre para tornar o seu evento inesquecível.</p>
@@ -193,7 +193,7 @@
         <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-md">
           <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-yellow-100">
             <h3 class="font-extrabold text-base text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
-            <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
+            <p class="text-[11px] text-gray-600 leading-relaxed my-2 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
             <button onclick="abrirModalEspecial('eventos')" class="w-full py-2.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#3a1a05]">Solicitar Orçamento</button>
           </div>
         </section>
@@ -202,7 +202,7 @@
           <div class="border-b border-[#E8D5B5] pb-3"><h2 class="text-base font-black text-[#8B4513]">Resumo da Encomenda</h2></div>
           <div class="space-y-2" id="painel-progresso">
             <div class="flex justify-between text-xs font-bold text-gray-700"><span>Progresso</span><span id="contagem-doces">0 / 0</span></div>
-            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden"><div id="barra-progresso" class="bg-[#8B4513] h-full transition-all duration-300 w-0"></div></div>
+            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden"><div id="barra-progresso" class="bg-[#8B4513] h-full w-0"></div></div>
           </div>
           <div class="border-t border-b border-gray-100 py-3 max-h-[20vh] overflow-y-auto space-y-1.5 no-scrollbar text-xs" id="lista-selecionados"><p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado.</p></div>
           <div class="space-y-4">
@@ -239,7 +239,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE DE SABORES COMPLETA E VALIDADA SEM CORTE DE STRING COM OS ITENS FALTANTES INCLUSOS
+    // BASE DE DATA TOTALMENTE RECONSTRUÍDA COM TODOS OS SABORES E CATEGORIAS CORRETAS
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -315,7 +315,7 @@
         ]
       },
       {
-        categoria: "Frutas & Especiais III (R$ 4,00)",
+        categoria: "Especiais III (R$ 4,00)",
         itens: [
           { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, img: "Images/Morango - Branco.jpeg" },
           { id: "morango_ao_leite_400", nome: "Morango com Brigadeiro ao Leite", preco: 4.00, img: "Images/Morango - Ao Leite.jpeg" },
@@ -339,18 +339,18 @@
 
     function renderizarAbasCategorias() {
       const container = document.getElementById('abas-categorias'); if (!container) return;
-      container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="snap-center px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm whitespace-nowrap">Todos</button>`;
+      container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all">Todos</button>`;
       catalogo.forEach(g => {
         const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
-        container.innerHTML += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="snap-center px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] whitespace-nowrap">${g.categoria.split(" (")[0]}</button>`;
+        container.innerHTML += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all">${g.categoria.split(" (")[0]}</button>`;
       });
     }
 
     function filtrarCategoria(cat) {
       categoryActive = cat;
-      document.querySelectorAll('#abas-categorias button').forEach(aba => aba.className = "snap-center px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] whitespace-nowrap");
+      document.querySelectorAll('#abas-categorias button').forEach(aba => aba.className = "px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5]");
       const ativa = document.getElementById(`aba-${cat.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')}`);
-      if(ativa) ativa.className = "snap-center px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm whitespace-nowrap";
+      if(ativa) ativa.className = "px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm";
       renderizarDoces();
     }
 
@@ -454,16 +454,50 @@
       actualizarEstadoBotao();
     }
 
+    function sincronizarCamposTextoModalParaLateral() {
+      document.getElementById('nome-cliente').value = document.getElementById('modal-nome-cliente').value;
+      document.getElementById('data-desejada').value = document.getElementById('modal-data-desejada').value;
+      document.getElementById('hora-desejada').value = document.getElementById('modal-hora-desejada').value;
+      actualizarEstadoBotao();
+    }
+
+    function enviarOrcamentoEspecial() {
+      const nomeClientM = document.getElementById('pers-nome').value.trim();
+      const temaEscolhido = document.getElementById('pers-tema').value.trim();
+      const dataEntrega = document.getElementById('pers-data').value;
+      const numDoces = document.getElementById('pers-qtd').value.trim();
+      const numPessoas = document.getElementById('pers-pessoas').value.trim();
+      
+      if(!nomeClientM || !temaEscolhido || !dataEntrega) { alert("Por favor, preencha os campos obrigatórios!"); return; }
+      if (tipoFormularioAtivo === 'eventos' && !numDoces && !numPessoas) { alert("Informe a Quantidade de Doces OU de Pessoas!"); return; }
+      if (tipoFormularioAtivo === 'personalizados' && !numDoces) { alert("Informe a quantidade de doces!"); return; }
+
+      const [ano, mes, dia] = dataEntrega.split('-');
+      let msg = tipoFormularioAtivo === 'eventos' ? `Olá, OBA Doceria! \nProposta para *Grandes Eventos*:\n\n👤 *ANFITRIÃO:* ${nomeClientM}\n🥂 *TIPO:* ${temaEscolhido}\n📅 *DATA:* ${dia}/${mes}/${ano}\n` : `Olá, OBA Doceria! \nOrçamento de *Doces Personalizados*:\n\n👤 *CLIENTE:* ${nomeClientM}\n🔢 *QUANTIDADE:* ${numDoces} un\n🎨 *TEMA:* ${temaEscolhido}\n📅 *DATA:* ${dia}/${mes}/${ano}\n`;
+      if(tipoFormularioAtivo === 'eventos' && numPessoas) msg += `👥 *CONVIDADOS:* ${numPessoas} pessoas\n`;
+      if(tipoFormularioAtivo === 'eventos' && numDoces) msg += `🔢 *DOCES:* ${numDoces} unidades\n`;
+      msg += `\nAguardo seu retorno.`;
+      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank');
+      fecharModalPersonalizados();
+    }
+
+    function actualizarEstadoBotao() {
+      const btn = document.getElementById('btn-whatsapp'); if(!btn) return;
+      const nome = document.getElementById('nome-cliente').value.trim();
+      const data = document.getElementById('data-desejada').value;
+      const hora = document.getElementById('hora-desejada').value;
+      if (!caixaAtiva || !nome || !data || !hora) { btn.disabled = true; return; }
+      btn.disabled = !caixaAtiva.precoFixo && (Object.values(quantidades).reduce((a, b) => a + b, 0) !== caixaAtiva.totalDoces);
+    }
+
     function enviarPedidoWhatsAppPeloModal() {
       const nome = document.getElementById('modal-nome-cliente').value.trim();
       const data = document.getElementById('modal-data-desejada').value;
       const hora = document.getElementById('modal-hora-desejada').value;
       if(!nome || !data || !hora) { alert("Por favor, preencha todos os campos do agendamento!"); return; }
-      
       document.getElementById('nome-cliente').value = nome;
       document.getElementById('data-desejada').value = data;
       document.getElementById('hora-desejada').value = hora;
-      
       fecharModalCompleta(); enviarPedidoWhatsApp();
     }
 
