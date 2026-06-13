@@ -27,10 +27,10 @@
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all text-sm shadow-md">✕</button>
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
       
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105" onerror="handleImageError(this, 'Doce')">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105">
       </div>
       
       <div class="p-6 bg-white">
@@ -43,7 +43,7 @@
             <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
             <span id="modal-price" class="text-2xl font-black text-[#8B4513]"></span>
           </div>
-          <button id="modal-add-btn" class="px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-xs uppercase tracking-wider">
+          <button id="modal-add-btn" class="px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md text-xs uppercase tracking-wider">
             Adicionar à Caixa
           </button>
         </div>
@@ -68,7 +68,7 @@
           <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
         </button>
         
-        <button onclick="fecharModalCompletaAndCheckout()" class="w-full py-4 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-sm rounded-xl shadow-md uppercase tracking-wider transition-all">
+        <button onclick="fecharModalCompletaAndCheckout()" class="w-full py-4 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-sm rounded-xl shadow-md uppercase tracking-wider">
           <i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual
         </button>
         
@@ -138,7 +138,7 @@
   </div>
 
   <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
-    <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight" style="font-family: 'Poppins', sans-serif;">OBA Doceria</h1>
+    <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight">OBA Doceria</h1>
     <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
     <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reduções de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
   </header>
@@ -147,6 +147,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       <div class="lg:col-span-8 space-y-6">
+        
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <span class="bg-[#8B4513] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm">1</span>
@@ -162,9 +163,7 @@
         </section>
 
         <section>
-          <div class="flex flex-wrap gap-2 pb-2" id="abas-categorias">
-            <button class="px-5 py-2.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm">Todos os Sabores</button>
-          </div>
+          <div class="flex flex-wrap gap-2 pb-2" id="abas-categorias"></div>
         </section>
 
         <section>
@@ -179,7 +178,7 @@
             <h3 class="font-extrabold text-lg text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
             <div class="my-2 bg-amber-50 px-3 py-1 rounded-xl border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-2xl tracking-tight">60% OFF</span></div>
             <p class="text-[11px] text-gray-600 mb-3 max-w-[240px]">Transforme o seu evento em uma obra de arte com doces modelados à mão livre.</p>
-            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-3 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all border-b-4 border-[#5c2d0c]">
+            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-3 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider">
               CLIQUE AQUI PARA FAZER A SUA RESERVA
             </button>
           </div>
@@ -189,7 +188,7 @@
           <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-yellow-200">
             <h3 class="font-extrabold text-lg text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
             <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
-            <button onclick="abrirModalEspecial('eventos')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#5c2d0c] hover:to-yellow-700 border-b-4 border-[#3a1a05]">
+            <button onclick="abrirModalEspecial('eventos')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider">
               Solicitar Orçamento
             </button>
           </div>
@@ -238,10 +237,10 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (25 Sabores Sortidos)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE DE DADOS COMPLETA COM MAIS DE 35 SABORES EXCLUSIVOS INTEGRADOS COM SUCESSO
+    // BASE DE DADOS COMPLETA COM TODAS AS CATEGORIAS RESTAURADAS
     const catalogo = [
       {
-        categoria: "Doces",
+        categoria: "Tradicionais I (R$ 2,50)",
         itens: [
           { id: "leite_ninho_250", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
           { id: "nesquik_250", nome: "Nesquik", preco: 2.50, img: "Images/Nesquik.jpeg" },
@@ -250,7 +249,12 @@
           { id: "cappuccino_250", nome: "Cappuccino", preco: 2.50, img: "Images/Cappuccino.jpeg" },
           { id: "napolitano_250", nome: "Napolitano", preco: 2.50, img: "Images/Napolitano.jpeg" },
           { id: "coco_250", nome: "Coco", preco: 2.50, img: "Images/Coco.jpeg" },
-          { id: "coco_queimado_250", nome: "Coco queimado", preco: 2.50, img: "Images/Coco Queimado.jpeg" },
+          { id: "coco_queimado_250", nome: "Coco queimado", preco: 2.50, img: "Images/Coco Queimado.jpeg" }
+        ]
+      },
+      {
+        categoria: "Tradicionais II (R$ 2,60)",
+        itens: [
           { id: "branco_260", nome: "Branco", preco: 2.60, img: "Images/Branco.jpeg" },
           { id: "ao_leite_260", nome: "Ao leite", preco: 2.60, img: "Images/Ao Leite.jpeg" },
           { id: "meio_amargo_260", nome: "Meio amargo", preco: 2.60, img: "Images/Meio Amargo.jpeg" },
@@ -259,7 +263,12 @@
           { id: "duo_ao_leite_260", nome: "Duo ao leite", preco: 2.60, img: "Images/Duo Ao Leite.jpeg" },
           { id: "duo_amargo_260", nome: "Duo amargo", preco: 2.60, img: "Images/Duo Amargo.jpeg" },
           { id: "cafe_260", nome: "Café", preco: 2.60, img: "Images/Café.jpeg" },
-          { id: "amendoim_260", nome: "Amendoim", preco: 2.60, img: "Images/Amendoim.jpeg" },
+          { id: "amendoim_260", nome: "Amendoim", preco: 2.60, img: "Images/Amendoim.jpeg" }
+        ]
+      },
+      {
+        categoria: "Clássicos (R$ 2,75)",
+        itens: [
           { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, img: "Images/Ninho com Nutella.jpeg" },
           { id: "oreo_275", nome: "Oreo", preco: 2.75, img: "Images/Oreo.jpeg" },
           { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, img: "Images/Nesquik com Nutella.jpeg" },
@@ -269,13 +278,23 @@
           { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, img: "Images/Queijadinha.jpeg" },
           { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: "Images/Prestígio.jpeg" },
           { id: "damasco_275", nome: "Damasco", preco: 2.75, img: "Images/Damasco.jpeg" },
-          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" },
+          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" }
+        ]
+      },
+      {
+        categoria: "Especiais I (R$ 3,00)",
+        itens: [
           { id: "mega_300", nome: "Mega", preco: 3.00, img: "Images/Mega.jpeg" },
           { id: "nozes_300", nome: "Nozes", preco: 3.00, img: "Images/Nozes.jpeg" },
           { id: "queijo_goiabada_300", nome: "Queijo e goiabada", preco: 3.00, img: "Images/Queijo e Goiabada.jpeg" },
           { id: "queijo_doce_leite_300", nome: "Queijo e doce de leite", preco: 3.00, img: "Images/Queijo e Doce de Leite.jpeg" },
           { id: "maracuja_300", nome: "Maracujá", preco: 3.00, img: "Images/Maracujá.jpeg" },
-          { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, img: "Images/Maracujá e Nutella.jpeg" },
+          { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, img: "Images/Maracujá e Nutella.jpeg" }
+        ]
+      },
+      {
+        categoria: "Frutas & Especiais III (R$ 4,00)",
+        itens: [
           { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, img: "Images/Morango - Branco.jpeg" },
           { id: "morango_ao_leite_400", nome: "Morango com Brigadeiro ao Leite", preco: 4.00, img: "Images/Morango - Ao Leite.jpeg" },
           { id: "pistache_400", nome: "Pistache", preco: 4.00, img: "Images/Pistache.jpeg" },
@@ -296,9 +315,27 @@
       renderizarDoces(); atualizarInterface();
     }
 
+    function renderizarAbasCategorias() {
+      const container = document.getElementById('abas-categorias'); if (!container) return;
+      container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-5 py-2.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-md">Todos</button>`;
+      catalogo.forEach(g => {
+        const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+        container.innerHTML += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-5 py-2.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5]">${g.categoria.split(" (")[0]}</button>`;
+      });
+    }
+
+    function filtrarCategoria(cat) {
+      categoryActive = cat;
+      document.querySelectorAll('#abas-categorias button').forEach(aba => aba.className = "px-5 py-2.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5]");
+      const ativa = document.getElementById(`aba-${cat.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')}`);
+      if(ativa) ativa.className = "px-5 py-2.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-md";
+      renderizarDoces();
+    }
+
     function renderizarDoces() {
       const grid = document.getElementById('cardapio-grid'); if(!grid) return; grid.innerHTML = "";
       catalogo.forEach(g => {
+        if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
         g.itens.forEach(item => {
           const qtd = quantidades[item.id] || 0;
           grid.innerHTML += `
@@ -465,7 +502,8 @@
     function lembreteCaixa() { alert("Selecione o tamanho da caixa na Etapa 1!"); }
     function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     
-    // Força a renderização inicial assim que o código carrega
+    // Inicialização unificada dos módulos
+    renderizarAbasCategorias();
     renderizarDoces();
   </script>
 </body>
