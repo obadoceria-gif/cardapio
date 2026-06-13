@@ -9,43 +9,34 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
     
+    body { font-family: 'Poppins', sans-serif; }
     input[type=number]::-webkit-inner-spin-button, 
-    input[type=number]::-webkit-outer-spin-button { 
-      -webkit-appearance: none; 
-      margin: 0; 
-    }
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; }
   </style>
 </head>
-<body class="bg-[#FFF8F0] text-[#3B2A1E] font-sans antialiased">
+<body class="bg-[#FAF5F0] text-[#3B2A1E] antialiased">
 
   <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
-    <span id="toast-text" class="font-bold text-center w-full"></span>
+    <span id="toast-text" class="font-bold text-center w-full text-sm"></span>
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all text-sm shadow-md">✕</button>
-      
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm shadow-md">✕</button>
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
           <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105" onerror="handleImageError(this, 'Doce')">
       </div>
-      
       <div class="p-6 bg-white">
-        <div class="text-center mb-4">
-          <h2 id="modal-title" class="text-2xl font-extrabold text-[#8B4513] tracking-tight"></h2>
-        </div>
-        
+        <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
         <div class="flex items-center justify-between border-t border-gray-100 pt-4">
           <div class="flex flex-col">
             <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
-            <span id="modal-price" class="text-2xl font-black text-[#8B4513]"></span>
+            <span id="modal-price" class="text-xl font-black text-[#8B4513]"></span>
           </div>
-          <button id="modal-add-btn" class="px-6 py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-2xl font-bold shadow-md transition-all active:scale-95 text-xs uppercase tracking-wider">
-            Adicionar à Caixa
-          </button>
+          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-xl font-bold shadow-md text-xs uppercase tracking-wider transition-all active:scale-95">Adicionar à Caixa</button>
         </div>
       </div>
     </div>
@@ -53,29 +44,23 @@
 
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-6" onclick="event.stopPropagation()">
-      <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 hover:text-gray-700 text-sm">✕</button>
+      <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
 
       <div id="modal-completa-estado-escolha" class="space-y-6">
-        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
-          <i class="fa-solid fa-check-to-slot"></i>
-        </div>
-        
+        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner"><i class="fa-solid fa-square-check"></i></div>
         <div class="space-y-2">
           <h2 class="text-2xl font-black text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
           <p id="texto-caixa-completa" class="text-sm text-gray-600 leading-relaxed"></p>
-          <p class="text-xs text-amber-700 font-bold">Você pode continuar escolhendo sabores aumentando o tamanho da sua caixa ou fechar o pedido agora!</p>
+          <p class="text-xs text-amber-700 font-bold">Deseja estender sua experiência adicionando mais sabores ou fechar a sua encomenda agora?</p>
         </div>
-
         <div class="flex flex-col gap-3 pt-2">
-          <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-4 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-black text-sm rounded-xl shadow-md uppercase tracking-wider flex items-center justify-center gap-2 transition-all transform active:scale-95">
+          <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-black text-sm rounded-xl shadow-md uppercase tracking-wider flex items-center justify-center gap-2 transition-all transform active:scale-95">
             <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
           </button>
-          
-          <button onclick="mostrarFormularioInternoModal()" class="w-full py-4 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-sm rounded-xl shadow-md uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+          <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-sm rounded-xl shadow-md uppercase tracking-wider flex items-center justify-center gap-2">
             <i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual
           </button>
-          
-          <button onclick="fecharModalCompleta()" class="w-full py-3 border-2 border-gray-200 hover:border-gray-400 rounded-xl text-xs font-black text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors uppercase tracking-wider">
+          <button onclick="fecharModalCompleta()" class="w-full py-2.5 border-2 border-gray-200 hover:border-gray-300 rounded-xl text-xs font-black text-gray-500 transition-colors uppercase tracking-wider">
             <i class="fa-solid fa-magnifying-glass"></i> Apenas revisar os sabores escolhidos
           </button>
         </div>
@@ -83,56 +68,47 @@
 
       <div id="modal-completa-estado-form" class="space-y-5 hidden text-left">
         <div class="text-center">
-          <h3 class="text-2xl font-black text-[#8B4513]">Dados para Agendamento</h3>
+          <h3 class="text-xl font-black text-[#8B4513]">Dados para Agendamento</h3>
           <p class="text-xs text-gray-500 mt-1">Preencha abaixo para gerar o seu resumo no WhatsApp</p>
         </div>
-
         <div class="space-y-4 pt-2">
           <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Seu Nome Completo *</label>
-            <input type="text" id="modal-nome-cliente" placeholder="Ex: Maria Silva" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]">
+            <input type="text" id="modal-nome-cliente" placeholder="Ex: Maria Silva" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('nome-cliente').value = this.value; actualizarEstadoBotao();">
           </div>
-          
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Data de Entrega *</label>
-              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]">
+              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('data-desejada').value = this.value; actualizarEstadoBotao();">
             </div>
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Hora Desejada *</label>
-              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]">
+              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('hora-desejada').value = this.value; actualizarEstadoBotao();">
             </div>
           </div>
         </div>
-
         <div class="flex flex-col gap-2 pt-4">
-          <button onclick="enviarPedidoWhatsAppPeloModal()" class="w-full py-4 bg-green-600 hover:bg-green-700 text-white font-black text-sm rounded-xl shadow-lg uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+          <button onclick="enviarPedidoWhatsAppPeloModal()" class="w-full py-4 bg-green-600 hover:bg-green-700 text-white font-black text-sm rounded-xl shadow-lg uppercase tracking-wider flex items-center justify-center gap-2">
             <i class="fa-brands fa-whatsapp text-lg"></i> Enviar Encomenda no WhatsApp
           </button>
-          <button onclick="voltarParaEstadosEscolhaModal()" class="w-full py-2.5 text-center text-xs font-bold text-gray-400 hover:text-gray-600">
-            Voltar para as opções anteriores
-          </button>
+          <button onclick="voltarParaEstadosEscolhaModal()" class="w-full py-2.5 text-center text-xs font-bold text-gray-400">Voltar para as opções anteriores</button>
         </div>
       </div>
-
     </div>
   </div>
 
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8" onclick="event.stopPropagation()">
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-3 text-gray-600 font-bold">✕</button>
-      
       <div class="text-center mb-6">
         <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest">ORÇAMENTO EXCLUSIVO 2026</span>
         <h2 id="titulo-modal-especial" class="text-2xl sm:text-3xl font-black text-[#8B4513] mt-3">Orçamento de Doces Personalizados</h2>
         <p class="text-[#D8B36A] font-bold text-sm">Insira suas informações para verificarmos a disponibilidade na agenda</p>
       </div>
-
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
         <label class="block text-xs font-bold uppercase tracking-wider text-[#8B4513] mb-1.5">Seu Nome Completo *</label>
         <input type="text" id="pers-nome" placeholder="Ex: Paulo" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none focus:border-orange-500 shadow-sm">
       </div>
-
       <div id="grid-info-precos" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div class="bg-orange-50 p-4 rounded-xl border border-orange-200 text-xs text-gray-700 space-y-1.5">
           <h4 class="font-bold text-[#8B4513] uppercase tracking-wider">Especificações:</h4>
@@ -145,7 +121,6 @@
           <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
         </div>
       </div>
-
       <div class="space-y-4 bg-gray-50 p-5 rounded-xl border border-gray-200">
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
@@ -157,7 +132,6 @@
               <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
          </div>
-
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label id="label-campo-dinamico-2" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
@@ -168,90 +142,102 @@
               <input type="number" id="pers-pessoas" placeholder="Ex: 150 convidados" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-orange-500">
             </div>
          </div>
-
-         <button onclick="enviarOrcamentoEspecial()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">
-            Solicitar Reserva no WhatsApp
-         </button>
+         <button onclick="enviarOrcamentoEspecial()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">Solicitar Reserva no WhatsApp</button>
       </div>
     </div>
   </div>
 
-  <header class="py-12 text-center bg-gradient-to-b from-[#FFF0E0] to-[#FFF8F0] px-4">
-    <h1 class="text-5xl font-extrabold text-[#8B4513] tracking-tight">OBA Doceria</h1>
-    <p class="text-[#D8B36A] uppercase tracking-widest text-sm mt-3 font-semibold">O Verdadeiro Sabor Artesanal • Cardápio Completo 2026</p>
-    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto">Sem atalhos: Geleias e reduções de frutas preparadas artesanalmente. Receitas equilibradas e sem conservantes.</p>
+  <header class="py-8 md:py-12 text-center bg-gradient-to-b from-[#FFEAD2] to-[#FAF5F0] px-4">
+    <h1 class="text-4xl md:text-5xl font-black text-[#8B4513] tracking-tight">OBA Doceria</h1>
+    <p class="text-[#D8B36A] uppercase tracking-widest text-xs md:text-sm mt-2 font-bold">O Verdadeiro Sabor Artesanal • Cardápio Oficial 2026</p>
+    <p class="text-xs text-gray-500 mt-2 max-w-md mx-auto hidden md:block">Sem atalhos: Geleias e reduções de frutas preparadas artesanalmente. Receitas perfeitamente equilibradas.</p>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-32">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
       
       <div class="lg:col-span-8 space-y-6">
         
-        <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
+        <section class="bg-white p-5 md:p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
           <div class="flex items-center gap-3 mb-4">
-            <span class="bg-[#8B4513] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm">1</span>
-            <h2 class="text-xl font-bold text-[#8B4513]">Selecione o tamanho da sua caixa</h2>
+            <span class="bg-[#8B4513] text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">1</span>
+            <h2 class="text-lg font-bold text-[#8B4513]">Selecione o tamanho da sua caixa</h2>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="opcoes-caixas">
-            <button onclick="selecionarCaixa('25')" id="btn-caixa-25" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left w-full flex flex-col justify-between shadow-sm"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa de 25 Doces</h3><p class="text-[11px] text-gray-500 mt-1">Até 7 sabores.</p></button>
-            <button onclick="selecionarCaixa('35')" id="btn-caixa-35" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left w-full flex flex-col justify-between shadow-sm"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa de 35 Doces</h3><p class="text-[11px] text-gray-500 mt-1">Até 7 sabores.</p></button>
-            <button onclick="selecionarCaixa('50')" id="btn-caixa-50" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left w-full flex flex-col justify-between shadow-sm"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa de 50 Doces</h3><p class="text-[11px] text-gray-500 mt-1">Até 10 sabores.</p></button>
-            <button onclick="selecionarCaixa('100')" id="btn-caixa-100" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left w-full flex flex-col justify-between shadow-sm"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa de 100 Doces</h3><p class="text-[11px] text-gray-500 mt-1">Até 14 sabores.</p></button>
-            <button onclick="selecionarCaixa('degustacao')" id="btn-caixa-degustacao" class="bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] hover:border-[#8B4513] text-left w-full flex flex-col justify-between shadow-sm"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa Degustação (25 Sabores Sortidos)</h3><p class="text-[11px] text-gray-700 font-bold mt-1">Preço: R$ 75,00</p></button>
+          
+          <div class="flex overflow-x-auto gap-3 pb-3 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 no-scrollbar snap-x snap-mandatory" id="opcoes-caixas">
+            <button onclick="selecionarCaixa('25')" id="btn-caixa-25" class="snap-center min-w-[210px] md:min-w-0 bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left transition-all flex flex-col justify-between"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa de 25 Doces</h3><p class="text-[11px] text-gray-400 mt-0.5">Até 7 sabores.</p></button>
+            <button onclick="selecionarCaixa('35')" id="btn-caixa-35" class="snap-center min-w-[210px] md:min-w-0 bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left transition-all flex flex-col justify-between"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa de 35 Doces</h3><p class="text-[11px] text-gray-400 mt-0.5">Até 7 sabores.</p></button>
+            <button onclick="selecionarCaixa('50')" id="btn-caixa-50" class="snap-center min-w-[210px] md:min-w-0 bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left transition-all flex flex-col justify-between"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa de 50 Doces</h3><p class="text-[11px] text-gray-400 mt-0.5">Até 10 sabores.</p></button>
+            <button onclick="selecionarCaixa('100')" id="btn-caixa-100" class="snap-center min-w-[210px] md:min-w-0 bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left transition-all flex flex-col justify-between"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa de 100 Doces</h3><p class="text-[11px] text-gray-400 mt-0.5">Até 14 sabores.</p></button>
+            <button onclick="selecionarCaixa('degustacao')" id="btn-caixa-degustacao" class="snap-center min-w-[210px] md:min-w-0 bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left transition-all flex flex-col justify-between"><h3 class="font-extrabold text-sm text-[#8B4513]">Caixa Degustação</h3><p class="text-[11px] text-gray-700 font-bold mt-1">25 Un. Sortidas: R$ 75</p></button>
           </div>
         </section>
 
-        <section>
-          <div class="flex flex-wrap gap-2 pb-2" id="abas-categorias"></div>
+        <section class="sticky top-0 bg-[#FAF5F0] z-30 py-2">
+          <div class="flex overflow-x-auto gap-2 pb-1 no-scrollbar snap-x" id="abas-categorias"></div>
         </section>
 
         <section>
-          <div id="cardapio-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
+          <div id="cardapio-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-5"></div>
         </section>
       </div>
 
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-4">
         
-        <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-amber-200">
-            <h3 class="font-extrabold text-lg text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
-            <div class="my-2 bg-amber-50 px-3 py-1 rounded-xl border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-2xl tracking-tight">60% OFF</span></div>
-            <p class="text-[11px] text-gray-600 mb-3 max-w-[240px]">Transforme o seu evento em uma obra de arte com doces modelados à mão livre.</p>
-            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-3 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider">
-              CLIQUE AQUI PARA FAZER A SUA RESERVA
+        <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-md">
+          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-amber-100">
+            <h3 class="font-extrabold text-base text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
+            <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100"><span class="text-orange-600 font-black text-sm tracking-tight">60% OFF</span></div>
+            <p class="text-[11px] text-gray-500 mb-2.5 max-w-[240px]">Doces exclusivos modelados à mão livre para tornar o seu evento inesquecível.</p>
+            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all border-b-4 border-[#5c2d0c] active:border-b-0 active:translate-y-1">
+              Clique aqui para fazer a sua reserva
             </button>
           </div>
         </section>
 
-        <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-          <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-yellow-200">
-            <h3 class="font-extrabold text-lg text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
-            <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
-            <button onclick="abrirModalEspecial('eventos')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider">
+        <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-md">
+          <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-yellow-100">
+            <h3 class="font-extrabold text-base text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
+            <p class="text-[11px] text-gray-500 leading-relaxed my-2 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
+            <button onclick="abrirModalEspecial('eventos')" class="w-full py-2.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#3a1a05] active:border-b-0 active:translate-y-1">
               Solicitar Orçamento
             </button>
           </div>
         </section>
 
-        <section id="secao-checkout" class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-lg space-y-6">
-          <div class="border-b border-[#E8D5B5] pb-4"><h2 class="text-xl font-bold text-[#8B4513]">Resumo da Encomenda</h2></div>
-          <div class="space-y-3" id="painel-progresso">
-            <div class="flex justify-between text-sm font-semibold"><span>Selecione uma caixa</span><span id="contagem-doces">0 / 0</span></div>
-            <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden"><div id="barra-progresso" class="bg-[#8B4513] h-full transition-all duration-300 w-0"></div></div>
+        <section id="secao-checkout" class="bg-white p-5 md:p-6 rounded-3xl border border-[#E8D5B5] shadow-md space-y-5">
+          <div class="border-b border-[#E8D5B5] pb-3"><h2 class="text-base font-black text-[#8B4513]">Resumo da Encomenda</h2></div>
+          
+          <div class="space-y-2" id="painel-progresso">
+            <div class="flex justify-between text-xs font-bold text-gray-700"><span>Progresso da Caixa</span><span id="contagem-doces">0 / 0</span></div>
+            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden"><div id="barra-progresso" class="bg-[#8B4513] h-full transition-all duration-300 w-0"></div></div>
           </div>
-          <div class="border-t border-b border-gray-100 py-4 max-h-[25vh] overflow-y-auto space-y-2 no-scrollbar" id="lista-selecionados">
-            <p class="text-sm text-gray-400 text-center py-4">Nenhum sabor selecionado ainda.</p>
+
+          <div class="border-t border-b border-gray-100 py-3 max-h-[20vh] overflow-y-auto space-y-1.5 no-scrollbar text-xs" id="lista-selecionados">
+            <p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado ainda.</p>
           </div>
+
           <div class="space-y-4">
-            <div class="flex justify-between items-center text-lg font-bold"><span>Valor Total:</span><span class="text-2xl text-[#8B4513]" id="valor-total">R$ 0,00</span></div>
-            <div class="space-y-3">
-              <div><label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Seu Nome *</label><input type="text" id="nome-cliente" placeholder="Seu nome completo" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="sincronizarCamposTextoLateralParaModal()"></div>
-              <div class="grid grid-cols-2 gap-3">
-                <div><label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Data *</label><input type="date" id="data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="sincronizarCamposTextoLateralParaModal()"></div>
-                <div><label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Hora *</label><input type="time" id="hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="sincronizarCamposTextoLateralParaModal()"></div>
+            <div class="flex justify-between items-center text-sm font-bold"><span>Valor Total:</span><span class="text-xl text-[#8B4513] font-black" id="valor-total">R$ 0,00</span></div>
+            
+            <div class="space-y-2.5">
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-0.5">Seu Nome *</label>
+                <input type="text" id="nome-cliente" placeholder="Seu nome completo" class="w-full px-4 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="sincronizarCamposTextoLateralParaModal()">
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-0.5">Data Desejada *</label>
+                  <input type="date" id="data-desejada" class="w-full px-2 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="sincronizarCamposTextoLateralParaModal()">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-0.5">Hora Desejada *</label>
+                  <input type="time" id="hora-desejada" class="w-full px-2 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="sincronizarCamposTextoLateralParaModal()">
+                </div>
               </div>
             </div>
-            <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-bold text-lg disabled:bg-gray-200 disabled:text-gray-400">WhatsApp Encomendar</button>
+            
+            <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-3.5 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md disabled:bg-gray-200 disabled:text-gray-400 transition-all uppercase tracking-wider">WhatsApp Encomendar</button>
           </div>
         </section>
       </div>
@@ -259,12 +245,12 @@
     </div>
   </main>
 
-  <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B5] shadow-2xl p-4 flex justify-between items-center z-40">
+  <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B5] shadow-2xl p-3.5 flex justify-between items-center z-40">
     <div>
-      <p id="mobile-resumo-caixa" class="text-xs text-gray-500 font-bold">Selecione uma caixa</p>
-      <p id="mobile-resumo-total" class="text-lg font-extrabold text-[#8B4513]">R$ 0,00</p>
+      <p id="mobile-resumo-caixa" class="text-[11px] text-gray-400 font-bold">Selecione uma caixa</p>
+      <p id="mobile-resumo-total" class="text-base font-black text-[#8B4513]">R$ 0,00</p>
     </div>
-    <button onclick="scrollParaCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md">Ver Pedido</button>
+    <button onclick="scrollParaCheckout()" class="px-5 py-2.5 bg-[#8B4513] text-white rounded-xl font-bold text-xs shadow-md uppercase tracking-wider">Ver Caixa</button>
   </div>
 
   <script>
@@ -273,10 +259,10 @@
       '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
       '50': { id: '50', titulo: 'Caixa de 50 Doces', totalDoces: 50, proximoId: '100' },
       '100': { id: '100', titulo: 'Caixa de 100 Doces', totalDoces: 100, proximoId: null },
-      'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (25 Sabores Sortidos)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
+      'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE DE DADOS INTEGRAL COMPLETA PRESERVADA E SEGURA CONTRA TRAVAMENTOS
+    // BASE DE DADOS COMPLETA COM TODOS OS SABORES E CATEGORIAS RESTAURADAS
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -348,27 +334,26 @@
       caixaAtiva = caixas[id]; quantidades = {};
       Object.keys(caixas).forEach(bId => {
         const btn = document.getElementById(`btn-caixa-${bId}`);
-        if(btn) btn.className = (bId === id) ? "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left shadow-md w-full" : "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left w-full";
+        if(btn) btn.className = (bId === id) ? "snap-center min-w-[210px] md:min-w-0 bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left shadow-md flex flex-col justify-between" : "snap-center min-w-[210px] md:min-w-0 bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between";
       });
       if(id === 'degustacao') setTimeout(focarFormularioCheckout, 600);
-      renderizarDoces(); atualizarInterface();
-      voltarParaEstadosEscolhaModal(); // Garante o reset do modal interno para a próxima compra
+      renderizarDoces(); atualizarInterface(); voltarParaEstadosEscolhaModal();
     }
 
     function renderizarAbasCategorias() {
       const container = document.getElementById('abas-categorias'); if (!container) return;
-      container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-5 py-2.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-md">Todos</button>`;
+      container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="snap-center px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm whitespace-nowrap">Todos</button>`;
       catalogo.forEach(g => {
         const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
-        container.innerHTML += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-5 py-2.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5]">${g.categoria.split(" (")[0]}</button>`;
+        container.innerHTML += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="snap-center px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] whitespace-nowrap">${g.categoria.split(" (")[0]}</button>`;
       });
     }
 
     function filtrarCategoria(cat) {
       categoryActive = cat;
-      document.querySelectorAll('#abas-categorias button').forEach(aba => aba.className = "px-5 py-2.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5]");
+      document.querySelectorAll('#abas-categorias button').forEach(aba => aba.className = "snap-center px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] whitespace-nowrap");
       const ativa = document.getElementById(`aba-${cat.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')}`);
-      if(ativa) ativa.className = "px-5 py-2.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-md";
+      if(ativa) ativa.className = "snap-center px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm whitespace-nowrap";
       renderizarDoces();
     }
 
@@ -379,17 +364,17 @@
         g.itens.forEach(item => {
           const qtd = quantidades[item.id] || 0;
           grid.innerHTML += `
-            <div class="bg-white rounded-3xl shadow-md border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden w-full">
+            <div class="bg-white rounded-3xl shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden w-full">
               <div class="w-full aspect-square"><img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover"></div>
-              <div class="p-4 w-full flex flex-col justify-between flex-1">
-                <div><h3 class="font-bold text-sm mb-1">${item.nome}</h3><button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-xs text-[#8B4513] underline mb-3">Ver detalhes</button></div>
-                <div><p class="text-xs text-gray-500 font-semibold mb-2">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
+              <div class="p-3 md:p-4 w-full flex flex-col justify-between flex-1">
+                <div><h3 class="font-bold text-xs md:text-sm mb-0.5 text-[#3B2A1E] line-clamp-1">${item.nome}</h3><button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-[10px] text-[#8B4513] underline mb-2 inline-block">Ver detalhes</button></div>
+                <div><p class="text-[11px] text-gray-400 font-bold mb-1.5">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
                 ${caixaAtiva && caixaAtiva.id !== 'degustacao' ? `
-                  <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
-                    <button onclick="alterarQtd('${item.id}', -1)" class="w-8 h-8 rounded-lg font-black bg-white text-[#8B4513]">-</button>
-                    <input type="number" value="${qtd}" min="0" onchange="digitarQtd('${item.id}', this.value)" class="w-12 text-center font-bold text-sm bg-transparent outline-none">
-                    <button onclick="alterarQtd('${item.id}', 1)" class="w-8 h-8 rounded-lg font-black bg-[#8B4513] text-white">+</button>
-                  </div>` : `<button onclick="lembreteCaixa()" class="w-full py-2 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold">Escolha a caixa primeiro</button>`}
+                  <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-0.5 w-full">
+                    <button onclick="alterarQtd('${item.id}', -1)" class="w-7 h-7 rounded-lg font-black bg-white text-[#8B4513] shadow-sm text-sm">-</button>
+                    <input type="number" value="${qtd}" min="0" onchange="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
+                    <button onclick="alterarQtd('${item.id}', 1)" class="w-7 h-7 rounded-lg font-black bg-[#8B4513] text-white shadow-sm text-sm">+</button>
+                  </div>` : `<button onclick="lembreteCaixa()" class="w-full py-1.5 bg-gray-50 text-gray-400 rounded-xl text-[10px] font-bold">Escolha a caixa</button>`}
                 </div>
               </div>
             </div>`;
@@ -412,14 +397,10 @@
       }
     }
 
-    // GESTÃO INTELIGENTE DE TRANSIÇÃO DOS ESTADOS DO MODAL DE CAIXA CHEIA [Sua Nova Ideia Comercial]
     function mostrarFormularioInternoModal() {
       document.getElementById('modal-completa-estado-escolha').classList.add('hidden');
       document.getElementById('modal-completa-estado-form').classList.remove('hidden');
-      setTimeout(() => {
-        const inputModalNome = document.getElementById('modal-nome-cliente');
-        if(inputModalNome) inputModalNome.focus();
-      }, 300);
+      setTimeout(() => { const input = document.getElementById('modal-nome-cliente'); if(input) input.focus(); }, 250);
     }
 
     function voltarParaEstadosEscolhaModal() {
@@ -453,7 +434,7 @@
       if (!caixaAtiva || caixaAtiva.id === 'degustacao') return;
       const qtdAtual = quantidades[id] || 0; const novaQtd = qtdAtual + delta; if (novaQtd < 0) return;
       const totalDesejado = caixaAtiva.totalDoces; const totalGeral = Object.values(quantidades).reduce((a, b) => a + b, 0) - qtdAtual;
-      if (delta > 0 && (totalGeral + novaQtd) > totalDesejado) { alert("Sua caixa já está cheia!"); return; }
+      if (delta > 0 && (totalGeral + novaQtd) > totalDesejado) { mostrarNotificacao("Sua caixa já está cheia!"); return; }
       if (novaQtd === 0) delete quantidades[id]; else quantidades[id] = novaQtd;
       renderizarDoces(); atualizarInterface(); verificarCaixaCompleta();
     }
@@ -463,7 +444,7 @@
       let qtdDigitada = parseInt(valor) || 0; if (qtdDigitada < 0) qtdDigitada = 0;
       const totalOutros = Object.values(quantidades).reduce((a, b) => a + b, 0) - (quantidades[id] || 0);
       const espacoLivre = caixaAtiva.totalDoces - totalOutros;
-      if (qtdDigitada > espacoLivre) { alert(`Quantidade ajustada para ${espacoLivre}!`); qtdDigitada = espacoLivre; }
+      if (qtdDigitada > espacoLivre) { mostrarNotificacao(`Quantidade reajustada para ${espacoLivre}!`); qtdDigitada = espacoLivre; }
       if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
       renderizarDoces(); atualizarInterface(); verificarCaixaCompleta();
     }
@@ -475,13 +456,17 @@
       document.getElementById('contagem-doces').innerText = `${total} / ${caixaAtiva.totalDoces}`;
       document.getElementById('barra-progresso').style.width = `${(total / caixaAtiva.totalDoces) * 100}%`;
       let valor = 0;
-      if (caixaAtiva.precoFixo) { valor = caixaAtiva.precoFixo; container.innerHTML = `<p class="text-xs p-1 text-gray-500 italic">Seleção sortida de sabores tradicionais.</p>`; }
+      if (caixaAtiva.precoFixo) { valor = caixaAtiva.precoFixo; container.innerHTML = `<p class="text-xs p-0.5 text-gray-400 italic">Seleção sortida do dia incluída.</p>`; }
       else {
         Object.entries(quantidades).forEach(([id, q]) => {
-          const doce = encontrarDoce(id); if (doce && q > 0) { valor += doce.preco * q; container.innerHTML += `<p class="text-xs p-1 text-gray-700">${doce.nome} x ${q}</p>`; }
+          const doce = encontrarDoce(id); if (doce && q > 0) { valor += doce.preco * q; container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
         });
+        if(total === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado.</p>`;
       }
-      document.getElementById('valor-total').innerText = `R$ ${valor.toFixed(2).replace('.', ',')}`;
+      const fmtVal = `R$ ${valor.toFixed(2).replace('.', ',')}`;
+      document.getElementById('valor-total').innerText = fmtVal;
+      if(document.getElementById('mobile-resumo-total')) document.getElementById('mobile-resumo-total').innerText = fmtVal;
+      if(document.getElementById('mobile-resumo-caixa')) document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo} (${total} un.)`;
       actualizarEstadoBotao();
     }
 
@@ -525,7 +510,7 @@
       const numPessoas = document.getElementById('pers-pessoas').value.trim();
       
       if(!nomeClientM || !temaEscolhido || !dataEntrega) { alert("Por favor, preencha os campos obrigatórios!"); return; }
-      if (tipoFormularioAtivo === 'eventos' && !numDoces && !numPessoas) { alert("Informe a Quantidade de Doces OU a Quantidade de Pessoas!"); return; }
+      if (tipoFormularioAtivo === 'eventos' && !numDoces && !numPessoas) { alert("Informe a Quantidade de Doces OU de Pessoas!"); return; }
       if (tipoFormularioAtivo === 'personalizados' && !numDoces) { alert("Informe a quantidade de doces!"); return; }
 
       const [ano, mes, dia] = dataEntrega.split('-');
@@ -546,19 +531,13 @@
       btn.disabled = !caixaAtiva.precoFixo && (Object.values(quantidades).reduce((a, b) => a + b, 0) !== caixaAtiva.totalDoces);
     }
 
-    // DISPARO DA ENCOMENDA DIRETAMENTE PELO MODAL INTERNO SUCESSO!
     function enviarPedidoWhatsAppPeloModal() {
       sincronizarCamposTextoModalParaLateral();
       const nome = document.getElementById('modal-nome-cliente').value.trim();
       const data = document.getElementById('modal-data-desejada').value;
       const hora = document.getElementById('modal-hora-desejada').value;
-
-      if(!nome || !data || !hora) {
-        alert("Por favor, preencha todos os campos do agendamento para concluir!");
-        return;
-      }
-      fecharModalCompleta();
-      enviarPedidoWhatsApp();
+      if(!nome || !data || !hora) { alert("Por favor, preencha todos os campos do agendamento!"); return; }
+      fecharModalCompleta(); enviarPedidoWhatsApp();
     }
 
     function enviarPedidoWhatsApp() {
@@ -583,10 +562,22 @@
       }
       document.getElementById('modal').classList.remove('hidden');
     }
-    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-    function lembreteCaixa() { alert("Selecione o tamanho da caixa na Etapa 1!"); }
-    function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     
+    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+    function lembreteCaixa() { mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!"); }
+    function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    function scrollParaCheckout() { focarFormularioCheckout(); }
+    
+    function mostrarNotificacao(mensagem) {
+      const toast = document.getElementById('custom-toast'); const toastText = document.getElementById('toast-text');
+      if(toastText) toastText.innerText = mensagem;
+      if(toast) {
+        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all";
+        setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
+      }
+    }
+
+    // Inicialização direta estável
     renderizarAbasCategorias();
     renderizarDoces();
   </script>
