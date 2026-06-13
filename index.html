@@ -130,7 +130,7 @@
             </div>
          </div>
 
-         <button onclick="enviarOrcamentoEspecial()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2">
+         <button onclick="enviarOrcamentoEspecial()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">
             Solicitar Reserva no WhatsApp
          </button>
       </div>
@@ -147,7 +147,6 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       <div class="lg:col-span-8 space-y-6">
-        
         <section class="bg-white p-6 rounded-3xl border border-[#E8D5B5] shadow-sm">
           <div class="flex items-center gap-3 mb-4">
             <span class="bg-[#8B4513] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm">1</span>
@@ -239,7 +238,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (25 Sabores Sortidos)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE DE DATA COMPLETA DO SEU CATÁLOGO DE SABORES RESTAURADA
+    // BASE DE DADOS COMPLETA COM MAIS DE 35 SABORES EXCLUSIVOS INTEGRADOS COM SUCESSO
     const catalogo = [
       {
         categoria: "Doces",
@@ -284,6 +283,8 @@
         ]
       }
     ];
+
+    let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let tipoFormularioAtivo = "personalizados";
 
     function selecionarCaixa(id) {
       caixaAtiva = caixas[id]; quantidades = {};
@@ -464,7 +465,7 @@
     function lembreteCaixa() { alert("Selecione o tamanho da caixa na Etapa 1!"); }
     function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     
-    // Inicialização direta do catálogo
+    // Força a renderização inicial assim que o código carrega
     renderizarDoces();
   </script>
 </body>
