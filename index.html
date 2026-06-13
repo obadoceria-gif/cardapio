@@ -27,7 +27,7 @@
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm shadow-md">✕</button>
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105" onerror="handleImageError(this, 'Doce')">
       </div>
       <div class="p-6 bg-white">
         <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
@@ -182,9 +182,9 @@
 
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-4">
         <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-md">
-          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-amber-100">
+          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative overflow-hidden border border-amber-100">
             <h3 class="font-extrabold text-base text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
-            <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100"><span class="text-orange-600 font-black text-sm tracking-tight">60% OFF</span></div>
+            <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-sm tracking-tight">60% OFF</span></div>
             <p class="text-[11px] text-gray-500 mb-2.5 max-w-[240px]">Doces exclusivos modelados à mão livre para tornar o seu evento inesquecível.</p>
             <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
           </div>
@@ -193,7 +193,7 @@
         <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-md">
           <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-yellow-100">
             <h3 class="font-extrabold text-base text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
-            <p class="text-[11px] text-gray-500 leading-relaxed my-2 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
+            <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
             <button onclick="abrirModalEspecial('eventos')" class="w-full py-2.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#3a1a05]">Solicitar Orçamento</button>
           </div>
         </section>
@@ -202,7 +202,7 @@
           <div class="border-b border-[#E8D5B5] pb-3"><h2 class="text-base font-black text-[#8B4513]">Resumo da Encomenda</h2></div>
           <div class="space-y-2" id="painel-progresso">
             <div class="flex justify-between text-xs font-bold text-gray-700"><span>Progresso</span><span id="contagem-doces">0 / 0</span></div>
-            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden"><div id="barra-progresso" class="bg-[#8B4513] h-full w-0"></div></div>
+            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden"><div id="barra-progresso" class="bg-[#8B4513] h-full transition-all duration-300 w-0"></div></div>
           </div>
           <div class="border-t border-b border-gray-100 py-3 max-h-[20vh] overflow-y-auto space-y-1.5 no-scrollbar text-xs" id="lista-selecionados"><p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado.</p></div>
           <div class="space-y-4">
@@ -239,6 +239,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
+    // BASE DE SABORES COMPLETA E VALIDADA SEM CORTE DE STRING COM OS ITENS FALTANTES INCLUSOS
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -453,86 +454,17 @@
       actualizarEstadoBotao();
     }
 
-    function flipActiveForm(type) {
-      tipoFormularioAtivo = type;
-      const title = document.getElementById('titulo-modal-especial');
-      const gridPrecos = document.getElementById('grid-info-precos');
-      const label1 = document.getElementById('label-campo-dinamico-1');
-      const label2 = document.getElementById('label-campo-dinamico-2');
-      const inputQtd = document.getElementById('pers-qtd');
-      const inputTema = document.getElementById('pers-tema');
-      const wrapperPessoas = document.getElementById('wrapper-qtd-pessoas');
-
-      if (type === 'eventos') {
-        if(title) title.innerText = "Orçamento de Grandes Eventos 🥂";
-        if(gridPrecos) gridPrecos.classList.add('hidden');
-        if(label1) label1.innerText = "Tipo de Evento *";
-        if(label2) label2.innerText = "Quantidade de Doces";
-        if(inputTema) inputTema.placeholder = "Ex: Casamento, Formatura";
-        if(inputQtd) inputQtd.placeholder = "Opcional se informar convidados";
-        if(wrapperPessoas) wrapperPessoas.classList.remove('hidden');
-      } else {
-        if(title) title.innerText = "Orçamento de Doces Personalizados";
-        if(gridPrecos) gridPrecos.classList.remove('hidden');
-        if(label1) label1.innerText = "Tema da Decoração *";
-        if(label2) label2.innerText = "Número de Doces *";
-        if(inputTema) inputTema.placeholder = "Ex: Fazendinha";
-        if(inputQtd) inputQtd.placeholder = "Mínimo 20";
-        if(wrapperPessoas) wrapperPessoas.classList.add('hidden');
-      }
-    }
-
-    function abrirModalEspecial(type) { flipActiveForm(type); document.getElementById('modal-decorados').classList.remove('hidden'); }
-    function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
-
-    function enviarOrcamentoEspecial() {
-      const nomeClientM = document.getElementById('pers-nome').value.trim();
-      const temaEscolhido = document.getElementById('pers-tema').value.trim();
-      const dataEntrega = document.getElementById('pers-data').value;
-      const numDoces = document.getElementById('pers-qtd').value.trim();
-      const numPessoas = document.getElementById('pers-pessoas').value.trim();
-      
-      if(!nomeClientM || !temaEscolhido || !dataEntrega) { alert("Por favor, preencha os campos obrigatórios!"); return; }
-      if (tipoFormularioAtivo === 'eventos' && !numDoces && !numPessoas) { alert("Informe a Quantidade de Doces OU de Pessoas!"); return; }
-      if (tipoFormularioAtivo === 'personalizados' && !numDoces) { alert("Informe a quantidade de doces!"); return; }
-
-      const [ano, mes, dia] = dataEntrega.split('-');
-      let msg = tipoFormularioAtivo === 'eventos' ? `Olá, OBA Doceria! \nProposta para *Grandes Eventos*:\n\n👤 *ANFITRIÃO:* ${nomeClientM}\n🥂 *TIPO:* ${temaEscolhido}\n📅 *DATA:* ${dia}/${mes}/${ano}\n` : `Olá, OBA Doceria! \nOrçamento de *Doces Personalizados*:\n\n👤 *CLIENTE:* ${nomeClientM}\n🔢 *QUANTIDADE:* ${numDoces} un\n🎨 *TEMA:* ${temaEscolhido}\n📅 *DATA:* ${dia}/${mes}/${ano}\n`;
-      if(tipoFormularioAtivo === 'eventos' && numPessoas) msg += `👥 *CONVIDADOS:* ${numPessoas} pessoas\n`;
-      if(tipoFormularioAtivo === 'eventos' && numDoces) msg += `🔢 *DOCES:* ${numDoces} unidades\n`;
-      msg += `\nAguardo seu retorno.`;
-      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_strict');
-      fecharModalPersonalizados();
-    }
-
-    function actualizarEstadoBotao() {
-      const btn = document.getElementById('btn-whatsapp'); if(!btn) return;
-      const nome = document.getElementById('nome-cliente').value.trim();
-      const data = document.getElementById('data-desejada').value;
-      const hora = document.getElementById('hora-desejada').value;
-      if (!caixaAtiva || !nome || !data || !hora) { btn.disabled = true; return; }
-      btn.disabled = !caixaAtiva.precoFixo && (Object.values(quantidades).reduce((a, b) => a + b, 0) !== caixaAtiva.totalDoces);
-    }
-
     function enviarPedidoWhatsAppPeloModal() {
       const nome = document.getElementById('modal-nome-cliente').value.trim();
       const data = document.getElementById('modal-data-desejada').value;
       const hora = document.getElementById('modal-hora-desejada').value;
       if(!nome || !data || !hora) { alert("Por favor, preencha todos os campos do agendamento!"); return; }
       
-      // Sincroniza de volta para os campos laterais antes de enviar
       document.getElementById('nome-cliente').value = nome;
       document.getElementById('data-desejada').value = data;
       document.getElementById('hora-desejada').value = hora;
       
       fecharModalCompleta(); enviarPedidoWhatsApp();
-    }
-
-    // Função auxiliar para sincronizar o modal interno caso o usuário digite na lateral
-    function sincronizarCamposTextoModalParaLateral() {
-      document.getElementById('modal-nome-cliente').value = document.getElementById('nome-cliente').value;
-      document.getElementById('modal-data-desejada').value = document.getElementById('data-desejada').value;
-      document.getElementById('modal-hora-desejada').value = document.getElementById('hora-desejada').value;
     }
 
     function enviarPedidoWhatsApp() {
@@ -547,27 +479,16 @@
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
     function encontrarDoce(id) { for (let g of catalogo) { for (let i of g.itens) { if (i.id === id) return i; } } return null; }
-    
     function openModal(src, title, price, id) {
       document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
       const modalBtn = document.getElementById('modal-add-btn');
-      if (caixaAtiva && caixaAtiva.id !== 'degustacao') {
-        modalBtn.onclick = function() { alterarQtd(id, 1); closeModal(); };
-      }
+      if (caixaAtiva && caixaAtiva.id !== 'degustacao') { modalBtn.onclick = function() { alterarQtd(id, 1); closeModal(); }; }
       document.getElementById('modal').classList.remove('hidden');
     }
     function closeModal() { document.getElementById('modal').classList.add('hidden'); }
     function lembreteCaixa() { mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!"); }
     function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-    
-    function mostrarNotificacao(mensagem) {
-      const toast = document.getElementById('custom-toast'); const toastText = document.getElementById('toast-text');
-      if(toastText) toastText.innerText = message = mensagem;
-      if(toast) {
-        toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all";
-        setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000);
-      }
-    }
+    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if(txt) txt.innerText = m; if(toast) { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
 
     renderizarAbasCategorias();
     renderizarDoces();
