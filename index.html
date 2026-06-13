@@ -193,7 +193,7 @@
         <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-md">
           <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-yellow-100">
             <h3 class="font-extrabold text-base text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
-            <p class="text-[11px] text-gray-600 leading-relaxed my-2 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
+            <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
             <button onclick="abrirModalEspecial('eventos')" class="w-full py-2.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#3a1a05]">Solicitar Orçamento</button>
           </div>
         </section>
@@ -239,7 +239,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE DE DATA TOTALMENTE RECONSTRUÍDA COM TODOS OS SABORES E CATEGORIAS CORRETAS
+    // BASE DE SABORES COMPLETA E COMPILADA
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -432,6 +432,15 @@
       renderizarDoces(); atualizarInterface(); verificarCaixaCompleta();
     }
 
+    function encontrarDoce(id) {
+      for (let g of catalogo) {
+        for (let i of g.itens) {
+          if (i.id === id) return i;
+        }
+      }
+      return null;
+    }
+
     function atualizarInterface() {
       const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
       const container = document.getElementById('lista-selecionados'); if(!container) return; container.innerHTML = "";
@@ -447,19 +456,44 @@
         if(total === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado.</p>`;
       }
       
-      const textoFinalPreco = `R$ ${valor.toFixed(2).replace('.', ',')}`;
-      document.getElementById('valor-total').innerText = textoFinalPreco;
-      if(document.getElementById('mobile-resumo-total')) document.getElementById('mobile-resumo-total').innerText = textoFinalPreco;
+      const txtPrecoFinal = `R$ ${迫 = valor.toFixed(2).replace('.', ',')}`;
+      document.getElementById('valor-total').innerText = txtPrecoFinal;
+      if(document.getElementById('mobile-resumo-total')) document.getElementById('mobile-resumo-total').innerText = txtPrecoFinal;
       if(document.getElementById('mobile-resumo-caixa')) document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo} (${total} un.)`;
       actualizarEstadoBotao();
     }
 
-    function sincronizarCamposTextoModalParaLateral() {
-      document.getElementById('nome-cliente').value = document.getElementById('modal-nome-cliente').value;
-      document.getElementById('data-desejada').value = document.getElementById('modal-data-desejada').value;
-      document.getElementById('hora-desejada').value = document.getElementById('modal-hora-desejada').value;
-      actualizarEstadoBotao();
+    function flipActiveForm(type) {
+      tipoFormularioAtivo = type;
+      const title = document.getElementById('titulo-modal-especial');
+      const gridPrecos = document.getElementById('grid-info-precos');
+      const label1 = document.getElementById('label-campo-dinamico-1');
+      const label2 = document.getElementById('label-campo-dinamico-2');
+      const inputQtd = document.getElementById('pers-qtd');
+      const inputTema = document.getElementById('pers-tema');
+      const wrapperPessoas = document.getElementById('wrapper-qtd-pessoas');
+
+      if (type === 'eventos') {
+        if(title) title.innerText = "Orçamento de Grandes Eventos 🥂";
+        if(gridPrecos) gridPrecos.classList.add('hidden');
+        if(label1) label1.innerText = "Tipo de Evento *";
+        if(label2) label2.innerText = "Quantidade de Doces";
+        if(inputTema) inputTema.placeholder = "Ex: Casamento, Formatura";
+        if(inputQtd) inputQtd.placeholder = "Opcional se informar convidados";
+        if(wrapperPessoas) wrapperPessoas.classList.remove('hidden');
+      } else {
+        if(title) title.innerText = "Orçamento de Doces Personalizados";
+        if(gridPrecos) gridPrecos.classList.remove('hidden');
+        if(label1) label1.innerText = "Tema da Decoração *";
+        if(label2) label2.innerText = "Número de Doces *";
+        if(inputTema) inputTema.placeholder = "Ex: Fazendinha";
+        if(inputQtd) inputQtd.placeholder = "Mínimo 20";
+        if(wrapperPessoas) wrapperPessoas.classList.add('hidden');
+      }
     }
+
+    function abrirModalEspecial(type) { flipActiveForm(type); document.getElementById('modal-decorados').classList.remove('hidden'); }
+    function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
 
     function enviarOrcamentoEspecial() {
       const nomeClientM = document.getElementById('pers-nome').value.trim();
@@ -481,13 +515,11 @@
       fecharModalPersonalizados();
     }
 
-    function actualizarEstadoBotao() {
-      const btn = document.getElementById('btn-whatsapp'); if(!btn) return;
-      const nome = document.getElementById('nome-cliente').value.trim();
-      const data = document.getElementById('data-desejada').value;
-      const hora = document.getElementById('hora-desejada').value;
-      if (!caixaAtiva || !nome || !data || !hora) { btn.disabled = true; return; }
-      btn.disabled = !caixaAtiva.precoFixo && (Object.values(quantidades).reduce((a, b) => a + b, 0) !== caixaAtiva.totalDoces);
+    function sincronizarCamposTextoModalParaLateral() {
+      document.getElementById('nome-cliente').value = document.getElementById('modal-nome-cliente').value;
+      document.getElementById('data-desejada').value = document.getElementById('modal-data-desejada').value;
+      document.getElementById('hora-desejada').value = document.getElementById('modal-hora-desejada').value;
+      actualizarEstadoBotao();
     }
 
     function enviarPedidoWhatsAppPeloModal() {
@@ -501,6 +533,15 @@
       fecharModalCompleta(); enviarPedidoWhatsApp();
     }
 
+    function actualizarEstadoBotao() {
+      const btn = document.getElementById('btn-whatsapp'); if(!btn) return;
+      const nome = document.getElementById('nome-cliente').value.trim();
+      const data = document.getElementById('data-desejada').value;
+      const hora = document.getElementById('hora-desejada').value;
+      if (!caixaAtiva || !nome || !data || !hora) { btn.disabled = true; return; }
+      btn.disabled = !caixaAtiva.precoFixo && (Object.values(quantidades).reduce((a, b) => a + b, 0) !== caixaAtiva.totalDoces);
+    }
+
     function enviarPedidoWhatsApp() {
       const nome = document.getElementById('nome-cliente').value.trim();
       const data = document.getElementById('data-desejada').value.split('-');
@@ -512,7 +553,8 @@
     }
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
-    function encontrarDoce(id) { for (let g of catalogo) { for (let i of g.itens) { if (i.id === id) return i; } } return null; }
+    function fecharModalCompletaAndCheckout() { fecharModalCompleta(); focarFormularioCheckout(); }
+    
     function openModal(src, title, price, id) {
       document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
       const modalBtn = document.getElementById('modal-add-btn');
