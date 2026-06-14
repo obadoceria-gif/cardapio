@@ -43,24 +43,38 @@
   </div>
 
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
-    <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-6" onclick="event.stopPropagation()">
+    <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
 
-      <div id="modal-completa-estado-escolha" class="space-y-6">
-        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner"><i class="fa-solid fa-square-check"></i></div>
-        <div class="space-y-2">
-          <h2 class="text-2xl font-black text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
-          <p id="texto-caixa-completa" class="text-sm text-gray-600 leading-relaxed"></p>
-          <p class="text-xs text-amber-700 font-bold">Deseja estender sua experiência adicionando mais sabores ou fechar a sua encomenda agora?</p>
+      <div id="modal-completa-estado-escolha" class="space-y-5">
+        <div class="w-14 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto"><i class="fa-solid fa-square-check"></i></div>
+        
+        <div class="space-y-1">
+          <h2 class="text-xl font-black text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
+          <p class="text-sm text-gray-500">Valor Total do Pedido: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-base">R$ 0,00</span></p>
         </div>
-        <div class="flex flex-col gap-3 pt-2">
-          <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-4 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-black text-sm rounded-xl shadow-md uppercase tracking-wider flex items-center justify-center gap-2">
+
+        <div onclick="toggleLacoDecorativo()" class="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer select-none transition-all hover:shadow-sm active:scale-[0.99]">
+          <div class="flex items-center gap-3 text-left">
+            <div id="laco-checkbox-visual" class="w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-extrabold text-[#8B4513] uppercase tracking-wide">Adicionar Laço Decorativo 🎀</h4>
+              <p class="text-[11px] text-gray-500 mt-0.5">Deixe a sua caixa perfeita para presente ou festa.</p>
+            </div>
+          </div>
+          <span class="text-xs font-black text-[#8B4513] whitespace-nowrap">+ R$ 4,50</span>
+        </div>
+
+        <div class="flex flex-col gap-2.5 pt-1">
+          <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase tracking-wider flex items-center justify-center gap-2">
             <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
           </button>
-          <button onclick="mostrarFormularioInternoModal()" class="w-full py-4 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-sm rounded-xl shadow-md uppercase tracking-wider flex items-center justify-center gap-2">
+          <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider flex items-center justify-center gap-2">
             <i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual
           </button>
-          <button onclick="fecharModalCompleta()" class="w-full py-3 border-2 border-gray-200 hover:border-gray-400 rounded-xl text-xs font-black text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors uppercase tracking-wider">
+          <button onclick="fecharModalCompleta()" class="w-full py-2.5 border-2 border-gray-200 text-xs font-black text-gray-500 rounded-xl uppercase tracking-wider">
             <i class="fa-solid fa-magnifying-glass"></i> Apenas revisar os sabores escolhidos
           </button>
         </div>
@@ -239,7 +253,6 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE DE SABORES COMPLETA, EM ORDEM ALFABÉTICA (A-Z) DE ACORDO COM A SUA CORREÇÃO
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -304,10 +317,10 @@
           { id: "bacon_chocolate_350", nome: "Bacon com Chocolate", preco: 3.50, img: "Images/Bacon com Chocolate.jpeg" },
           { id: "caramelo_salgado_350", nome: "Caramelo Salgado", preco: 3.50, img: "Images/Caramelo Salgado.jpeg" },
           { id: "cheesecake_350", nome: "Cheesecake", preco: 3.50, img: "Images/Cheesecake.jpeg" },
-          { id: "gorgonzola_damasco_350", nome: "Gorgonzola e Damasco", preco: 3.50, img: "Images/Gorgonzola e Damasco.jpeg" },
-          { id: "gorgonzola_geleia_350", nome: "Gorgonzola e Geléia", preco: 3.50, img: "Images/Gorgonzola e Geleia.jpeg" },
           { id: "crocante_nutella_350", nome: "Crocante de Nutella", preco: 3.50, img: "Images/Crocante de Nutella.jpeg" },
           { id: "ferrero_350", nome: "Ferrero", preco: 3.50, img: "Images/Ferrero.jpeg" },
+          { id: "gorgonzola_damasco_350", nome: "Gorgonzola e Damasco", preco: 3.50, img: "Images/Gorgonzola e Damasco.jpeg" },
+          { id: "gorgonzola_geleia_350", nome: "Gorgonzola e Geléia", preco: 3.50, img: "Images/Gorgonzola e Geleia.jpeg" },
           { id: "laranja_amendoas_350", nome: "Laranja com Amêndoas", preco: 3.50, img: "Images/Laranja com Amêndoas.jpeg" },
           { id: "laranja_coco_350", nome: "Laranja com Coco", preco: 3.50, img: "Images/Laranja com Coco.jpeg" },
           { id: "nozes_figo_350", nome: "Nozes e Figo", preco: 3.50, img: "Images/Nozes e Figo.jpeg" },
@@ -329,9 +342,10 @@
     ];
 
     let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let tipoFormularioAtivo = "personalizados";
+    let lacoDecorativoSelecionado = false; // Armazena a decisão do laço adicional
 
     function selecionarCaixa(id) {
-      caixaAtiva = caixas[id]; quantidades = {};
+      caixaAtiva = caixas[id]; quantidades = {}; lacoDecorativoSelecionado = false;
       Object.keys(caixas).forEach(bId => {
         const btn = document.getElementById(`btn-caixa-${bId}`);
         if(btn) btn.className = (bId === id) ? "snap-center min-w-[210px] md:min-w-0 bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left shadow-md flex flex-col justify-between" : "snap-center min-w-[210px] md:min-w-0 bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between";
@@ -340,7 +354,7 @@
       renderizarDoces(); atualizarInterface(); voltarParaEstadosEscolhaModal();
     }
 
-    function renderizarAbasCategorias() {
+    function renderAbasCategoriasEstaticas() {
       const container = document.getElementById('abas-categorias'); if (!container) return;
       container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all">Todos</button>`;
       catalogo.forEach(g => {
@@ -369,7 +383,7 @@
               <div class="p-3 md:p-4 w-full flex flex-col justify-between flex-1">
                 <div><h3 class="font-bold text-xs md:text-sm mb-0.5 text-[#3B2A1E] line-clamp-1">${item.nome}</h3><button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-[10px] text-[#8B4513] underline mb-2 inline-block">Ver detalhes</button></div>
                 <div><p class="text-[11px] text-gray-400 font-bold mb-1.5">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
-                ${caixaAtiva && caixaAtiva.id !== 'degustacao' ? `
+                ${caixaAtiva && caixas[caixaAtiva.id].id !== 'degustacao' ? `
                   <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-0.5 w-full">
                     <button onclick="alterarQtd('${item.id}', -1)" class="w-7 h-7 rounded-lg font-black bg-white text-[#8B4513] shadow-sm text-sm">-</button>
                     <input type="number" value="${qtd}" min="0" onchange="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
@@ -382,10 +396,40 @@
       });
     }
 
+    // INTERAÇÃO E RECALCULO DO LAÇO DECORATIVO DENTRO DO MODAL
+    function toggleLacoDecorativo() {
+      lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
+      const checkboxBox = document.getElementById('laco-checkbox-visual');
+      if (lacoDecorativoSelecionado) {
+        checkboxBox.className = "w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]";
+      } else {
+        checkboxBox.className = "w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
+      }
+      atualizarInterface();
+    }
+
+    function calcularValorTotalDoPedido() {
+      let subtotal = 0;
+      if (caixaAtiva) {
+        if (caixaAtiva.precoFixo) {
+          subtotal = caixaAtiva.precoFixo;
+        } else {
+          Object.entries(quantidades).forEach(([id, q]) => {
+            const item = encontrarDoce(id);
+            if (item) subtotal += item.preco * q;
+          });
+        }
+        if (lacoDecorativoSelecionado) {
+          subtotal += 4.50;
+        }
+      }
+      return subtotal;
+    }
+
     function verificarCaixaCompleta() {
       if (!caixaAtiva) return;
-      const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
-      if (total === caixaAtiva.totalDoces) {
+      const totalDocesEscolhidos = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      if (totalDocesEscolhidos === caixaAtiva.totalDoces) {
         document.getElementById('texto-caixa-completa').innerText = `Você escolheu com sucesso todos os ${caixaAtiva.totalDoces} brigadeiros gourmet da sua caixa!`;
         const btnUpgrade = document.getElementById('btn-upgrade-caixa');
         if (caixaAtiva.proximoId) {
@@ -393,6 +437,7 @@
         } else {
           if(btnUpgrade) btnUpgrade.classList.add('hidden');
         }
+        atualizarInterface(); // Garante o cálculo correto exibido no modal
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
     }
@@ -437,9 +482,7 @@
 
     function encontrarDoce(id) {
       for (let g of catalogo) {
-        for (let i of g.itens) {
-          if (i.id === id) return i;
-        }
+        for (let i of g.itens) { if (i.id === id) return i; }
       }
       return null;
     }
@@ -448,19 +491,28 @@
       const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
       const container = document.getElementById('lista-selecionados'); if(!container) return; container.innerHTML = "";
       if (!caixaAtiva) return;
+      
       document.getElementById('contagem-doces').innerText = `${total} / ${caixaAtiva.totalDoces}`;
       document.getElementById('barra-progresso').style.width = `${(total / caixaAtiva.totalDoces) * 100}%`;
-      let valor = 0;
-      if (caixaAtiva.precoFixo) { valor = caixaAtiva.precoFixo; container.innerHTML = `<p class="text-xs p-0.5 text-gray-400 italic">Seleção sortida do dia incluída.</p>`; }
-      else {
+      
+      if (caixaAtiva.precoFixo) { 
+        container.innerHTML = `<p class="text-xs p-0.5 text-gray-400 italic">Seleção sortida do dia incluída.</p>`; 
+      } else {
         Object.entries(quantidades).forEach(([id, q]) => {
-          const doce = encontrarDoce(id); if (doce && q > 0) { valor += doce.preco * q; container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
+          const doce = encontrarDoce(id); if (doce && q > 0) { container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
         });
         if(total === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado.</p>`;
       }
+
+      if (lacoDecorativoSelecionado) {
+        container.innerHTML += `<div class="flex justify-between text-orange-700 font-bold border-t border-dashed border-gray-200 pt-1 mt-1"><span>🎀 Laço Decorativo Adicional</span><span>+ R$ 4,50</span></div>`;
+      }
       
-      const txtPrecoFinal = `R$ ${valor.toFixed(2).replace('.', ',')}`;
+      const valorFinalCalculado = calcularValorTotalDoPedido();
+      const txtPrecoFinal = `R$ ${valorFinalCalculado.toFixed(2).replace('.', ',')}`;
+      
       document.getElementById('valor-total').innerText = txtPrecoFinal;
+      if(document.getElementById('modal-subtotal-pedido')) document.getElementById('modal-subtotal-pedido').innerText = txtPrecoFinal;
       if(document.getElementById('mobile-resumo-total')) document.getElementById('mobile-resumo-total').innerText = txtPrecoFinal;
       if(document.getElementById('mobile-resumo-caixa')) document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo} (${total} un.)`;
       actualizarEstadoBotao();
@@ -549,7 +601,12 @@
       const nome = document.getElementById('nome-cliente').value.trim();
       const data = document.getElementById('data-desejada').value.split('-');
       const hora = document.getElementById('hora-desejada').value;
-      let texto = `Olá, OBA Doceria! Encomenda:\n\n*CLIENTE:* ${nome}\n*ENTREGA:* ${data[2]}/${data[1]}/${data[0]} às ${hora}\n*CAIXA:* ${caixaAtiva.titulo}\n\n*SABORES:*\n`;
+      let valFinalStr = document.getElementById('valor-total').innerText;
+
+      let texto = `Olá, OBA Doceria! Encomenda:\n\n*CLIENTE:* ${nome}\n*ENTREGA:* ${data[2]}/${data[1]}/${data[0]} às ${hora}\n*CAIXA:* ${caixaAtiva.titulo}\n`;
+      texto += `*OPCIONAL:* ${lacoDecorativoSelecionado ? "Com Laço Decorativo (🎀)" : "Apenas caixa padrão"}\n`;
+      texto += `*VALOR TOTAL:* ${valFinalStr}\n\n*SABORES:*\n`;
+      
       if (!caixaAtiva.precoFixo) { Object.entries(quantidades).forEach(([id, q]) => { if(q>0) texto += `- ${q} un. ${encontrarDoce(id).nome}\n`; }); }
       else { texto += `_Seleção sortida do dia._\n`; }
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
@@ -561,7 +618,7 @@
     function openModal(src, title, price, id) {
       document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
       const modalBtn = document.getElementById('modal-add-btn');
-      if (caixaAtiva && caixaAtiva.id !== 'degustacao') { modalBtn.onclick = function() { alterarQtd(id, 1); closeModal(); }; }
+      if (caixaAtiva && caixas[caixaAtiva.id].id !== 'degustacao') { modalBtn.onclick = function() { alterarQtd(id, 1); closeModal(); }; }
       document.getElementById('modal').classList.remove('hidden');
     }
     function closeModal() { document.getElementById('modal').classList.add('hidden'); }
@@ -569,7 +626,7 @@
     function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if(txt) txt.innerText = m; if(toast) { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
 
-    renderizarAbasCategorias();
+    renderAbasCategoriasEstaticas();
     renderizarDoces();
   </script>
 </body>
