@@ -200,7 +200,7 @@
             <h3 class="font-extrabold text-base text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
             <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-sm tracking-tight">60% OFF</span></div>
             <p class="text-[11px] text-gray-500 mb-2.5 max-w-[240px]">Doces exclusivos modelados à mão livre para tornar o seu evento inesquecível.</p>
-            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
+            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
           </div>
         </section>
 
@@ -253,7 +253,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE COMPLETA ATUALIZADA E REORDENADA DE A-Z COM OS NOVOS ITENS INCLUSOS
+    // BASE DE SABORES COMPLETA, EM ORDEM ALFABÉTICA (A-Z) E CATEGORIAS FILTRADAS
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -359,7 +359,8 @@
       const container = document.getElementById('abas-categorias'); if (!container) return;
       container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all">Todos</button>`;
       catalogo.forEach(g => {
-        const idSafe = g.categoria.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+        // Correção definitiva da Regex para evitar travar o interpretador
+        const idSafe = g.categoria.split(" (")[0].replace(/[^a-zA-Z0-9]/g, '');
         container.innerHTML += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all">${g.categoria.split(" (")[0]}</button>`;
       });
     }
@@ -367,12 +368,12 @@
     function filtrarCategoria(cat) {
       categoryActive = cat;
       document.querySelectorAll('#abas-categorias button').forEach(aba => aba.className = "px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5]");
-      const ativa = document.getElementById(`aba-${cat.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')}`);
+      const idSafe = cat === 'Todos' ? 'Todos' : cat.split(" (")[0].replace(/[^a-zA-Z0-9]/g, '');
+      const ativa = document.getElementById(`aba-${idSafe}`);
       if(ativa) ativa.className = "px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm";
       renderizarDoces();
     }
 
-    // GESTÃO SEGURA DE INPUT MANUAL DE DOCES
     function renderizarDoces() {
       const grid = document.getElementById('cardapio-grid'); if(!grid) return; grid.innerHTML = "";
       catalogo.forEach(g => {
@@ -483,7 +484,6 @@
       return null;
     }
 
-    // ATUALIZAÇÃO RECALCULADA COM BLINDAGEM CONTRA FALHAS DE ELEMENTOS NULOS
     function atualizarInterface() {
       const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
       const container = document.getElementById('lista-selecionados'); if(!container) return; container.innerHTML = "";
