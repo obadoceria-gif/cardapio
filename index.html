@@ -51,13 +51,13 @@
         
         <div class="space-y-1">
           <h2 class="text-xl font-black text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
-          <p class="text-sm text-gray-500">Valor Total do Pedido: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-base">R$ 0,00</span></p>
+          <p class="text-sm text-gray-500 font-medium">Valor Total do Pedido: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-lg">R$ 0,00</span></p>
         </div>
 
-        <div onclick="toggleLacoDecorativo()" class="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer select-none transition-all hover:shadow-sm active:scale-[0.99]">
+        <div onclick="toggleLacoDecorativo()" class="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 p-4 rounded-2xl flex items-center justify-between cursor-pointer select-none transition-all hover:shadow-sm active:scale-[0.99]">
           <div class="flex items-center gap-3 text-left">
             <div id="laco-checkbox-visual" class="w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white">
-              <i class="fa-solid fa-check text-transparent"></i>
+              <i class="fa-solid fa-check opacity-0 transition-opacity"></i>
             </div>
             <div>
               <h4 class="text-xs font-extrabold text-[#8B4513] uppercase tracking-wide">Adicionar Laço Decorativo 🎀</h4>
@@ -93,11 +93,11 @@
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Data de Entrega *</label>
-              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('data-desejada').value = this.value; actualizarEstadoBotao();">
+              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="document.getElementById('data-desejada').value = this.value; actualizarEstadoBotao();">
             </div>
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Hora Desejada *</label>
-              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('hora-desejada').value = this.value; actualizarEstadoBotao();">
+              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="document.getElementById('hora-desejada').value = this.value; actualizarEstadoBotao();">
             </div>
           </div>
         </div>
@@ -200,14 +200,14 @@
             <h3 class="font-extrabold text-base text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
             <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-sm tracking-tight">60% OFF</span></div>
             <p class="text-[11px] text-gray-500 mb-2.5 max-w-[240px]">Doces exclusivos modelados à mão livre para tornar o seu evento inesquecível.</p>
-            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
+            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
           </div>
         </section>
 
         <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-md">
           <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-yellow-100">
             <h3 class="font-extrabold text-base text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
-            <p class="text-[11px] text-gray-600 leading-relaxed my-2 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
+            <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
             <button onclick="abrirModalEspecial('eventos')" class="w-full py-2.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#3a1a05]">Solicitar Orçamento</button>
           </div>
         </section>
@@ -253,7 +253,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE COMPLETA ATUALIZADA E REORDENADA DE A-Z
+    // BASE COMPLETA ATUALIZADA E REORDENADA DE A-Z COM OS NOVOS ITENS INCLUSOS
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -321,7 +321,7 @@
           { id: "crocante_nutella_350", nome: "Crocante de Nutella", preco: 3.50, img: "Images/Crocante de Nutella.jpeg" },
           { id: "ferrero_350", nome: "Ferrero", preco: 3.50, img: "Images/Ferrero.jpeg" },
           { id: "gorgonzola_damasco_350", nome: "Gorgonzola e Damasco", preco: 3.50, img: "Images/Gorgonzola e Damasco.jpeg" },
-          { id: "gorgonzola_geleia_350", nome: "Gorgonzola e Geléia", preco: 3.50, img: "Images/Gorgonzola e Geleia.jpeg" },
+          { id: "gorgonzola_geleia_350", nome: "Gorgonzola e Geléia", preco: 3.50, img: "Images/Gorgonzola e Geléia.jpeg" },
           { id: "laranja_amendoas_350", nome: "Laranja com Amêndoas", preco: 3.50, img: "Images/Laranja com Amêndoas.jpeg" },
           { id: "laranja_coco_350", nome: "Laranja com Coco", preco: 3.50, img: "Images/Laranja com Coco.jpeg" },
           { id: "nozes_figo_350", nome: "Nozes e Figo", preco: 3.50, img: "Images/Nozes e Figo.jpeg" },
@@ -372,6 +372,7 @@
       renderizarDoces();
     }
 
+    // GESTÃO SEGURA DE INPUT MANUAL DE DOCES
     function renderizarDoces() {
       const grid = document.getElementById('cardapio-grid'); if(!grid) return; grid.innerHTML = "";
       catalogo.forEach(g => {
@@ -402,8 +403,10 @@
       const checkboxBox = document.getElementById('laco-checkbox-visual');
       if (lacoDecorativoSelecionado) {
         checkboxBox.className = "w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]";
+        checkboxBox.querySelector('i').classList.remove('opacity-0');
       } else {
         checkboxBox.className = "w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
+        checkboxBox.querySelector('i').classList.add('opacity-0');
       }
       atualizarInterface();
     }
@@ -411,12 +414,10 @@
     function calcularValorTotalDoPedido() {
       let subtotal = 0;
       if (caixaAtiva) {
-        if (caixaAtiva.precoFixo) {
-          subtotal = caixaAtiva.precoFixo;
-        } else {
+        if (caixaAtiva.precoFixo) { subtotal = caixaAtiva.precoFixo; } 
+        else {
           Object.entries(quantidades).forEach(([id, q]) => {
-            const item = encontrarDoce(id);
-            if (item) subtotal += item.preco * q;
+            const item = encontrarDoce(id); if (item) subtotal += item.preco * q;
           });
         }
         if (lacoDecorativoSelecionado) subtotal += 4.50;
@@ -430,11 +431,8 @@
       if (totalDocesEscolhidos === caixaAtiva.totalDoces) {
         document.getElementById('texto-caixa-completa').innerText = `Você escolheu com sucesso todos os ${caixaAtiva.totalDoces} brigadeiros gourmet da sua caixa!`;
         const btnUpgrade = document.getElementById('btn-upgrade-caixa');
-        if (caixaAtiva.proximoId) {
-          if(btnUpgrade) btnUpgrade.classList.remove('hidden');
-        } else {
-          if(btnUpgrade) btnUpgrade.classList.add('hidden');
-        }
+        if (caixaAtiva.proximoId) { btnUpgrade ? btnUpgrade.classList.remove('hidden') : null; } 
+        else { btnUpgrade ? btnUpgrade.classList.add('hidden') : null; }
         atualizarInterface();
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
@@ -485,13 +483,14 @@
       return null;
     }
 
+    // ATUALIZAÇÃO RECALCULADA COM BLINDAGEM CONTRA FALHAS DE ELEMENTOS NULOS
     function atualizarInterface() {
       const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
       const container = document.getElementById('lista-selecionados'); if(!container) return; container.innerHTML = "";
       if (!caixaAtiva) return;
       
-      document.getElementById('contagem-doces').innerText = `${total} / ${caixaAtiva.totalDoces}`;
-      document.getElementById('barra-progresso').style.width = `${(total / caixaAtiva.totalDoces) * 100}%`;
+      const elContagem = document.getElementById('contagem-doces'); if(elContagem) elContagem.innerText = `${total} / ${caixaAtiva.totalDoces}`;
+      const elBarra = document.getElementById('barra-progresso'); if(elBarra) elBarra.style.width = `${(total / caixaAtiva.totalDoces) * 100}%`;
       
       if (caixaAtiva.precoFixo) { 
         container.innerHTML = `<p class="text-xs p-0.5 text-gray-400 italic">Seleção sortida do dia incluída.</p>`; 
@@ -509,10 +508,11 @@
       const valorFinalCalculado = calcularValorTotalDoPedido();
       const txtPrecoFinal = "R$ " + valorFinalCalculado.toFixed(2).replace('.', ',');
       
-      document.getElementById('valor-total').innerText = txtPrecoFinal;
-      if(document.getElementById('modal-subtotal-pedido')) document.getElementById('modal-subtotal-pedido').innerText = txtPrecoFinal;
-      if(document.getElementById('mobile-resumo-total')) document.getElementById('mobile-resumo-total').innerText = txtPrecoFinal;
-      if(document.getElementById('mobile-resumo-caixa')) document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo} (${total} un.)`;
+      const elV1 = document.getElementById('valor-total'); if(elV1) elV1.innerText = txtPrecoFinal;
+      const elV2 = document.getElementById('modal-subtotal-pedido'); if(elV2) elV2.innerText = txtPrecoFinal;
+      const elV3 = document.getElementById('mobile-resumo-total'); if(elV3) elV3.innerText = txtPrecoFinal;
+      
+      const elMobCx = document.getElementById('mobile-resumo-caixa'); if(elMobCx) elMobCx.innerText = `${caixaAtiva.titulo} (${total} un.)`;
       actualizarEstadoBotao();
     }
 
