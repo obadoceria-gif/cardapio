@@ -121,7 +121,7 @@
       </div>
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
         <label class="block text-xs font-bold uppercase tracking-wider text-[#8B4513] mb-1.5">Seu Nome Completo *</label>
-        <input type="text" id="pers-nome" placeholder="Ex: Paulo" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none focus:border-orange-500 shadow-sm">
+        <input type="text" id="pers-nome" placeholder="Ex: Paulo" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none">
       </div>
       <div id="grid-info-precos" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div class="bg-orange-50 p-4 rounded-xl border border-orange-200 text-xs text-gray-700 space-y-1.5">
@@ -253,6 +253,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
+    // BASE DE SABORES COMPLETA, EM ORDEM ALFABÉTICA (A-Z) E CATEGORIAS ACERTADAS
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -284,16 +285,16 @@
       {
         categoria: "Clássicos (R$ 2,75)",
         itens: [
-          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" },
-          { id: "charge_275", nome: "Charge", preco: 2.75, img: "Images/Charge.jpeg" },
-          { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, img: "Images/Cocadinha.jpeg" },
-          { id: "confete_275", nome: "Confete", preco: 2.75, img: "Images/Confete.jpeg" },
-          { id: "damasco_275", nome: "Damasco", preco: 2.75, img: "Images/Damasco.jpeg" },
-          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, img: "Images/Nesquik com Nutella.jpeg" },
           { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, img: "Images/Ninho com Nutella.jpeg" },
           { id: "oreo_275", nome: "Oreo", preco: 2.75, img: "Images/Oreo.jpeg" },
+          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, img: "Images/Nesquik com Nutella.jpeg" },
+          { id: "confete_275", nome: "Confete", preco: 2.75, img: "Images/Confete.jpeg" },
+          { id: "charge_275", nome: "Charge", preco: 2.75, img: "Images/Charge.jpeg" },
+          { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, img: "Images/Cocadinha.jpeg" },
+          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, img: "Images/Queijadinha.jpeg" },
           { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: "Images/Prestígio.jpeg" },
-          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, img: "Images/Queijadinha.jpeg" }
+          { id: "damasco_275", nome: "Damasco", preco: 2.75, img: "Images/Damasco.jpeg" },
+          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" }
         ]
       },
       {
@@ -342,7 +343,7 @@
     ];
 
     let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let tipoFormularioAtivo = "personalizados";
-    let lacoDecorativoSelecionado = false; // Armazena a decisão do laço adicional
+    let lacoDecorativoSelecionado = false;
 
     function selecionarCaixa(id) {
       caixaAtiva = caixas[id]; quantidades = {}; lacoDecorativoSelecionado = false;
@@ -354,7 +355,7 @@
       renderizarDoces(); atualizarInterface(); voltarParaEstadosEscolhaModal();
     }
 
-    function renderAbasCategoriasEstaticas() {
+    function renderizarAbasCategorias() {
       const container = document.getElementById('abas-categorias'); if (!container) return;
       container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all">Todos</button>`;
       catalogo.forEach(g => {
@@ -383,7 +384,7 @@
               <div class="p-3 md:p-4 w-full flex flex-col justify-between flex-1">
                 <div><h3 class="font-bold text-xs md:text-sm mb-0.5 text-[#3B2A1E] line-clamp-1">${item.nome}</h3><button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-[10px] text-[#8B4513] underline mb-2 inline-block">Ver detalhes</button></div>
                 <div><p class="text-[11px] text-gray-400 font-bold mb-1.5">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
-                ${caixaAtiva && caixas[caixaAtiva.id].id !== 'degustacao' ? `
+                ${caixaAtiva && caixaAtiva.id !== 'degustacao' ? `
                   <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-0.5 w-full">
                     <button onclick="alterarQtd('${item.id}', -1)" class="w-7 h-7 rounded-lg font-black bg-white text-[#8B4513] shadow-sm text-sm">-</button>
                     <input type="number" value="${qtd}" min="0" onchange="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
@@ -396,7 +397,6 @@
       });
     }
 
-    // INTERAÇÃO E RECALCULO DO LAÇO DECORATIVO DENTRO DO MODAL
     function toggleLacoDecorativo() {
       lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
       const checkboxBox = document.getElementById('laco-checkbox-visual');
@@ -419,9 +419,7 @@
             if (item) subtotal += item.preco * q;
           });
         }
-        if (lacoDecorativoSelecionado) {
-          subtotal += 4.50;
-        }
+        if (lacoDecorativoSelecionado) subtotal += 4.50;
       }
       return subtotal;
     }
@@ -437,7 +435,7 @@
         } else {
           if(btnUpgrade) btnUpgrade.classList.add('hidden');
         }
-        atualizarInterface(); // Garante o cálculo correto exibido no modal
+        atualizarInterface();
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
     }
@@ -552,17 +550,17 @@
 
     function enviarOrcamentoEspecial() {
       const nomeClientM = document.getElementById('pers-nome').value.trim();
-      const temaEscolhido = document.getElementById('pers-tema').value.trim();
+      const fontG = document.getElementById('pers-tema').value.trim();
       const dataEntrega = document.getElementById('pers-data').value;
       const numDoces = document.getElementById('pers-qtd').value.trim();
       const numPessoas = document.getElementById('pers-pessoas').value.trim();
       
-      if(!nomeClientM || !temaEscolhido || !dataEntrega) { alert("Por favor, preencha os campos obrigatórios!"); return; }
+      if(!nomeClientM || !fontG || !dataEntrega) { alert("Por favor, preencha os campos obrigatórios!"); return; }
       if (tipoFormularioAtivo === 'eventos' && !numDoces && !numPessoas) { alert("Informe a Quantidade de Doces OU de Pessoas!"); return; }
       if (tipoFormularioAtivo === 'personalizados' && !numDoces) { alert("Informe a quantidade de doces!"); return; }
 
       const [ano, mes, dia] = dataEntrega.split('-');
-      let msg = tipoFormularioAtivo === 'eventos' ? `Olá, OBA Doceria! \nProposta para *Grandes Eventos*:\n\n👤 *ANFITRIÃO:* ${nomeClientM}\n🥂 *TIPO:* ${temaEscolhido}\n📅 *DATA:* ${dia}/${mes}/${ano}\n` : `Olá, OBA Doceria! \nOrçamento de *Doces Personalizados*:\n\n👤 *CLIENTE:* ${nomeClientM}\n🔢 *QUANTIDADE:* ${numDoces} un\n🎨 *TEMA:* ${temaEscolhido}\n📅 *DATA:* ${dia}/${mes}/${ano}\n`;
+      let msg = tipoFormularioAtivo === 'eventos' ? `Olá, OBA Doceria! \nProposta para *Grandes Eventos*:\n\n👤 *ANFITRIÃO:* ${nomeClientM}\n🥂 *TIPO:* ${fontG}\n📅 *DATA:* ${dia}/${mes}/${ano}\n` : `Olá, OBA Doceria! \nOrçamento de *Doces Personalizados*:\n\n👤 *CLIENTE:* ${nomeClientM}\n🔢 *QUANTIDADE:* ${numDoces} un\n🎨 *TEMA:* ${fontG}\n📅 *DATA:* ${dia}/${mes}/${ano}\n`;
       if(tipoFormularioAtivo === 'eventos' && numPessoas) msg += `👥 *CONVIDADOS:* ${numPessoas} pessoas\n`;
       if(tipoFormularioAtivo === 'eventos' && numDoces) msg += `🔢 *DOCES:* ${numDoces} unidades\n`;
       msg += `\nAguardo seu retorno.`;
@@ -618,7 +616,7 @@
     function openModal(src, title, price, id) {
       document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
       const modalBtn = document.getElementById('modal-add-btn');
-      if (caixaAtiva && caixas[caixaAtiva.id].id !== 'degustacao') { modalBtn.onclick = function() { alterarQtd(id, 1); closeModal(); }; }
+      if (caixaAtiva && caixaAtiva.id !== 'degustacao') { modalBtn.onclick = function() { alterarQtd(id, 1); closeModal(); }; }
       document.getElementById('modal').classList.remove('hidden');
     }
     function closeModal() { document.getElementById('modal').classList.add('hidden'); }
@@ -626,7 +624,7 @@
     function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if(txt) txt.innerText = m; if(toast) { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
 
-    renderAbasCategoriasEstaticas();
+    renderizarAbasCategorias();
     renderizarDoces();
   </script>
 </body>
