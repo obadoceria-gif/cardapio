@@ -9,7 +9,7 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght=400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
     
     body { font-family: 'Poppins', sans-serif; }
     input[type=number]::-webkit-inner-spin-button, 
@@ -171,8 +171,8 @@
           </div>
         </section>
 
-        <section class="bg-white p-5 rounded-3xl border border-[#E8D5B5] shadow-sm">
-          <div class="flex flex-wrap gap-2.5 justify-start items-center" id="abas-categorias"></div>
+        <section class="bg-white p-4 rounded-3xl border border-[#E8D5B5] shadow-sm">
+          <div class="flex flex-wrap gap-2 justify-start items-center" id="abas-categorias"></div>
         </section>
 
         <section>
@@ -239,7 +239,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE DE SABORES COMPLETA, ATUALIZADA E EM ORDEM ALFABÉTICA (A-Z)
+    // BASE DE SABORES COMPLETA, EM ORDEM ALFABÉTICA (A-Z) DE ACORDO COM A SUA CORREÇÃO
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -304,10 +304,10 @@
           { id: "bacon_chocolate_350", nome: "Bacon com Chocolate", preco: 3.50, img: "Images/Bacon com Chocolate.jpeg" },
           { id: "caramelo_salgado_350", nome: "Caramelo Salgado", preco: 3.50, img: "Images/Caramelo Salgado.jpeg" },
           { id: "cheesecake_350", nome: "Cheesecake", preco: 3.50, img: "Images/Cheesecake.jpeg" },
-          { id: "crocante_nutella_350", nome: "Crocante de Nutella", preco: 3.50, img: "Images/Crocante de Nutella.jpeg" },
-          { id: "ferrero_350", nome: "Ferrero", preco: 3.50, img: "Images/Ferrero.jpeg" },
           { id: "gorgonzola_damasco_350", nome: "Gorgonzola e Damasco", preco: 3.50, img: "Images/Gorgonzola e Damasco.jpeg" },
           { id: "gorgonzola_geleia_350", nome: "Gorgonzola e Geléia", preco: 3.50, img: "Images/Gorgonzola e Geleia.jpeg" },
+          { id: "crocante_nutella_350", nome: "Crocante de Nutella", preco: 3.50, img: "Images/Crocante de Nutella.jpeg" },
+          { id: "ferrero_350", nome: "Ferrero", preco: 3.50, img: "Images/Ferrero.jpeg" },
           { id: "laranja_amendoas_350", nome: "Laranja com Amêndoas", preco: 3.50, img: "Images/Laranja com Amêndoas.jpeg" },
           { id: "laranja_coco_350", nome: "Laranja com Coco", preco: 3.50, img: "Images/Laranja com Coco.jpeg" },
           { id: "nozes_figo_350", nome: "Nozes e Figo", preco: 3.50, img: "Images/Nozes e Figo.jpeg" },
@@ -556,6 +556,7 @@
     }
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
+    function fecharModalCompletaAndCheckout() { fecharModalCompleta(); focarFormularioCheckout(); }
     
     function openModal(src, title, price, id) {
       document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
