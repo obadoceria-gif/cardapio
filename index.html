@@ -93,11 +93,11 @@
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Data de Entrega *</label>
-              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="document.getElementById('data-desejada').value = this.value; actualizarEstadoBotao();">
+              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('data-desejada').value = this.value; actualizarEstadoBotao();">
             </div>
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Hora Desejada *</label>
-              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="document.getElementById('hora-desejada').value = this.value; actualizarEstadoBotao();">
+              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('hora-desejada').value = this.value; actualizarEstadoBotao();">
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@
             <h3 class="font-extrabold text-base text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
             <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-sm tracking-tight">60% OFF</span></div>
             <p class="text-[11px] text-gray-500 mb-2.5 max-w-[240px]">Doces exclusivos modelados à mão livre para tornar o seu evento inesquecível.</p>
-            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider hover:from-[#8B4513] hover:to-orange-700 transition-all border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
+            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
           </div>
         </section>
 
@@ -245,10 +245,13 @@
   </div>
 
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      renderizarAbasCategorias();
-      renderizarDoces();
-    });
+    const caixas = {
+      '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
+      '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
+      '50': { id: '50', titulo: 'Caixa de 50 Doces', totalDoces: 50, proximoId: '100' },
+      '100': { id: '100', titulo: 'Caixa de 100 Doces', totalDoces: 100, proximoId: null },
+      'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
+    };
 
     const catalogo = [
       {
@@ -338,6 +341,18 @@
       }
     ];
 
+    let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let tipoFormularioAtivo = "personalizados";
+    let lacoDecorativoSelecionado = false;
+
+    function selecionarCaixa(id) {
+      caixaAtiva = caixas[id]; quantidades = {}; lacoDecorativoSelecionado = false;
+      Object.keys(caixas).forEach(bId => {
+        const btn = document.getElementById(`btn-caixa-${bId}`);
+        if(btn) btn.className = (bId === id) ? "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left shadow-md flex flex-col justify-between" : "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm";
+      });
+      renderizarDoces(); atualizarInterface(); voltarParaEstadosEscolhaModal();
+    }
+
     function renderizarAbasCategorias() {
       const container = document.getElementById('abas-categorias'); if (!container) return;
       container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all">Todos</button>`;
@@ -386,10 +401,8 @@
       const checkboxBox = document.getElementById('laco-checkbox-visual');
       if (lacoDecorativoSelecionado) {
         checkboxBox.className = "w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]";
-        checkboxBox.querySelector('i').classList.remove('opacity-0');
       } else {
         checkboxBox.className = "w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-        checkboxBox.querySelector('i').classList.add('opacity-0');
       }
       atualizarInterface();
     }
@@ -474,15 +487,12 @@
       const elContagem = document.getElementById('contagem-doces'); if(elContagem) elContagem.innerText = `${total} / ${caixaAtiva.totalDoces}`;
       const elBarra = document.getElementById('barra-progresso'); if(elBarra) elBarra.style.width = `${(total / caixaAtiva.totalDoces) * 100}%`;
       
-      let subtotal = 0;
       if (caixaAtiva.precoFixo) { 
-        subtotal = caixaAtiva.precoFixo;
         container.innerHTML = `<p class="text-xs p-0.5 text-gray-400 italic">Seleção sortida do dia incluída.</p>`; 
       } else {
         Object.entries(quantidades).forEach(([id, q]) => {
           const doce = encontrarDoce(id); 
           if (doce && q > 0) { 
-            subtotal += doce.preco * q;
             container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; 
           }
         });
@@ -490,11 +500,11 @@
       }
 
       if (lacoDecorativoSelecionado) {
-        subtotal += 4.50;
         container.innerHTML += `<div class="flex justify-between text-orange-700 font-bold border-t border-dashed border-gray-200 pt-1 mt-1"><span>🎀 Laço Decorativo Adicional</span><span>+ R$ 4,50</span></div>`;
       }
       
-      const txtPrecoFinal = "R$ " + subtotal.toFixed(2).replace('.', ',');
+      const valorFinalCalculado = calcularValorTotalDoPedido();
+      const txtPrecoFinal = "R$ " + valorFinalCalculado.toFixed(2).replace('.', ',');
       
       const elV1 = document.getElementById('valor-total'); if(elV1) elV1.innerText = txtPrecoFinal;
       const elV2 = document.getElementById('modal-subtotal-pedido'); if(elV2) elV2.innerText = txtPrecoFinal;
@@ -611,6 +621,10 @@
     function lembreteCaixa() { mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!"); }
     function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if(txt) txt.innerText = m; if(toast) { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
+
+    // RENDERIZADORES DISPARADOS DIRETAMENTE
+    renderizarAbasCategorias();
+    renderizarDoces();
   </script>
 </body>
 </html>
