@@ -285,6 +285,7 @@
   </div>
 
   <script>
+    // Configurações globais estáveis
     const caixasConfigs = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
       '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
@@ -314,12 +315,12 @@
         itens: [
           { id: "amandoim_260", nome: "Amendoim", preco: 2.60, img: "Images/Amendoim.jpeg" },
           { id: "amargo_260", nome: "Amargo", preco: 2.60, img: "Images/Amargo.jpeg" },
-          { id: "ao_leite_260", nome: "Ao leite", preco: 2.60, img: "Images/Ao Letie.jpeg" },
+          { id: "ao_leite_260", nome: "Ao leite", preco: 2.60, img: "Images/Ao Leite.jpeg" },
           { id: "branco_260", nome: "Branco", preco: 2.60, img: "Images/Branco.jpeg" },
           { id: "cafe_260", nome: "Café", preco: 2.60, img: "Images/Café.jpeg" },
           { id: "caramelo_260", nome: "Caramelo", preco: 2.60, img: "Images/Caramelo.jpeg" },
           { id: "duo_amargo_260", nome: "Duo amargo", preco: 2.60, img: "Images/Duo Amargo.jpeg" },
-          { id: "duo_ao_leite_260", nome: "Duo ao leite", preco: 2.60, img: "Images/Duo Ao Leite.jpeg" },
+          { id: "duo_ao_leite_260", nome: "Duo ao leite", preco: 2.60, img: "Images/Duo Ao Letie.jpeg" },
           { id: "meio_amargo_260", nome: "Meio amargo", preco: 2.60, img: "Images/Meio Amargo.jpeg" }
         ]
       },
@@ -345,7 +346,7 @@
         itens: [
           { id: "damasco_amendoas_275", nome: "Damasco e Amêndoas", preco: 3.00, img: "Images/Damasco e Amêndoas.jpeg" },
           { id: "maracuja_300", nome: "Maracujá", preco: 3.00, img: "Images/Maracujá.jpeg" },
-          { id: "maracuja_leite_275", nome: "Maracujá ao Leite", preco: 3.00, img: "Images/Maracujá ao Leite.jpeg" },
+          { id: "maracuja_leite_275", nome: "Maracujá ao Letie", preco: 3.00, img: "Images/Maracujá ao Leite.jpeg" },
           { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, img: "Images/Maracujá e Nutella.jpeg" },
           { id: "mega_300", nome: "Mega", preco: 3.00, img: "Images/Mega.jpeg" },
           { id: "nozes_300", nome: "Nozes", preco: 3.00, img: "Images/Nozes.jpeg" },
@@ -650,6 +651,8 @@
       const d = data.split('-'); const texto = `Olá, OBA Doceria! Solicito orçamento:\n\n*Nome:* ${nome}\n*Evento:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Quantidade:* ${qtd} doces`;
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
     }
+    
+    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if (txt && toast) { txt.innerText = m; toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
   </script>
 </body>
 </html>
