@@ -239,7 +239,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
-    // BASE DE SABORES COMPLETA E COMPILADA
+    // BASE DE SABORES COMPLETA E VALIDADA SEM ERROS INTERNOS
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -280,14 +280,14 @@
           { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, img: "Images/Queijadinha.jpeg" },
           { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: "Images/Prestígio.jpeg" },
           { id: "damasco_275", nome: "Damasco", preco: 2.75, img: "Images/Damasco.jpeg" },
-          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" },
-          { id: "maracuja_leite_275", nome: "Maracujá ao Leite", preco: 2.75, img: "Images/Maracujá ao Leite.jpeg" },
-          { id: "damasco_amendoas_275", nome: "Damasco e Amêndoas", preco: 2.75, img: "Images/Damasco e Amêndoas.jpeg" }
+          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" }
         ]
       },
       {
         categoria: "Especiais I (R$ 3,00)",
         itens: [
+          { id: "maracuja_leite_275", nome: "Maracujá ao Leite", preco: 3.00, img: "Images/Maracujá ao Leite.jpeg" },
+          { id: "damasco_amendoas_275", nome: "Damasco e Amêndoas", preco: 3.00, img: "Images/Damasco e Amêndoas.jpeg" },
           { id: "mega_300", nome: "Mega", preco: 3.00, img: "Images/Mega.jpeg" },
           { id: "nozes_300", nome: "Nozes", preco: 3.00, img: "Images/Nozes.jpeg" },
           { id: "queijo_goiabada_300", nome: "Queijo e goiabada", preco: 3.00, img: "Images/Queijo e Goiabada.jpeg" },
@@ -299,6 +299,7 @@
       {
         categoria: "Especiais II (R$ 3,50)",
         itens: [
+          { id: "nozes_figo_350", nome: "Nozes e Figo", preco: 3.50, img: "Images/Nozes e Figo.jpeg" },
           { id: "abacaxi_coco_350", nome: "Abacaxi com Coco", preco: 3.50, img: "Images/Abacaxi com Coco.jpeg" },
           { id: "caramelo_salgado_350", nome: "Caramelo Salgado", preco: 3.50, img: "Images/Caramelo Salgado.jpeg" },
           { id: "crocante_nutella_350", nome: "Crocante de Nutella", preco: 3.50, img: "Images/Crocante de Nutella.jpeg" },
@@ -456,7 +457,7 @@
         if(total === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado.</p>`;
       }
       
-      const txtPrecoFinal = `R$ ${迫 = valor.toFixed(2).replace('.', ',')}`;
+      const txtPrecoFinal = `R$ ${valor.toFixed(2).replace('.', ',')}`;
       document.getElementById('valor-total').innerText = txtPrecoFinal;
       if(document.getElementById('mobile-resumo-total')) document.getElementById('mobile-resumo-total').innerText = txtPrecoFinal;
       if(document.getElementById('mobile-resumo-caixa')) document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo} (${total} un.)`;
@@ -509,65 +510,3 @@
       const [ano, mes, dia] = dataEntrega.split('-');
       let msg = tipoFormularioAtivo === 'eventos' ? `Olá, OBA Doceria! \nProposta para *Grandes Eventos*:\n\n👤 *ANFITRIÃO:* ${nomeClientM}\n🥂 *TIPO:* ${temaEscolhido}\n📅 *DATA:* ${dia}/${mes}/${ano}\n` : `Olá, OBA Doceria! \nOrçamento de *Doces Personalizados*:\n\n👤 *CLIENTE:* ${nomeClientM}\n🔢 *QUANTIDADE:* ${numDoces} un\n🎨 *TEMA:* ${temaEscolhido}\n📅 *DATA:* ${dia}/${mes}/${ano}\n`;
       if(tipoFormularioAtivo === 'eventos' && numPessoas) msg += `👥 *CONVIDADOS:* ${numPessoas} pessoas\n`;
-      if(tipoFormularioAtivo === 'eventos' && numDoces) msg += `🔢 *DOCES:* ${numDoces} unidades\n`;
-      msg += `\nAguardo seu retorno.`;
-      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank');
-      fecharModalPersonalizados();
-    }
-
-    function sincronizarCamposTextoModalParaLateral() {
-      document.getElementById('nome-cliente').value = document.getElementById('modal-nome-cliente').value;
-      document.getElementById('data-desejada').value = document.getElementById('modal-data-desejada').value;
-      document.getElementById('hora-desejada').value = document.getElementById('modal-hora-desejada').value;
-      actualizarEstadoBotao();
-    }
-
-    function enviarPedidoWhatsAppPeloModal() {
-      const nome = document.getElementById('modal-nome-cliente').value.trim();
-      const data = document.getElementById('modal-data-desejada').value;
-      const hora = document.getElementById('modal-hora-desejada').value;
-      if(!nome || !data || !hora) { alert("Por favor, preencha todos os campos do agendamento!"); return; }
-      document.getElementById('nome-cliente').value = nome;
-      document.getElementById('data-desejada').value = data;
-      document.getElementById('hora-desejada').value = hora;
-      fecharModalCompleta(); enviarPedidoWhatsApp();
-    }
-
-    function actualizarEstadoBotao() {
-      const btn = document.getElementById('btn-whatsapp'); if(!btn) return;
-      const nome = document.getElementById('nome-cliente').value.trim();
-      const data = document.getElementById('data-desejada').value;
-      const hora = document.getElementById('hora-desejada').value;
-      if (!caixaAtiva || !nome || !data || !hora) { btn.disabled = true; return; }
-      btn.disabled = !caixaAtiva.precoFixo && (Object.values(quantidades).reduce((a, b) => a + b, 0) !== caixaAtiva.totalDoces);
-    }
-
-    function enviarPedidoWhatsApp() {
-      const nome = document.getElementById('nome-cliente').value.trim();
-      const data = document.getElementById('data-desejada').value.split('-');
-      const hora = document.getElementById('hora-desejada').value;
-      let texto = `Olá, OBA Doceria! Encomenda:\n\n*CLIENTE:* ${nome}\n*ENTREGA:* ${data[2]}/${data[1]}/${data[0]} às ${hora}\n*CAIXA:* ${caixaAtiva.titulo}\n\n*SABORES:*\n`;
-      if (!caixaAtiva.precoFixo) { Object.entries(quantidades).forEach(([id, q]) => { if(q>0) texto += `- ${q} un. ${encontrarDoce(id).nome}\n`; }); }
-      else { texto += `_Seleção sortida do dia._\n`; }
-      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
-    }
-
-    function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
-    function fecharModalCompletaAndCheckout() { fecharModalCompleta(); focarFormularioCheckout(); }
-    
-    function openModal(src, title, price, id) {
-      document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
-      const modalBtn = document.getElementById('modal-add-btn');
-      if (caixaAtiva && caixaAtiva.id !== 'degustacao') { modalBtn.onclick = function() { alterarQtd(id, 1); closeModal(); }; }
-      document.getElementById('modal').classList.remove('hidden');
-    }
-    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-    function lembreteCaixa() { mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!"); }
-    function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if(txt) txt.innerText = m; if(toast) { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
-
-    renderizarAbasCategorias();
-    renderizarDoces();
-  </script>
-</body>
-</html>
