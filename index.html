@@ -16,6 +16,113 @@
     input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; }
   </style>
+  <script>
+    // DECLARAÇÃO INDEPENDENTE DE DADOS (ZONA SEGURA CONTRA CACHE E TRAVAMENTOS)
+    const caixas = {
+      '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
+      '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
+      '50': { id: '50', titulo: 'Caixa de 50 Doces', totalDoces: 50, proximoId: '100' },
+      '100': { id: '100', titulo: 'Caixa de 100 Doces', totalDoces: 100, proximoId: null },
+      'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
+    };
+
+    // BASE DE SABORES COMPLETA - REORGANIZADA DE A A Z EM CADA TIPO
+    const catalogo = [
+      {
+        categoria: "Tradicionais I (R$ 2,50)",
+        idFiltro: "tradicionais_1",
+        itens: [
+          { id: "cappuccino_250", nome: "Cappuccino", preco: 2.50, img: "Images/Cappuccino.jpeg" },
+          { id: "casadinho_250", nome: "Casadinho", preco: 2.50, img: "Images/Casadinho.jpeg" },
+          { id: "coco_250", nome: "Coco", preco: 2.50, img: "Images/Coco.jpeg" },
+          { id: "coco_queimado_250", nome: "Coco queimado", preco: 2.50, img: "Images/Coco Queimado.jpeg" },
+          { id: "dois_amores_250", nome: "Dois amores", preco: 2.50, img: "Images/Dois Amores.jpeg" },
+          { id: "leite_ninho_250", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
+          { id: "napolitano_250", nome: "Napolitano", preco: 2.50, img: "Images/Napolitano.jpeg" },
+          { id: "nesquik_250", nome: "Nesquik", preco: 2.50, img: "Images/Nesquik.jpeg" }
+        ]
+      },
+      {
+        categoria: "Tradicionais II (R$ 2,60)",
+        idFiltro: "tradicionais_2",
+        itens: [
+          { id: "amandoim_260", nome: "Amendoim", preco: 2.60, img: "Images/Amendoim.jpeg" },
+          { id: "amargo_260", nome: "Amargo", preco: 2.60, img: "Images/Amargo.jpeg" },
+          { id: "ao_leite_260", nome: "Ao leite", preco: 2.60, img: "Images/Ao Leite.jpeg" },
+          { id: "branco_260", nome: "Branco", preco: 2.60, img: "Images/Branco.jpeg" },
+          { id: "cafe_260", nome: "Café", preco: 2.60, img: "Images/Café.jpeg" },
+          { id: "caramelo_260", nome: "Caramelo", preco: 2.60, img: "Images/Caramelo.jpeg" },
+          { id: "duo_amargo_260", nome: "Duo amargo", preco: 2.60, img: "Images/Duo Amargo.jpeg" },
+          { id: "duo_ao_leite_260", nome: "Duo ao leite", preco: 2.60, img: "Images/Duo Ao Leite.jpeg" },
+          { id: "meio_amargo_260", nome: "Meio amargo", preco: 2.60, img: "Images/Meio Amargo.jpeg" }
+        ]
+      },
+      {
+        categoria: "Clássicos (R$ 2,75)",
+        idFiltro: "classicos",
+        itens: [
+          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" },
+          { id: "charge_275", nome: "Charge", preco: 2.75, img: "Images/Charge.jpeg" },
+          { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, img: "Images/Cocadinha.jpeg" },
+          { id: "confete_275", nome: "Confete", preco: 2.75, img: "Images/Confete.jpeg" },
+          { id: "damasco_275", nome: "Damasco", preco: 2.75, img: "Images/Damasco.jpeg" },
+          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, img: "Images/Nesquik com Nutella.jpeg" },
+          { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, img: "Images/Ninho com Nutella.jpeg" },
+          { id: "oreo_275", nome: "Oreo", preco: 2.75, img: "Images/Oreo.jpeg" },
+          { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: "Images/Prestígio.jpeg" },
+          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, img: "Images/Queijadinha.jpeg" }
+        ]
+      },
+      {
+        categoria: "Especiais I (R$ 3,00)",
+        idFiltro: "especiais_1",
+        itens: [
+          { id: "damasco_amendoas_275", nome: "Damasco e Amêndoas", preco: 3.00, img: "Images/Damasco e Amêndoas.jpeg" },
+          { id: "maracuja_300", nome: "Maracujá", preco: 3.00, img: "Images/Maracujá.jpeg" },
+          { id: "maracuja_leite_275", nome: "Maracujá ao Leite", preco: 3.00, img: "Images/Maracujá ao Leite.jpeg" },
+          { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, img: "Images/Maracujá e Nutella.jpeg" },
+          { id: "mega_300", nome: "Mega", preco: 3.00, img: "Images/Mega.jpeg" },
+          { id: "nozes_300", nome: "Nozes", preco: 3.00, img: "Images/Nozes.jpeg" },
+          { id: "queijo_doce_leite_300", nome: "Queijo e doce de leite", preco: 3.00, img: "Images/Queijo e Doce de Leite.jpeg" },
+          { id: "queijo_goiabada_300", nome: "Queijo e goiabada", preco: 3.00, img: "Images/Queijo e Goiabada.jpeg" }
+        ]
+      },
+      {
+        categoria: "Especiais II (R$ 3,50)",
+        idFiltro: "especiais_2",
+        itens: [
+          { id: "abacaxi_coco_350", nome: "Abacaxi com Coco", preco: 3.50, img: "Images/Abacaxi com Coco.jpeg" },
+          { id: "bacon_abacaxi_350", nome: "Bacon com Abacaxi", preco: 3.50, img: "Images/Bacon com Abacaxi.jpeg" },
+          { id: "bacon_chocolate_350", nome: "Bacon com Chocolate", preco: 3.50, img: "Images/Bacon com Chocolate.jpeg" },
+          { id: "caramelo_salgado_350", nome: "Caramelo Salgado", preco: 3.50, img: "Images/Caramelo Salgado.jpeg" },
+          { id: "cheesecake_350", nome: "Cheesecake", preco: 3.50, img: "Images/Cheesecake.jpeg" },
+          { id: "crocante_nutella_350", nome: "Crocante de Nutella", preco: 3.50, img: "Images/Crocante de Nutella.jpeg" },
+          { id: "ferrero_350", nome: "Ferrero", preco: 3.50, img: "Images/Ferrero.jpeg" },
+          { id: "gorgonzola_damasco_350", nome: "Gorgonzola e Damasco", preco: 3.50, img: "Images/Gorgonzola e Damasco.jpeg" },
+          { id: "gorgonzola_geleia_350", nome: "Gorgonzola e Geléia", preco: 3.50, img: "Images/Gorgonzola e Geléia.jpeg" },
+          { id: "laranja_amendoas_350", nome: "Laranja com Amêndoas", preco: 3.50, img: "Images/Laranja com Amêndoas.jpeg" },
+          { id: "laranja_coco_350", nome: "Laranja com Coco", preco: 3.50, img: "Images/Laranja com Coco.jpeg" },
+          { id: "nozes_figo_350", nome: "Nozes e Figo", preco: 3.50, img: "Images/Nozes e Figo.jpeg" },
+          { id: "uva_branco_350", nome: "Uva com Brigadeiro Branco", preco: 3.50, img: "Images/Uva com Brigadeiro Branco.jpeg" },
+          { id: "uva_leite_350", nome: "Uva com Brigadeiro ao Leite", preco: 3.50, img: "Images/Uva com Brigadeiro ao Leite.jpeg" },
+          { id: "uva_meio_amargo_350", nome: "Uva com Brigadeiro Meio Amargo", preco: 3.50, img: "Images/Uva com Brigadeiro Meio Amargo.jpeg" }
+        ]
+      },
+      {
+        categoria: "Especiais III (R$ 4,00)",
+        idFiltro: "especiais_3",
+        itens: [
+          { id: "morango_ao_leite_400", nome: "Morango com Brigadeiro ao Leite", preco: 4.00, img: "Images/Morango - Ao Leite.jpeg" },
+          { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, img: "Images/Morango - Branco.jpeg" },
+          { id: "morango_meio_amargo_400", nome: "Morango com Brigadeiro Meio Amargo", preco: 4.00, img: "Images/Morango - Meio Amargo.jpeg" },
+          { id: "pistache_400", nome: "Pistache", preco: 4.00, img: "Images/Pistache.jpeg" },
+          { id: "pistache_geleia_400", nome: "Pistache com geléia", preco: 4.00, img: "Images/Pistache com Geleia.jpeg" }
+        ]
+      }
+    ];
+
+    let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let tipoFormularioAtivo = "personalizados"; let lacoDecorativoSelecionado = false;
+  </script>
 </head>
 <body class="bg-[#FAF5F0] text-[#3B2A1E] antialiased">
 
@@ -24,19 +131,19 @@
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden transform transition-all" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 hover:bg-opacity-60 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm shadow-md">✕</button>
+    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
       <div class="w-full aspect-[3/4] bg-gray-50 relative overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover object-center">
       </div>
       <div class="p-6 bg-white">
-        <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
+        <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513]"></h2></div>
         <div class="flex items-center justify-between border-t border-gray-100 pt-4">
           <div class="flex flex-col">
-            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Preço Unitário</span>
+            <span class="text-[10px] text-gray-400 font-bold uppercase">Preço Unitário</span>
             <span id="modal-price" class="text-xl font-black text-[#8B4513]"></span>
           </div>
-          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] hover:bg-[#6e3710] text-white rounded-xl font-bold shadow-md text-xs uppercase tracking-wider">Adicionar à Caixa</button>
+          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold shadow-md text-xs uppercase">Adicionar à Caixa</button>
         </div>
       </div>
     </div>
@@ -54,7 +161,7 @@
           <p class="text-sm text-gray-500 font-medium">Valor Total do Pedido: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-lg">R$ 0,00</span></p>
         </div>
 
-        <div onclick="toggleLacoDecorativo()" class="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 p-4 rounded-2xl flex items-center justify-between cursor-pointer select-none transition-all hover:shadow-sm active:scale-[0.99]">
+        <div onclick="toggleLacoDecorativo()" class="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 p-4 rounded-2xl flex items-center justify-between cursor-pointer select-none transition-all hover:shadow-sm">
           <div class="flex items-center gap-3 text-left">
             <div id="laco-checkbox-visual" class="w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white">
               <i class="fa-solid fa-check opacity-0 transition-opacity"></i>
@@ -74,7 +181,7 @@
           <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider flex items-center justify-center gap-2">
             <i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual
           </button>
-          <button onclick="fecharModalCompleta()" class="w-full py-2.5 border-2 border-gray-200 text-xs font-black text-gray-500 rounded-xl uppercase tracking-wider">
+          <button onclick="fecharModalCompleta()" class="w-full py-2.5 border-2 border-gray-200 text-xs font-black text-gray-500 rounded-xl uppercase">
             <i class="fa-solid fa-magnifying-glass"></i> Apenas revisar os sabores escolhidos
           </button>
         </div>
@@ -87,17 +194,17 @@
         </div>
         <div class="space-y-4 pt-2">
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Seu Nome Completo *</label>
-            <input type="text" id="modal-nome-cliente" placeholder="Ex: Maria Silva" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('nome-cliente').value = this.value; actualizarEstadoBotao();">
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Seu Nome Completo *</label>
+            <input type="text" id="modal-nome-cliente" placeholder="Ex: Maria Silva" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="document.getElementById('nome-cliente').value = this.value; actualizarEstadoBotao();">
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Data de Entrega *</label>
-              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('data-desejada').value = this.value; actualizarEstadoBotao();">
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Data de Entrega *</label>
+              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="document.getElementById('data-desejada').value = this.value; actualizarEstadoBotao();">
             </div>
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Hora Desejada *</label>
-              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B4513]" oninput="document.getElementById('hora-desejada').value = this.value; actualizarEstadoBotao();">
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Hora Desejada *</label>
+              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none" oninput="document.getElementById('hora-desejada').value = this.value; actualizarEstadoBotao();">
             </div>
           </div>
         </div>
@@ -120,17 +227,17 @@
         <p class="text-[#D8B36A] font-bold text-sm">Insira suas informações para verificarmos a disponibilidade na agenda</p>
       </div>
       <div class="mb-4 bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-inner">
-        <label class="block text-xs font-bold uppercase tracking-wider text-[#8B4513] mb-1.5">Seu Nome Completo *</label>
+        <label class="block text-xs font-bold uppercase text-[#8B4513] mb-1.5">Seu Nome Completo *</label>
         <input type="text" id="pers-nome" placeholder="Ex: Paulo" class="w-full px-4 py-3 bg-white rounded-xl border border-orange-200 text-sm outline-none">
       </div>
       <div id="grid-info-precos" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div class="bg-orange-50 p-4 rounded-xl border border-orange-200 text-xs text-gray-700 space-y-1.5">
-          <h4 class="font-bold text-[#8B4513] uppercase tracking-wider">Especificações:</h4>
+          <h4 class="font-bold text-[#8B4513] uppercase">Especificações:</h4>
           <p>• Modelados com pasta de leite em pó (100% comestível).</p>
           <p>• Base de Brigadeiro Gourmet (Branco ou Ao Leite).</p>
         </div>
         <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs text-gray-700 space-y-1.5">
-          <h4 class="font-bold text-[#8B4513] uppercase tracking-wider">Preços com Desconto (Até 60% OFF):</h4>
+          <h4 class="font-bold text-[#8B4513] uppercase">Preços com Desconto (Até 60% OFF):</h4>
           <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
           <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
         </div>
@@ -138,21 +245,21 @@
       <div class="space-y-4 bg-gray-50 p-5 rounded-xl border border-gray-200">
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label id="label-campo-dinamico-1" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Tema da Decoração *</label>
+              <label id="label-campo-dinamico-1" class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tema da Decoração *</label>
               <input type="text" id="pers-tema" placeholder="Ex: Fazendinha" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none">
             </div>
             <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Data Pretendida *</label>
+              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data Pretendida *</label>
               <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none">
             </div>
          </div>
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label id="label-campo-dinamico-2" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Número de Doces *</label>
+              <label id="label-campo-dinamico-2" class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Número de Doces *</label>
               <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none">
             </div>
             <div id="wrapper-qtd-pessoas" class="hidden">
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Quantidade Estimada de Pessoas</label>
+              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade Estimada de Pessoas</label>
               <input type="number" id="pers-pessoas" placeholder="Ex: 150 convidados" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none">
             </div>
          </div>
@@ -161,12 +268,7 @@
     </div>
   </div>
 
-  <header class="py-8 md:py-12 text-center bg-gradient-to-b from-[#FFEAD2] to-[#FAF5F0] px-4">
-    <h1 class="text-4xl md:text-5xl font-black text-[#8B4513] tracking-tight">OBA Doceria</h1>
-    <p class="text-[#D8B36A] uppercase tracking-widest text-xs md:text-sm mt-2 font-bold">O Verdadeiro Sabor Artesanal • Cardápio Oficial 2026</p>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 pb-32">
+  <main class="max-w-6xl mx-auto px-4 pb-32 pt-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
       
       <div class="lg:col-span-8 space-y-6">
@@ -198,9 +300,9 @@
         <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-md">
           <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center relative border border-amber-100">
             <h3 class="font-extrabold text-base text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
-            <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-sm tracking-tight">60% OFF</span></div>
+            <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-sm">60% OFF</span></div>
             <p class="text-[11px] text-gray-500 mb-2.5 max-w-[240px]">Doces exclusivos modelados à mão livre para tornar o seu evento inesquecível.</p>
-            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
+            <button onclick="abrirModalEspecial('personalizados')" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase border-b-4 border-[#5c2d0c]">Clique aqui para fazer a sua reserva</button>
           </div>
         </section>
 
@@ -208,7 +310,7 @@
           <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-yellow-100">
             <h3 class="font-extrabold text-base text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
             <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px]">Procura quantidades maiores para o seu grande dia? Desenvolvemos um projeto exclusivo para o seu evento.</p>
-            <button onclick="abrirModalEspecial('eventos')" class="w-full py-2.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#3a1a05]">Solicitar Orçamento</button>
+            <button onclick="abrirModalEspecial('eventos')" class="w-full py-2.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase border-b-4 border-[#3a1a05]">Solicitar Orçamento</button>
           </div>
         </section>
 
@@ -222,10 +324,10 @@
           <div class="space-y-4">
             <div class="flex justify-between items-center text-sm font-bold"><span>Valor Total:</span><span class="text-xl text-[#8B4513] font-black" id="valor-total">R$ 0,00</span></div>
             <div class="space-y-2.5">
-              <div><label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-0.5">Seu Nome *</label><input type="text" id="nome-cliente" placeholder="Seu nome completo" class="w-full px-4 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="document.getElementById('modal-nome-cliente').value = this.value; actualizarEstadoBotao();"></div>
+              <div><label class="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">Seu Nome *</label><input type="text" id="nome-cliente" placeholder="Seu nome completo" class="w-full px-4 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="document.getElementById('modal-nome-cliente').value = this.value; actualizarEstadoBotao();"></div>
               <div class="grid grid-cols-2 gap-2">
-                <div><label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-0.5">Data Desejada *</label><input type="date" id="data-desejada" class="w-full px-2 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="document.getElementById('modal-data-desejada').value = this.value; actualizarEstadoBotao();"></div>
-                <div><label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-0.5">Hora Desejada *</label><input type="time" id="hora-desejada" class="w-full px-2 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="document.getElementById('modal-hora-desejada').value = this.value; actualizarEstadoBotao();"></div>
+                <div><label class="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">Data Desejada *</label><input type="date" id="data-desejada" class="w-full px-2 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="document.getElementById('modal-data-desejada').value = this.value; actualizarEstadoBotao();"></div>
+                <div><label class="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">Hora Desejada *</label><input type="time" id="hora-desejada" class="w-full px-2 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="document.getElementById('modal-hora-desejada').value = this.value; actualizarEstadoBotao();"></div>
               </div>
             </div>
             <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-3.5 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md disabled:bg-gray-200 disabled:text-gray-400 uppercase tracking-wider">WhatsApp Encomendar</button>
@@ -245,128 +347,30 @@
   </div>
 
   <script>
-    const caixas = {
-      '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
-      '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
-      '50': { id: '50', titulo: 'Caixa de 50 Doces', totalDoces: 50, proximoId: '100' },
-      '100': { id: '100', titulo: 'Caixa de 100 Doces', totalDoces: 100, proximoId: null },
-      'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
-    };
-
-    const catalogo = [
-      {
-        categoria: "Tradicionais I (R$ 2,50)",
-        itens: [
-          { id: "cappuccino_250", nome: "Cappuccino", preco: 2.50, img: "Images/Cappuccino.jpeg" },
-          { id: "casadinho_250", nome: "Casadinho", preco: 2.50, img: "Images/Casadinho.jpeg" },
-          { id: "coco_250", nome: "Coco", preco: 2.50, img: "Images/Coco.jpeg" },
-          { id: "coco_queimado_250", nome: "Coco queimado", preco: 2.50, img: "Images/Coco Queimado.jpeg" },
-          { id: "dois_amores_250", nome: "Dois amores", preco: 2.50, img: "Images/Dois Amores.jpeg" },
-          { id: "leite_ninho_250", nome: "Leite Ninho", preco: 2.50, img: "Images/Leite Ninho.jpeg" },
-          { id: "napolitano_250", nome: "Napolitano", preco: 2.50, img: "Images/Napolitano.jpeg" },
-          { id: "nesquik_250", nome: "Nesquik", preco: 2.50, img: "Images/Nesquik.jpeg" }
-        ]
-      },
-      {
-        categoria: "Tradicionais II (R$ 2,60)",
-        itens: [
-          { id: "amandoim_260", nome: "Amendoim", preco: 2.60, img: "Images/Amendoim.jpeg" },
-          { id: "amargo_260", nome: "Amargo", preco: 2.60, img: "Images/Amargo.jpeg" },
-          { id: "ao_leite_260", nome: "Ao leite", preco: 2.60, img: "Images/Ao Leite.jpeg" },
-          { id: "branco_260", nome: "Branco", preco: 2.60, img: "Images/Branco.jpeg" },
-          { id: "cafe_260", nome: "Café", preco: 2.60, img: "Images/Café.jpeg" },
-          { id: "caramelo_260", nome: "Caramelo", preco: 2.60, img: "Images/Caramelo.jpeg" },
-          { id: "duo_amargo_260", nome: "Duo amargo", preco: 2.60, img: "Images/Duo Amargo.jpeg" },
-          { id: "duo_ao_leite_260", nome: "Duo ao leite", preco: 2.60, img: "Images/Duo Ao Leite.jpeg" },
-          { id: "meio_amargo_260", nome: "Meio amargo", preco: 2.60, img: "Images/Meio Amargo.jpeg" }
-        ]
-      },
-      {
-        categoria: "Clássicos (R$ 2,75)",
-        itens: [
-          { id: "ameixa_275", nome: "Ameixa", preco: 2.75, img: "Images/Ameixa.jpeg" },
-          { id: "charge_275", nome: "Charge", preco: 2.75, img: "Images/Charge.jpeg" },
-          { id: "cocadinha_275", nome: "Cocadinha", preco: 2.75, img: "Images/Cocadinha.jpeg" },
-          { id: "confete_275", nome: "Confete", preco: 2.75, img: "Images/Confete.jpeg" },
-          { id: "damasco_275", nome: "Damasco", preco: 2.75, img: "Images/Damasco.jpeg" },
-          { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, img: "Images/Nesquik com Nutella.jpeg" },
-          { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, img: "Images/Ninho com Nutella.jpeg" },
-          { id: "oreo_275", nome: "Oreo", preco: 2.75, img: "Images/Oreo.jpeg" },
-          { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: "Images/Prestígio.jpeg" },
-          { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, img: "Images/Queijadinha.jpeg" }
-        ]
-      },
-      {
-        categoria: "Especiais I (R$ 3,00)",
-        itens: [
-          { id: "damasco_amendoas_275", nome: "Damasco e Amêndoas", preco: 3.00, img: "Images/Damasco e Amêndoas.jpeg" },
-          { id: "maracuja_300", nome: "Maracujá", preco: 3.00, img: "Images/Maracujá.jpeg" },
-          { id: "maracuja_leite_275", nome: "Maracujá ao Leite", preco: 3.00, img: "Images/Maracujá ao Leite.jpeg" },
-          { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, img: "Images/Maracujá e Nutella.jpeg" },
-          { id: "mega_300", nome: "Mega", preco: 3.00, img: "Images/Mega.jpeg" },
-          { id: "nozes_300", nome: "Nozes", preco: 3.00, img: "Images/Nozes.jpeg" },
-          { id: "queijo_doce_leite_300", nome: "Queijo e doce de leite", preco: 3.00, img: "Images/Queijo e Doce de Leite.jpeg" },
-          { id: "queijo_goiabada_300", nome: "Queijo e goiabada", preco: 3.00, img: "Images/Queijo e Goiabada.jpeg" }
-        ]
-      },
-      {
-        categoria: "Especiais II (R$ 3,50)",
-        itens: [
-          { id: "abacaxi_coco_350", nome: "Abacaxi com Coco", preco: 3.50, img: "Images/Abacaxi com Coco.jpeg" },
-          { id: "bacon_abacaxi_350", nome: "Bacon com Abacaxi", preco: 3.50, img: "Images/Bacon com Abacaxi.jpeg" },
-          { id: "bacon_chocolate_350", nome: "Bacon com Chocolate", preco: 3.50, img: "Images/Bacon com Chocolate.jpeg" },
-          { id: "caramelo_salgado_350", nome: "Caramelo Salgado", preco: 3.50, img: "Images/Caramelo Salgado.jpeg" },
-          { id: "cheesecake_350", nome: "Cheesecake", preco: 3.50, img: "Images/Cheesecake.jpeg" },
-          { id: "crocante_nutella_350", nome: "Crocante de Nutella", preco: 3.50, img: "Images/Crocante de Nutella.jpeg" },
-          { id: "ferrero_350", nome: "Ferrero", preco: 3.50, img: "Images/Ferrero.jpeg" },
-          { id: "gorgonzola_damasco_350", nome: "Gorgonzola e Damasco", preco: 3.50, img: "Images/Gorgonzola e Damasco.jpeg" },
-          { id: "gorgonzola_geleia_350", nome: "Gorgonzola e Geléia", preco: 3.50, img: "Images/Gorgonzola e Geléia.jpeg" },
-          { id: "laranja_amendoas_350", nome: "Laranja com Amêndoas", preco: 3.50, img: "Images/Laranja com Amêndoas.jpeg" },
-          { id: "laranja_coco_350", nome: "Laranja com Coco", preco: 3.50, img: "Images/Laranja com Coco.jpeg" },
-          { id: "nozes_figo_350", nome: "Nozes e Figo", preco: 3.50, img: "Images/Nozes e Figo.jpeg" },
-          { id: "uva_branco_350", nome: "Uva com Brigadeiro Branco", preco: 3.50, img: "Images/Uva com Brigadeiro Branco.jpeg" },
-          { id: "uva_leite_350", nome: "Uva com Brigadeiro ao Leite", preco: 3.50, img: "Images/Uva com Brigadeiro ao Leite.jpeg" },
-          { id: "uva_meio_amargo_350", nome: "Uva com Brigadeiro Meio Amargo", preco: 3.50, img: "Images/Uva com Brigadeiro Meio Amargo.jpeg" }
-        ]
-      },
-      {
-        categoria: "Especiais III (R$ 4,00)",
-        itens: [
-          { id: "morango_ao_leite_400", nome: "Morango com Brigadeiro ao Leite", preco: 4.00, img: "Images/Morango - Ao Leite.jpeg" },
-          { id: "morango_branco_400", nome: "Morango com Brigadeiro Branco", preco: 4.00, img: "Images/Morango - Branco.jpeg" },
-          { id: "morango_meio_amargo_400", nome: "Morango com Brigadeiro Meio Amargo", preco: 4.00, img: "Images/Morango - Meio Amargo.jpeg" },
-          { id: "pistache_400", nome: "Pistache", preco: 4.00, img: "Images/Pistache.jpeg" },
-          { id: "pistache_geleia_400", nome: "Pistache com geléia", preco: 4.00, img: "Images/Pistache com Geleia.jpeg" }
-        ]
-      }
-    ];
-
-    let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let tipoFormularioAtivo = "personalizados";
-    let lacoDecorativoSelecionado = false;
-
-    function selecionarCaixa(id) {
-      caixaAtiva = caixas[id]; quantidades = {}; lacoDecorativoSelecionado = false;
-      Object.keys(caixas).forEach(bId => {
-        const btn = document.getElementById(`btn-caixa-${bId}`);
-        if(btn) btn.className = (bId === id) ? "bg-[#FFF8F0] p-4 rounded-2xl border-2 border-[#8B4513] text-left shadow-md flex flex-col justify-between" : "bg-white p-4 rounded-2xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm";
-      });
-      renderizarDoces(); atualizarInterface(); voltarParaEstadosEscolhaModal();
-    }
+    // MOTOR DE INICIALIZAÇÃO INTERNO ULTRAESTÁVEL
+    window.addEventListener('DOMContentLoaded', () => {
+      renderizarAbasCategorias();
+      renderizarDoces();
+    });
 
     function renderizarAbasCategorias() {
       const container = document.getElementById('abas-categorias'); if (!container) return;
       container.innerHTML = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all">Todos</button>`;
       catalogo.forEach(g => {
-        const idSafe = g.categoria.split(" (")[0].replace(/[^a-zA-Z0-9]/g, '');
-        container.innerHTML += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${idSafe}" class="px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all">${g.categoria.split(" (")[0]}</button>`;
+        container.innerHTML += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.idFiltro}" class="px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all">${g.categoria.split(" (")[0]}</button>`;
       });
     }
 
     function filtrarCategoria(cat) {
       categoryActive = cat;
       document.querySelectorAll('#abas-categorias button').forEach(aba => aba.className = "px-4 py-2 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5]");
-      const idSafe = cat === 'Todos' ? 'Todos' : cat.split(" (")[0].replace(/[^a-zA-Z0-9]/g, '');
-      const ativa = document.getElementById(`aba-${idSafe}`);
+      
+      let idAlvo = "Todos";
+      if (cat !== "Todos") {
+        const achado = catalogo.find(g => g.categoria === cat);
+        if (achado) idAlvo = achado.idFiltro;
+      }
+      const ativa = document.getElementById(`aba-${idAlvo}`);
       if(ativa) ativa.className = "px-4 py-2 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm";
       renderizarDoces();
     }
@@ -379,7 +383,7 @@
           const qtd = quantidades[item.id] || 0;
           grid.innerHTML += `
             <div class="bg-white rounded-3xl shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden w-full">
-              <div class="w-full aspect-square"><img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover"></div>
+              <div class="w-full aspect-square"><img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/300x300?text=Doce'"></div>
               <div class="p-3 md:p-4 w-full flex flex-col justify-between flex-1">
                 <div><h3 class="font-bold text-xs md:text-sm mb-0.5 text-[#3B2A1E] line-clamp-1">${item.nome}</h3><button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-[10px] text-[#8B4513] underline mb-2 inline-block">Ver detalhes</button></div>
                 <div><p class="text-[11px] text-gray-400 font-bold mb-1.5">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
@@ -401,8 +405,10 @@
       const checkboxBox = document.getElementById('laco-checkbox-visual');
       if (lacoDecorativoSelecionado) {
         checkboxBox.className = "w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]";
+        checkboxBox.querySelector('i').classList.remove('opacity-0');
       } else {
         checkboxBox.className = "w-5 h-5 rounded-md border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
+        checkboxBox.querySelector('i').classList.add('opacity-0');
       }
       atualizarInterface();
     }
@@ -425,10 +431,6 @@
       if (!caixaAtiva) return;
       const totalDocesEscolhidos = Object.values(quantidades).reduce((a, b) => a + b, 0);
       if (totalDocesEscolhidos === caixaAtiva.totalDoces) {
-        document.getElementById('texto-caixa-completa').innerText = `Você escolheu com sucesso todos os ${caixaAtiva.totalDoces} brigadeiros gourmet da sua caixa!`;
-        const btnUpgrade = document.getElementById('btn-upgrade-caixa');
-        if (caixaAtiva.proximoId) { btnUpgrade ? btnUpgrade.classList.remove('hidden') : null; } 
-        else { btnUpgrade ? btnUpgrade.classList.add('hidden') : null; }
         atualizarInterface();
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
@@ -492,9 +494,7 @@
       } else {
         Object.entries(quantidades).forEach(([id, q]) => {
           const doce = encontrarDoce(id); 
-          if (doce && q > 0) { 
-            container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; 
-          }
+          if (doce && q > 0) { container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
         });
         if(total === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado.</p>`;
       }
@@ -566,13 +566,6 @@
       fecharModalPersonalizados();
     }
 
-    function sincronizarCamposTextoModalParaLateral() {
-      document.getElementById('nome-cliente').value = document.getElementById('modal-nome-cliente').value;
-      document.getElementById('data-desejada').value = document.getElementById('modal-data-desejada').value;
-      document.getElementById('hora-desejada').value = document.getElementById('modal-hora-desejada').value;
-      actualizarEstadoBotao();
-    }
-
     function enviarPedidoWhatsAppPeloModal() {
       const nome = document.getElementById('modal-nome-cliente').value.trim();
       const data = document.getElementById('modal-data-desejada').value;
@@ -609,8 +602,6 @@
     }
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
-    function fecharModalCompletaAndCheckout() { fecharModalCompleta(); focarFormularioCheckout(); }
-    
     function openModal(src, title, price, id) {
       document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
       const modalBtn = document.getElementById('modal-add-btn');
@@ -621,10 +612,6 @@
     function lembreteCaixa() { mostrarNotificacao("Selecione o tamanho da caixa na Etapa 1!"); }
     function focarFormularioCheckout() { const form = document.getElementById('secao-checkout'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if(txt) txt.innerText = m; if(toast) { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
-
-    // RENDERIZADORES DISPARADOS DIRETAMENTE
-    renderizarAbasCategorias();
-    renderizarDoces();
   </script>
 </body>
 </html>
