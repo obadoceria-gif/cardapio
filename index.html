@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OBA Doceria | Experiência Gourmet 2026</title>
+  <title>OBA Doceria | Cardápio Interativo Oficial 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -87,7 +87,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col gap-2.5 pt-2">
+        <div class="flex flex-col gap-2.5 pt-1">
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2">
             <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
           </button>
@@ -164,12 +164,15 @@
 
   <header class="py-8 md:py-12 text-center bg-gradient-to-b from-[#FFEAD2] to-[#FAF5F0] px-4">
     <h1 class="text-4xl md:text-5xl font-black text-[#8B4513] tracking-tight">OBA Doceria</h1>
-    <p class="text-[#D8B36A] uppercase tracking-widest text-xs md:text-sm mt-2 font-bold italic">O Verdadeiro Sabor Artesanal • Oficial 2026</p>
+    <p class="text-[#D8B36A] uppercase tracking-widest text-xs md:text-sm mt-2 font-bold italic">O Verdadeiro Sabor Artesanal • Cardápio Oficial 2026</p>
     
-    <div class="max-w-2xl mx-auto mt-6 text-xs sm:text-sm text-amber-950 font-semibold bg-white/80 py-4 px-6 rounded-3xl border border-orange-200/60 shadow-sm leading-relaxed text-center">
-      <p>✨ <b>Monte sua caixa perfeita de brigadeiros gourmet!</b> Escolha o tamanho e selecione os seus sabores favoritos. Basta seguir o Passo 1 e o Passo 2.</p>
-      <p class="text-[11px] text-orange-800 font-extrabold border-t border-orange-100/60 mt-2.5 pt-2.5">
-        Se você procura um orçamento para doces personalizados ou para uma festa, casamento ou formatura, utilize as opções douradas na lateral do nosso cardápio.
+    <div class="max-w-2xl mx-auto mt-6 text-xs sm:text-sm text-amber-950 font-bold bg-white/80 py-5 px-6 rounded-3xl border border-orange-200/60 shadow-sm leading-relaxed space-y-3">
+      <p class="text-sm sm:text-base text-[#8B4513] font-extrabold tracking-tight">
+        ✨ Sua combinação favorita de brigadeiros gourmet começa aqui. Escolha o tamanho da sua caixa no Passo 1 e monte uma experiência única com sabores artesanais selecionados no Passo 2.
+      </p>
+      <p class="text-[12px] text-orange-700 font-black border-t border-orange-100/60 pt-3">
+        Procurando Doces Personalizados, Orçamento para Festas, Casamentos ou Formaturas? <br>
+        <span class="text-amber-900 underline">Clique nos quadros laterais do menu!</span>
       </p>
     </div>
   </header>
@@ -211,25 +214,25 @@
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-5">
         
         <section class="bg-gradient-to-br from-amber-500 via-orange-600 to-[#8B4513] rounded-3xl p-0.5 shadow-md">
-          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-amber-100">
+          <div class="bg-[#FFFDF9] rounded-[1.4rem] p-6 text-center border border-amber-100">
             <h3 class="font-extrabold text-sm sm:text-base text-[#8B4513] leading-tight">Doces Personalizados & Decorados</h3>
-            <div class="my-1.5 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-xs uppercase">60% OFF</span></div>
-            <p class="text-[11px] text-gray-500 mb-2.5 max-w-[240px] mx-auto">Doces exclusivos modelados artesanalmente à mão livre com pasta de leite para tornar o seu evento inesquecível.</p>
-            <button onclick="abrirModalEspecial()" class="w-full py-2.5 bg-gradient-to-r from-orange-600 to-[#8B4513] text-white font-black text-xs rounded-xl shadow-sm uppercase tracking-wide border-b-4 border-[#5c2d0c]">Falar sobre Modelados</button>
+            <div class="my-2 bg-amber-50 px-3 py-0.5 rounded-lg border border-amber-100 shadow-inner"><span class="text-orange-600 font-black text-xs uppercase">SOLICITE SEU TEMA • 60% OFF</span></div>
+            <p class="text-[11px] text-gray-500 mb-3 max-w-[240px] mx-auto">Doces exclusivos modelados artesanalmente à mão livre com pasta de leite para tornar o seu evento inesquecível.</p>
+            <button onclick="abrirModalEspecial()" class="w-full py-3 bg-[#8B4513] text-white font-black text-xs rounded-xl shadow-md uppercase tracking-wider border-b-4 border-[#5c2d0c]">Falar sobre Doces Personalizados</button>
           </div>
         </section>
 
         <section class="bg-gradient-to-br from-yellow-600 via-amber-700 to-[#5c2d0c] rounded-3xl p-0.5 shadow-md">
-          <div class="bg-[#FCF9F2] rounded-[1.4rem] p-5 flex flex-col items-center text-center border border-yellow-100">
+          <div class="bg-[#FCF9F2] rounded-[1.4rem] p-6 text-center border border-yellow-100">
             <h3 class="font-extrabold text-sm sm:text-base text-[#5c2d0c] leading-tight">Casamentos, Formaturas & Festas</h3>
-            <div class="my-1.5 bg-yellow-50 px-3 py-0.5 rounded-lg border border-yellow-100 inline-block"><span class="text-yellow-700 font-black text-xs uppercase tracking-tight">Projetos Especiais</span></div>
-            <p class="text-[11px] text-gray-600 leading-relaxed my-3 max-w-[240px] mx-auto">Procura quantidades maiores ou mesas completas decoradas para festas de gala? Desenvolvemos uma proposta sob medida.</p>
-            <button onclick="abrirModalEspecial()" class="w-full py-2.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase border-b-4 border-[#3a1a05]">Solicitar Orçamento Festas</button>
+            <div class="my-2 bg-yellow-50 px-3 py-0.5 rounded-lg border border-yellow-100 inline-block"><span class="text-yellow-700 font-black text-xs uppercase tracking-tight">Projetos Exclusivos</span></div>
+            <p class="text-[11px] text-gray-600 leading-relaxed mb-3 max-w-[240px] mx-auto">Procura quantidades maiores ou mesas completas decoradas para festas de gala? Desenvolvemos uma proposta sob medida.</p>
+            <button onclick="abrirModalEspecial()" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white font-black text-xs rounded-xl shadow-md uppercase border-b-4 border-[#3a1a05] text-[10px] leading-tight">Solicitar Orçamentos para Festas, Casamentos, Formaturas</button>
           </div>
         </section>
 
         <section class="bg-white p-6 md:p-7 rounded-3xl border border-[#E8D5B5] shadow-md space-y-5">
-          <div class="border-b border-[#E8D5B5] pb-2"><h2 class="text-sm font-black text-[#8B4513]">Resumo da Sua Caixa</h2></div>
+          <div class="border-b border-[#E8D5B5] pb-3"><h2 class="text-base font-black text-[#8B4513]">Resumo da Sua Caixa</h2></div>
           <div class="space-y-1.5" id="painel-progresso">
             <div class="flex justify-between text-xs font-bold text-gray-700"><span>Progresso</span><span id="contagem-doces">0 / 0</span></div>
             <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden"><div id="barra-progresso" class="bg-[#8B4513] h-full w-0 transition-all duration-300"></div></div>
@@ -238,7 +241,7 @@
             <p class="text-gray-400 text-center py-2 italic">Ainda não escolheu nenhum sabor.</p>
           </div>
           <div class="space-y-4">
-            <div class="flex justify-between items-center text-xs font-bold"><span>Total:</span><span class="text-lg text-[#8B4513] font-black" id="valor-total">R$ 0,00</span></div>
+            <div class="flex justify-between items-center text-xs font-bold"><span>Total:</span><span class="text-xl text-[#8B4513] font-black" id="valor-total">R$ 0,00</span></div>
             <div class="space-y-2.5">
               <input type="text" id="nome-cliente" placeholder="Seu nome completo" class="w-full px-4 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none" oninput="sincronizarCampos('nome', this.value)">
               <div class="grid grid-cols-2 gap-2">
@@ -263,7 +266,6 @@
   </div>
 
   <script>
-    // DECLARAÇÃO UNIFICADA E REMOÇÃO DE DUPLICATAS CONTRA ERRO DE COMPILAÇÃO
     const caixasConfigs = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
       '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
@@ -503,7 +505,7 @@
       let qtdDigitada = parseInt(valor) || 0; if (qtdDigitada < 0) qtdDigitada = 0;
       const totalOutros = Object.values(quantidades).reduce((a, b) => a + b, 0) - (quantidades[id] || 0);
       const espacoLivre = caixaAtiva.totalDoces - totalOutros;
-      if (qtdDigitada > espacoLivre) { mostrarNotificacao(`Limite atingido! Ajustado para ${espacoLivre}.`); qtdDigitada = espacoLivre; }
+      if (qtdDigitada > espacoLivre) { mostrarNotificacao("Limite atingido!"); qtdDigitada = espacoLivre; }
       if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
       renderizarDoces(); atualizarInterface(); verificarCaixaCompleta();
     }
@@ -592,8 +594,6 @@
       const d = data.split('-'); const texto = `Olá, OBA Doceria! Solicito orçamento:\n\n*Nome:* ${nome}\n*Evento:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Quantidade:* ${qtd} doces`;
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
     }
-    
-    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if (txt && toast) { txt.innerText = m; toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
   </script>
 </body>
 </html>
