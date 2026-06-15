@@ -335,7 +335,7 @@
               </div>
             </div>
             
-            <button id="btn-whatsapp" class="w-full py-4 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md disabled:bg-gray-200 disabled:text-gray-400 uppercase tracking-widest border-b-4 border-[#5c2d0c]">Enviar Pedido WhatsApp</button>
+            <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-4 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md disabled:bg-gray-200 disabled:text-gray-400 uppercase tracking-widest border-b-4 border-[#5c2d0c]">Enviar Pedido WhatsApp</button>
           </div>
         </section>
       </div>
@@ -515,7 +515,7 @@
                   ${caixaAtiva && !caixaAtiva.precoFixo ? `
                     <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
                       <button onclick="alterarQtd('${item.id}', -1)" class="w-7 h-7 rounded-lg font-black bg-white text-[#8B4513] shadow-sm text-sm flex items-center justify-center">-</button>
-                      <input type="number" value="${qtd}" min="0" onchange="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
+                      <input type="number" value="${qtd}" min="0" oninput="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
                       <button onclick="alterarQtd('${item.id}', 1)" class="w-7 h-7 rounded-lg font-black bg-[#8B4513] text-white shadow-sm text-sm flex items-center justify-center">+</button>
                     </div>` : `<button onclick="lembreteCaixa()" class="w-full py-1.5 bg-gray-50 text-gray-400 rounded-xl text-[10px] font-extrabold uppercase">Escolha a caixa</button>`}
                 </div>
@@ -624,6 +624,7 @@
       renderizarDoces(); atualizarInterface(); verificarCaixaCompleta();
     }
 
+    // Corrigido tratamento de digitação livre direta sem travar o motor principal
     function digitarQtd(id, valor) {
       if (!caixaAtiva || modoDegustacaoAtivo) return;
       let qtdDigitada = parseInt(valor) || 0; if (qtdDigitada < 0) qtdDigitada = 0;
@@ -631,7 +632,7 @@
       const espacoLivre = caixaAtiva.totalDoces - totalOutros;
       if (qtdDigitada > espacoLivre) { mostrarNotificacao("Limite atingido!"); qtdDigitada = espacoLivre; }
       if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
-      renderizarDoces(); atualizarInterface(); verificarCaixaCompleta();
+      atualizarInterface(); verificarCaixaCompleta();
     }
 
     function sincronizarCampos(campo, valor) {
@@ -698,7 +699,7 @@
     function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
     function focarFormularioCheckout() { document.getElementById('secao-checkout')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     
-    // Trava de segurança desativada contra botões nulos
+    // Corrigido IDs estritos para sincronia total
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
       const nome = document.getElementById('nome-cliente').value.trim();
