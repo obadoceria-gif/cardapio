@@ -69,7 +69,7 @@
             <label class="block text-[10px] font-extrabold uppercase text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
             <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[140px]">
               <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-8 h-8 rounded-lg font-black bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center shadow-sm">-</button>
-              <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" class="w-10 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
+              <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-10 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
               <button onclick="alterarMultiplicadorDegustacao(1)" class="w-8 h-8 rounded-lg font-black bg-[#8B4513] text-white flex items-center justify-center shadow-sm">+</button>
             </div>
           </div>
@@ -166,10 +166,10 @@
           <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 space-y-2 shadow-inner">
             <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
-            <p>• Pedido mínimo: 20 doces (variados).</p>
+            <p>• Pedido mínimo: 20 doces (Produzimos sempre um pouco de cada modelo para ficar bem variado).</p>
             <p>• Usamos forminhas de acetato transparente.</p>
-            <p>• Base de brigadeiro gourmet (branco e ao leite).</p>
-            <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
+            <p>• O doce que fica embaixo do personalizado é um brigadeiro gourmet (sabores usados: branco e ao leite).</p>
+            <p>• O pedido precisa ser feito com no mínimo 20 dias de antecedência e é preciso verificar se há vaga na agenda.</p>
           </div>
           <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 space-y-2 shadow-inner">
             <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
@@ -252,7 +252,7 @@
 
   <header class="py-10 text-center bg-gradient-to-b from-[#FFEAD2] to-[#FAF5F0] px-4 space-y-3">
     <h1 class="text-4xl md:text-5xl font-black text-[#8B4513] tracking-wider uppercase">OBA DOCERIA</h1>
-    <p class="text-[#D8B36A] uppercase tracking-widest text-xs md:text-sm mt-2 font-black italic border-b-2 border-orange-100/50 pb-4 max-w-lg mx-auto">O VERDADEIRO SABOR ARTESANAL - CARDÁPIO OFICIAL 2026</p>
+    <p class="text-[#D8B36A] uppercase tracking-widest text-xs md:text-sm font-black italic border-b-2 border-orange-100/50 pb-4 max-w-lg mx-auto">O VERDADEIRO SABOR ARTESANAL - CARDÁPIO OFICIAL 2026</p>
     
     <div class="max-w-3xl mx-auto mt-6 text-sm text-amber-950 font-bold bg-white/95 py-6 px-6 rounded-3xl border border-orange-200/60 shadow-md leading-relaxed text-center space-y-4">
       <p class="text-base sm:text-lg text-[#8B4513] font-black tracking-tight uppercase">SELECIONE O TAMANHO DA CAIXA E ESCOLHA SEUS SABORES FAVORITOS NOS PASSOS 1 E 2 LOGO ABAIXO.</p>
@@ -475,24 +475,12 @@
     let modoDegustacaoAtivo = false; let multiplicadorCaixasDegustacao = 1;
     let carrinhoDeCaixasConcluidas = [];
 
-    window.onload = function() {
-      renderizarAbasCategorias();
-      renderizarDoces();
-      actualizarEstadoBotao();
-      
-      // Vinculação nativa estável do campo de multiplicador de degustação
-      document.getElementById('input-qtd-caixas-degustacao').addEventListener('input', function(e) {
-        let val = parseInt(this.value) || 1;
-        if(val < 1) val = 1;
-        multiplicadorCaixasDegustacao = val;
-        atualizarInterface();
-      });
-    };
-
     function abrirBannerDegustacao() {
       modoDegustacaoAtivo = true;
       multiplicadorCaixasDegustacao = 1;
-      document.getElementById('input-qtd-caixas-degustacao').value = 1;
+      
+      const inputDeg = document.getElementById('input-qtd-caixas-degustacao');
+      if(inputDeg) inputDeg.value = 1;
       
       caixaAtiva = { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00 };
       quantidades = {};
@@ -502,6 +490,7 @@
       document.getElementById('wrapper-tamanhos-degustacao').classList.remove('hidden');
       document.getElementById('btn-upgrade-caixa').classList.add('hidden');
       document.getElementById('btn-seguir-comprando').classList.remove('hidden');
+      document.getElementById('btn-revisar-sabores').classList.add('hidden');
       
       definirTamanhoDegustacao(25, 75);
       document.getElementById('modal-caixa-completa').classList.remove('hidden');
@@ -527,7 +516,17 @@
       let novaQtd = multiplicadorCaixasDegustacao + delta;
       if (novaQtd < 1) novaQtd = 1;
       multiplicadorCaixasDegustacao = novaQtd;
-      document.getElementById('input-qtd-caixas-degustacao').value = novaQtd;
+      
+      const inputDeg = document.getElementById('input-qtd-caixas-degustacao');
+      if(inputDeg) inputDeg.value = novaQtd;
+      
+      atualizarInterface();
+    }
+
+    function atualizarMultiplicadorDegustacaoManual(val) {
+      let parseado = parseInt(val) || 1;
+      if (parseado < 1) parseado = 1;
+      multiplicadorCaixasDegustacao = parseado;
       atualizarInterface();
     }
 
@@ -566,7 +565,7 @@
       renderizarDoces();
       atualizarPainelCarrinhoLateral();
       fecharModalCompleta();
-      mostrarNotificacao("Caixa salva com sucesso! Monte a sua próxima combinação.");
+      mostrarNotificacao("Caixa salva com sucesso! Pode iniciar outra montagem abaixo.");
     }
 
     function atualizarPainelCarrinhoLateral() {
@@ -655,58 +654,23 @@
       }
     }
 
-    function abrirModalEspecial(tipo) {
-      if(tipo === 'personalizados') {
-        document.getElementById('pers-view-inputs').classList.add('hidden');
-        document.getElementById('pers-view-info').classList.remove('hidden');
-        document.getElementById('modal-decorados').classList.remove('hidden');
-      } else if(tipo === 'eventos') {
-        document.getElementById('modal-eventos').classList.remove('hidden');
-      }
-    }
-    
-    function avancarFormularioPersonalizados() { document.getElementById('pers-view-info').classList.add('hidden'); document.getElementById('pers-view-inputs').classList.remove('hidden'); }
-    function voltarLAteralPersonalizados() { document.getElementById('pers-view-inputs').classList.add('hidden'); document.getElementById('pers-view-info').classList.remove('hidden'); }
-    function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
-    function fecharModalEventos() { document.getElementById('modal-eventos').classList.add('hidden'); }
-    function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
-    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-    function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
-    function focarFormularioCheckout() { document.getElementById('secao-checkout')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-
     function alterarQtd(id, delta) {
       if (!caixaAtiva || modoDegustacaoAtivo) return;
       const qtdAtual = quantidades[id] || 0; const novaQtd = qtdAtual + delta; if (novaQtd < 0) return;
       const totalGeral = Object.values(quantidades).reduce((a, b) => a + b, 0);
       if (delta > 0 && totalGeral >= caixaAtiva.totalDoces) { mostrarNotificacao("Sua caixa já está cheia!"); return; }
       if (novaQtd === 0) delete quantidades[id]; else quantidades[id] = novaQtd;
-      
-      // Atualiza o valor do input na tela dinamicamente sem re-renderizar o bloco inteiro
-      const inp = document.getElementById('input-qtd-' + id);
-      if(inp) inp.value = quantidades[id] || 0;
-      
-      atualizarInterface(); verificarCaixaCompleta();
+      renderizarDoces(); atualizarInterface(); verificarCaixaCompleta();
     }
 
-    // Vinculador Dinâmico Nativo do Teclado Manual Livre
-    function vincularDigitacaoManual(id, valor) {
+    function digitarQtd(id, valor) {
       if (!caixaAtiva || modoDegustacaoAtivo) return;
       let qtdDigitada = parseInt(valor) || 0; if (qtdDigitada < 0) qtdDigitada = 0;
       const totalOutros = Object.values(quantidades).reduce((a, b) => a + b, 0) - (quantidades[id] || 0);
       const espacoLivre = caixaAtiva.totalDoces - totalOutros;
-      
       if (qtdDigitada > espacoLivre) { mostrarNotificacao("Limite atingido!"); qtdDigitada = espacoLivre; }
       if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
-      
-      const inp = document.getElementById('input-qtd-' + id);
-      if(inp) inp.value = qtdDigitada;
-      
       atualizarInterface(); verificarCaixaCompleta();
-    }
-
-    // Função de rota global acionada pelo oninput gerado na vitrina
-    function digitarQtd(id, valor) {
-      vincularDigitacaoManual(id, valor);
     }
 
     function sincronizarCampos(campo, valor) {
@@ -754,6 +718,26 @@
       actualizarEstadoBotao();
     }
 
+    function abrirModalEspecial(tipo) {
+      if(tipo === 'personalizados') {
+        document.getElementById('pers-view-inputs').classList.add('hidden');
+        document.getElementById('pers-view-info').classList.remove('hidden');
+        document.getElementById('modal-decorados').classList.remove('hidden');
+      } else if(tipo === 'eventos') {
+        document.getElementById('modal-eventos').classList.remove('hidden');
+      }
+    }
+    
+    function avancarFormularioPersonalizados() { document.getElementById('pers-view-info').classList.add('hidden'); document.getElementById('pers-view-inputs').classList.remove('hidden'); }
+    function voltarLAteralPersonalizados() { document.getElementById('pers-view-inputs').classList.add('hidden'); document.getElementById('pers-view-info').classList.remove('hidden'); }
+    function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
+    function fecharModalEventos() { document.getElementById('modal-eventos').classList.add('hidden'); }
+    function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
+    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+    function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
+    function focarFormularioCheckout() { document.getElementById('secao-checkout')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    function enviarPedidoWhatsAppPeloModal() { const nome = document.getElementById('modal-nome-cliente').value.trim(); const data = document.getElementById('modal-data-desejada').value; const hora = document.getElementById('modal-hora-desejada').value; if (!nome || !data || !hora) { alert("Por favor, preencha todos os campos do agendamento!"); return; } fecharModalCompleta(); enviarPedidoWhatsApp(); }
+
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
       const nome = document.getElementById('nome-cliente').value.trim();
@@ -761,6 +745,14 @@
       const hora = document.getElementById('hora-desejada').value;
       if (!nome || !data || !hora) { btn.disabled = true; return; }
       btn.disabled = (carrinhoDeCaixasConcluidas.length === 0 && !caixaAtiva);
+    }
+
+    function openModal(src, title, price, id) {
+      document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
+      const btn = document.getElementById('modal-add-btn');
+      if (caixaAtiva && !caixaAtiva.precoFixo) { btn.style.display = "block"; btn.onclick = () => { alterarQtd(id, 1); closeModal(); }; } 
+      else { btn.style.display = "none"; }
+      document.getElementById('modal').classList.remove('hidden');
     }
 
     function enviarPedidoWhatsApp() {
