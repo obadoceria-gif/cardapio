@@ -1,34 +1,63 @@
-// Configurações e Lógica Centralizada
-const caixasConfigs = {
-    '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25 },
-    '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35 },
-    '50': { id: '50', titulo: 'Caixa de 50 Doces', totalDoces: 50 },
-    '100': { id: '100', titulo: 'Caixa de 100 Doces', totalDoces: 100 }
-};
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBA Doceria | Cardápio Oficial 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#FAF5F0] p-4 md:p-10">
 
-let quantidades = {}; 
-let caixaAtiva = null;
+  <div class="max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-orange-100">
+    <h1 class="text-3xl md:text-4xl font-black text-center text-[#8B4513] mb-2">OBA DOCERIA</h1>
+    <p class="text-center text-sm text-gray-500 font-bold italic mb-6">O VERDADEIRO SABOR ARTESANAL - CARDÁPIO OFICIAL 2026</p>
+    
+    <div class="bg-orange-50 p-6 rounded-2xl text-center mb-8 border border-orange-200">
+        <p class="font-bold text-[#8B4513] mb-4">SELECIONE O TAMANHO DA CAIXA E ESCOLHA SEUS SABORES FAVORITOS NOS PASSOS 1 E 2 LOGO ABAIXO.</p>
+        <p class="text-sm text-gray-600 border-t border-orange-200 pt-4">Se estás a procura de doces personalizados, orçamento para um grande evento, festa, casamento ou formatura, utilize os painéis localizados na lateral direita do menu.</p>
+    </div>
 
-// Função de teste para verificar se o JS está a rodar
-window.onload = () => {
-    console.log("Sistema OBA Doceria Inicializado!");
-    renderizarInterface();
-};
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-6">
+            <div class="p-6 border-2 border-gray-200 rounded-2xl">
+                <h2 class="font-bold text-lg mb-4">PASSO 1 - SELECIONE O TAMANHO DA SUA CAIXA</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="selecionarCaixa(25)" class="p-4 border rounded-xl hover:bg-orange-50">Caixa de 25 Doces</button>
+                    <button onclick="selecionarCaixa(35)" class="p-4 border rounded-xl hover:bg-orange-50">Caixa de 35 Doces</button>
+                </div>
+            </div>
 
-function renderizarInterface() {
-    const container = document.getElementById('conteudo-principal');
-    container.innerHTML = `
-        <h1 class="text-4xl font-black uppercase text-center mb-4">OBA DOCERIA</h1>
-        <p class="text-center mb-8 font-bold">SELECIONE O TAMANHO DA CAIXA E ESCOLHA SEUS SABORES FAVORITOS NOS PASSOS 1 E 2 LOGO ABAIXO.</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <button onclick="iniciarCaixa('25')" class="p-6 bg-white border-2 border-[#E8D5B5] rounded-2xl">Caixa de 25 Doces</button>
-            <button onclick="iniciarCaixa('35')" class="p-6 bg-white border-2 border-[#E8D5B5] rounded-2xl">Caixa de 35 Doces</button>
+            <div class="p-6 border-2 border-gray-200 rounded-2xl">
+                <h2 class="font-bold text-lg mb-4">PASSO 2 - ESCOLHA OS DOCES</h2>
+                <div id="grid-doces" class="grid grid-cols-2 gap-4">
+                    <div class="border p-2 rounded-xl text-center">
+                        <img src="Images/Ao Leite.jpeg" class="w-full h-32 object-cover rounded-lg mb-2" onerror="this.src='https://placehold.co/100x100?text=Doce'">
+                        <p class="font-bold text-sm">Brigadeiro Ao Leite</p>
+                        <input type="number" value="0" min="0" class="w-full border rounded mt-2 p-1 text-center">
+                    </div>
+                </div>
+            </div>
         </div>
-    `;
-}
 
-function iniciarCaixa(id) {
-    caixaAtiva = caixasConfigs[id];
-    alert("Caixa " + caixaAtiva.titulo + " selecionada! Agora escolha os sabores.");
-    // Aqui iríamos renderizar os sabores
-}
+        <div class="space-y-6">
+            <div class="p-6 border-2 border-orange-400 rounded-2xl bg-orange-50">
+                <h3 class="font-bold text-[#8B4513] mb-2">DOCES PERSONALIZADOS & DECORADOS - <span class="bg-orange-200 px-1">60% OFF</span></h3>
+                <button class="w-full py-2 bg-[#8B4513] text-white rounded-lg mt-2">FALAR SOBRE DOCES PERSONALIZADOS</button>
+            </div>
+            
+            <div class="p-6 border-2 border-yellow-600 rounded-2xl bg-yellow-50">
+                <h3 class="font-bold text-[#8B4513] mb-2">CASAMENTOS, FORMATURAS & EVENTOS</h3>
+                <p class="text-xs mb-4">Procura quantidades maiores para festas, formaturas, casamentos ou eventos? Desenvolvemos uma proposta sob medida para você.</p>
+                <button class="w-full py-2 bg-[#8B4513] text-white rounded-lg">FALAR SOBRE ORÇAMENTO PARA FESTAS, CASAMENTOS, FORMATURAS</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    function selecionarCaixa(tamanho) {
+        alert("Caixa de " + tamanho + " selecionada! Agora podes escolher os doces.");
+    }
+  </script>
+</body>
+</html>
