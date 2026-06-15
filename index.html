@@ -9,7 +9,7 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght=400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
     
     body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
     input[type=number]::-webkit-inner-spin-button, 
@@ -242,12 +242,11 @@
     <h1 class="text-4xl md:text-5xl font-black text-[#8B4513] tracking-wider uppercase">OBA DOCERIA</h1>
     <p class="text-[#D8B36A] uppercase tracking-widest text-xs md:text-sm font-black italic border-b-2 border-orange-100/50 pb-4 max-w-lg mx-auto">O VERDADEIRO SABOR ARTESANAL - CARDÁPIO OFICIAL 2026</p>
     
-    <div class="max-w-3xl mx-auto mt-6 text-sm text-amber-950 font-medium bg-white/95 py-6 px-6 rounded-3xl border border-orange-200/60 shadow-md leading-relaxed text-center space-y-3">
-      <p class="text-base sm:text-lg text-[#8B4513] font-black tracking-tight uppercase">
-        SELECIONE O TAMANHO DA CAIXA E ESCOLHA SEUS SABORES FAVORITOS NOS PASSOS 1 E 2 LOGO ABAIXO.
-      </p>
-      <p class="text-amber-950 text-sm md:text-base border-t border-dashed border-orange-100/60 pt-3">
-        Se estás à procura de doces personalizados, orçamento para um grande evento, festa, casamento ou formatura, utilize os quadros localizados na lateral direita do menu.
+    <div class="max-w-3xl mx-auto mt-6 text-sm text-amber-950 font-bold bg-white/95 py-6 px-6 rounded-3xl border border-orange-200/60 shadow-md leading-relaxed text-center space-y-4">
+      <p class="text-base sm:text-lg text-[#8B4513] font-black tracking-tight uppercase">SELECIONE O TAMANHO DA CAIXA E ESCOLHA SEUS SABORES FAVORITOS NOS PASSOS 1 E 2 LOGO ABAIXO.</p>
+      <div class="h-1"></div>
+      <p class="text-amber-950 text-xs sm:text-sm font-bold leading-relaxed border-t border-dashed border-orange-100 pt-3">
+        Se estás a procura de doces personalizados, orçamento para um grande evento, festa, casamento ou formatura, utilize os painéis localizados na lateral direita do menu.
       </p>
     </div>
   </header>
@@ -307,7 +306,7 @@
           <div class="bg-[#FCF9F2] rounded-[1.4rem] p-6 text-center border border-yellow-100 space-y-3">
             <h3 class="font-extrabold text-base text-[#5c2d0c] uppercase tracking-wide">CASAMENTOS, FORMATURAS & EVENTOS</h3>
             <p class="text-[11px] text-gray-600 leading-relaxed max-w-[240px] mx-auto">Procura quantidades maiores para festas, formaturas, casamentos ou eventos? Desenvolvemos uma proposta sob medida para você.</p>
-            <button onclick="abrirModalEspecial('eventos')" class="w-full py-3.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white rounded-xl shadow-md uppercase border-b-4 border-[#3a1a05] text-xs font-black leading-tight px-2 text-center tracking-wide font-bold">
+            <button onclick="abrirModalEspecial('eventos')" class="w-full py-3.5 bg-gradient-to-r from-yellow-600 to-[#5c2d0c] text-white rounded-xl shadow-md uppercase border-b-4 border-[#3a1a05] text-xs font-black tracking-wider leading-tight px-2 text-center">
               FALAR SOBRE ORÇAMENTO <br>PARA FESTAS, <br>CASAMENTOS, FORMATURAS
             </button>
           </div>
@@ -353,7 +352,6 @@
   </div>
 
   <script>
-    // Objeto global de configurações declarado linearmente antes de rodar qualquer função
     const caixasConfigs = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
       '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
@@ -616,11 +614,6 @@
       }
     }
 
-    function改变Qtd(id, delta) {
-      // Nome mantido interno para compatibilidade
-      alterarQtd(id, delta);
-    }
-
     function alterarQtd(id, delta) {
       if (!caixaAtiva || modoDegustacaoAtivo) return;
       const qtdAtual = quantidades[id] || 0; const novaQtd = qtdAtual + delta; if (novaQtd < 0) return;
@@ -703,9 +696,8 @@
     function closeModal() { document.getElementById('modal').classList.add('hidden'); }
     function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
     function focarFormularioCheckout() { document.getElementById('secao-checkout')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-    function enviarPedidoWhatsAppPeloModal() { const nome = document.getElementById('modal-nome-cliente').value.trim(); const data = document.getElementById('modal-data-desejada').value; const hora = document.getElementById('modal-hora-desejada').value; if (!nome || !data || !hora) { alert("Por favor, preencha todos os campos do agendamento!"); return; } fecharModalCompleta(); enviarPedidoWhatsApp(); }
     
-    // Corrigido e garantido que lê o ID correto ('btn-whatsapp') sem quebrar a execução global
+    // Corrigido IDs minúsculos integrados no script para alinhar com o botão principal do formulário
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
       const nome = document.getElementById('nome-cliente').value.trim();
