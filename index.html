@@ -1,23 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OBA Doceria | Experiência Gourmet Interativa</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    body { font-family: 'Poppins', sans-serif; }
-    input[type=number] { -moz-appearance: textfield; }
-    input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
-  </style>
-</head>
-<body class="bg-[#FAF5F0] text-[#3B2A1E]">
-  <div id="app-container" class="max-w-6xl mx-auto px-4 py-10">
-      <div id="conteudo-principal"></div>
-  </div>
-  
-  <script src="script.js"></script>
-</body>
-</html>
+// Configurações e Lógica Centralizada
+const caixasConfigs = {
+    '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25 },
+    '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35 },
+    '50': { id: '50', titulo: 'Caixa de 50 Doces', totalDoces: 50 },
+    '100': { id: '100', titulo: 'Caixa de 100 Doces', totalDoces: 100 }
+};
+
+let quantidades = {}; 
+let caixaAtiva = null;
+
+// Função de teste para verificar se o JS está a rodar
+window.onload = () => {
+    console.log("Sistema OBA Doceria Inicializado!");
+    renderizarInterface();
+};
+
+function renderizarInterface() {
+    const container = document.getElementById('conteudo-principal');
+    container.innerHTML = `
+        <h1 class="text-4xl font-black uppercase text-center mb-4">OBA DOCERIA</h1>
+        <p class="text-center mb-8 font-bold">SELECIONE O TAMANHO DA CAIXA E ESCOLHA SEUS SABORES FAVORITOS NOS PASSOS 1 E 2 LOGO ABAIXO.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <button onclick="iniciarCaixa('25')" class="p-6 bg-white border-2 border-[#E8D5B5] rounded-2xl">Caixa de 25 Doces</button>
+            <button onclick="iniciarCaixa('35')" class="p-6 bg-white border-2 border-[#E8D5B5] rounded-2xl">Caixa de 35 Doces</button>
+        </div>
+    `;
+}
+
+function iniciarCaixa(id) {
+    caixaAtiva = caixasConfigs[id];
+    alert("Caixa " + caixaAtiva.titulo + " selecionada! Agora escolha os sabores.");
+    // Aqui iríamos renderizar os sabores
+}
