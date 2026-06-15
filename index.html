@@ -68,9 +68,9 @@
           <div class="pt-2 text-left bg-orange-50/60 p-3 rounded-2xl border border-orange-100">
             <label class="block text-[10px] font-extrabold uppercase text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
             <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[140px]">
-              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-8 h-8 rounded-lg font-black bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center">-</button>
+              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-8 h-8 rounded-lg font-black bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center shadow-sm">-</button>
               <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-10 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
-              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-8 h-8 rounded-lg font-black bg-[#8B4513] text-white flex items-center justify-center">+</button>
+              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-8 h-8 rounded-lg font-black bg-[#8B4513] text-white flex items-center justify-center shadow-sm">+</button>
             </div>
           </div>
         </div>
@@ -166,10 +166,10 @@
           <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 space-y-2 shadow-inner">
             <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
-            <p>• Pedido mínimo: 20 doces.</p>
+            <p>• Pedido mínimo: 20 doces (Produzimos sempre um pouco de cada modelo para ficar bem variado).</p>
             <p>• Usamos forminhas de acetato transparente.</p>
-            <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
-            <p>• Antecedência mínima necessária de 20 dias.</p>
+            <p>• O doce que fica embaixo do personalizado é um brigadeiro gourmet (sabores usados: branco e ao leite).</p>
+            <p>• O pedido precisa ser feito com no mínimo 20 dias de antecedência e é preciso verificar se há vaga na agenda.</p>
           </div>
           <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 space-y-2 shadow-inner">
             <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
@@ -364,7 +364,7 @@
   </div>
 
   <script>
-    // Configurações Globais
+    // Configurações Globais Isoladas
     const caixasConfigs = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
       '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
@@ -469,6 +469,74 @@
 
     let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let lacoDecorativoSelecionado = false; let placaPersonalizadaSelecionada = false;
     let modoDegustacaoAtivo = false; let multiplicadorCaixasDegustacao = 1;
+
+    window.onload = function() {
+      renderizarAbasCategorias();
+      renderizarDoces();
+      actualizarEstadoBotao();
+    };
+
+    function encontrarDoce(id) {
+      for (let g of catalogo) {
+        for (let i of g.itens) { if (i.id === id) return i; }
+      }
+      return null;
+    }
+
+    function renderizarAbasCategorias() {
+      const container = document.getElementById('abas-categorias'); if (!container) return;
+      let html = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-1.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all">Todos</button>`;
+      catalogo.forEach(g => {
+        html += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.idFiltro}" class="px-4 py-1.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all">${g.categoria.split(" (")[0]}</button>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function filtrarCategoria(cat) {
+      categoryActive = cat;
+      document.querySelectorAll('#abas-categorias button').forEach(aba => {
+        aba.className = "px-4 py-1.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all";
+      });
+      let idAlvo = "Todos";
+      if (cat !== "Todos") {
+        const achado = catalogo.find(g => g.categoria === cat);
+        if (achado) idAlvo = achado.idFiltro;
+      }
+      const ativa = document.getElementById(`aba-${idAlvo}`);
+      if (ativa) ativa.className = "px-4 py-1.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all";
+      renderizarDoces();
+    }
+
+    function renderizarDoces() {
+      const grid = document.getElementById('cardapio-grid'); if (!grid) return; grid.innerHTML = "";
+      catalogo.forEach(g => {
+        if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
+        g.itens.forEach(item => {
+          const qtd = quantidades[item.id] || 0;
+          grid.innerHTML += `
+            <div class="bg-white rounded-3xl shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden w-full">
+              <div class="w-full aspect-square bg-gray-50">
+                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/300x300?text=Oba+Doce'">
+              </div>
+              <div class="p-3 w-full flex flex-col justify-between flex-1">
+                <div>
+                  <h3 class="font-bold text-xs mb-0.5 text-[#3B2A1E] line-clamp-1">${item.nome}</h3>
+                  <button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-[10px] text-[#8B4513] underline mb-2 inline-block">Ver detalhes</button>
+                </div>
+                <div>
+                  <p class="text-[10px] text-gray-400 font-bold mb-1.5">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
+                  ${caixaAtiva && !caixaAtiva.precoFixo ? `
+                    <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
+                      <button onclick="alterarQtd('${item.id}', -1)" class="w-7 h-7 rounded-lg font-black bg-white text-[#8B4513] shadow-sm text-sm flex items-center justify-center">-</button>
+                      <input type="number" value="${qtd}" min="0" oninput="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
+                      <button onclick="alterarQtd('${item.id}', 1)" class="w-7 h-7 rounded-lg font-black bg-[#8B4513] text-white shadow-sm text-sm flex items-center justify-center">+</button>
+                    </div>` : `<button onclick="lembreteCaixa()" class="w-full py-1.5 bg-gray-50 text-gray-400 rounded-xl text-[10px] font-extrabold uppercase">Escolha a caixa</button>`}
+                </div>
+              </div>
+            </div>`;
+        });
+      });
+    }
 
     function abrirBannerDegustacao() {
       modoDegustacaoAtivo = true;
@@ -677,6 +745,43 @@
       else { btn.style.display = "none"; }
       document.getElementById('modal').classList.remove('hidden');
     }
+
+    function enviarPedidoWhatsApp() {
+      const nome = document.getElementById('nome-cliente').value.trim(); const data = document.getElementById('data-desejada').value.split('-'); const hora = document.getElementById('hora-desejada').value; const total = document.getElementById('valor-total').innerText;
+      let texto = `Olá, OBA Doceria! Segue meu Pedido:\n\n*CLIENTE:* ${nome}\n*ENTREGA:* ${data[2]}/${data[1]}/${data[0]} às ${hora}\n*CAIXA:* ${caixaAtiva.titulo} (${caixaAtiva.precoFixo ? multiplicadorCaixasDegustacao + ' cx.' : caixaAtiva.totalDoces + ' un.'})\n`;
+      texto += `*OPCIONAIS:* ${lacoDecorativoSelecionado ? "Com Laço (🎀)" : "Sem laço"} | ${placaPersonalizadaSelecionada ? "Com Placa (🏷️)" : "Sem placa"}\n`;
+      texto += `*VALOR TOTAL:* ${total}\n\n*SABORES:*\n`;
+      if (!caixaAtiva.precoFixo) { Object.entries(quantidades).forEach(([id, q]) => { if (q > 0) texto += `- ${q} un. ${encontrarDoce(id).nome}\n`; }); } 
+      else { texto += `_Seleção sortida do dia._\n`; }
+      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
+    }
+
+    function enviarOrcamentoEspecial(tipo) {
+      if(tipo === 'personalizados') {
+        const nome = document.getElementById('nome-cliente').value.trim() || "Cliente";
+        const tema = document.getElementById('pers-tema').value.trim();
+        const data = document.getElementById('pers-data').value;
+        const qtd = document.getElementById('pers-qtd').value || "Não informada";
+        if (!tema || !data) { alert("Preencha os campos obrigatórios!"); return; }
+        const d = data.split('-');
+        const msg = `Olá, OBA Doceria! Solicito reserva de *Doces Personalizados & Decorados*:\n\n*Nome:* ${nome}\n*Tema:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Quantidade:* ${qtd}`;
+        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank');
+        fecharModalPersonalizados();
+      } else {
+        const nome = document.getElementById('eve-nome').value.trim();
+        const tipoEv = document.getElementById('eve-tipo').value.trim();
+        const data = document.getElementById('eve-data').value;
+        const conv = document.getElementById('eve-convidados').value || "Não informado";
+        const qtd = document.getElementById('eve-qtd').value || "Não informada";
+        if (!nome || !tipoEv || !data) { alert("Preencha os campos obrigatórios!"); return; }
+        const d = data.split('-');
+        const msg = `Olá, OBA Doceria! Solicito orçamento para *Casamentos, Formaturas & Eventos*:\n\n*Nome:* ${nome}\n*Tipo:* ${tipoEv}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Convidados:* ${conv}\n*Quantidade de Doces:* ${qtd}`;
+        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank');
+        fecharModalEventos();
+      }
+    }
+    
+    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if (txt && toast) { txt.innerText = m; toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
   </script>
 </body>
 </html>
