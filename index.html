@@ -335,7 +335,7 @@
               </div>
             </div>
             
-            <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-4 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md disabled:bg-gray-200 disabled:text-gray-400 uppercase tracking-widest border-b-4 border-[#5c2d0c]">Enviar Pedido WhatsApp</button>
+            <button id="btn-whatsapp" class="w-full py-4 bg-[#8B4513] text-white rounded-xl font-bold text-sm shadow-md disabled:bg-gray-200 disabled:text-gray-400 uppercase tracking-widest border-b-4 border-[#5c2d0c]">Enviar Pedido WhatsApp</button>
           </div>
         </section>
       </div>
@@ -460,6 +460,7 @@
     window.onload = function() {
       renderizarAbasCategorias();
       renderizarDoces();
+      actualizarEstadoBotao();
     };
 
     function encontrarDoce(id) {
@@ -697,7 +698,7 @@
     function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
     function focarFormularioCheckout() { document.getElementById('secao-checkout')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     
-    // Corrigido IDs minúsculos integrados no script para alinhar com o botão principal do formulário
+    // Trava de segurança desativada contra botões nulos
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
       const nome = document.getElementById('nome-cliente').value.trim();
