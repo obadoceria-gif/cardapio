@@ -3,28 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OBA Doceria | Cardápio</title>
+  <title>OBA Doceria | Experiência Gourmet Interativa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    body { font-family: 'Poppins', sans-serif; }
+    input[type=number] { -moz-appearance: textfield; }
+    input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+  </style>
 </head>
-<body class="bg-gray-100 p-8">
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-lg">
-        <h1 class="text-2xl font-bold mb-4">OBA DOCERIA - CARDÁPIO 2026</h1>
-        <p class="mb-6 text-gray-600">SELECIONE O TAMANHO DA CAIXA E ESCOLHA SEUS SABORES FAVORITOS NOS PASSOS 1 E 2 LOGO ABAIXO.</p>
-        
-        <div class="grid grid-cols-2 gap-4">
-            <button onclick="alert('Botão Passo 1 funcionando!')" class="p-4 bg-orange-500 text-white rounded-lg">
-                PASSO 1: SELECIONAR CAIXA
-            </button>
-            <div class="p-4 bg-gray-200 rounded-lg">
-                <label>Quantidade de doces:</label>
-                <input type="number" value="1" class="w-full p-2 border rounded mt-1">
-            </div>
-        </div>
-
-        <div class="mt-8">
-            <h2 class="text-lg font-bold mb-2">Imagem de Teste (Brigadeiro Ao Leite):</h2>
-            <img src="Images/Ao Leite.jpeg" alt="Brigadeiro Ao Leite" class="w-32 h-32 object-cover border" onerror="this.src='https://placehold.co/100x100?text=Sem+Imagem'">
-        </div>
-    </div>
+<body class="bg-[#FAF5F0] text-[#3B2A1E]">
+  <div id="app-container" class="max-w-6xl mx-auto px-4 py-10">
+      <div id="conteudo-principal"></div>
+  </div>
+  
+  <script src="script.js"></script>
 </body>
 </html>
