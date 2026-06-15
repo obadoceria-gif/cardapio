@@ -731,3 +731,63 @@
     function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
     function fecharModalEventos() { document.getElementById('modal-eventos').classList.add('hidden'); }
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
+    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+    function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
+    function focarFormularioCheckout() { document.getElementById('secao-checkout')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+
+    function digitarQtd(id, valor) {
+      if (!caixaAtiva || modoDegustacaoAtivo) return;
+      let qtdDigitada = parseInt(valor) || 0; if (qtdDigitada < 0) qtdDigitada = 0;
+      const totalOutros = Object.values(quantidades).reduce((a, b) => a + b, 0) - (quantidades[id] || 0);
+      const espacoLivre = caixaAtiva.totalDoces - totalOutros;
+      if (qtdDigitada > espacoLivre) { mostrarNotificacao("Limite atingido!"); qtdDigitada = espacoLivre; }
+      if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
+      atualizarInterface(); verificarCaixaCompleta();
+    }
+
+    function actualizarEstadoBotao() {
+      const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
+      const nome = document.getElementById('nome-cliente').value.trim();
+      const data = document.getElementById('data-desejada').value;
+      const hora = document.getElementById('hora-desejada').value;
+      if (!nome || !data || !hora) { btn.disabled = true; return; }
+      btn.disabled = (carrinhoDeCaixasConcluidas.length === 0 && !caixaAtiva);
+    }
+
+    function openModal(src, title, price, id) {
+      document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
+      const btn = document.getElementById('modal-add-btn');
+      if (caixaAtiva && !caixaAtiva.precoFixo) { btn.style.display = "block"; btn.onclick = () => { alterarQtd(id, 1); closeModal(); }; } 
+      else { btn.style.display = "none"; }
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function enviarPedidoWhatsApp() {
+      const nome = document.getElementById('nome-cliente').value.trim(); const data = document.getElementById('data-desejada').value.split('-'); const hora = document.getElementById('hora-desejada').value; const total = document.getElementById('valor-total').innerText;
+      let texto = `Olá, OBA Doceria! Segue meu Pedido Múltiplo:\n\n*CLIENTE:* ${nome}\n*ENTREGA:* ${data[2]}/${data[1]}/${data[0]} às ${hora}\n\n*RESUMO DAS CAIXAS:*\n`;
+      carrinhoDeCaixasConcluidas.forEach((cx, i) => { texto += `*Caixa ${i+1}:* ${cx.titulo}\n Sabores: _${cx.detalhes}_\n\n`; });
+      if(caixaAtiva) {
+        let txtAtiva = "";
+        if(caixaAtiva.precoFixo) { txtAtiva = `${multiplicadorCaixasDegustacao}x Combo Degustação Sortido (${caixaAtiva.totalDoces} un.)`; } 
+        else { let sab = []; Object.entries(quantidades).forEach(([id, q]) => { if (q > 0) sab.push(`${q}x ${encontrarDoce(id).nome}`); }); txtAtiva = sab.join(', '); }
+        texto += `*Caixa Atual:* ${caixaAtiva.titulo}\n Sabores: _${txtAtiva}_\n\n`;
+      }
+      texto += `*OPCIONAIS:* ${lacoDecorativoSelecionado ? "Com Laço (🎀)" : "Sem laço"} | ${placaPersonalizadaSelecionada ? "Com Placa (🏷️)" : "Sem placa"}\n`;
+      texto += `*VALOR GERAL DO PEDIDO:* ${total}`;
+      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
+    }
+
+    function enviarOrcamentoEspecial(tipo) {
+      if(tipo === 'personalizados') {
+        const nome = document.getElementById('nome-cliente').value.trim() || "Cliente"; const tema = document.getElementById('pers-tema').value.trim(); const data = document.getElementById('pers-data').value; const qtd = document.getElementById('pers-qtd').value || "Não informada"; if (!tema || !data) { alert("Preencha os campos obrigatórios!"); return; } const d = data.split('-');
+        const msg = `Olá, OBA Doceria! Solicito reserva de *Doces Personalizados & Decorados*:\n\n*Nome:* ${nome}\n*Tema:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Quantidade:* ${qtd}`;
+        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalPersonalizados();
+      } else {
+        const nome = document.getElementById('eve-nome').value.trim(); const tipoEv = document.getElementById('eve-tipo').value.trim(); const data = document.getElementById('eve-data').value; const conv = document.getElementById('eve-convidados').value || "Não informado"; const qtd = document.getElementById('eve-qtd').value || "Não informada"; if (!nome || !tipoEv || !data) { alert("Preencha os campos obrigatórios!"); return; } const d = data.split('-');
+        const msg = `Olá, OBA Doceria! Solicito orçamento para *Casamentos, Formaturas & Eventos*:\n\n*Nome:* ${nome}\n*Tipo:* ${tipoEv}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Convidados:* ${conv}\n*Quantidade de Doces:* ${qtd}`;
+        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalEventos();
+      }
+    }
+  </script>
+</body>
+</html>
