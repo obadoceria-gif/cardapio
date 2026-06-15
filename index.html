@@ -57,12 +57,21 @@
           <p class="text-sm text-gray-500 font-semibold">Valor Total do Pedido: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
         </div>
 
-        <div id="wrapper-tamanhos-degustacao" class="hidden space-y-2">
-          <p class="text-xs text-amber-900 font-bold">Selecione o tamanho da sua Caixa Degustação Sortida:</p>
+        <div id="wrapper-tamanhos-degustacao" class="hidden space-y-3">
+          <p class="text-xs text-amber-900 font-bold uppercase">Selecione o tamanho da sua Caixa Degustação Sortida:</p>
           <div class="grid grid-cols-3 gap-2">
             <button onclick="definirTamanhoDegustacao(12, 40)" id="btn-deg-12" class="py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all">12 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 40,00</span></button>
             <button onclick="definirTamanhoDegustacao(25, 75)" id="btn-deg-25" class="py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all">25 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 75,00</span></button>
             <button onclick="definirTamanhoDegustacao(35, 100)" id="btn-deg-35" class="py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all">35 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 100,00</span></button>
+          </div>
+          
+          <div class="pt-2 text-left bg-orange-50/60 p-3 rounded-2xl border border-orange-100">
+            <label class="block text-[10px] font-extrabold uppercase text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
+            <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[140px]">
+              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-8 h-8 rounded-lg font-black bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center">-</button>
+              <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-10 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
+              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-8 h-8 rounded-lg font-black bg-[#8B4513] text-white flex items-center justify-center">+</button>
+            </div>
           </div>
         </div>
 
@@ -100,10 +109,13 @@
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2">
             <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
           </button>
+          <button id="btn-seguir-comprando" onclick="fecharModalCompleta()" class="w-full py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-black text-xs rounded-xl shadow-sm uppercase hidden items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-plus"></i> Seguir Comprando Outras Caixas
+          </button>
           <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2">
             <i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual
           </button>
-          <button onclick="fecharModalCompleta()" class="w-full py-2.5 border-2 border-gray-200 text-xs font-black text-gray-500 rounded-xl uppercase">
+          <button id="btn-revisar-sabores" onclick="fecharModalCompleta()" class="w-full py-2.5 border-2 border-gray-200 text-xs font-black text-gray-500 rounded-xl uppercase">
             Apenas revisar os sabores escolhidos
           </button>
         </div>
@@ -154,10 +166,10 @@
           <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 space-y-2 shadow-inner">
             <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
-            <p>• Pedido mínimo: 20 doces (Produzimos sempre um pouco de cada modelo para ficar bem variado).</p>
+            <p>• Pedido mínimo: 20 doces.</p>
             <p>• Usamos forminhas de acetato transparente.</p>
-            <p>• O doce que fica embaixo do personalizado é um brigadeiro gourmet (sabores usados: branco e ao leite).</p>
-            <p>• O pedido precisa ser feito com no mínimo 20 dias de antecedência e é preciso verificar se há vaga na agenda.</p>
+            <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
+            <p>• Antecedência mínima necessária de 20 dias.</p>
           </div>
           <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 space-y-2 shadow-inner">
             <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
@@ -352,6 +364,7 @@
   </div>
 
   <script>
+    // Configurações Globais
     const caixasConfigs = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
       '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35, proximoId: '50' },
@@ -455,78 +468,13 @@
     ];
 
     let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let lacoDecorativoSelecionado = false; let placaPersonalizadaSelecionada = false;
-    let modoDegustacaoAtivo = false;
-
-    window.onload = function() {
-      renderizarAbasCategorias();
-      renderizarDoces();
-      actualizarEstadoBotao();
-    };
-
-    function encontrarDoce(id) {
-      for (let g of catalogo) {
-        for (let i of g.itens) { if (i.id === id) return i; }
-      }
-      return null;
-    }
-
-    function renderizarAbasCategorias() {
-      const container = document.getElementById('abas-categorias'); if (!container) return;
-      let html = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-1.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all">Todos</button>`;
-      catalogo.forEach(g => {
-        html += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.idFiltro}" class="px-4 py-1.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all">${g.categoria.split(" (")[0]}</button>`;
-      });
-      container.innerHTML = html;
-    }
-
-    function filtrarCategoria(cat) {
-      categoryActive = cat;
-      document.querySelectorAll('#abas-categorias button').forEach(aba => {
-        aba.className = "px-4 py-1.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all";
-      });
-      let idAlvo = "Todos";
-      if (cat !== "Todos") {
-        const achado = catalogo.find(g => g.categoria === cat);
-        if (achado) idAlvo = achado.idFiltro;
-      }
-      const ativa = document.getElementById(`aba-${idAlvo}`);
-      if (ativa) ativa.className = "px-4 py-1.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all";
-      renderizarDoces();
-    }
-
-    function renderizarDoces() {
-      const grid = document.getElementById('cardapio-grid'); if (!grid) return; grid.innerHTML = "";
-      catalogo.forEach(g => {
-        if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
-        g.itens.forEach(item => {
-          const qtd = quantidades[item.id] || 0;
-          grid.innerHTML += `
-            <div class="bg-white rounded-3xl shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden w-full">
-              <div class="w-full aspect-square bg-gray-50">
-                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/300x300?text=Oba+Doce'">
-              </div>
-              <div class="p-3 w-full flex flex-col justify-between flex-1">
-                <div>
-                  <h3 class="font-bold text-xs mb-0.5 text-[#3B2A1E] line-clamp-1">${item.nome}</h3>
-                  <button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-[10px] text-[#8B4513] underline mb-2 inline-block">Ver detalhes</button>
-                </div>
-                <div>
-                  <p class="text-[10px] text-gray-400 font-bold mb-1.5">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
-                  ${caixaAtiva && !caixaAtiva.precoFixo ? `
-                    <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
-                      <button onclick="alterarQtd('${item.id}', -1)" class="w-7 h-7 rounded-lg font-black bg-white text-[#8B4513] shadow-sm text-sm flex items-center justify-center">-</button>
-                      <input type="number" value="${qtd}" min="0" oninput="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
-                      <button onclick="alterarQtd('${item.id}', 1)" class="w-7 h-7 rounded-lg font-black bg-[#8B4513] text-white shadow-sm text-sm flex items-center justify-center">+</button>
-                    </div>` : `<button onclick="lembreteCaixa()" class="w-full py-1.5 bg-gray-50 text-gray-400 rounded-xl text-[10px] font-extrabold uppercase">Escolha a caixa</button>`}
-                </div>
-              </div>
-            </div>`;
-        });
-      });
-    }
+    let modoDegustacaoAtivo = false; let multiplicadorCaixasDegustacao = 1;
 
     function abrirBannerDegustacao() {
       modoDegustacaoAtivo = true;
+      multiplicadorCaixasDegustacao = 1;
+      document.getElementById('input-qtd-caixas-degustacao').value = 1;
+      
       caixaAtiva = { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00 };
       quantidades = {};
       
@@ -534,6 +482,8 @@
       document.getElementById('modal-instrucao-opcionais').innerText = "Adicione mimos para presente caso queira:";
       document.getElementById('wrapper-tamanhos-degustacao').classList.remove('hidden');
       document.getElementById('btn-upgrade-caixa').classList.add('hidden');
+      document.getElementById('btn-seguir-comprando').classList.remove('hidden');
+      document.getElementById('btn-revisar-sabores').classList.add('hidden');
       
       definirTamanhoDegustacao(25, 75);
       document.getElementById('modal-caixa-completa').classList.remove('hidden');
@@ -555,10 +505,27 @@
       atualizarInterface();
     }
 
+    function alterarMultiplicadorDegustacao(delta) {
+      let novaQtd = multiplicadorCaixasDegustacao + delta;
+      if (novaQtd < 1) novaQtd = 1;
+      multiplicadorCaixasDegustacao = novaQtd;
+      document.getElementById('input-qtd-caixas-degustacao').value = novaQtd;
+      atualizarInterface();
+    }
+
+    function atualizarMultiplicadorDegustacaoManual(val) {
+      let parseado = parseInt(val) || 1;
+      if (parseado < 1) parseado = 1;
+      multiplicadorCaixasDegustacao = parseado;
+      atualizarInterface();
+    }
+
     function selecionarCaixa(id) {
       modoDegustacaoAtivo = false;
       document.getElementById('wrapper-tamanhos-degustacao').classList.add('hidden');
       document.getElementById('btn-upgrade-caixa').classList.remove('hidden');
+      document.getElementById('btn-seguir-comprando').classList.add('hidden');
+      document.getElementById('btn-revisar-sabores').classList.remove('hidden');
       document.getElementById('modal-titulo-dinamico').innerText = "Sua Caixa Está Completa! 🎉";
       document.getElementById('modal-instrucao-opcionais').innerText = "Deseja estender sua experiência adicionando mais sabores ou fechar a sua encomenda agora?";
       
@@ -594,8 +561,9 @@
     function calcularValorTotalDoPedido() {
       let subtotal = 0;
       if (caixaAtiva) {
-        if (caixaAtiva.precoFixo) { subtotal = caixaAtiva.precoFixo; } 
-        else {
+        if (caixaAtiva.precoFixo) { 
+          subtotal = caixaAtiva.precoFixo * multiplicadorCaixasDegustacao; 
+        } else {
           Object.entries(quantidades).forEach(([id, q]) => {
             const item = encontrarDoce(id); if (item) subtotal += item.preco * q;
           });
@@ -624,7 +592,6 @@
       renderizarDoces(); atualizarInterface(); verificarCaixaCompleta();
     }
 
-    // Corrigido tratamento de digitação livre direta sem travar o motor principal
     function digitarQtd(id, valor) {
       if (!caixaAtiva || modoDegustacaoAtivo) return;
       let qtdDigitada = parseInt(valor) || 0; if (qtdDigitada < 0) qtdDigitada = 0;
@@ -648,17 +615,16 @@
       const container = document.getElementById('lista-selecionados'); if (!container) return;
       container.innerHTML = "";
       
-      document.getElementById('contagem-doces').innerText = `${total}`;
-      document.getElementById('total-doces').innerText = `${caixaAtiva.totalDoces}`;
-      
-      let baseDoces = 0;
-      if (caixaAtiva.precoFixo) { 
-        baseDoces = caixaAtiva.precoFixo;
-        container.innerHTML = `<p class="text-xs p-1 text-gray-400 italic">Caixa Degustação (${caixaAtiva.totalDoces} un.) - Sabores sortidos.</p>`; 
+      if (caixaAtiva.precoFixo) {
+        document.getElementById('contagem-doces').innerText = `${caixaAtiva.totalDoces * multiplicadorCaixasDegustacao}`;
+        document.getElementById('total-doces').innerText = `${caixaAtiva.totalDoces * multiplicadorCaixasDegustacao}`;
+        container.innerHTML = `<div class="flex justify-between text-gray-700 py-0.5"><span>Caixa Degustação (${caixaAtiva.totalDoces} un.)</span><span class="font-bold">x${multiplicadorCaixasDegustacao}</span></div>`; 
       } else {
+        document.getElementById('contagem-doces').innerText = `${total}`;
+        document.getElementById('total-doces').innerText = `${caixaAtiva.totalDoces}`;
         Object.entries(quantidades).forEach(([id, q]) => {
           const doce = encontrarDoce(id); 
-          if (doce && q > 0) { baseDoces += doce.preco * q; container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
+          if (doce && q > 0) { container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
         });
         if (total === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado.</p>`;
       }
@@ -672,14 +638,10 @@
       document.getElementById('valor-total').innerText = txtTotal;
       document.getElementById('modal-subtotal-pedido').innerText = txtTotal;
       document.getElementById('mobile-resumo-total').innerText = txtTotal;
-      document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo} (${caixaAtiva.totalDoces} un.)`;
+      document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo} (${caixaAtiva.precoFixo ? multiplicadorCaixasDegustacao + ' cx.' : total + ' un.'})`;
       actualizarEstadoBotao();
     }
 
-    function mostrarFormularioInternoModal() { document.getElementById('modal-completa-estado-escolha').classList.add('hidden'); document.getElementById('modal-completa-estado-form').classList.remove('hidden'); }
-    function voltarParaEstadosEscolhaModal() { document.getElementById('modal-completa-estado-form').classList.add('hidden'); document.getElementById('modal-completa-estado-escolha').classList.remove('hidden'); }
-    function aplicarUpgradeCaixa() { if (caixaAtiva && caixaAtiva.proximoId) { const novoId = caixaAtiva.proximoId; fecharModalCompleta(); const backupQuantidades = { ...quantidades }; selecionarCaixa(novoId); quantidades = backupQuantidades; renderizarDoces(); atualizarInterface(); } }
-    
     function abrirModalEspecial(tipo) {
       if(tipo === 'personalizados') {
         document.getElementById('pers-view-inputs').classList.add('hidden');
@@ -699,7 +661,6 @@
     function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
     function focarFormularioCheckout() { document.getElementById('secao-checkout')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     
-    // Corrigido IDs estritos para sincronia total
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
       const nome = document.getElementById('nome-cliente').value.trim();
@@ -716,43 +677,6 @@
       else { btn.style.display = "none"; }
       document.getElementById('modal').classList.remove('hidden');
     }
-
-    function enviarPedidoWhatsApp() {
-      const nome = document.getElementById('nome-cliente').value.trim(); const data = document.getElementById('data-desejada').value.split('-'); const hora = document.getElementById('hora-desejada').value; const total = document.getElementById('valor-total').innerText;
-      let texto = `Olá, OBA Doceria! Segue meu Pedido:\n\n*CLIENTE:* ${nome}\n*ENTREGA:* ${data[2]}/${data[1]}/${data[0]} às ${hora}\n*CAIXA:* ${caixaAtiva.titulo} (${caixaAtiva.totalDoces} un.)\n`;
-      texto += `*OPCIONAIS:* ${lacoDecorativoSelecionado ? "Com Laço (🎀)" : "Sem laço"} | ${placaPersonalizadaSelecionada ? "Com Placa (🏷️)" : "Sem placa"}\n`;
-      texto += `*VALOR TOTAL:* ${total}\n\n*SABORES:*\n`;
-      if (!caixaAtiva.precoFixo) { Object.entries(quantidades).forEach(([id, q]) => { if (q > 0) texto += `- ${q} un. ${encontrarDoce(id).nome}\n`; }); } 
-      else { texto += `_Seleção sortida do dia._\n`; }
-      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
-    }
-
-    function enviarOrcamentoEspecial(tipo) {
-      if(tipo === 'personalizados') {
-        const nome = document.getElementById('nome-cliente').value.trim() || "Cliente";
-        const tema = document.getElementById('pers-tema').value.trim();
-        const data = document.getElementById('pers-data').value;
-        const qtd = document.getElementById('pers-qtd').value || "Não informada";
-        if (!tema || !data) { alert("Preencha os campos obrigatórios!"); return; }
-        const d = data.split('-');
-        const msg = `Olá, OBA Doceria! Solicito reserva de *Doces Personalizados & Decorados*:\n\n*Nome:* ${nome}\n*Tema:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Quantidade:* ${qtd}`;
-        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank');
-        fecharModalPersonalizados();
-      } else {
-        const nome = document.getElementById('eve-nome').value.trim();
-        const tipoEv = document.getElementById('eve-tipo').value.trim();
-        const data = document.getElementById('eve-data').value;
-        const conv = document.getElementById('eve-convidados').value || "Não informado";
-        const qtd = document.getElementById('eve-qtd').value || "Não informada";
-        if (!nome || !tipoEv || !data) { alert("Preencha os campos obrigatórios!"); return; }
-        const d = data.split('-');
-        const msg = `Olá, OBA Doceria! Solicito orçamento para *Casamentos, Formaturas & Eventos*:\n\n*Nome:* ${nome}\n*Tipo:* ${tipoEv}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Convidados:* ${conv}\n*Quantidade de Doces:* ${qtd}`;
-        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank');
-        fecharModalEventos();
-      }
-    }
-    
-    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if (txt && toast) { txt.innerText = m; toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
   </script>
 </body>
 </html>
