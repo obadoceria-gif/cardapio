@@ -26,6 +26,7 @@
     <span id="toast-text" class="font-bold text-center w-full text-sm"></span>
   </div>
 
+  <!-- Modal Detalhes do Doce -->
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
@@ -45,6 +46,7 @@
     </div>
   </div>
 
+  <!-- Modal Caixa Completa -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
@@ -106,7 +108,7 @@
         </div>
 
         <div class="flex flex-col gap-2.5 pt-2">
-          <button id="btn-nova-caixa" onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider transform transition hover:scale-[1.01]">
+          <button id="btn-nova-caixa" onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider">
             <i class="fa-solid fa-box-archive"></i> Quero acrescentar uma nova caixa de doces
           </button>
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2">
@@ -155,6 +157,7 @@
     </div>
   </div>
 
+  <!-- Modal Personalizados -->
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
@@ -212,6 +215,7 @@
     </div>
   </div>
 
+  <!-- Modal Eventos -->
   <div id="modal-eventos" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalEventos()">
     <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
@@ -260,18 +264,21 @@
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-32">
-    <div id="tela-entrada" class="max-w-xl mx-auto bg-white p-6 md:p-8 rounded-3xl border border-[#E8D5B5] shadow-md text-center space-y-5 my-6">
-      <h3 class="font-extrabold text-base text-[#8B4513] uppercase tracking-tight">Como deseja montar sua experiência gourmet hoje?</h3>
-      <div class="grid grid-cols-1 gap-3.5">
-        <button onclick="entFluxoCaixas()" class="w-full py-4.5 bg-[#8B4513] text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-3 transform transition hover:bg-[#6e3710] active:scale-[0.99]"><i class="fa-solid fa-box-open text-base"></i> Encomendar Caixa de Doces</button>
-        <button onclick="abrirModalEspecial('personalizados')" class="w-full py-4 bg-orange-50 text-[#8B4513] border-2 border-orange-200 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition hover:bg-orange-100/50"><i class="fa-solid fa-wand-magic-sparkles text-sm"></i> Doces Personalizados & Decorados</button>
-        <button onclick="abrirModalEspecial('eventos')" class="w-full py-4 bg-yellow-50 text-yellow-800 border-2 border-yellow-200 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition hover:bg-yellow-100/50"><i class="fa-solid fa-champagne-glasses text-sm"></i> Casamentos, Formaturas & Eventos</button>
+    <!-- REDESENHO DA TELA 1: DELICADEZA E SOFISTICAÇÃO REFORÇADAS -->
+    <div id="tela-entrada" class="max-w-md mx-auto bg-white p-6 md:p-8 rounded-3xl border border-[#E8D5B5] text-center space-y-6 my-6">
+      <h3 class="font-bold text-sm text-[#3B2A1E] tracking-tight">Como deseja montar sua experiência gourmet hoje?</h3>
+      <div class="flex flex-col gap-3">
+        <button onclick="entFluxoCaixas()" class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-3 transition-colors hover:bg-[#6e3710]"><i class="fa-solid fa-box-open"></i> Encomendar Caixa de Doces</button>
+        <button onclick="abrirModalEspecial('personalizados')" class="w-full py-4 bg-transparent border-2 border-[#8B4513] text-[#8B4513] rounded-2xl font-semibold text-xs tracking-wide flex items-center justify-center gap-2 transition-colors hover:bg-[#FFF8F0]"><i class="fa-solid fa-wand-magic-sparkles"></i> Doces Personalizados & Decorados</button>
+        <button onclick="abrirModalEspecial('eventos')" class="w-full py-4 bg-transparent border-2 border-[#8B4513] text-[#8B4513] rounded-2xl font-semibold text-xs tracking-wide flex items-center justify-center gap-2 transition-colors hover:bg-[#FFF8F0]"><i class="fa-solid fa-champagne-glasses"></i> Casamentos, Formaturas & Eventos</button>
       </div>
     </div>
 
+    <!-- TELA 2: OPERAÇÃO LINEAR DE COMPRA -->
     <div id="fluxo-principal" class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 hidden">
       
       <div class="lg:col-span-8 space-y-6">
+        <!-- PASSO 1: SELEÇÃO DE CAIXA -->
         <section id="secao-passo1" class="bg-white p-5 md:p-8 rounded-3xl border border-[#E8D5B5] shadow-sm transition-all duration-300">
           <div class="mb-4 pb-2 border-b border-gray-100 flex justify-between items-center">
             <div class="step-title"><span class="btn-step-icon">1</span> Tamanho da sua Caixa</div>
@@ -291,6 +298,7 @@
           </div>
         </section>
 
+        <!-- PASSO 2: FILTROS E VITRINE -->
         <section id="secao-passo2" class="bg-white p-5 md:p-8 rounded-3xl border border-[#E8D5B5] shadow-sm space-y-4 hidden transition-all duration-300">
           <div class="mb-3 pb-2 border-b border-gray-100">
             <div class="step-title"><span class="btn-step-icon">2</span> Escolha os Doces</div>
@@ -303,6 +311,7 @@
         </section>
       </div>
 
+      <!-- SIDEBAR LATERAL DESKTOP -->
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-6">
         <section id="secao-checkout" class="bg-white p-5 md:p-6 rounded-3xl border border-[#E8D5B5] shadow-xl space-y-4 hidden lg:block">
           <div class="border-b border-[#E8D5B5] pb-2"><h2 class="text-sm font-black text-[#8B4513]">Resumo da Encomenda</h2></div>
@@ -339,6 +348,7 @@
     </div>
   </main>
 
+  <!-- BARRA DE CHECKOUT FIXA APENAS NO CELULAR -->
   <div id="barra-mobile-checkout" class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B5] shadow-2xl p-4 flex justify-between items-center z-40 hidden">
     <div>
       <p id="mobile-resumo-caixa" class="text-[9px] text-gray-400 font-extrabold uppercase">Selecione os doces</p>
@@ -347,6 +357,7 @@
     <button onclick="focarFormularioCheckout()" class="px-5 py-2.5 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-wider">Ver Caixa</button>
   </div>
 
+  <!-- MODAL DE INSTRUÇÕES -->
   <div id="modal-ajuda" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharAjuda()">
     <div class="bg-white max-w-sm w-full rounded-3xl p-6 relative shadow-2xl text-center space-y-3" onclick="event.stopPropagation()">
       <button onclick="fecharAjuda()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
@@ -370,7 +381,7 @@
       {
         categoria: "Tradicionais I (R$ 2,50)",
         idFiltro: "tradicionais_1",
-        itens: [
+        itens = [
           { id: "cappuccino_250", nome: "Cappuccino", preco: 2.50, img: "Images/Cappuccino.jpeg" },
           { id: "casadinho_250", nome: "Casadinho", preco: 2.50, img: "Images/Casadinho.jpeg" },
           { id: "coco_250", nome: "Coco", preco: 2.50, img: "Images/Coco.jpeg" },
@@ -464,10 +475,9 @@
     let modoDegustacaoAtivo = false; let multiplicadorCaixasDegustacao = 1;
     let carrinhoDeCaixasConcluidas = [];
 
-    function entrarFluxoCaixas() {
+    function entFluxoCaixas() {
       document.getElementById('tela-entrada').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
-      // No computador, revela o checkout lateral de imediato
       document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
     }
 
@@ -488,13 +498,11 @@
       
       caixaAtiva = caixasConfigs[id]; quantidades = {}; lacoDecorativoSelecionado = false; placaPersonalizadaSelecionada = false;
       
-      // Colapso inteligente do Passo 1
       document.getElementById('opcoes-caixas').classList.add('hidden');
-      document.getElementById('txt-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixaAtiva.totalDoces} unidades)`;
+      document.getElementById('txt-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixaAtiva.totalDoces} un.)`;
       document.getElementById('resumo-caixa-selecionada').classList.remove('hidden');
       document.getElementById('btn-alterar-caixa').classList.remove('hidden');
 
-      // Abre as seções seguintes de forma focada
       document.getElementById('secao-passo2').classList.remove('hidden');
       document.getElementById('secao-vitrine').classList.remove('hidden');
 
@@ -624,21 +632,6 @@
       atualizarPainelCarrinhoLateral();
     }
 
-    function toggleOpcional(tipo) {
-      if(tipo === 'laco') {
-        lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
-        const box = document.getElementById('chk-laco');
-        box.className = lacoDecorativoSelecionado ? "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]" : "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-        box.querySelector('i').classList.toggle('opacity-0', !lacoDecorativoSelecionado);
-      } else if(tipo === 'placa') {
-        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada;
-        const box = document.getElementById('chk-placa');
-        box.className = placaPersonalizadaSelecionada ? "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]" : "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-        box.querySelector('i').classList.toggle('opacity-0', !placaPersonalizadaSelecionada);
-      }
-      atualizarInterface();
-    }
-
     function calcularValorTotalDoPedido() {
       let subtotal = 0;
       carrinhoDeCaixasConcluidas.forEach(cx => subtotal += cx.precoCalculado);
@@ -711,10 +704,8 @@
       const totalDocesNaCaixaAtual = Object.values(quantidades).reduce((a, b) => a + b, 0);
       const totalGeralValue = calcularValorTotalDoPedido();
 
-      // Controla a visibilidade reativa das seções de checkout
       if(totalGeralValue > 0 || carrinhoDeCaixasConcluidas.length > 0) {
          document.getElementById('barra-mobile-checkout').classList.remove('hidden');
-         // No celular, remove o hidden oculto do bloco de checkout principal caso o usuário clique em rolar
          document.getElementById('secao-checkout').classList.remove('hidden');
       } else {
          document.getElementById('barra-mobile-checkout').classList.add('hidden');
