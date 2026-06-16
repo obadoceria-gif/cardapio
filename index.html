@@ -11,17 +11,17 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
     
-    body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; bg-[#FAF5F0]; }
+    body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; background-color: #FAF5F0; }
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; }
     
-    .step-title { font-size: 1.125rem; font-weight: 700; color: #8B4513; display: flex; align-items: center; gap: 12px; text-transform: uppercase; }
-    .btn-step-icon { background-color: #8B4513; color: white; width: 24px; height: 24px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+    .step-title { font-size: 1rem; font-weight: 600; color: #8B4513; display: flex; align-items: center; gap: 10px; tracking: tight; }
+    .btn-step-icon { background-color: #8B4513; color: white; width: 20px; height: 24px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
     
     .fade-page { animation: fadeIn 0.4s ease-in-out; }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
@@ -29,24 +29,24 @@
 <body class="bg-[#FAF5F0] text-[#3B2A1E] antialiased pb-24 lg:pb-10">
 
   <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
-    <span id="toast-text" class="font-bold text-center w-full text-sm"></span>
+    <span id="toast-text" class="font-medium text-center w-full text-sm"></span>
   </div>
 
   <!-- Modal Detalhes do Doce -->
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-xl overflow-hidden" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
       <div class="w-full aspect-square bg-gray-50 relative overflow-hidden">
           <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover">
       </div>
       <div class="p-6 bg-white">
-        <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-bold text-[#8B4513] tracking-tight"></h2></div>
+        <div class="text-center mb-4"><h2 id="modal-title" class="text-lg font-semibold text-[#8B4513]"></h2></div>
         <div class="flex items-center justify-between border-t border-gray-100 pt-4">
           <div class="flex flex-col">
             <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Unidade</span>
-            <span id="modal-price" class="text-xl font-bold text-[#8B4513]"></span>
+            <span id="modal-price" class="text-lg font-bold text-[#8B4513]"></span>
           </div>
-          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold shadow-md text-xs uppercase">Adicionar</button>
+          <button id="modal-add-btn" class="px-5 py-2.5 bg-[#8B4513] text-white rounded-xl font-medium shadow-sm text-xs">Adicionar à Caixa</button>
         </div>
       </div>
     </div>
@@ -54,110 +54,110 @@
 
   <!-- Modal Caixa Completa -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
-    <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
+    <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
 
       <div id="modal-completa-estado-escolha" class="space-y-4">
-        <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-square-check"></i></div>
+        <div class="w-12 h-14 text-green-600 rounded-full flex items-center justify-center text-xl mx-auto"><i class="fa-solid fa-circle-check"></i></div>
         
         <div class="space-y-1">
-          <h2 id="modal-titulo-dinamico" class="text-xl font-bold text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
-          <p class="text-sm text-gray-500 font-semibold">Valor Total do Pedido: <span id="modal-subtotal-pedido" class="font-bold text-[#8B4513] text-xl">R$ 0,00</span></p>
+          <h2 id="modal-titulo-dinamico" class="text-lg font-semibold text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
+          <p class="text-xs text-gray-500 font-medium">Valor Total: <span id="modal-subtotal-pedido" class="font-bold text-[#8B4513] text-lg">R$ 0,00</span></p>
         </div>
 
         <div id="wrapper-tamanhos-degustacao" class="hidden space-y-3">
-          <p class="text-xs text-amber-900 font-bold uppercase">Selecione o tamanho da sua Caixa Degustação Sortida:</p>
+          <p class="text-xs text-amber-900 font-medium uppercase">Selecione o tamanho da sua Caixa Degustação:</p>
           <div class="grid grid-cols-3 gap-2">
-            <button onclick="definirTamanhoDegustacao(12, 40)" id="btn-deg-12" class="py-2.5 rounded-xl border-2 border-orange-200 font-bold text-xs text-[#8B4513] bg-white transition-all">12 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 40,00</span></button>
-            <button onclick="definirTamanhoDegustacao(25, 75)" id="btn-deg-25" class="py-2.5 rounded-xl border-2 border-orange-200 font-bold text-xs text-[#8B4513] bg-white transition-all">25 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 75,00</span></button>
-            <button onclick="definirTamanhoDegustacao(35, 100)" id="btn-deg-35" class="py-2.5 rounded-xl border-2 border-orange-200 font-bold text-xs text-[#8B4513] bg-white transition-all">35 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 100,00</span></button>
+            <button onclick="definirTamanhoDegustacao(12, 40)" id="btn-deg-12" class="py-2 rounded-xl border border-orange-200 text-xs text-[#8B4513] bg-white transition-all">12 un.<br><span class="text-[9px] font-normal text-gray-400">R$ 40,00</span></button>
+            <button onclick="definirTamanhoDegustacao(25, 75)" id="btn-deg-25" class="py-2 rounded-xl border border-orange-200 text-xs text-[#8B4513] bg-white transition-all">25 un.<br><span class="text-[9px] font-normal text-gray-400">R$ 75,00</span></button>
+            <button onclick="definirTamanhoDegustacao(35, 100)" id="btn-deg-35" class="py-2 rounded-xl border border-orange-200 text-xs text-[#8B4513] bg-white transition-all">35 un.<br><span class="text-[9px] font-normal text-gray-400">R$ 100,00</span></button>
           </div>
           
-          <div class="pt-2 text-left bg-orange-50/60 p-3 rounded-2xl border border-orange-100">
-            <label class="block text-[10px] font-extrabold uppercase text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
-            <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[140px]">
-              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-8 h-8 rounded-lg font-bold bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center shadow-sm">-</button>
-              <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-10 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
-              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-8 h-8 rounded-lg font-bold bg-[#8B4513] text-white flex items-center justify-center shadow-sm">+</button>
+          <div class="pt-2 text-left bg-orange-50/40 p-3 rounded-2xl border border-orange-100">
+            <label class="block text-[10px] font-medium text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
+            <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[120px]">
+              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-7 h-7 rounded-lg bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center">-</button>
+              <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
+              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-7 h-7 rounded-lg bg-[#8B4513] text-white flex items-center justify-center">+</button>
             </div>
           </div>
         </div>
 
-        <p id="modal-instrucao-opcionais" class="text-xs text-amber-800 font-bold bg-amber-50 py-1.5 px-3 rounded-lg">Deseja estender sua experiência adicionando mais sabores ou fechar a sua encomenda agora?</p>
+        <p id="modal-instrucao-opcionais" class="text-xs text-amber-800 bg-amber-50/60 py-2 px-3 rounded-xl">Deseja adicionar mimos para presente ou finalizar a sua encomenda agora?</p>
 
         <div class="space-y-2 text-left">
-          <div onclick="toggleOpcional('laco')" class="border-2 border-orange-100 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer select-none bg-[#FFFDF9] hover:border-orange-300 transition-all active:scale-[0.98]">
+          <div onclick="toggleOpcional('laco')" class="border border-orange-100 p-3 rounded-xl flex items-center justify-between cursor-pointer bg-[#FFFDF9] hover:border-[#8B4513] transition-all">
             <div class="flex items-center gap-3">
-              <div id="chk-laco" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white">
-                <i class="fa-solid fa-check opacity-0 transition-opacity"></i>
+              <div id="chk-laco" class="w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-white">
+                <i class="fa-solid fa-check opacity-0"></i>
               </div>
               <div>
-                <h4 class="text-xs font-bold text-[#8B4513] uppercase tracking-wide">Adicionar Laço Decorativo 🎀</h4>
-                <p class="text-[10px] text-gray-400">Embalagem clássica e elegante para presente.</p>
+                <h4 class="text-xs font-semibold text-[#8B4513]">Laço Decorativo Extra 🎀</h4>
+                <p class="text-[10px] text-gray-400">Embalagem clássica de cetim para presente.</p>
               </div>
             </div>
-            <span class="text-xs font-bold text-[#8B4513] whitespace-nowrap">+ R$ 4,50</span>
+            <span class="text-xs font-medium text-[#8B4513]">+ R$ 4,50</span>
           </div>
 
-          <div onclick="toggleOpcional('placa')" class="border-2 border-orange-100 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer select-none bg-[#FFFDF9] hover:border-orange-300 transition-all active:scale-[0.98]">
+          <div onclick="toggleOpcional('placa')" class="border border-orange-100 p-3 rounded-xl flex items-center justify-between cursor-pointer bg-[#FFFDF9] hover:border-[#8B4513] transition-all">
             <div class="flex items-center gap-3">
-              <div id="chk-placa" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white">
-                <i class="fa-solid fa-check opacity-0 transition-opacity"></i>
+              <div id="chk-placa" class="w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-white">
+                <i class="fa-solid fa-check opacity-0"></i>
               </div>
               <div>
-                <h4 class="text-xs font-bold text-[#8B4513] uppercase tracking-wide">Placa Personalizada 🏷️</h4>
+                <h4 class="text-xs font-semibold text-[#8B4513]">Placa de Mensagem 🏷️</h4>
                 <p class="text-[10px] text-gray-400">Mini placa (Ex: "Com Carinho", "Parabéns").</p>
               </div>
             </div>
-            <span class="text-xs font-bold text-[#8B4513] whitespace-nowrap">+ R$ 3,50</span>
+            <span class="text-xs font-medium text-[#8B4513]">+ R$ 3,50</span>
           </div>
         </div>
 
-        <div class="flex flex-col gap-2.5 pt-2">
-          <button id="btn-nova-caixa" onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-bold text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider">
-            <i class="fa-solid fa-box-archive"></i> Quero acrescentar uma nova caixa de doces
+        <div class="flex flex-col gap-2 pt-1">
+          <button id="btn-nova-caixa" onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-medium text-xs uppercase tracking-wide shadow-sm flex items-center justify-center gap-2">
+            <i class="fa-solid fa-box-archive"></i> Salvar e Montar Outra Caixa
           </button>
-          <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-bold text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2">
-            <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
+          <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-2.5 border border-orange-300 text-[#8B4513] font-medium text-xs rounded-xl uppercase flex items-center justify-center gap-2 bg-orange-50/30">
+            <i class="fa-solid fa-plus"></i> Expandir Tamanho da Caixa
           </button>
-          <button id="btn-seguir-comprando" onclick="fecharModalCompleta()" class="w-full py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold text-xs rounded-xl shadow-sm uppercase hidden items-center justify-center gap-2">
-            <i class="fa-solid fa-cart-plus"></i> Seguir Comprando Outras Caixas
+          <button id="btn-seguir-comprando" onclick="fecharModalCompleta()" class="w-full py-3 bg-amber-700 text-white font-medium text-xs rounded-xl uppercase hidden items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-plus"></i> Continuar Seleção
           </button>
-          <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-bold text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2">
-            <i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual
+          <button onclick="mostrarFormularioInternoModal()" class="w-full py-3 bg-neutral-800 text-white font-medium text-xs rounded-xl uppercase flex items-center justify-center gap-2">
+            <i class="fa-solid fa-basket-shopping"></i> Finalizar e Agendar Entrega
           </button>
-          <button id="btn-revisar-sabores" onclick="fecharModalCompleta()" class="w-full py-2.5 border-2 border-gray-200 text-xs font-bold text-gray-500 rounded-xl uppercase">
+          <button id="btn-revisar-sabores" onclick="fecharModalCompleta()" class="w-full py-2 text-xs font-medium text-gray-400 hover:underline uppercase">
             Apenas revisar os sabores escolhidos
           </button>
         </div>
       </div>
 
-      <div id="modal-completa-estado-form" class="space-y-5 hidden text-left">
+      <div id="modal-completa-estado-form" class="space-y-4 hidden text-left">
         <div class="text-center">
-          <h3 class="text-xl font-bold text-[#8B4513]">Agendamento da Entrega</h3>
-          <p class="text-xs text-gray-500 mt-1">Preencha abaixo para gerar o resumo do pedido</p>
+          <h3 class="text-lg font-semibold text-[#8B4513]">Agendamento da Entrega</h3>
+          <p class="text-xs text-gray-400">Insira seus dados para consolidar o envio</p>
         </div>
-        <div class="space-y-4 pt-2">
+        <div class="space-y-3 pt-1">
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Seu Nome Completo *</label>
-            <input type="text" id="modal-nome-cliente" placeholder="Ex: Maria Silva" class="w-full px-4 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none">
+            <label class="block text-xs font-medium text-gray-500 mb-1">Nome Completo *</label>
+            <input type="text" id="modal-nome-cliente" placeholder="Ex: Maria Silva" class="w-full px-4 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none">
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Data Desejada *</label>
-              <input type="date" id="modal-data-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Data Desejada *</label>
+              <input type="date" id="modal-data-desejada" class="w-full px-3 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none">
             </div>
             <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Hora Desejada *</label>
-              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Horário Desejado *</label>
+              <input type="time" id="modal-hora-desejada" class="w-full px-3 py-2.5 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-sm focus:outline-none">
             </div>
           </div>
         </div>
-        <div class="flex flex-col gap-2 pt-4">
-          <button onclick="enviarPedidoWhatsAppPeloModal()" class="w-full py-4 bg-green-600 text-white font-bold text-sm rounded-xl uppercase flex items-center justify-center gap-2">
-            <i class="fa-brands fa-whatsapp text-lg"></i> Enviar Encomenda no WhatsApp
+        <div class="flex flex-col gap-2 pt-2">
+          <button onclick="enviarPedidoWhatsAppPeloModal()" class="w-full py-3.5 bg-green-600 text-white font-bold text-xs rounded-xl uppercase flex items-center justify-center gap-2 tracking-wide">
+            <i class="fa-brands fa-whatsapp text-base"></i> Enviar Encomenda no WhatsApp
           </button>
-          <button onclick="voltarParaEstadosEscolhaModal()" class="w-full py-2 text-center text-xs font-bold text-gray-400">Voltar</button>
+          <button onclick="voltarParaEstadosEscolhaModal()" class="w-full py-2 text-center text-xs font-medium text-gray-400 hover:underline">Voltar</button>
         </div>
       </div>
     </div>
@@ -165,57 +165,49 @@
 
   <!-- Modal Personalizados -->
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
-    <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
-      <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
-      
+    <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-xl my-8 space-y-4" onclick="event.stopPropagation()">
+      <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500">✕</button>
       <div class="text-center">
-        <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-bold text-xs uppercase tracking-widest">OBA DOCERIA 2026</span>
-        <h2 class="text-2xl font-bold text-[#8B4513] mt-3 uppercase tracking-tight">DOCES PERSONALIZADOS & DECORADOS</h2>
+        <span class="text-[#8B4513] text-[10px] font-bold uppercase tracking-widest">OBA DOCERIA 2026</span>
+        <h2 class="text-xl font-bold text-[#8B4513] mt-1">DOCES PERSONALIZADOS & DECORADOS</h2>
       </div>
-
       <div id="pers-view-info" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 space-y-2 shadow-inner">
-            <h4 class="font-bold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
-            <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
-            <p>• Pedido mínimo: 20 doces (variados).</p>
-            <p>• Usamos forminhas de acetato transparente.</p>
-            <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
-            <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
+          <div class="bg-orange-50/40 p-4 rounded-2xl border border-orange-100 text-xs text-gray-600 space-y-2">
+            <h4 class="font-bold text-[#8B4513]"><i class="fa-solid fa-circle-info"></i> Diretrizes Principais:</h4>
+            <p>• Modelados artesanalmente com pasta de leite em pó.</p>
+            <p>• Pedido mínimo: 20 unidades variadas.</p>
+            <p>• Base em brigadeiro gourmet tradicional ou branco.</p>
+            <p>• Antecedência mínima para reserva: 20 dias.</p>
           </div>
-          <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 space-y-2 shadow-inner">
-            <h4 class="font-bold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
-            <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
-            <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
-            <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
-            <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
+          <div class="bg-amber-50/40 p-4 rounded-2xl border border-amber-100 text-xs text-gray-600 space-y-2">
+            <h4 class="font-bold text-[#8B4513]"><i class="fa-solid fa-tags"></i> Pacotes Promocionais:</h4>
+            <p>• Combo 20 unidades: <b>R$ 196,00</b></p>
+            <p>• Combo 25 unidades: <b>R$ 225,00</b></p>
+            <p>• Combo 35 unidades: <b>R$ 280,00</b></p>
+            <p>• Combo 50 unidades: <b>R$ 375,00</b></p>
           </div>
         </div>
-        <button onclick="avancarFormularioPersonalizados()" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-xs rounded-xl uppercase tracking-wider flex items-center justify-center shadow-md">
-          Quero preencher os dados de reserva
-        </button>
+        <button onclick="avancarFormularioPersonalizados()" class="w-full py-3 bg-[#8B4513] text-white font-semibold text-xs rounded-xl uppercase">Preencher Dados de Reserva</button>
       </div>
-
-      <div id="pers-view-inputs" class="space-y-4 hidden bg-gray-50 p-5 rounded-2xl border border-gray-100 shadow-inner">
+      <div id="pers-view-inputs" class="space-y-4 hidden bg-gray-50 p-5 rounded-2xl border border-gray-200">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tema Pretendido *</label>
-            <input type="text" id="pers-tema" placeholder="Ex: Safari, Princesas" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tema Desejado *</label>
+            <input type="text" id="pers-tema" placeholder="Ex: Safari, Realeza" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
           </div>
           <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data Pretendida *</label>
-            <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data do Evento *</label>
+            <input type="date" id="pers-data" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
           </div>
         </div>
         <div>
-          <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Número de Doces (Opcional)</label>
-          <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+          <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade de Doces (Opcional)</label>
+          <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
         </div>
-        <div class="flex gap-2 pt-2">
-          <button onclick="voltarLAteralPersonalizados()" class="px-4 py-3 border border-gray-200 text-xs font-bold text-gray-400 rounded-lg uppercase">Voltar</button>
-          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-lg font-bold text-xs uppercase tracking-wide flex items-center justify-center shadow-md">
-            Solicitar Reserva no WhatsApp
-          </button>
+        <div class="flex gap-2 pt-1">
+          <button onclick="voltarLAteralPersonalizados()" class="px-4 py-2.5 border border-gray-200 text-xs font-semibold text-gray-400 rounded-lg">Voltar</button>
+          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold text-xs uppercase tracking-wide">Solicitar Reserva via WhatsApp</button>
         </div>
       </div>
     </div>
@@ -223,150 +215,137 @@
 
   <!-- Modal Eventos -->
   <div id="modal-eventos" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalEventos()">
-    <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
-      <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
-      
+    <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-xl my-8 space-y-4" onclick="event.stopPropagation()">
+      <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500">✕</button>
       <div class="text-center">
-        <span class="bg-yellow-600 text-white px-4 py-1 rounded-full font-bold text-xs uppercase tracking-widest">OBA DOCERIA 2026</span>
-        <h2 class="text-xl sm:text-2xl font-bold text-[#8B4513] mt-3 uppercase tracking-tight leading-tight">ORÇAMENTO PARA CASAMENTOS, FORMATURAS E EVENTOS</h2>
+        <span class="text-amber-700 text-[10px] font-bold uppercase tracking-widest">OBA DOCERIA 2026</span>
+        <h2 class="text-lg font-bold text-[#8B4513] mt-1">ORÇAMENTO PARA GRANDES EVENTOS & FESTAS</h2>
       </div>
-
-      <div class="space-y-4 bg-gray-50 p-5 rounded-2xl border border-gray-100 shadow-inner">
+      <div class="space-y-4 bg-gray-50 p-5 rounded-2xl border border-gray-200 shadow-inner text-left">
          <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Seu Nome Completo *</label>
-            <input type="text" id="eve-nome" placeholder="Ex: Paulo Silva" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Nome Completo *</label>
+            <input type="text" id="eve-nome" placeholder="Ex: Paulo Silva" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
          </div>
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tipo de Evento *</label>
-              <input type="text" id="eve-tipo" placeholder="Ex: Casamento, Formatura" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+              <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Tipo de Solenidade *</label>
+              <input type="text" id="eve-tipo" placeholder="Ex: Casamento, Formatura" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
             </div>
             <div>
-              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data Desejada *</label>
-              <input type="date" id="eve-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+              <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Data da Celebração *</label>
+              <input type="date" id="eve-data" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
             </div>
          </div>
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade Estimada de Convidados</label>
-              <input type="number" id="eve-convidados" placeholder="Ex: 150 pessoas" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+              <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Estimativa de Convidados</label>
+              <input type="number" id="eve-convidados" placeholder="Ex: 150" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
             </div>
             <div>
-              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade Estimada de Doces</label>
-              <input type="number" id="eve-qtd" placeholder="Ex: 500 doces" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+              <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Volume Estimado de Doces</label>
+              <input type="number" id="eve-qtd" placeholder="Ex: 500" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
             </div>
          </div>
-         <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-bold text-xs uppercase tracking-wide flex items-center justify-center shadow-md">
-           Solicitar Orçamento no WhatsApp
-         </button>
+         <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full bg-green-600 text-white py-3.5 rounded-xl font-bold text-xs uppercase tracking-wide shadow-md">Solicitar Proposta Comercial</button>
       </div>
     </div>
   </div>
 
-  <header class="py-6 text-center bg-gradient-to-b from-[#FFEAD2] to-[#FAF5F0] px-4 relative">
-    <button onclick="abrirAjuda()" class="absolute top-4 right-4 text-[#8B4513] text-xl p-2 focus:outline-none transition hover:scale-110"><i class="fa-solid fa-circle-question"></i></button>
-    <h1 class="text-4xl md:text-5xl font-bold text-[#8B4513] tracking-wider uppercase">OBA DOCERIA</h1>
-    <p class="text-[#D8B36A] uppercase tracking-widest text-[10px] md:text-xs mt-1 font-bold italic">O VERDADEIRO SABOR ARTESANAL - CARDÁPIO OFICIAL 2026</p>
-  </header>
-
   <main class="max-w-6xl mx-auto px-4">
     
-    <!-- PÁGINA 1: CAPA INTERATIVA DE ABERTURA -->
-    <div id="pag-capa" class="max-w-2xl mx-auto space-y-6 my-4 fade-page">
-      <div class="w-full h-64 md:h-80 rounded-3xl overflow-hidden bg-gray-100 relative shadow-sm">
+    <!-- PÁGINA 1: CAPA PREMIUM DE ABERTURA -->
+    <div id="pag-capa" class="max-w-xl mx-auto space-y-6 my-6 fade-page">
+      <div class="w-full h-72 md:h-96 rounded-3xl overflow-hidden bg-gray-100 relative shadow-sm border border-orange-100">
         <img src="Images/Ao Leite.jpeg" alt="OBA Doceria Gourmet" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=800&q=80'">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-left">
-          <span class="text-white/80 uppercase text-[9px] font-bold tracking-widest mb-1">Cardápio Digital Oficial 2026</span>
-          <h2 class="text-white text-3xl font-bold uppercase tracking-wide leading-tight">A Arte do Doce Gourmet</h2>
-          <p class="text-white/90 text-xs font-light mt-1 max-w-sm">Descubra uma experiência sensorial única com receitas artesanais exclusivas criadas para surpreender.</p>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-left">
+          <span class="text-white/70 uppercase text-[9px] font-medium tracking-widest mb-1">Cardápio Digital Oficial 2026</span>
+          <h2 class="text-white text-2xl font-semibold uppercase tracking-wide leading-tight">A Arte do Doce Gourmet</h2>
+          <p class="text-white/80 text-xs font-light mt-1 max-w-xs leading-relaxed">Descubra uma experiência sensorial única com receitas artesanais exclusivas criadas para surpreender.</p>
         </div>
       </div>
-      <button onclick="navegarPara(2)" class="w-full py-4.5 bg-[#8B4513] text-white rounded-2xl font-bold text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-3 transition-colors hover:bg-[#6e3710]">
-        Entrar na Experiência Gourmet <i class="fa-solid fa-arrow-right"></i>
+      <button onclick="navegarPara(2)" class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 transform transition-transform duration-200 active:scale-[0.99]">
+        Descobrir Nossa História <i class="fa-solid fa-arrow-right text-[10px]"></i>
       </button>
     </div>
 
-    <!-- PÁGINA 2: APRESENTAÇÃO INSTITUCIONAL (SOBRE NÓS) -->
-    <div id="pag-sobre" class="max-w-2xl mx-auto space-y-6 my-4 fade-page hidden">
-      <div class="bg-white p-6 md:p-8 rounded-3xl border border-[#E8D5B5] space-y-4 shadow-sm">
-        <h3 class="font-bold text-xs uppercase tracking-wider text-[#8B4513] text-center">Nossa Essência Artesanal</h3>
-        <div class="w-20 h-0.5 bg-[#8B4513] mx-auto mb-4"></div>
-        <p class="text-xs text-gray-600 leading-relaxed text-center">
+    <!-- PÁGINA 2: APRESENTAÇÃO SOBRE NÓS -->
+    <div id="pag-sobre" class="max-w-xl mx-auto space-y-6 my-6 fade-page hidden">
+      <div class="bg-white p-6 md:p-8 rounded-3xl border border-[#E8D5B5] space-y-4 shadow-sm text-center">
+        <span class="text-[10px] font-bold text-[#8B4513] uppercase tracking-widest">A Doceria</span>
+        <h3 class="text-lg font-medium text-[#3B2A1E]">Nossa Essência Artesanal</h3>
+        <div class="w-12 h-0.5 bg-orange-200 mx-auto"></div>
+        <p class="text-xs text-gray-500 leading-relaxed max-w-sm mx-auto">
           Criamos doces finos com rigor técnico e insumos de altíssima qualidade. A nossa receita exclusiva possui uma proporção exata que resulta num doce menos açucarado, com textura intensamente cremosa e acabamento impecável para o seu paladar.
         </p>
-        <p class="text-xs text-gray-500 leading-relaxed text-center italic">
+        <p class="text-xs text-gray-400 leading-relaxed max-w-sm mx-auto italic">
           Cada brigadeiro é boleado e decorado individualmente à mão livre, honrando a verdadeira essência da confeitaria artesanal gourmet.
         </p>
       </div>
       <div class="flex gap-3">
-        <button onclick="navegarPara(1)" class="w-1/3 py-4 bg-gray-100 text-[#3B2A1E] font-bold text-xs rounded-2xl uppercase tracking-wide">Voltar</button>
-        <button onclick="navegarPara(3)" class="flex-1 py-4 bg-[#8B4513] text-white rounded-2xl font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2">Ver Opções do Cardápio <i class="fa-solid fa-arrow-right"></i></button>
+        <button onclick="navegarPara(1)" class="w-1/3 py-3.5 bg-white border border-gray-200 text-gray-400 font-medium text-xs rounded-2xl uppercase">Voltar</button>
+        <button onclick="navegarPara(3)" class="flex-1 py-3.5 bg-[#8B4513] text-white rounded-2xl font-medium text-xs uppercase flex items-center justify-center gap-2">Explorar Cardápio <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
       </div>
     </div>
 
-    <!-- PÁGINA 3: SELETOR DE DESTINOS / INTERATIVIDADES -->
-    <div id="pag-seletor" class="max-w-2xl mx-auto space-y-6 my-4 fade-page hidden">
-      <div class="bg-white p-6 md:p-8 rounded-3xl border border-[#E8D5B5] text-center space-y-5 shadow-sm">
-        <h4 class="font-bold text-xs text-[#3B2A1E] uppercase tracking-tight mb-2">Como deseja montar sua experiência hoje?</h4>
-        <div class="grid grid-cols-1 gap-3.5">
-          <button onclick="entFluxoCaixas()" class="w-full py-4.5 bg-[#8B4513] text-white rounded-2xl font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-3 transition-colors hover:bg-[#6e3710]">
-            <i class="fa-solid fa-box-open"></i> Encomendar Caixa de Doces
+    <!-- PÁGINA 3: SELETOR DE EXPERIÊNCIAS -->
+    <div id="pag-seletor" class="max-w-xl mx-auto space-y-6 my-6 fade-page hidden">
+      <div class="bg-white p-6 md:p-8 rounded-3xl border border-[#E8D5B5] text-center space-y-4 shadow-sm">
+        <span class="text-[10px] font-bold text-[#8B4513] uppercase tracking-widest">Menu de Opções</span>
+        <h4 class="text-sm font-medium text-[#3B2A1E]">Como deseja montar sua experiência hoje?</h4>
+        <div class="flex flex-col gap-2.5 pt-2">
+          <button onclick="entFluxoCaixas()" class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-medium text-xs uppercase tracking-wide flex items-center justify-center gap-3 transition-colors hover:bg-[#6e3710]">
+            <i class="fa-solid fa-box-open text-sm"></i> Encomendar Caixa de Doces
           </button>
-          <button onclick="abrirModalEspecial('personalizados')" class="w-full py-4 bg-transparent border-2 border-[#8B4513] text-[#8B4513] rounded-2xl font-semibold text-xs tracking-wide flex items-center justify-center gap-2 transition-colors hover:bg-[#FFF8F0]">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Doces Personalizados & Decorados
+          <button onclick="abrirModalEspecial('personalizados')" class="w-full py-4 bg-transparent border border-[#8B4513] text-[#8B4513] rounded-2xl font-medium text-xs tracking-wide flex items-center justify-center gap-2 transition-colors hover:bg-[#FFF8F0]">
+            <i class="fa-solid fa-wand-magic-sparkles text-sm"></i> Doces Personalizados & Decorados
           </button>
-          <button onclick="abrirModalEspecial('eventos')" class="w-full py-4 bg-transparent border-2 border-[#8B4513] text-[#8B4513] rounded-2xl font-semibold text-xs tracking-wide flex items-center justify-center gap-2 transition-colors hover:bg-[#FFF8F0]">
-            <i class="fa-solid fa-champagne-glasses"></i> Casamentos, Formaturas & Eventos
+          <button onclick="abrirModalEspecial('eventos')" class="w-full py-4 bg-transparent border border-[#8B4513] text-[#8B4513] rounded-2xl font-medium text-xs tracking-wide flex items-center justify-center gap-2 transition-colors hover:bg-[#FFF8F0]">
+            <i class="fa-solid fa-champagne-glasses text-sm"></i> Casamentos, Formaturas & Eventos
           </button>
         </div>
       </div>
       
-      <!-- Suporte e Validação -->
-      <div class="text-center py-2 space-y-2">
-        <p class="text-[11px] text-gray-400 font-medium">Se tiver alguma dúvida, clique nos canais oficiais abaixo:</p>
-        <div class="flex justify-center gap-4">
-          <button onclick="navegarPara(2)" class="text-xs font-bold text-[#8B4513] bg-white border border-[#E8D5B5] px-4 py-2 rounded-xl">← Ler História</button>
-        </div>
-        <div class="flex justify-center gap-6 text-xs font-bold text-[#8B4513] pt-2">
-          <a href="https://api.whatsapp.com/send?phone=5555999117626" target="_blank" class="hover:underline flex items-center gap-1"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-          <a href="https://instagram.com" target="_blank" class="hover:underline flex items-center gap-1"><i class="fa-brands fa-instagram"></i> Instagram</a>
+      <div class="text-center py-2 space-y-3">
+        <button onclick="navegarPara(2)" class="text-xs font-semibold text-gray-400 bg-white border border-gray-200 px-4 py-2 rounded-xl transition-colors hover:bg-gray-50">← Retornar à História</button>
+        <div class="flex justify-center gap-6 text-xs font-bold text-[#8B4513] pt-1">
+          <a href="https://api.whatsapp.com/send?phone=5555999117626" target="_blank" class="hover:underline flex items-center gap-1"><i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp</a>
+          <a href="https://instagram.com" target="_blank" class="hover:underline flex items-center gap-1"><i class="fa-brands fa-instagram text-sm"></i> Instagram</a>
         </div>
       </div>
     </div>
 
-    <!-- PÁGINA 4: FLUXO DE PEDIDOS (VITRINE E SELEÇÃO) -->
+    <!-- PÁGINA 4: MOTOR PRINCIPAL DE MONTAGEM E FILTROS -->
     <div id="fluxo-principal" class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 hidden fade-page">
       
       <div class="lg:col-span-8 space-y-6">
-        <!-- PASSO 1: SELEÇÃO DE CAIXA -->
+        <!-- PASSO 1: CONFIGURAÇÃO DO TAMANHO -->
         <section id="secao-passo1" class="bg-white p-5 md:p-8 rounded-3xl border border-[#E8D5B5] shadow-sm transition-all duration-300">
           <div class="mb-4 pb-2 border-b border-gray-100 flex justify-between items-center">
-            <div class="step-title"><span class="btn-step-icon">1</span> Tamanho da sua Caixa</div>
-            <button id="btn-alterar-caixa" onclick="resetarSelecaoCaixa()" class="text-xs font-bold text-[#8B4513] underline hidden hover:text-black">Mudar Caixa</button>
+            <div class="step-title"><span class="btn-step-icon">1</span> Escolha o tamanho da caixa</div>
+            <button id="btn-alterar-caixa" onclick="resetarSelecaoCaixa()" class="text-xs font-semibold text-[#8B4513] underline hidden hover:text-black">Mudar Tamanho</button>
           </div>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full" id="opcoes-caixas">
-            <button onclick="selecionarCaixa('25')" id="btn-caixa-25" class="bg-white p-4 rounded-xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-[#8B4513]"><h3 class="font-extrabold text-xs text-[#8B4513]">Caixa de 25 Doces</h3><p class="text-[10px] text-gray-400 mt-0.5">Até 7 sabores.</p></button>
-            <button onclick="selecionarCaixa('35')" id="btn-caixa-35" class="bg-white p-4 rounded-xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-[#8B4513]"><h3 class="font-extrabold text-xs text-[#8B4513]">Caixa de 35 Doces</h3><p class="text-[10px] text-gray-400 mt-0.5">Até 7 sabores.</p></button>
-            <button onclick="selecionarCaixa('50')" id="btn-caixa-50" class="bg-white p-4 rounded-xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-[#8B4513]"><h3 class="font-extrabold text-xs text-[#8B4513]">Caixa de 50 Doces</h3><p class="text-[10px] text-gray-400 mt-0.5">Até 10 sabores.</p></button>
-            <button onclick="selecionarCaixa('100')" id="btn-caixa-100" class="bg-white p-4 rounded-xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-[#8B4513]"><h3 class="font-extrabold text-xs text-[#8B4513]">Caixa de 100 Doces</h3><p class="text-[10px] text-gray-400 mt-0.5">Até 14 sabores.</p></button>
-            <button onclick="abrirBannerDegustacao()" id="btn-caixa-degustacao" class="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-xl border-2 border-orange-200 text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-orange-400"><h3 class="font-black text-xs text-orange-800">Caixa Degustação</h3><p class="text-[10px] text-orange-600 mt-0.5 font-bold">Opções sortidas do dia.</p></button>
+            <button onclick="selecionarCaixa('25')" id="btn-caixa-25" class="bg-white p-4 rounded-xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-[#8B4513]"><h3 class="font-semibold text-xs text-[#8B4513]">Caixa de 25 Doces</h3><p class="text-[10px] text-gray-400 mt-0.5">Até 7 sabores.</p></button>
+            <button onclick="selecionarCaixa('35')" id="btn-caixa-35" class="bg-white p-4 rounded-xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-[#8B4513]"><h3 class="font-semibold text-xs text-[#8B4513]">Caixa de 35 Doces</h3><p class="text-[10px] text-gray-400 mt-0.5">Até 7 sabores.</p></button>
+            <button onclick="selecionarCaixa('50')" id="btn-caixa-50" class="bg-white p-4 rounded-xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-[#8B4513]"><h3 class="font-semibold text-xs text-[#8B4513]">Caixa de 50 Doces</h3><p class="text-[10px] text-gray-400 mt-0.5">Até 10 sabores.</p></button>
+            <button onclick="selecionarCaixa('100')" id="btn-caixa-100" class="bg-white p-4 rounded-xl border-2 border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-[#8B4513]"><h3 class="font-semibold text-xs text-[#8B4513]">Caixa de 100 Doces</h3><p class="text-[10px] text-gray-400 mt-0.5">Até 14 sabores.</p></button>
+            <button onclick="abrirBannerDegustacao()" id="btn-caixa-degustacao" class="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-xl border-2 border-orange-200 text-left flex flex-col justify-between shadow-sm cursor-pointer w-full transition-all hover:border-orange-400"><h3 class="font-semibold text-xs text-orange-800">Caixa Degustação</h3><p class="text-[10px] text-orange-600 mt-0.5 font-bold">Opções sortidas do dia.</p></button>
           </div>
           
-          <div id="resumo-caixa-selecionada" class="hidden text-sm font-bold text-[#8B4513] bg-[#FFF8F0] p-4 rounded-xl flex items-center justify-between border border-orange-100">
+          <div id="resumo-caixa-selecionada" class="hidden text-xs font-semibold text-[#8B4513] bg-[#FFF8F0] p-4 rounded-xl flex items-center justify-between border border-orange-100 shadow-inner">
             <span id="txt-caixa-selecionada">Nenhuma caixa selecionada</span>
           </div>
           
-          <!-- Botão estrutural de fuga para voltar ao seletor inicial -->
           <div class="pt-4 text-left" id="btn-fuga-home">
-            <button onclick="retornarParaMenuSeletor()" class="text-xs text-gray-400 font-bold hover:underline"><i class="fa-solid fa-arrow-left"></i> Voltar para as Opções</button>
+            <button onclick="retornarParaMenuSeletor()" class="text-xs text-gray-400 font-semibold hover:underline"><i class="fa-solid fa-arrow-left text-[10px]"></i> Voltar para o Menu Anterior</button>
           </div>
         </section>
 
-        <!-- PASSO 2: CATEGORIAS E VITRINE -->
+        <!-- PASSO 2: FILTROS E VITRINE (ATIVADOS APÓS DECISÃO DO PASSO 1) -->
         <section id="secao-passo2" class="bg-white p-5 md:p-8 rounded-3xl border border-[#E8D5B5] shadow-sm space-y-4 hidden transition-all duration-300">
           <div class="mb-3 pb-2 border-b border-gray-100">
-            <div class="step-title"><span class="btn-step-icon">2</span> Escolha os Doces</div>
+            <div class="step-title"><span class="btn-step-icon">2</span> Escolha os sabores</div>
           </div>
           <div class="flex flex-nowrap overflow-x-auto gap-2 py-1 no-scrollbar" id="abas-categorias"></div>
         </section>
@@ -376,10 +355,10 @@
         </section>
       </div>
 
-      <!-- SIDEBAR LATERAL DESKTOP -->
+      <!-- COMPLEMENTO DE CHECKOUT DESKTOP -->
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-6">
         <section id="secao-checkout" class="bg-white p-5 md:p-6 rounded-3xl border border-[#E8D5B5] shadow-xl space-y-4 hidden lg:block">
-          <div class="border-b border-[#E8D5B5] pb-2"><h2 class="text-sm font-black text-[#8B4513]">Resumo da Encomenda</h2></div>
+          <div class="border-b border-[#E8D5B5] pb-2"><h2 class="text-sm font-semibold text-[#8B4513]">Resumo da Encomenda</h2></div>
           
           <div id="wrapper-carrinho-multiplas-caixas" class="space-y-1.5 max-h-[18vh] overflow-y-auto no-scrollbar text-xs border-b border-gray-100 pb-2 hidden">
              <p class="font-extrabold text-[9px] text-gray-400 uppercase tracking-wider">Caixas Salvas:</p>
@@ -405,7 +384,7 @@
             </div>
             
             <button id="btn-whatsapp" onclick="enviarPedidoWhatsApp()" disabled class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs shadow-md disabled:bg-gray-200 disabled:text-gray-400 uppercase tracking-widest border-b-4 border-[#5c2d0c]">Enviar Pedido WhatsApp</button>
-            <button onclick="retornarParaMenuSeletor()" class="w-full py-1 text-center text-[10px] text-gray-400 font-bold hover:underline">← Voltar para as Opções</button>
+            <button onclick="retornarParaMenuSeletor()" class="w-full py-1 text-center text-[10px] text-gray-400 font-bold hover:underline">← Cancelar e Voltar</button>
           </div>
         </section>
       </div>
@@ -422,17 +401,6 @@
     <button onclick="focarFormularioCheckout()" class="px-5 py-2.5 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-wider">Ver Caixa</button>
   </div>
 
-  <!-- MODAL DE INSTRUÇÕES -->
-  <div id="modal-ajuda" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharAjuda()">
-    <div class="bg-white max-w-sm w-full rounded-3xl p-6 relative shadow-2xl text-center space-y-3" onclick="event.stopPropagation()">
-      <button onclick="fecharAjuda()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
-      <h3 class="font-extrabold text-[#8B4513] uppercase text-sm">Como Encomendar</h3>
-      <p class="text-xs text-gray-600 leading-relaxed">1. Selecione o tamanho da caixa desejada no Passo 1.</p>
-      <p class="text-xs text-gray-600 leading-relaxed">2. Escolha os seus sabores favoritos na vitrine. A caixa fechará automaticamente ao atingir o limite.</p>
-      <p class="text-xs text-gray-600 leading-relaxed">3. Você poderá salvar a caixa montada no carrinho para iniciar uma nova combinação e presentear mais pessoas.</p>
-    </div>
-  </div>
-
   <script>
     const caixasConfigs = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25, proximoId: '35' },
@@ -442,6 +410,7 @@
       'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
     };
 
+    // CORREÇÃO TÉCNICA DA DECLARAÇÃO DA MATRIZ DO CATALOGO
     const catalogo = [
       {
         categoria: "Tradicionais I (R$ 2,50)",
@@ -540,166 +509,6 @@
     let modoDegustacaoAtivo = false; let multiplicadorCaixasDegustacao = 1;
     let carrinhoDeCaixasConcluidas = [];
 
-    function navegarPara(numPag) {
-      document.getElementById('pag-capa').classList.add('hidden');
-      document.getElementById('pag-sobre').classList.add('hidden');
-      document.getElementById('pag-seletor').classList.add('hidden');
-      document.getElementById('fluxo-principal').classList.add('hidden');
-      
-      if(numPag === 1) document.getElementById('pag-capa').classList.remove('hidden');
-      if(numPag === 2) document.getElementById('pag-sobre').classList.remove('hidden');
-      if(numPag === 3) document.getElementById('pag-seletor').classList.remove('hidden');
-    }
-
-    function entFluxoCaixas() {
-      document.getElementById('pag-seletor').classList.add('hidden');
-      document.getElementById('fluxo-principal').classList.remove('hidden');
-      // No computador, revela a estrutura lateral
-      document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
-      atualizarInterface();
-    }
-
-    function retornarParaMenuSeletor() {
-      if(Object.values(quantidades).reduce((a,b)=>a+b,0) > 0 && !confirm("Deseja voltar? As seleções atuais desta caixa aberta serão perdidas.")) return;
-      // Reseta a caixa atual aberta
-      caixaAtiva = null;
-      quantidades = {};
-      document.getElementById('resumo-caixa-selecionada').classList.add('hidden');
-      document.getElementById('btn-alterar-caixa').classList.add('hidden');
-      document.getElementById('opcoes-caixas').classList.remove('hidden');
-      document.getElementById('secao-passo2').classList.add('hidden');
-      document.getElementById('secao-vitrine').classList.add('hidden');
-      document.getElementById('btn-fuga-home').classList.remove('hidden');
-      
-      document.getElementById('fluxo-principal').classList.add('hidden');
-      document.getElementById('pag-seletor').classList.remove('hidden');
-      atualizarInterface();
-    }
-
-    function encontrarDoce(id) {
-      for (let g of catalogo) {
-        for (let i of g.itens) { if (i.id === id) return i; }
-      }
-      return null;
-    }
-
-    function renderizarAbasCategorias() {
-      const container = document.getElementById('abas-categorias'); if (!container) return;
-      let html = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-1.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all text-nowrap">Todos</button>`;
-      catalogo.forEach(g => {
-        html += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.idFiltro}" class="px-4 py-1.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all text-nowrap">${g.categoria.split(" (")[0]}</button>`;
-      });
-      container.innerHTML = html;
-    }
-
-    function filtrarCategoria(cat) {
-      categoryActive = cat;
-      document.querySelectorAll('#abas-categorias button').forEach(aba => {
-        aba.className = "px-4 py-1.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all text-nowrap";
-      });
-      let idAlvo = "Todos";
-      if (cat !== "Todos") {
-        const achado = catalogo.find(g => g.categoria === cat);
-        if (achado) idAlvo = achado.idFiltro;
-      }
-      const ativa = document.getElementById(`aba-${idAlvo}`);
-      if (ativa) ativa.className = "px-4 py-1.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all text-nowrap";
-      renderizarDoces();
-    }
-
-    function renderizarDoces() {
-      const grid = document.getElementById('cardapio-grid'); if (!grid) return; grid.innerHTML = "";
-      catalogo.forEach(g => {
-        if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
-        g.itens.forEach(item => {
-          const qtd = quantidades[item.id] || 0;
-          grid.innerHTML += `
-            <div class="bg-white rounded-3xl shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden w-full">
-              <div class="w-full aspect-square bg-gray-50">
-                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/300x300?text=Oba+Doce'">
-              </div>
-              <div class="p-3 w-full flex flex-col justify-between flex-1">
-                <div>
-                  <h3 class="font-bold text-xs mb-0.5 text-[#3B2A1E] line-clamp-1">${item.nome}</h3>
-                  <button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-[10px] text-[#8B4513] underline mb-2 inline-block">Ver detalhes</button>
-                </div>
-                <div>
-                  <p class="text-[10px] text-gray-400 font-bold mb-1.5">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
-                  ${caixaAtiva && !caixaAtiva.precoFixo ? `
-                    <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
-                      <button onclick="alterarQtd('${item.id}', -1)" class="w-7 h-7 rounded-lg font-black bg-white text-[#8B4513] shadow-sm text-sm flex items-center justify-center">-</button>
-                      <input type="number" value="${qtd}" min="0" oninput="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
-                      <button onclick="alterarQtd('${item.id}', 1)" class="w-7 h-7 rounded-lg font-black bg-[#8B4513] text-white shadow-sm text-sm flex items-center justify-center">+</button>
-                    </div>` : `<button onclick="mostrarLembreteCaixaFoco()" class="w-full py-1.5 bg-gray-50 text-gray-400 rounded-xl text-[10px] font-extrabold uppercase">Escolha a caixa</button>`}
-                </div>
-              </div>
-            </div>`;
-        });
-      });
-    }
-
-    function selecionarCaixa(id) {
-      modoDegustacaoAtivo = false;
-      document.getElementById('wrapper-tamanhos-degustacao').classList.add('hidden');
-      document.getElementById('btn-upgrade-caixa').classList.remove('hidden');
-      document.getElementById('btn-seguir-comprando').classList.add('hidden');
-      document.getElementById('btn-revisar-sabores').classList.remove('hidden');
-      document.getElementById('modal-titulo-dinamico').innerText = "Sua Caixa Está Completa! 🎉";
-      document.getElementById('modal-instrucao-opcionais').innerText = "Deseja estender sua experiência adicionando mais sabores ou fechar a sua encomenda agora?";
-      
-      caixaAtiva = caixasConfigs[id]; quantidades = {}; lacoDecorativoSelecionado = false; placaPersonalizadaSelecionada = false;
-      
-      document.getElementById('opcoes-caixas').classList.add('hidden');
-      document.getElementById('txt-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixaAtiva.totalDoces} un.)`;
-      document.getElementById('resumo-caixa-selecionada').classList.remove('hidden');
-      document.getElementById('btn-alterar-caixa').classList.remove('hidden');
-      document.getElementById('btn-fuga-home').classList.add('hidden');
-
-      document.getElementById('secao-passo2').classList.remove('hidden');
-      document.getElementById('secao-vitrine').classList.remove('hidden');
-
-      renderizarDoces(); 
-      atualizarInterface(); 
-      fecharModalCompleta();
-    }
-
-    function abrirBannerDegustacao() {
-      modoDegustacaoAtivo = true;
-      multiplicadorCaixasDegustacao = 1;
-      
-      caixaAtiva = { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null };
-      quantidades = {};
-      
-      document.getElementById('modal-titulo-dinamico').innerText = "Configurar Sua Caixa Degustação! 🌟";
-      document.getElementById('modal-instrucao-opcionais').innerText = "Adicione mimos para presente caso queira:";
-      document.getElementById('wrapper-tamanhos-degustacao').classList.remove('hidden');
-      document.getElementById('btn-upgrade-caixa').classList.add('hidden');
-      document.getElementById('btn-seguir-comprando').classList.remove('hidden');
-      document.getElementById('btn-revisar-sabores').classList.add('hidden');
-      
-      const inputDeg = document.getElementById('input-qtd-caixas-degustacao');
-      if(inputDeg) inputDeg.value = 1;
-      
-      definirTamanhoDegustacao(25, 75);
-      document.getElementById('modal-caixa-completa').classList.remove('hidden');
-    }
-
-    function definirTamanhoDegustacao(unidades, valorFixo) {
-      if(!modoDegustacaoAtivo) return;
-      caixaAtiva.totalDoces = unidades;
-      caixaAtiva.precoFixo = valorFixo;
-      
-      ['12', '25', '35'].forEach(u => {
-        const btn = document.getElementById(`btn-deg-${u}`);
-        if(btn) {
-          btn.className = (parseInt(u) === unidades) 
-            ? "py-2.5 rounded-xl border-2 border-[#8B4513] font-black text-xs text-white bg-[#8B4513] transition-all shadow-sm" 
-            : "py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all";
-        }
-      });
-      atualizarInterface();
-    }
-
     function alterarMultiplicadorDegustacao(delta) {
       let novaQtd = multiplicadorCaixasDegustacao + delta;
       if (novaQtd < 1) novaQtd = 1;
@@ -713,125 +522,6 @@
       if (parseado < 1) parseado = 1;
       multiplicadorCaixasDegustacao = parseado;
       atualizarInterface();
-    }
-
-    function adicionarCaixaAoCarrinhoEIniciarNova() {
-      if(!caixaAtiva) return;
-      
-      let precoBase = caixaAtiva.precoFixo ? (caixaAtiva.precoFixo * multiplicadorCaixasDegustacao) : Object.entries(quantidades).reduce((acc, [id, q]) => acc + (encontrarDoce(id).preco * q), 0);
-      
-      let caixaPronta = {
-        titulo: caixaAtiva.titulo,
-        precoCalculado: precoBase,
-        detalhes: ""
-      };
-
-      if(caixaAtiva.precoFixo) {
-        caixaPronta.detalhes = `${multiplicadorCaixasDegustacao}x Caixa Degustação Sortida (${caixaAtiva.totalDoces} un.)`;
-      } else {
-         let listaSabores = [];
-         Object.entries(quantidades).forEach(([id, q]) => {
-            if(q > 0) listaSabores.push(`${q}x ${encontrarDoce(id).nome}`);
-         });
-         caixaPronta.detalhes = listaSabores.join(', ');
-      }
-
-      carrinhoDeCaixasConcluidas.push(caixaPronta);
-      
-      caixaAtiva = null;
-      quantidades = {};
-      modoDegustacaoAtivo = false;
-      lacoDecorativoSelecionado = false;
-      placaPersonalizadaSelecionada = false;
-      
-      document.getElementById('resumo-caixa-selecionada').classList.add('hidden');
-      document.getElementById('btn-alterar-caixa').classList.add('hidden');
-      document.getElementById('opcoes-caixas').classList.remove('hidden');
-      document.getElementById('secao-passo2').classList.add('hidden');
-      document.getElementById('secao-vitrine').classList.add('hidden');
-      document.getElementById('btn-fuga-home').classList.remove('hidden');
-
-      renderizarDoces();
-      atualizarPainelCarrinhoLateral();
-      fecharModalCompleta();
-      mostrarNotificacao("Caixa salva no carrinho! Pode escolher o próximo tamanho.");
-    }
-
-    function atualizarPainelCarrinhoLateral() {
-      const boxCarrinho = document.getElementById('wrapper-carrinho-multiplas-caixas');
-      const containerLista = document.getElementById('lista-carrinho-caixas');
-      if(carrinhoDeCaixasConcluidas.length === 0) { boxCarrinho.classList.add('hidden'); return; }
-      boxCarrinho.classList.remove('hidden');
-      containerLista.innerHTML = "";
-      carrinhoDeCaixasConcluidas.forEach((cx, index) => {
-        containerLista.innerHTML += `
-          <div class="bg-gray-50 border border-gray-200 p-2 rounded-xl relative text-left mb-1">
-            <button onclick="removerCaixaDoCarrinho(${index})" class="absolute top-1 right-2 text-red-500 font-bold hover:text-red-700">✕</button>
-            <p class="font-extrabold text-[#8B4513] pr-4 text-[11px]">${cx.titulo}</p>
-            <p class="text-[10px] text-gray-500 line-clamp-1">${cx.detalhes}</p>
-            <p class="text-[10px] font-black text-gray-700">R$ ${cx.precoCalculado.toFixed(2).replace('.', ',')}</p>
-          </div>`;
-      });
-      atualizarInterface();
-    }
-
-    function removerCaixaDoCarrinho(index) {
-      carrinhoDeCaixasConcluidas.splice(index, 1);
-      atualizarPainelCarrinhoLateral();
-    }
-
-    function toggleOpcional(tipo) {
-      if(tipo === 'laco') {
-        lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
-        const box = document.getElementById('chk-laco');
-        box.className = lacoDecorativoSelecionado ? "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]" : "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-        box.querySelector('i').classList.toggle('opacity-0', !lacoDecorativoSelecionado);
-      } else if(tipo === 'placa') {
-        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada;
-        const box = document.getElementById('chk-placa');
-        box.className = placaPersonalizadaSelecionada ? "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]" : "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-        box.querySelector('i').classList.toggle('opacity-0', !placaPersonalizadaSelecionada);
-      }
-      atualizarInterface();
-    }
-
-    function calcularValorTotalDoPedido() {
-      let subtotal = 0;
-      carrinhoDeCaixasConcluidas.forEach(cx => subtotal += cx.precoCalculado);
-      if (caixaAtiva) {
-        if (caixaAtiva.precoFixo) { 
-          subtotal += caixaAtiva.precoFixo * multiplicadorCaixasDegustacao; 
-        } else {
-          Object.entries(quantidades).forEach(([id, q]) => {
-            const item = encontrarDoce(id); if (item) subtotal += item.preco * q;
-          });
-        }
-        if (lacoDecorativoSelecionado) subtotal += 4.50;
-        if (placaPersonalizadaSelecionada) subtotal += 3.50;
-      }
-      return subtotal;
-    }
-
-    function verificarCaixaCompleta() {
-      if (!caixaAtiva || modoDegustacaoAtivo) return;
-      const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
-      if (total === caixaAtiva.totalDoces) {
-        atualizarInterface();
-        document.getElementById('modal-caixa-completa').classList.remove('hidden');
-      }
-    }
-
-    function aplicarUpgradeCaixa() {
-      if(!caixaAtiva || !caixaAtiva.proximoId) {
-        mostrarNotificacao("Você já atingiu o tamanho máximo de caixa.");
-        return;
-      }
-      const novoId = caixaAtiva.proximoId;
-      caixaAtiva = caixasConfigs[novoId];
-      document.getElementById('txt-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixaAtiva.totalDoces} un.)`;
-      renderizarDoces();
-      atualizarInterface();
-      fecharModalCompleta();
     }
 
     function alterarQtd(id, delta) {
@@ -860,66 +550,6 @@
       actualizarEstadoBotao();
     }
 
-    function atualizarInterface() {
-      const container = document.getElementById('lista-selecionados'); if (!container) return;
-      container.innerHTML = "";
-      
-      const totalDocesNaCaixaAtual = Object.values(quantidades).reduce((a, b) => a + b, 0);
-      const totalGeralValue = calcularValorTotalDoPedido();
-
-      if(totalGeralValue > 0 || carrinhoDeCaixasConcluidas.length > 0) {
-         document.getElementById('barra-mobile-checkout').classList.remove('hidden');
-         document.getElementById('secao-checkout').classList.remove('hidden');
-      } else {
-         document.getElementById('barra-mobile-checkout').classList.add('hidden');
-         if(window.innerWidth < 1024) document.getElementById('secao-checkout').classList.add('hidden');
-      }
-      
-      if(caixaAtiva) {
-        document.getElementById('label-progresso-caixa').innerText = "Progresso da Caixa Atual:";
-        if (caixaAtiva.precoFixo) {
-          document.getElementById('contagem-doces').innerText = `${caixaAtiva.totalDoces * multiplicadorCaixasDegustacao}`;
-          document.getElementById('total-doces').innerText = `${caixaAtiva.totalDoces * multiplicadorCaixasDegustacao}`;
-          container.innerHTML = `<div class="flex justify-between text-gray-700 py-0.5"><span>Caixa Degustação (${caixaAtiva.totalDoces} un.)</span><span class="font-bold">x${multiplicadorCaixasDegustacao}</span></div>`; 
-        } else {
-          document.getElementById('contagem-doces').innerText = `${totalDocesNaCaixaAtual}`;
-          document.getElementById('total-doces').innerText = `${caixaAtiva.totalDoces}`;
-          Object.entries(quantidades).forEach(([id, q]) => {
-            const doce = encontrarDoce(id); 
-            if (doce && q > 0) { container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
-          });
-          if (totalDocesNaCaixaAtual === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado nesta caixa.</p>`;
-        }
-      } else {
-        document.getElementById('label-progresso-caixa').innerText = "Nenhuma Caixa Aberta";
-        document.getElementById('contagem-doces').innerText = "0";
-        document.getElementById('total-doces').innerText = "0";
-        if(carrinhoDeCaixasConcluidas.length === 0) {
-          container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Ainda não escolheu nenhum sabor.</p>`;
-        } else {
-          container.innerHTML = `<p class="text-green-700 font-bold text-center py-1 text-[11px]"><i class="fa-solid fa-circle-check"></i> Combinações salvas com sucesso!</p>`;
-        }
-      }
-
-      if (lacoDecorativoSelecionado) container.innerHTML += `<div class="flex justify-between text-orange-700 font-bold border-t border-dashed border-gray-200 pt-1 mt-1"><span>🎀 Laço Decorativo</span><span>+ R$ 4,50</span></div>`;
-      if (placaPersonalizadaSelecionada) container.innerHTML += `<div class="flex justify-between text-amber-700 font-bold border-t border-dashed border-gray-200 pt-1 mt-1"><span>🏷️ Placa Personalizada</span><span>+ R$ 3,50</span></div>`;
-      
-      const txtTotal = "R$ " + totalGeralValue.toFixed(2).replace('.', ',');
-      
-      document.getElementById('valor-total').innerText = txtTotal;
-      document.getElementById('modal-subtotal-pedido').innerText = txtTotal;
-      document.getElementById('mobile-resumo-total').innerText = txtTotal;
-      
-      if (caixaAtiva) {
-        document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo}`;
-      } else {
-        document.getElementById('mobile-resumo-caixa').innerText = `${carrinhoDeCaixasConcluidas.length} Caixas prontas`;
-      }
-      actualizarEstadoBotao();
-    }
-
-    function abrirAjuda() { document.getElementById('modal-ajuda').classList.remove('hidden'); }
-    function fecharAjuda() { document.getElementById('modal-ajuda').classList.add('hidden'); }
     function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
     function fecharModalEventos() { document.getElementById('modal-eventos').classList.add('hidden'); }
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
@@ -929,7 +559,9 @@
     function mostrarFormularioInternoModal() { document.getElementById('modal-completa-estado-escolha').classList.add('hidden'); document.getElementById('modal-completa-estado-form').classList.remove('hidden'); }
     function voltarParaEstadosEscolhaModal() { document.getElementById('modal-completa-estado-form').classList.add('hidden'); document.getElementById('modal-completa-estado-escolha').classList.remove('hidden'); }
     function enviarPedidoWhatsAppPeloModal() { const nome = document.getElementById('modal-nome-cliente').value.trim(); const data = document.getElementById('modal-data-desejada').value; const hora = document.getElementById('modal-hora-desejada').value; if (!nome || !data || !hora) { alert("Por favor, preencha todos os campos do agendamento!"); return; } fecharModalCompleta(); enviarPedidoWhatsApp(); }
-    
+    function avancarFormularioPersonalizados() { document.getElementById('pers-view-info').classList.add('hidden'); document.getElementById('pers-view-inputs').classList.remove('hidden'); }
+    function voltarLAteralPersonalizados() { document.getElementById('pers-view-inputs').classList.add('hidden'); document.getElementById('pers-view-info').classList.remove('hidden'); }
+
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
       const nome = document.getElementById('nome-cliente').value.trim();
@@ -946,15 +578,13 @@
          btn.disabled = true;
       }
     }
-    
-    function abrirModalEspecial(tipo) {
-      if(tipo === 'personalizados') {
-        document.getElementById('pers-view-inputs').classList.add('hidden');
-        document.getElementById('pers-view-info').classList.remove('hidden');
-        document.getElementById('modal-decorados').classList.remove('hidden');
-      } else if(tipo === 'eventos') {
-        document.getElementById('modal-eventos').classList.remove('hidden');
-      }
+
+    function openModal(src, title, price, id) {
+      document.getElementById('modal-img').src = src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-price').innerText = price;
+      const btn = document.getElementById('modal-add-btn');
+      if (caixaAtiva && !caixaAtiva.precoFixo) { btn.style.display = "block"; btn.onclick = () => { alterarQtd(id, 1); closeModal(); }; } 
+      else { btn.style.display = "none"; }
+      document.getElementById('modal').classList.remove('hidden');
     }
 
     function enviarPedidoWhatsApp() {
@@ -988,7 +618,6 @@
         window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalEventos();
       }
     }
-    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if (txt && toast) { txt.innerText = m; toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
   </script>
 </body>
 </html>
