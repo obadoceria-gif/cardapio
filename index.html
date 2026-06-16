@@ -77,13 +77,13 @@
             <label class="block text-[10px] font-medium text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
             <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[120px]">
               <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-7 h-7 rounded-lg bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center">-</button>
-              <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-8 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
+              <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-10 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
               <button onclick="alterarMultiplicadorDegustacao(1)" class="w-7 h-7 rounded-lg bg-[#8B4513] text-white flex items-center justify-center">+</button>
             </div>
           </div>
         </div>
 
-        <p id="modal-instrucao-opcionais" class="text-xs text-amber-800 bg-amber-50/60 py-2 px-3 rounded-xl">Deseja estender sua experiência adicionando mais sabores ou fechar a sua encomenda agora?</p>
+        <p id="modal-instrucao-opcionais" class="text-xs text-amber-800 bg-amber-50/60 py-2 px-3 rounded-xl">Deseja adicionar mais doces ou fechar a sua encomenda agora?</p>
 
         <div class="space-y-2 text-left">
           <div onclick="toggleOpcional('laco')" class="border border-orange-100 p-3 rounded-xl flex items-center justify-between cursor-pointer bg-[#FFFDF9] hover:border-[#8B4513] transition-all">
@@ -119,9 +119,6 @@
           </button>
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-2.5 border border-orange-200 text-[#8B4513] font-medium text-xs rounded-xl uppercase flex items-center justify-center gap-2 bg-orange-50/40">
             <i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores
-          </button>
-          <button id="btn-seguir-comprando" onclick="fecharModalCompleta()" class="w-full py-3 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-medium text-xs rounded-xl uppercase hidden items-center justify-center gap-2">
-            <i class="fa-solid pointer-events-none fa-cart-plus"></i> Seguir Comprando Outras Caixas
           </button>
           <button onclick="mostrarFormularioInternoModal()" class="w-full py-3 bg-neutral-800 text-white font-medium text-xs rounded-xl uppercase flex items-center justify-center gap-2">
             <i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual
@@ -163,6 +160,7 @@
     </div>
   </div>
 
+  <!-- Modal Personalizados -->
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 font-bold">✕</button>
@@ -216,6 +214,7 @@
     </div>
   </div>
 
+  <!-- Modal Eventos -->
   <div id="modal-eventos" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalEventos()">
     <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 font-bold">✕</button>
@@ -243,11 +242,11 @@
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade Estimada de Convidados</label>
-              <input type="number" id="eve-convidados" placeholder="Ex: 150 pessoas" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+              <input type="number" id="eve-convidados" placeholder="Ex: 150 pessoas" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade Estimada de Doces</label>
-              <input type="number" id="eve-qtd" placeholder="Ex: 500 doces" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+              <input type="number" id="eve-qtd" placeholder="Ex: 500 doces" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
             </div>
          </div>
          <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full bg-green-600 text-white py-3.5 rounded-xl font-medium text-xs uppercase tracking-wide shadow-md">Solicitar Orçamento no WhatsApp</button>
@@ -258,7 +257,7 @@
   <header class="py-6 text-center bg-gradient-to-b from-[#FFEAD2] to-[#FAF5F0] px-4 relative">
     <button onclick="abrirAjuda()" class="absolute top-4 right-4 text-[#8B4513] text-xl p-2 focus:outline-none transition hover:scale-110"><i class="fa-solid fa-circle-question"></i></button>
     <h1 class="text-3xl md:text-4xl font-bold text-[#8B4513] tracking-wider uppercase">OBA DOCERIA</h1>
-    <p class="text-[#D8B36A] uppercase tracking-widest text-[10px] md:text-xs mt-1 font-bold italic">O VERDADEIRO SABOR ARTESANAL - CARDÁPIO OFICIAL 2026</p>
+    <p class="text-[#D8B36A] uppercase tracking-widest text-[10px] md:text-xs mt-1 font-black italic">O VERDADEIRO SABOR ARTESANAL - CARDÁPIO OFICIAL 2026</p>
   </header>
 
   <main class="max-w-6xl mx-auto px-4">
@@ -306,10 +305,10 @@
           <button onclick="entFluxoCaixas()" class="w-full py-4 bg-[#8B4513] text-white rounded-2xl font-medium text-xs uppercase tracking-wide flex items-center justify-center gap-3">
             <i class="fa-solid fa-box-open text-sm"></i> Encomendar Caixa de Doces
           </button>
-          <button onclick="abrirModalEspecial('personalizados')" class="w-full py-4 bg-transparent border border-[#8B4513] text-[#8B4513] rounded-2xl font-medium text-xs tracking-wide flex items-center justify-center gap-2">
+          <button onclick="abrirModalEspecial('personalizados')" class="w-full py-4 bg-transparent border-2 border-[#8B4513] text-[#8B4513] rounded-2xl font-medium text-xs tracking-wide flex items-center justify-center gap-2">
             <i class="fa-solid fa-wand-magic-sparkles text-sm"></i> Doces Personalizados & Decorados
           </button>
-          <button onclick="abrirModalEspecial('eventos')" class="w-full py-4 bg-transparent border border-[#8B4513] text-[#8B4513] rounded-2xl font-medium text-xs tracking-wide flex items-center justify-center gap-2">
+          <button onclick="abrirModalEspecial('eventos')" class="w-full py-4 bg-transparent border-2 border-[#8B4513] text-[#8B4513] rounded-2xl font-medium text-xs tracking-wide flex items-center justify-center gap-2">
             <i class="fa-solid fa-champagne-glasses text-sm"></i> Casamentos, Formaturas & Eventos
           </button>
         </div>
@@ -402,13 +401,24 @@
     </div>
   </main>
 
-  <!-- BARRA DE CHECKOUT FIXA MOBILE -->
+  <!-- BARRA DE CHECKOUT FIXA APENAS NO CELULAR -->
   <div id="barra-mobile-checkout" class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B5] shadow-2xl p-4 flex justify-between items-center z-40 hidden">
     <div>
       <p id="mobile-resumo-caixa" class="text-[9px] text-gray-400 font-extrabold uppercase">Selecione os doces</p>
       <p id="mobile-resumo-total" class="text-base font-black text-[#8B4513]">R$ 0,00</p>
     </div>
     <button onclick="focarFormularioCheckout()" class="px-5 py-2.5 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-wider">Ver Caixa</button>
+  </div>
+
+  <!-- MODAL DE INSTRUÇÕES -->
+  <div id="modal-ajuda" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharAjuda()">
+    <div class="bg-white max-w-sm w-full rounded-3xl p-6 relative shadow-2xl text-center space-y-3" onclick="event.stopPropagation()">
+      <button onclick="fecharAjuda()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
+      <h3 class="font-extrabold text-[#8B4513] uppercase text-sm">Como Encomendar</h3>
+      <p class="text-xs text-gray-600 leading-relaxed">1. Selecione o tamanho da caixa desejada no Passo 1.</p>
+      <p class="text-xs text-gray-600 leading-relaxed">2. Escolha os seus sabores favoritos na vitrine. A caixa fechará automaticamente ao atingir o limite.</p>
+      <p class="text-xs text-gray-600 leading-relaxed">3. Você poderá salvar a caixa montada no carrinho para iniciar uma nova combinação e presentear mais pessoas.</p>
+    </div>
   </div>
 
   <script>
@@ -553,6 +563,68 @@
       atualizarInterface();
     }
 
+    function encontrarDoce(id) {
+      for (let g of catalogo) {
+        for (let i of g.itens) { if (i.id === id) return i; }
+      }
+      return null;
+    }
+
+    function renderizarAbasCategorias() {
+      const container = document.getElementById('abas-categorias'); if (!container) return;
+      let html = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-4 py-1.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all text-nowrap">Todos</button>`;
+      catalogo.forEach(g => {
+        html += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.idFiltro}" class="px-4 py-1.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all text-nowrap">${g.categoria.split(" (")[0]}</button>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function filtrarCategoria(cat) {
+      categoryActive = cat;
+      document.querySelectorAll('#abas-categorias button').forEach(aba => {
+        aba.className = "px-4 py-1.5 rounded-full font-bold text-xs bg-white text-[#8B4513] border border-[#E8D5B5] transition-all text-nowrap";
+      });
+      let idAlvo = "Todos";
+      if (cat !== "Todos") {
+        const achado = catalogo.find(g => g.categoria === cat);
+        if (achado) idAlvo = achado.idFiltro;
+      }
+      const ativa = document.getElementById(`aba-${idAlvo}`);
+      if (ativa) ativa.className = "px-4 py-1.5 rounded-full font-bold text-xs bg-[#8B4513] text-white shadow-sm transition-all text-nowrap";
+      renderizarDoces();
+    }
+
+    function renderizarDoces() {
+      const grid = document.getElementById('cardapio-grid'); if (!grid) return; grid.innerHTML = "";
+      catalogo.forEach(g => {
+        if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
+        g.itens.forEach(item => {
+          const qtd = quantidades[item.id] || 0;
+          grid.innerHTML += `
+            <div class="bg-white rounded-3xl shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center overflow-hidden w-full">
+              <div class="w-full aspect-square bg-gray-50">
+                <img src="${item.img}" alt="${item.nome}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/300x300?text=Oba+Doce'">
+              </div>
+              <div class="p-3 w-full flex flex-col justify-between flex-1">
+                <div>
+                  <h3 class="font-bold text-xs mb-0.5 text-[#3B2A1E] line-clamp-1">${item.nome}</h3>
+                  <button onclick="openModal('${item.img}', '${item.nome}', 'R$ ${item.preco.toFixed(2).replace('.', ',')}', '${item.id}')" class="text-[10px] text-[#8B4513] underline mb-2 inline-block">Ver detalhes</button>
+                </div>
+                <div>
+                  <p class="text-[10px] text-gray-400 font-bold mb-1.5">R$ ${item.preco.toFixed(2).replace('.', ',')} / un</p>
+                  ${caixaAtiva && !caixaAtiva.precoFixo ? `
+                    <div class="flex items-center justify-between bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl p-1 w-full">
+                      <button onclick="alterarQtd('${item.id}', -1)" class="w-7 h-7 rounded-lg font-black bg-white text-[#8B4513] shadow-sm text-sm flex items-center justify-center">-</button>
+                      <input type="number" value="${qtd}" min="0" oninput="digitarQtd('${item.id}', this.value)" class="w-8 text-center font-bold text-xs bg-transparent outline-none text-[#3B2A1E]">
+                      <button onclick="alterarQtd('${item.id}', 1)" class="w-7 h-7 rounded-lg font-black bg-[#8B4513] text-white shadow-sm text-sm flex items-center justify-center">+</button>
+                    </div>` : `<button onclick="mostrarLembreteCaixaFoco()" class="w-full py-1.5 bg-gray-50 text-gray-400 rounded-xl text-[10px] font-extrabold uppercase">Escolha a caixa</button>`}
+                </div>
+              </div>
+            </div>`;
+        });
+      });
+    }
+
     function selecionarCaixa(id) {
       modoDegustacaoAtivo = false;
       document.getElementById('wrapper-tamanhos-degustacao').classList.add('hidden');
@@ -579,7 +651,7 @@
     }
 
     function resetarSelecaoCaixa() {
-      if(Object.values(quantidades).reduce((a,b)=>a+b,0) > 0 && !confirm("Se alterar o tamanho agora, as seleções atuais desta caixa serão limpas. Deseja continuar?")) return;
+      if(Object.values(quantidades).reduce((a,b)=>a+b,0) > 0 && !confirm("Se alterar o tamanho agora, as escolhas atuais desta caixa serão perdidas. Continuar?")) return;
       caixaAtiva = null;
       quantidades = {};
       document.getElementById('resumo-caixa-selecionada').classList.add('hidden');
@@ -651,7 +723,7 @@
       renderizarDoces();
       atualizarPainelCarrinhoLateral();
       fecharModalCompleta();
-      mostrarNotificacao("Caixa arquivada! Escolha o próximo tamanho.");
+      mostrarNotificacao("Caixa salva no carrinho! Pode configurar o próximo tamanho.");
     }
 
     function atualizarPainelCarrinhoLateral() {
@@ -678,10 +750,175 @@
       atualizarInterface();
     }
 
-    function removerCaixaDoCareinho(index) {
+    function removerCaixaDoCarrinho(index) {
       carrinhoDeCaixasConcluidas.splice(index, 1);
       atualizarPainelCarrinhoLateral();
     }
+
+    function toggleOpcional(tipo) {
+      if(tipo === 'laco') {
+        lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
+        const box = document.getElementById('chk-laco');
+        box.className = lacoDecorativoSelecionado ? "w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-[#8B4513]" : "w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-white";
+        box.querySelector('i').classList.toggle('opacity-0', !lacoDecorativoSelecionado);
+      } else if(tipo === 'placa') {
+        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada;
+        const box = document.getElementById('chk-placa');
+        box.className = placaPersonalizadaSelecionada ? "w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-[#8B4513]" : "w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-white";
+        box.querySelector('i').classList.toggle('opacity-0', !placaPersonalizadaSelecionada);
+      }
+      atualizarInterface();
+    }
+
+    function calcularValorTotalDoPedido() {
+      let subtotal = 0;
+      carrinhoDeCaixasConcluidas.forEach(cx => subtotal += cx.precoCalculado);
+      if (caixaAtiva) {
+        if (caixaAtiva.precoFixo) { 
+          subtotal += caixaAtiva.precoFixo * multiplicadorCaixasDegustacao; 
+        } else {
+          Object.entries(quantidades).forEach(([id, q]) => {
+            const item = encontrarDoce(id); if (item) subtotal += item.preco * q;
+          });
+        }
+        if (lacoDecorativoSelecionado) subtotal += 4.50;
+        if (placaPersonalizadaSelecionada) subtotal += 3.50;
+      }
+      return subtotal;
+    }
+
+    function verificarCaixaCompleta() {
+      if (!caixaAtiva || modoDegustacaoAtivo) return;
+      const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      if (total === caixaAtiva.totalDoces) {
+        atualizarInterface();
+        document.getElementById('modal-caixa-completa').classList.remove('hidden');
+      }
+    }
+
+    function aplicarUpgradeCaixa() {
+      if(!caixaAtiva || !caixaAtiva.proximoId) {
+        mostrarNotificacao("Atingiu o tamanho máximo de caixa.");
+        return;
+      }
+      const novoId = caixaAtiva.proximoId;
+      caixaAtiva = caixasConfigs[novoId];
+      document.getElementById('txt-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixaAtiva.totalDoces} un.)`;
+      renderizarDoces();
+      atualizarInterface();
+      fecharModalCompleta();
+    }
+
+    function sincronizarCampos(campo, valor) {
+      if (campo === 'nome') { document.getElementById('nome-cliente').value = valor; document.getElementById('modal-nome-cliente').value = valor; } 
+      else if (campo === 'data') { document.getElementById('data-desejada').value = valor; document.getElementById('modal-data-desejada').value = valor; } 
+      else if (campo === 'hora') { document.getElementById('hora-desejada').value = valor; document.getElementById('modal-hora-desejada').value = valor; }
+      actualizarEstadoBotao();
+    }
+
+    function atualizarInterface() {
+      const container = document.getElementById('lista-selecionados'); if (!container) return;
+      container.innerHTML = "";
+      
+      const totalDocesNaCaixaAtual = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      const totalGeralValue = calcularValorTotalDoPedido();
+
+      if(totalGeralValue > 0 || carrinhoDeCaixasConcluidas.length > 0) {
+         document.getElementById('barra-mobile-checkout').classList.remove('hidden');
+         document.getElementById('secao-checkout').classList.remove('hidden');
+      } else {
+         document.getElementById('barra-mobile-checkout').classList.add('hidden');
+         if(window.innerWidth < 1024) document.getElementById('secao-checkout').classList.add('hidden');
+      }
+      
+      if(caixaAtiva) {
+        document.getElementById('label-progresso-caixa').innerText = "Progresso da Caixa Atual:";
+        if (caixaAtiva.precoFixo) {
+          document.getElementById('contagem-doces').innerText = `${caixaAtiva.totalDoces * multiplicadorCaixasDegustacao}`;
+          document.getElementById('total-doces').innerText = `${caixaAtiva.totalDoces * multiplicadorCaixasDegustacao}`;
+          container.innerHTML = `<div class="flex justify-between text-gray-700 py-0.5"><span>Caixa Degustação (${caixaAtiva.totalDoces} un.)</span><span class="font-bold">x${multiplicadorCaixasDegustacao}</span></div>`; 
+        } else {
+          document.getElementById('contagem-doces').innerText = `${totalDocesNaCaixaAtual}`;
+          document.getElementById('total-doces').innerText = `${caixaAtiva.totalDoces}`;
+          Object.entries(quantidades).forEach(([id, q]) => {
+            const doce = encontrarDoce(id); 
+            if (doce && q > 0) { container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
+          });
+          if (totalDocesNaCaixaAtual === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado nesta caixa.</p>`;
+        }
+      } else {
+        document.getElementById('label-progresso-caixa').innerText = "Nenhuma Caixa Aberta";
+        document.getElementById('contagem-doces').innerText = "0";
+        document.getElementById('total-doces').innerText = "0";
+        if(carrinhoDeCaixasConcluidas.length === 0) {
+          container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Ainda não escolheu nenhum sabor.</p>`;
+        } else {
+          container.innerHTML = `<p class="text-green-700 font-bold text-center py-1 text-[11px]"><i class="fa-solid fa-circle-check"></i> Combinações guardadas com sucesso!</p>`;
+        }
+      }
+
+      if (lacoDecorativoSelecionado) container.innerHTML += `<div class="flex justify-between text-orange-700 font-bold border-t border-dashed border-gray-200 pt-1 mt-1"><span>🎀 Laço Decorativo</span><span>+ R$ 4,50</span></div>`;
+      if (placaPersonalizadaSelecionada) container.innerHTML += `<div class="flex justify-between text-amber-700 font-bold border-t border-dashed border-gray-200 pt-1 mt-1"><span>🏷️ Placa Personalizada</span><span>+ R$ 3,50</span></div>`;
+      
+      const txtTotal = "R$ " + totalGeralValue.toFixed(2).replace('.', ',');
+      
+      document.getElementById('valor-total').innerText = txtTotal;
+      document.getElementById('modal-subtotal-pedido').innerText = txtTotal;
+      document.getElementById('mobile-resumo-total').innerText = txtTotal;
+      
+      if (caixaAtiva) {
+        document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo}`;
+      } else {
+        document.getElementById('mobile-resumo-caixa').innerText = `${carrinhoDeCaixasConcluidas.length} Caixas prontas`;
+      }
+      actualizarEstadoBotao();
+    }
+
+    function abrirAjuda() { document.getElementById('modal-ajuda').classList.remove('hidden'); }
+    function fecharAjuda() { document.getElementById('modal-ajuda').classList.add('hidden'); }
+    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+    function abrirModalEspecial(tipo) {
+      if(tipo === 'personalizados') {
+        document.getElementById('pers-view-inputs').classList.add('hidden');
+        document.getElementById('pers-view-info').classList.remove('hidden');
+        document.getElementById('modal-decorados').classList.remove('hidden');
+      } else if(tipo === 'eventos') {
+        document.getElementById('modal-eventos').classList.remove('hidden');
+      }
+    }
+
+    function enviarPedidoWhatsApp() {
+      const nome = document.getElementById('nome-cliente').value.trim(); const data = document.getElementById('data-desejada').value.split('-'); const hora = document.getElementById('hora-desejada').value; const total = document.getElementById('valor-total').innerText;
+      let texto = `Olá, OBA Doceria! Segue meu Pedido Múltiplo:\n\n*CLIENTE:* ${nome}\n*ENTREGA:* ${data[2]}/${data[1]}/${data[0]} às ${hora}\n\n*RESUMO DA ENCOMENDA:*\n`;
+      
+      carrinhoDeCaixasConcluidas.forEach((cx, idx) => {
+         texto += `*Caixa ${idx+1}:* ${cx.titulo}\n Sabores: _${cx.detalhes}_\n\n`;
+      });
+      
+      if(caixaAtiva) {
+        let txtAtiva = "";
+        if(caixaAtiva.precoFixo) { txtAtiva = `${multiplicadorCaixasDegustacao}x Combo Degustação Sortido (${caixaAtiva.totalDoces} un.)`; } 
+        else { let sab = []; Object.entries(quantidades).forEach(([id, q]) => { if (q > 0) sab.push(`${q}x ${encontrarDoce(id).nome}`); }); txtAtiva = sab.join(', '); }
+        texto += `*Caixa Atual (Em aberto):* ${caixaAtiva.titulo}\n Sabores: _${txtAtiva}_\n\n`;
+      }
+      
+      texto += `*OPCIONAIS:* ${lacoDecorativoSelecionado ? "Com Laço (🎀)" : "Sem laço"} | ${placaPersonalizadaSelecionada ? "Com Placa (🏷️)" : "Sem placa"}\n`;
+      texto += `*VALOR GERAL DO PEDIDO:* ${total}`;
+      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
+    }
+
+    function enviarOrcamentoEspecial(tipo) {
+      if(tipo === 'personalizados') {
+        const nome = document.getElementById('nome-cliente').value.trim() || "Cliente"; const tema = document.getElementById('pers-tema').value.trim(); const data = document.getElementById('pers-data').value; const qtd = document.getElementById('pers-qtd').value || "Não informada"; if (!tema || !data) { alert("Preencha os campos obrigatórios!"); return; } const d = data.split('-');
+        const msg = `Olá, OBA Doceria! Solicito reserva de *Doces Personalizados & Decorados*:\n\n*Nome:* ${nome}\n*Tema:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Quantidade:* ${qtd}`;
+        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalPersonalizados();
+      } else {
+        const nome = document.getElementById('eve-nome').value.trim(); const tipoEv = document.getElementById('eve-tipo').value.trim(); const data = document.getElementById('eve-data').value; const conv = document.getElementById('eve-convidados').value || "Não informado"; const qtd = document.getElementById('eve-qtd').value || "Não informada"; if (!nome || !tipoEv || !data) { alert("Preencha os campos obrigatórios!"); return; } const d = data.split('-');
+        const msg = `Olá, OBA Doceria! Solicito orçamento para *Casamentos, Formaturas & Eventos*:\n\n*Nome:* ${nome}\n*Tipo:* ${tipoEv}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Convidados:* ${conv}\n*Quantidade de Doces:* ${qtd}`;
+        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalEventos();
+      }
+    }
+    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if (txt && toast) { txt.innerText = m; toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
   </script>
 </body>
 </html>
