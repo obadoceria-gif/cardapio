@@ -12,8 +12,6 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
     
     body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; background-color: #FAF5F0; color: #3B2A1E; }
-    
-    /* Remove setas brutas nativas dos inputs numéricos */
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; }
@@ -22,8 +20,6 @@
     .btn-step-icon { background-color: #8B4513; color: white; width: 22px; height: 22px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
     .fade-page { animation: fadeIn 0.4s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(139, 69, 19, 0.1); }
   </style>
 </head>
 <body class="antialiased pb-24 lg:pb-10">
@@ -49,30 +45,31 @@
   </div>
 
   <div id="modal-decorados" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
-    <div class="bg-white max-w-2xl w-full rounded-3xl p-6 md:p-10 relative shadow-2xl fade-page" onclick="event.stopPropagation()">
-      <button onclick="fecharModalPersonalizados()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 font-bold">✕</button>
-      <div id="pers-view-info" class="space-y-6">
-        <div class="text-center">
-          <img src="Images/Logo_Oba/logo-horizontal.png" class="h-10 mx-auto mb-4" alt="Logo">
-          <h2 class="text-xl font-semibold text-[#8B4513]">Doces Personalizados & Decorados</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
-          <div class="p-4 bg-[#FAF5F0] rounded-2xl border border-orange-100 text-left">
-             <h4 class="font-bold mb-2 uppercase tracking-widest text-[10px] text-[#8B4513]">Informações</h4>
-             <p>• Modelagem artesanal em pasta de leite em pó, 100% comestíveis.</p>
-             <p>• Pedido mínimo: 20 unidades variadas por lote.</p>
+    <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
+      <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
+      <div class="text-center">
+        <span class="text-[#8B4513] text-[10px] font-bold uppercase tracking-widest">OBA DOCERIA 2026</span>
+        <h2 class="text-xl font-bold text-[#8B4513] mt-2">DOCES PERSONALIZADOS & DECORADOS</h2>
+      </div>
+      <div id="pers-view-info" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-600 space-y-2 text-left">
+             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
+             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
+             <p>• Pedido mínimo: 20 doces (Produzimos variado).</p>
+             <p>• Usamos forminhas de acetato transparente.</p>
              <p>• O doce da base é um brigadeiro gourmet branco ou ao leite.</p>
              <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
           </div>
-          <div class="p-4 bg-[#FAF5F0] rounded-2xl border border-orange-100 text-left">
-             <h4 class="font-bold mb-2 uppercase tracking-widest text-[10px] text-[#8B4513]">Preços com Desconto</h4>
+          <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-600 space-y-2 text-left">
+             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
              <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
              <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
              <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
              <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
           </div>
         </div>
-        <button onclick="avancarFormularioPersonalizados()" class="w-full py-3 bg-[#8B4513] text-white rounded-2xl font-medium text-xs uppercase tracking-widest transition-transform active:scale-95">Quero preencher os dados de reserva</button>
+        <button onclick="avancarFormularioPersonalizados()" class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-medium text-xs uppercase tracking-widest">Quero preencher os dados de reserva</button>
       </div>
       <div id="pers-view-inputs" class="space-y-4 hidden text-left">
         <h3 class="text-center font-semibold text-[#8B4513]">Dados da Reserva</h3>
@@ -88,7 +85,7 @@
         </div>
         <div>
           <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Número de Doces (Opcional)</label>
-          <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+          <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full p-3.5 bg-gray-50 border rounded-xl text-sm outline-none">
         </div>
         <div class="flex gap-3 pt-2">
           <button onclick="voltarLAteralPersonalizados()" class="px-4 py-2 border border-gray-200 text-xs font-semibold text-gray-400 rounded-lg">Voltar</button>
@@ -150,11 +147,11 @@
             <button onclick="definirTamanhoDegustacao(35, 100)" id="btn-deg-35" class="py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all">35 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 100,00</span></button>
           </div>
           <div class="pt-2 text-left bg-orange-50/60 p-3 rounded-2xl border border-orange-100">
-            <label class="block text-[10px] font-extrabold uppercase text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
+            <label class="block text-[10px] font-medium text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
             <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[140px]">
-              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-8 h-8 rounded-lg font-black bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center shadow-sm">-</button>
+              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-7 h-7 rounded-lg font-black bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center shadow-sm">-</button>
               <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-10 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
-              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-8 h-8 rounded-lg font-black bg-[#8B4513] text-white flex items-center justify-center shadow-sm">+</button>
+              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-7 h-7 rounded-lg font-black bg-[#8B4513] text-white flex items-center justify-center shadow-sm">+</button>
             </div>
           </div>
         </div>
@@ -333,14 +330,6 @@
     </div>
   </main>
 
-  <div id="barra-mobile-checkout" class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t p-4 flex justify-between items-center z-40 hidden shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
-    <div>
-      <p id="mobile-resumo-caixa" class="text-[9px] uppercase font-bold text-gray-400">Total Pedido</p>
-      <p id="mobile-resumo-total" class="text-lg font-bold text-[#8B4513]">R$ 0,00</p>
-    </div>
-    <button onclick="focarFormularioCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg">Concluir</button>
-  </div>
-
   <script>
     const caixasConfigs = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25 },
@@ -467,7 +456,7 @@
     }
 
     function retornarParaMenuSeletor() {
-      if(Object.values(quantidades).length > 0 && !confirm("As escolhas desta caixa aberta serão perdidas. Voltar?")) return;
+      if(Object.values(quantidades).reduce((a,b)=>a+b,0) > 0 && !confirm("As escolhas desta caixa aberta serão perdidas. Voltar?")) return;
       caixaAtiva = null; quantidades = {};
       document.getElementById('fluxo-principal').classList.add('hidden');
       document.getElementById('pag-seletor').classList.remove('hidden');
@@ -495,7 +484,7 @@
     }
 
     function renderiasAbasCategorias() {
-      const container = document.getElementById('abas-categorias');
+      const container = document.getElementById('abas-categorias'); if (!container) return;
       let html = `<button onclick="filtrarCategoria('Todos')" class="px-5 py-2 rounded-xl text-xs font-medium border border-[#8B4513]/10 bg-white shadow-sm transition-all whitespace-nowrap">Todos</button>`;
       catalogo.forEach(g => {
         html += `<button onclick="filtrarCategoria('${g.categoria}')" class="px-5 py-2 rounded-xl text-xs font-medium border border-[#8B4513]/10 bg-white transition-all whitespace-nowrap">${g.categoria.split(" (")[0]}</button>`;
@@ -506,14 +495,14 @@
     function filtrarCategoria(cat) { categoryActive = cat; renderizarDoces(); }
 
     function renderizarDoces() {
-      const grid = document.getElementById('cardapio-grid'); grid.innerHTML = "";
+      const grid = document.getElementById('cardapio-grid'); if (!grid) return; grid.innerHTML = "";
       catalogo.forEach(g => {
         if (categoryActive !== "Todos" && categoryActive !== g.categoria) return;
         g.itens.forEach(item => {
           const qtd = quantidades[item.id] || 0;
           grid.innerHTML += `
             <div class="bg-white rounded-3xl border border-orange-50 overflow-hidden shadow-sm flex flex-col justify-between w-full">
-              <img src="${item.img}" class="w-full aspect-square object-cover" onerror="this.src='https://placehold.co/300x300?text=Oba+Doce'">
+              <img src="${item.img}" class="w-full aspect-square object-cover" onerror="this.src='https://placehold.co/300x300?text=OBA+Doce'">
               <div class="p-3 text-center flex-1 flex flex-col justify-between">
                 <div>
                   <h3 class="text-[11px] font-medium mb-1 line-clamp-1">${item.nome}</h3>
@@ -540,7 +529,6 @@
     }
 
     function abrirBannerDegustacao() {
-      // Reativação da transição fluida de páginas para a vitrine
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
 
