@@ -24,11 +24,10 @@
 </head>
 <body class="bg-[#FAF5F0] text-[#3B2A1E] antialiased">
 
-  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
+  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
     <span id="toast-text" class="font-bold text-center w-full text-sm"></span>
   </div>
 
-  <!-- POP-UP REATIVO DE CONFIGURAÇÃO DE COMBO / CONCLUSÃO -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
@@ -121,7 +120,6 @@
     </div>
   </div>
 
-  <!-- Modal Detalhes do Doce Individual -->
   <div id="modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-[2.5rem] relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/20 text-white rounded-full w-8 h-8 flex items-center justify-center z-20">✕</button>
@@ -138,7 +136,6 @@
     </div>
   </div>
 
-  <!-- Modal Personalizados -->
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
@@ -148,20 +145,20 @@
       </div>
       <div id="pers-view-info" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 space-y-2 text-left shadow-inner">
-             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
-             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
-             <p>• Pedido mínimo: 20 doces (variados).</p>
-             <p>• Usamos forminhas de acetato transparente.</p>
-             <p>• O doce da base é um brigadeiro gourmet branco ou ao leite.</p>
-             <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
+          <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
+            <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
+            <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
+            <p>• Pedido mínimo: 20 doces (variados).</p>
+            <p>• Usamos forminhas de acetato transparente.</p>
+            <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
+            <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
           </div>
-          <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 space-y-2 text-left shadow-inner">
-             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
-             <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
-             <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
-             <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
-             <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
+          <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
+            <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
+            <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
+            <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
+            <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
+            <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
           </div>
         </div>
         <button onclick="avancarFormularioPersonalizados()" class="w-full py-3.5 bg-[#8B4513] text-white font-black text-xs rounded-xl uppercase tracking-wider flex items-center justify-center shadow-md">Quero preencher os dados de reserva</button>
@@ -183,13 +180,12 @@
         </div>
         <div class="flex gap-2 pt-2">
           <button onclick="voltarLAteralPersonalizados()" class="px-4 py-3 border border-gray-200 text-xs font-bold text-gray-400 rounded-lg uppercase">Voltar</button>
-          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-medium text-xs uppercase tracking-wide flex items-center justify-center shadow-md">Solicitar Reserva no WhatsApp</button>
+          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-lg font-black text-xs uppercase tracking-wide flex items-center justify-center shadow-md">Solicitar Reserva no WhatsApp</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal Eventos -->
   <div id="modal-eventos" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalEventos()">
     <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
@@ -222,12 +218,11 @@
               <input type="number" id="eve-qtd" placeholder="Ex: 500 doces" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
             </div>
          </div>
-         <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-wide shadow-md">Solicitar Orçamento no WhatsApp</button>
+         <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-wide flex items-center justify-center shadow-md">Solicitar Orçamento no WhatsApp</button>
       </div>
     </div>
   </div>
 
-  <!-- PÁGINA 1: CAPA DE ABERTURA -->
   <section id="pag-capa" class="min-h-screen flex flex-col items-center justify-center p-6 fade-page">
     <img src="Images/Logo_Oba/logo-vertical.png" class="h-48 md:h-64 mb-10 drop-shadow-sm" alt="Logo Vertical">
     <div class="text-center space-y-4 max-w-md">
@@ -237,7 +232,6 @@
     </div>
   </section>
 
-  <!-- PÁGINA 2: APRESENTAÇÃO INSTITUCIONAL -->
   <section id="pag-sobre" class="min-h-screen hidden flex flex-col items-center justify-center p-6 fade-page">
     <div class="max-w-xl w-full bg-white/60 p-8 md:p-12 rounded-[3rem] border border-orange-100 text-center space-y-6">
       <img src="Images/Logo_Oba/logo-circular.png" class="h-32 mx-auto mb-4" alt="Logo Circular">
@@ -254,7 +248,6 @@
     </div>
   </section>
 
-  <!-- PÁGINA 3: SELETOR DE EXPERIÊNCIAS -->
   <section id="pag-seletor" class="min-h-screen hidden flex flex-col items-center justify-center p-6 fade-page">
     <header class="text-center mb-10">
       <img src="Images/Logo_Oba/logo-horizontal.png" class="h-12 mx-auto mb-4" alt="Logo Horizontal">
@@ -288,7 +281,6 @@
     <button onclick="navegarPara(2)" class="mt-8 text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-[#8B4513] transition-colors">← Nossa História</button>
   </section>
 
-  <!-- PÁGINA 4: FLUXO DE PEDIDOS -->
   <main id="fluxo-principal" class="max-w-6xl mx-auto px-4 hidden fade-page mt-6">
     <header class="text-center mb-8">
       <img src="Images/Logo_Oba/logo-horizontal.png" class="h-12 mx-auto mb-2" alt="Logo">
@@ -555,6 +547,11 @@
     }
 
     function abrirBannerDegustacao() {
+      // Avança os bastidores para a página 4 de forma segura
+      document.getElementById('pag-seletor').classList.add('hidden');
+      document.getElementById('fluxo-principal').classList.remove('hidden');
+      document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
+
       modoDegustacaoAtivo = true;
       multiplicadorCaixasDegustacao = 1;
       
@@ -577,7 +574,7 @@
 
     function definirTamanhoDegustacao(unidades, valorFixo) {
       if(!modoDegustacaoAtivo) return;
-      caixaAtiva.totalDoces = unidades;
+      caixaAtiva.totalDoces = units = unidades;
       caixaAtiva.precoFixo = valorFixo;
       
       ['12', '25', '35'].forEach(u => {
@@ -812,16 +809,6 @@
       enviarPedidoWhatsApp(); 
     }
 
-    function abrirModalEspecial(tipo) {
-      if(tipo === 'personalizados') {
-        document.getElementById('pers-view-inputs').classList.add('hidden');
-        document.getElementById('pers-view-info').classList.remove('hidden');
-        document.getElementById('modal-decorados').classList.remove('hidden');
-      } else if(tipo === 'eventos') {
-        document.getElementById('modal-eventos').classList.remove('hidden');
-      }
-    }
-
     function avancarFormularioPersonalizados() { 
       document.getElementById('pers-view-info').classList.add('hidden'); 
       document.getElementById('pers-view-inputs').classList.remove('hidden'); 
@@ -830,6 +817,16 @@
     function voltarLAteralPersonalizados() { 
       document.getElementById('pers-view-inputs').classList.add('hidden'); 
       document.getElementById('pers-view-info').classList.remove('hidden'); 
+    }
+
+    function abrirModalEspecial(tipo) {
+      if(tipo === 'personalizados') {
+        document.getElementById('pers-view-inputs').classList.add('hidden');
+        document.getElementById('pers-view-info').classList.remove('hidden');
+        document.getElementById('modal-decorados').classList.remove('hidden');
+      } else if(tipo === 'eventos') {
+        document.getElementById('modal-eventos').classList.remove('hidden');
+      }
     }
 
     function alterarQtd(id, delta) {
@@ -896,7 +893,6 @@
         window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalEventos();
       }
     }
-    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if (txt && toast) { txt.innerText = m; toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
   </script>
 </body>
 </html>
