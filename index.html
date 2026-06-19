@@ -9,136 +9,56 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
     
     body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; background-color: #FAF5F0; color: #3B2A1E; }
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; }
     
-    .step-title { font-size: 1rem; font-weight: 600; color: #8B4513; display: flex; align-items: center; gap: 10px; }
-    .btn-step-icon { background-color: #8B4513; color: white; width: 22px; height: 22px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+    .step-title { font-size: 1.125rem; font-weight: 800; color: #8B4513; display: flex; align-items: center; gap: 12px; text-transform: uppercase; }
+    .btn-step-icon { background-color: #8B4513; color: white; width: 24px; height: 24px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
     .fade-page { animation: fadeIn 0.4s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
-<body class="antialiased pb-24 lg:pb-10">
+<body class="bg-[#FAF5F0] text-[#3B2A1E] antialiased">
 
   <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 max-w-sm w-11/12 transform translate-y-12 opacity-0 pointer-events-none">
-    <span id="toast-text" class="font-medium text-center w-full text-sm"></span>
+    <span id="toast-text" class="font-bold text-center w-full text-sm"></span>
   </div>
 
-  <div id="modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-sm w-full rounded-[2.5rem] relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/20 text-white rounded-full w-8 h-8 flex items-center justify-center z-20">✕</button>
-      <div class="w-full aspect-square bg-gray-50 overflow-hidden">
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
+    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
+      <div class="w-full aspect-square bg-gray-50 relative overflow-hidden">
           <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover">
       </div>
-      <div class="p-8">
-        <h2 id="modal-title" class="text-xl font-semibold text-[#8B4513] mb-4 text-center"></h2>
-        <div class="flex items-center justify-between border-t pt-4">
-          <div><span class="text-[10px] text-gray-400 uppercase font-bold block">Valor unitário</span><span id="modal-price" class="text-xl font-bold text-[#8B4513]"></span></div>
-          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest">Adicionar</button>
+      <div class="p-6 bg-white">
+        <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
+        <div class="flex items-center justify-between border-t border-gray-100 pt-4">
+          <div class="flex flex-col">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Unidade</span>
+            <span id="modal-price" class="text-xl font-black text-[#8B4513]"></span>
+          </div>
+          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold shadow-md text-xs uppercase">Adicionar</button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div id="modal-decorados" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
-    <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-xl my-8 space-y-5" onclick="event.stopPropagation()">
-      <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
-      <div class="text-center">
-        <span class="text-[#8B4513] text-[10px] font-bold uppercase tracking-widest">OBA DOCERIA 2026</span>
-        <h2 class="text-xl font-bold text-[#8B4513] mt-2">DOCES PERSONALIZADOS & DECORADOS</h2>
-      </div>
-      <div id="pers-view-info" class="space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-600 space-y-2 text-left">
-             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
-             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
-             <p>• Pedido mínimo: 20 doces (Produzimos variado).</p>
-             <p>• Usamos forminhas de acetato transparente.</p>
-             <p>• O doce da base é um brigadeiro gourmet branco ou ao leite.</p>
-             <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
-          </div>
-          <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-600 space-y-2 text-left">
-             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
-             <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
-             <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
-             <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
-             <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
-          </div>
-        </div>
-        <button onclick="avancarFormularioPersonalizados()" class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-medium text-xs uppercase tracking-widest">Quero preencher os dados de reserva</button>
-      </div>
-      <div id="pers-view-inputs" class="space-y-4 hidden text-left">
-        <h3 class="text-center font-semibold text-[#8B4513]">Dados da Reserva</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tema Pretendido *</label>
-            <input type="text" id="pers-tema" placeholder="Ex: Safari, Princesas" class="w-full p-3.5 bg-gray-50 border rounded-xl outline-none focus:border-[#8B4513] text-sm">
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data Pretendida *</label>
-            <input type="date" id="pers-data" class="w-full p-3.5 bg-gray-50 border rounded-xl outline-none text-sm">
-          </div>
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Número de Doces (Opcional)</label>
-          <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full p-3.5 bg-gray-50 border rounded-xl text-sm outline-none">
-        </div>
-        <div class="flex gap-3 pt-2">
-          <button onclick="voltarLAteralPersonalizados()" class="px-4 py-2 border border-gray-200 text-xs font-semibold text-gray-400 rounded-lg">Voltar</button>
-          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-medium text-xs uppercase tracking-wide">Solicitar Reserva no WhatsApp</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-eventos" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalEventos()">
-    <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl fade-page text-center" onclick="event.stopPropagation()">
-      <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold">✕</button>
-      <img src="Images/Logo_Oba/logo-horizontal.png" class="h-10 mx-auto mb-4" alt="Logo">
-      <h2 class="text-xl font-semibold text-[#8B4513] mb-6">Orçamentos para Grandes Eventos</h2>
-      <div class="space-y-4 text-left">
-        <div>
-          <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Seu Nome Completo *</label>
-          <input type="text" id="eve-nome" placeholder="Seu Nome Completo" class="w-full p-3.5 bg-gray-50 border rounded-xl outline-none text-sm">
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tipo de Evento *</label>
-            <input type="text" id="eve-tipo" placeholder="Tipo de Evento (Casamento, Formatura...)" class="w-full p-3.5 bg-gray-50 border rounded-xl outline-none text-sm">
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data Desejada *</label>
-            <input type="date" id="eve-data" class="w-full p-3.5 bg-gray-50 border rounded-xl outline-none text-sm">
-          </div>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade de Convidados</label>
-            <input type="number" id="eve-convidados" placeholder="Nº Convidados" class="p-3.5 bg-gray-50 border rounded-xl outline-none text-sm">
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade Estimada de Doces</label>
-            <input type="number" id="eve-qtd" placeholder="Ex: 500 doces" class="p-3.5 bg-gray-50 border rounded-xl outline-none text-sm">
-          </div>
-        </div>
-      </div>
-      <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full mt-6 py-4 bg-green-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg transition-transform active:scale-95">Solicitar Orçamento no WhatsApp</button>
     </div>
   </div>
 
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
+
       <div id="modal-completa-estado-escolha" class="space-y-4">
         <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-square-check"></i></div>
+        
         <div class="space-y-1">
           <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
           <p class="text-sm text-gray-500 font-semibold">Valor Total do Pedido: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
         </div>
+
         <div id="wrapper-tamanhos-degustacao" class="hidden space-y-3">
           <p class="text-xs text-amber-900 font-bold uppercase">Selecione o tamanho da sua Caixa Degustação Sortida:</p>
           <div class="grid grid-cols-3 gap-2">
@@ -146,6 +66,7 @@
             <button onclick="definirTamanhoDegustacao(25, 75)" id="btn-deg-25" class="py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all">25 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 75,00</span></button>
             <button onclick="definirTamanhoDegustacao(35, 100)" id="btn-deg-35" class="py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all">35 un.<br><span class="text-[10px] font-normal text-gray-400">R$ 100,00</span></button>
           </div>
+          
           <div class="pt-2 text-left bg-orange-50/60 p-3 rounded-2xl border border-orange-100">
             <label class="block text-[10px] font-extrabold uppercase text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
             <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[140px]">
@@ -155,7 +76,9 @@
             </div>
           </div>
         </div>
+
         <p id="modal-instrucao-opcionais" class="text-xs text-amber-800 font-bold bg-amber-50 py-1.5 px-3 rounded-lg">Deseja estender sua experiência adicionando mais sabores ou fechar a sua encomenda agora?</p>
+
         <div class="space-y-2 text-left">
           <div onclick="toggleOpcional('laco')" class="border-2 border-orange-100 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer select-none bg-[#FFFDF9] hover:border-orange-300 transition-all active:scale-[0.98]">
             <div class="flex items-center gap-3">
@@ -178,6 +101,7 @@
             <span class="text-xs font-black text-[#8B4513] whitespace-nowrap">+ R$ 3,50</span>
           </div>
         </div>
+
         <div class="flex flex-col gap-2.5 pt-2">
           <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> Quero acrescentar uma nova caixa de doces</button>
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores</button>
@@ -211,6 +135,93 @@
           <button onclick="enviarPedidoWhatsAppPeloModal()" class="w-full py-4 bg-green-600 text-white font-black text-sm rounded-xl uppercase flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-lg"></i> Enviar Encomenda no WhatsApp</button>
           <button onclick="voltarParaEstadosEscolhaModal()" class="w-full py-2 text-center text-xs font-bold text-gray-400">Voltar</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
+    <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
+      <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
+      <div class="text-center">
+        <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest">OBA DOCERIA 2026</span>
+        <h2 class="text-2xl font-black text-[#8B4513] mt-3 uppercase tracking-tight">DOCES PERSONALIZADOS & DECORADOS</h2>
+      </div>
+      <div id="pers-view-info" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 space-y-2 shadow-inner">
+            <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
+            <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
+            <p>• Pedido mínimo: 20 doces (variados).</p>
+            <p>• Usamos forminhas de acetato transparente.</p>
+            <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
+            <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
+          </div>
+          <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 space-y-2 shadow-inner">
+            <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
+            <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
+            <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
+            <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
+            <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
+          </div>
+        </div>
+        <button onclick="avancarFormularioPersonalizados()" class="w-full py-3.5 bg-[#8B4513] text-white font-black text-xs rounded-xl uppercase tracking-wider flex items-center justify-center shadow-md">
+          Quero preencher os dados de reserva
+        </button>
+      </div>
+      <div id="pers-view-inputs" class="space-y-4 hidden bg-gray-50 p-5 rounded-2xl border border-gray-100 shadow-inner">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tema Pretendido *</label>
+            <input type="text" id="pers-tema" placeholder="Ex: Safari, Princesas" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data Pretendida *</label>
+            <input type="date" id="pers-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Número de Doces (Opcional)</label>
+          <input type="number" id="pers-qtd" placeholder="Mínimo 20" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+        </div>
+        <div class="flex gap-2 pt-2">
+          <button onclick="voltarLAteralPersonalizados()" class="px-4 py-3 border border-gray-200 text-xs font-bold text-gray-400 rounded-lg uppercase">Voltar</button>
+          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-medium text-xs uppercase tracking-wide">Solicitar Reserva no WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-eventos" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalEventos()">
+    <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
+      <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
+      <img src="Images/Logo_Oba/logo-horizontal.png" class="h-10 mx-auto mb-4" alt="Logo">
+      <h2 class="text-xl sm:text-2xl font-black text-[#8B4513] mt-3 uppercase tracking-tight leading-tight">ORÇAMENTO PARA CASAMENTOS, FORMATURAS E EVENTOS</h2>
+      <div class="space-y-4 bg-gray-50 p-5 rounded-2xl border border-gray-100 shadow-inner">
+         <div>
+            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Seu Nome Completo *</label>
+            <input type="text" id="eve-nome" placeholder="Ex: Paulo Silva" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+         </div>
+         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tipo de Evento *</label>
+              <input type="text" id="eve-tipo" placeholder="Ex: Casamento, Formatura" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data Desejada *</label>
+              <input type="date" id="eve-data" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+            </div>
+         </div>
+         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade Estimada de Convidados</label>
+              <input type="number" id="eve-convidados" placeholder="Ex: 150 pessoas" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Quantidade Estimada de Doces</label>
+              <input type="number" id="eve-qtd" placeholder="Ex: 500 doces" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+            </div>
+         </div>
+         <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-wide shadow-md">Solicitar Orçamento no WhatsApp</button>
       </div>
     </div>
   </div>
@@ -543,8 +554,11 @@
     }
 
     function abrirBannerDegustacao() {
+      // --- NOVA JORNADA DE PÁGINAS INTEGRADA ---
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
+      document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
+      // -----------------------------------------
 
       modoDegustacaoAtivo = true;
       multiplicadorCaixasDegustacao = 1;
@@ -650,6 +664,7 @@
       atualizarInterface();
     }
 
+    // Corrigido erro de digitação da chamada de remoção
     function removerCaixaDoCarrinho(index) {
       carrinhoDeCaixasConcluidas.splice(index, 1);
       atualizarPainelCarrinhoLateral();
