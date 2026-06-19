@@ -120,17 +120,20 @@
     </div>
   </div>
 
-  <div id="modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-sm w-full rounded-[2.5rem] relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/20 text-white rounded-full w-8 h-8 flex items-center justify-center z-20">✕</button>
-      <div class="w-full aspect-square bg-gray-50 overflow-hidden">
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
+    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
+      <div class="w-full aspect-square bg-gray-50 relative overflow-hidden">
           <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover">
       </div>
-      <div class="p-8">
-        <h2 id="modal-title" class="text-xl font-semibold text-[#8B4513] mb-4 text-center"></h2>
-        <div class="flex items-center justify-between border-t pt-4">
-          <div><span class="text-[10px] text-gray-400 uppercase font-bold block">Valor unitário</span><span id="modal-price" class="text-xl font-bold text-[#8B4513]"></span></div>
-          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest">Adicionar</button>
+      <div class="p-6 bg-white">
+        <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
+        <div class="flex items-center justify-between border-t border-gray-100 pt-4">
+          <div class="flex flex-col">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Unidade</span>
+            <span id="modal-price" class="text-xl font-black text-[#8B4513]"></span>
+          </div>
+          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold shadow-md text-xs uppercase">Adicionar</button>
         </div>
       </div>
     </div>
@@ -145,7 +148,7 @@
       </div>
       <div id="pers-view-info" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
+          <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
             <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
             <p>• Pedido mínimo: 20 doces (variados).</p>
@@ -153,7 +156,7 @@
             <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
             <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
           </div>
-          <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
+          <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
             <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
             <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
             <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
@@ -218,7 +221,7 @@
               <input type="number" id="eve-qtd" placeholder="Ex: 500 doces" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
             </div>
          </div>
-         <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-wide flex items-center justify-center shadow-md">Solicitar Orçamento no WhatsApp</button>
+         <button onclick="enviarOrcamentoEspecial('eventos')" class="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-wide shadow-md">Solicitar Orçamento no WhatsApp</button>
       </div>
     </div>
   </div>
@@ -547,7 +550,7 @@
     }
 
     function abrirBannerDegustacao() {
-      // Avança os bastidores para a página 4 de forma segura
+      // Sincronização e direcionamento forçado de container ativo no Stories
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
       document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
@@ -574,7 +577,7 @@
 
     function definirTamanhoDegustacao(unidades, valorFixo) {
       if(!modoDegustacaoAtivo) return;
-      caixaAtiva.totalDoces = units = unidades;
+      caixaAtiva.totalDoces = unidades;
       caixaAtiva.precoFixo = valorFixo;
       
       ['12', '25', '35'].forEach(u => {
@@ -665,7 +668,7 @@
       atualizarPainelCarrinhoLateral();
     }
 
-    function toggleOpcional(tipo) {
+    UX = function toggleOpcional(tipo) {
       if(tipo === 'laco') {
         lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
         const box = document.getElementById('chk-laco');
@@ -880,18 +883,6 @@
       texto += `*OPCIONAIS:* ${lacoDecorativoSelecionado ? "Com Laço (🎀)" : "Sem laço"} | ${placaPersonalizadaSelecionada ? "Com Placa (🏷️)" : "Sem placa"}\n`;
       texto += `*VALOR GERAL DO PEDIDO:* ${total}`;
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
-    }
-
-    function enviarOrcamentoEspecial(tipo) {
-      if(tipo === 'personalizados') {
-        const nome = document.getElementById('modal-nome-cliente').value.trim() || "Cliente"; const tema = document.getElementById('pers-tema').value.trim(); const data = document.getElementById('pers-data').value; const qtd = document.getElementById('pers-qtd').value || "Não informada"; if (!tema || !data) { alert("Preencha os campos obrigatórios!"); return; } const d = data.split('-');
-        const msg = `Olá, OBA Doceria! Solicito reserva de *Doces Personalizados & Decorados*:\n\n*Nome:* ${nome}\n*Tema:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Quantidade:* ${qtd}`;
-        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalPersonalizados();
-      } else {
-        const nome = document.getElementById('eve-nome').value.trim(); const tipoEv = document.getElementById('eve-tipo').value.trim(); const data = document.getElementById('eve-data').value; const conv = document.getElementById('eve-convidados').value || "Não informado"; const qtd = document.getElementById('eve-qtd').value || "Não informada"; if (!nome || !tipoEv || !data) { alert("Preencha os campos obrigatórios!"); return; } const d = data.split('-');
-        const msg = `Olá, OBA Doceria! Solicito orçamento para *Casamentos, Formaturas & Eventos*:\n\n*Nome:* ${nome}\n*Tipo:* ${tipoEv}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Convidados:* ${conv}\n*Quantidade de Doces:* ${qtd}`;
-        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalEventos();
-      }
     }
   </script>
 </body>
