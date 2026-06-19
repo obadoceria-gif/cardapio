@@ -28,25 +28,7 @@
     <span id="toast-text" class="font-bold text-center w-full text-sm"></span>
   </div>
 
-  <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
-      <div class="w-full aspect-square bg-gray-50 relative overflow-hidden">
-          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover">
-      </div>
-      <div class="p-6 bg-white">
-        <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
-        <div class="flex items-center justify-between border-t border-gray-100 pt-4">
-          <div class="flex flex-col">
-            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Unidade</span>
-            <span id="modal-price" class="text-xl font-black text-[#8B4513]"></span>
-          </div>
-          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold shadow-md text-xs uppercase">Adicionar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <!-- POP-UP REATIVO DE CONFIGURAÇÃO DE COMBO / CONCLUSÃO -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
@@ -139,29 +121,47 @@
     </div>
   </div>
 
+  <!-- Modal Detalhes do Doce Individual -->
+  <div id="modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
+    <div class="bg-white max-w-sm w-full rounded-[2.5rem] relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/20 text-white rounded-full w-8 h-8 flex items-center justify-center z-20">✕</button>
+      <div class="w-full aspect-square bg-gray-50 overflow-hidden">
+          <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover">
+      </div>
+      <div class="p-8">
+        <h2 id="modal-title" class="text-xl font-semibold text-[#8B4513] mb-4 text-center"></h2>
+        <div class="flex items-center justify-between border-t pt-4">
+          <div><span class="text-[10px] text-gray-400 uppercase font-bold block">Valor unitário</span><span id="modal-price" class="text-xl font-bold text-[#8B4513]"></span></div>
+          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest">Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Personalizados -->
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
       <div class="text-center">
         <span class="text-[#8B4513] text-[10px] font-bold uppercase tracking-widest">OBA DOCERIA 2026</span>
-        <h2 class="text-2xl font-black text-[#8B4513] mt-3 uppercase tracking-tight">DOCES PERSONALIZADOS & DECORADOS</h2>
+        <h2 class="text-xl font-bold text-[#8B4513] mt-2">DOCES PERSONALIZADOS & DECORADOS</h2>
       </div>
       <div id="pers-view-info" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
-            <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
-            <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
-            <p>• Pedido mínimo: 20 doces (variados).</p>
-            <p>• Usamos forminhas de acetato transparente.</p>
-            <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
-            <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
+          <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 space-y-2 text-left shadow-inner">
+             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
+             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
+             <p>• Pedido mínimo: 20 doces (variados).</p>
+             <p>• Usamos forminhas de acetato transparente.</p>
+             <p>• O doce da base é um brigadeiro gourmet branco ou ao leite.</p>
+             <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
           </div>
-          <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
-            <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
-            <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
-            <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
-            <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
-            <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
+          <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 space-y-2 text-left shadow-inner">
+             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
+             <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
+             <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
+             <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
+             <p>• Pacote de 50 doces: <b>R$ 375,00</b></p>
           </div>
         </div>
         <button onclick="avancarFormularioPersonalizados()" class="w-full py-3.5 bg-[#8B4513] text-white font-black text-xs rounded-xl uppercase tracking-wider flex items-center justify-center shadow-md">Quero preencher os dados de reserva</button>
@@ -183,12 +183,13 @@
         </div>
         <div class="flex gap-2 pt-2">
           <button onclick="voltarLAteralPersonalizados()" class="px-4 py-3 border border-gray-200 text-xs font-bold text-gray-400 rounded-lg uppercase">Voltar</button>
-          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-lg font-black text-xs uppercase tracking-wide flex items-center justify-center shadow-md">Solicitar Reserva no WhatsApp</button>
+          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-medium text-xs uppercase tracking-wide flex items-center justify-center shadow-md">Solicitar Reserva no WhatsApp</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Modal Eventos -->
   <div id="modal-eventos" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalEventos()">
     <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
@@ -226,6 +227,7 @@
     </div>
   </div>
 
+  <!-- PÁGINA 1: CAPA DE ABERTURA -->
   <section id="pag-capa" class="min-h-screen flex flex-col items-center justify-center p-6 fade-page">
     <img src="Images/Logo_Oba/logo-vertical.png" class="h-48 md:h-64 mb-10 drop-shadow-sm" alt="Logo Vertical">
     <div class="text-center space-y-4 max-w-md">
@@ -235,6 +237,7 @@
     </div>
   </section>
 
+  <!-- PÁGINA 2: APRESENTAÇÃO INSTITUCIONAL -->
   <section id="pag-sobre" class="min-h-screen hidden flex flex-col items-center justify-center p-6 fade-page">
     <div class="max-w-xl w-full bg-white/60 p-8 md:p-12 rounded-[3rem] border border-orange-100 text-center space-y-6">
       <img src="Images/Logo_Oba/logo-circular.png" class="h-32 mx-auto mb-4" alt="Logo Circular">
@@ -251,6 +254,7 @@
     </div>
   </section>
 
+  <!-- PÁGINA 3: SELETOR DE EXPERIÊNCIAS -->
   <section id="pag-seletor" class="min-h-screen hidden flex flex-col items-center justify-center p-6 fade-page">
     <header class="text-center mb-10">
       <img src="Images/Logo_Oba/logo-horizontal.png" class="h-12 mx-auto mb-4" alt="Logo Horizontal">
@@ -284,6 +288,7 @@
     <button onclick="navegarPara(2)" class="mt-8 text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-[#8B4513] transition-colors">← Nossa História</button>
   </section>
 
+  <!-- PÁGINA 4: FLUXO DE PEDIDOS -->
   <main id="fluxo-principal" class="max-w-6xl mx-auto px-4 hidden fade-page mt-6">
     <header class="text-center mb-8">
       <img src="Images/Logo_Oba/logo-horizontal.png" class="h-12 mx-auto mb-2" alt="Logo">
@@ -401,7 +406,7 @@
           { id: "confete_275", nome: "Confete", preco: 2.75, img: "Images/Confete.jpeg" },
           { id: "damasco_275", nome: "Damasco", preco: 2.75, img: "Images/Damasco.jpeg" },
           { id: "nesquik_nutella_275", nome: "Nesquik com Nutella", preco: 2.75, img: "Images/Nesquik com Nutella.jpeg" },
-          { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, font: "bold", img: "Images/Ninho com Nutella.jpeg" },
+          { id: "ninho_nutella_275", nome: "Ninho com Nutella", preco: 2.75, img: "Images/Ninho com Nutella.jpeg" },
           { id: "oreo_275", nome: "Oreo", preco: 2.75, img: "Images/Oreo.jpeg" },
           { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: "Images/Prestígio.jpeg" },
           { id: "queijadinha_275", nome: "Queijadinha", preco: 2.75, img: "Images/Queijadinha.jpeg" }
@@ -549,13 +554,6 @@
       });
     }
 
-    function encontrarDoce(id) {
-      for (let g of catalogo) {
-        for (let i of g.itens) { if (i.id === id) return i; }
-      }
-      return null;
-    }
-
     function abrirBannerDegustacao() {
       modoDegustacaoAtivo = true;
       multiplicadorCaixasDegustacao = 1;
@@ -637,6 +635,7 @@
       carrinhoDeCaixasConcluidas.push(resumoDaCaixaAtual);
       resetarSelecaoCaixa();
       fecharModalCompleta();
+      atualizarPainelCarrinhoLateral();
       mostrarNotificacao("Caixa salva no carrinho!");
     }
 
@@ -833,16 +832,6 @@
       document.getElementById('pers-view-info').classList.remove('hidden'); 
     }
 
-    function abrirModalEspecial(tipo) {
-      if(tipo === 'personalizados') {
-        document.getElementById('pers-view-inputs').classList.add('hidden');
-        document.getElementById('pers-view-info').classList.remove('hidden');
-        document.getElementById('modal-decorados').classList.remove('hidden');
-      } else if(tipo === 'eventos') {
-        document.getElementById('modal-eventos').classList.remove('hidden');
-      }
-    }
-
     function alterarQtd(id, delta) {
       if (!caixaAtiva || modoDegustacaoAtivo) return;
       const totalDoces = Object.values(quantidades).reduce((a, b) => a + b, 0);
@@ -868,55 +857,9 @@
       }
     }
 
-    function alertarCaixaVazia() { mostrarNotificacao("Por favor, selecione uma caixa antes."); }
-    function mostrarLembreteCaixaFoco() { alertarCaixaVazia(); }
-
-    function deativarDegustacao() {
-      modoDegustacaoAtivo = false;
-      document.getElementById('wrapper-tamanhos-degustacao').classList.add('hidden');
-    }
-
-    function fecharAjuda() { document.getElementById('modal-ajuda').classList.add('hidden'); }
-
-    function deativarTudo() {
-      caixaAtiva = null;
-      quantidades = {};
-      deativarDegustacao();
-    }
-
-    function fecharModalEspecial(tipo) {
-      if(tipo === 'personalizados') fecharModalPersonalizados();
-      else fecharModalEventos();
-    }
-
-    function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
-    function fecharModalEventos() { document.getElementById('modal-eventos').classList.add('hidden'); }
-
-    function mostrarLembreteCaixaFoco() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
     function lembreteCaixa() { mostrarLembreteCaixaFoco(); }
 
-    function registrarCamposFormulario(campo, valor) { sincronizarCampos(campo, valor); }
-
-    function limparTudoCarrinho() {
-      carrinhoDeCaixasConcluidas = [];
-      deativarTudo();
-      atualizarInterface();
-    }
-
-    function fecharAbaAjuda() { fecharAjuda(); }
-
-    function voltarAtrasFase() { navegarPara(3); }
-
-    function avancarFormularioPersonalizados() {
-      document.getElementById('pers-view-info').classList.add('hidden');
-      document.getElementById('pers-view-inputs').classList.remove('hidden');
-    }
-
-    function fecharPedidoAutomatico() {
-      document.getElementById('modal-caixa-completa').classList.add('hidden');
-    }
-
-    function atualizarEstadoBotao() {
+    function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
       btn.disabled = (carrinhoDeCaixasConcluidas.length === 0 && Object.values(quantidades).length === 0);
     }
@@ -939,7 +882,7 @@
       
       texto += `*OPCIONAIS:* ${lacoDecorativoSelecionado ? "Com Laço (🎀)" : "Sem laço"} | ${placaPersonalizadaSelecionada ? "Com Placa (🏷️)" : "Sem placa"}\n`;
       texto += `*VALOR GERAL DO PEDIDO:* ${total}`;
-      window.open replay = window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
+      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
     }
 
     function enviarOrcamentoEspecial(tipo) {
