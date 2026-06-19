@@ -84,7 +84,7 @@
         </div>
 
         <div class="flex flex-col gap-2.5 pt-2">
-          <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> Quero acrescentar uma nova caixa de doces</button>
+          <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> Quero acrescentar uma nova caixa de doces</button>
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores</button>
           <button id="btn-seguir-comprando" onclick="fecharModalCompleta()" class="w-full py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-black text-xs rounded-xl shadow-sm uppercase hidden items-center justify-center gap-2"><i class="fa-solid fa-cart-plus"></i> Seguir Comprando Outras Caixas</button>
           <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual</button>
@@ -120,17 +120,20 @@
     </div>
   </div>
 
-  <div id="modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-sm w-full rounded-[2.5rem] relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/20 text-white rounded-full w-8 h-8 flex items-center justify-center z-20">✕</button>
-      <div class="w-full aspect-square bg-gray-50 overflow-hidden">
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
+    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black bg-opacity-40 text-white rounded-full w-9 h-9 flex items-center justify-center z-20 text-sm">✕</button>
+      <div class="w-full aspect-square bg-gray-50 relative overflow-hidden">
           <img id="modal-img" src="" alt="Doce" class="w-full h-full object-cover">
       </div>
-      <div class="p-8">
-        <h2 id="modal-title" class="text-xl font-semibold text-[#8B4513] mb-4 text-center"></h2>
-        <div class="flex items-center justify-between border-t pt-4">
-          <div><span class="text-[10px] text-gray-400 uppercase font-bold block">Valor unitário</span><span id="modal-price" class="text-xl font-bold text-[#8B4513]"></span></div>
-          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest">Adicionar</button>
+      <div class="p-6 bg-white">
+        <div class="text-center mb-4"><h2 id="modal-title" class="text-xl font-extrabold text-[#8B4513] tracking-tight"></h2></div>
+        <div class="flex items-center justify-between border-t border-gray-100 pt-4">
+          <div class="flex flex-col">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Unidade</span>
+            <span id="modal-price" class="text-xl font-black text-[#8B4513]"></span>
+          </div>
+          <button id="modal-add-btn" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold shadow-md text-xs uppercase">Adicionar</button>
         </div>
       </div>
     </div>
@@ -150,7 +153,7 @@
             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
             <p>• Pedido mínimo: 20 doces (variados).</p>
             <p>• Usamos forminhas de acetato transparente.</p>
-            <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
+            <p>• O doce da base é um brigadeiro gourmet branco ou ao leite.</p>
             <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
           </div>
           <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
@@ -180,7 +183,7 @@
         </div>
         <div class="flex gap-2 pt-2">
           <button onclick="voltarLAteralPersonalizados()" class="px-4 py-3 border border-gray-200 text-xs font-bold text-gray-400 rounded-lg uppercase">Voltar</button>
-          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-lg font-black text-xs uppercase tracking-wide flex items-center justify-center shadow-md">Solicitar Reserva no WhatsApp</button>
+          <button onclick="enviarOrcamentoEspecial('personalizados')" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-medium text-xs uppercase tracking-wide flex items-center justify-center shadow-md">Solicitar Reserva no WhatsApp</button>
         </div>
       </div>
     </div>
@@ -350,6 +353,10 @@
   </div>
 
   <script>
+    // DECLARAÇÃO DO ESCOPO GLOBAL DO SCRIPT ANTES DA CHAMADA DE CICLOS DE VIDA DOM
+    let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let lacoDecorativoSelecionado = false; let placaPersonalizadaSelecionada = false;
+    let modoDegustacaoAtivo = false; let multiplicadorCaixasDegustacao = 1; let carrinhoDeCaixasConcluidas = [];
+
     const caixasConfigs = {
       '25': { id: '25', titulo: 'Caixa de 25 Doces', totalDoces: 25 },
       '35': { id: '35', titulo: 'Caixa de 35 Doces', totalDoces: 35 },
@@ -452,9 +459,6 @@
       }
     ];
 
-    let caixaAtiva = null; let quantidades = {}; let categoryActive = "Todos"; let lacoDecorativoSelecionado = false; let placaPersonalizadaSelecionada = false;
-    let modoDegustacaoAtivo = false; let multiplicadorCaixasDegustacao = 1; let carrinhoDeCaixasConcluidas = [];
-
     window.onload = function() {
       renderiasAbasCategorias();
       renderizarDoces();
@@ -489,13 +493,6 @@
 
     function selecionarCaixa(id) {
       modoDegustacaoAtivo = false;
-      document.getElementById('wrapper-tamanhos-degustacao').classList.add('hidden');
-      document.getElementById('btn-upgrade-caixa').classList.remove('hidden');
-      document.getElementById('btn-seguir-comprando').classList.add('hidden');
-      document.getElementById('btn-revisar-sabores').classList.remove('hidden');
-      document.getElementById('modal-titulo-dinamico').innerText = "Sua Caixa Está Completa! 🎉";
-      document.getElementById('modal-instrucao-opcionais').innerText = "Deseja estender sua experiência adicionando mais sabores ou fechar a sua encomenda agora?";
-      
       caixaAtiva = caixasConfigs[id]; quantidades = {};
       document.getElementById('opcoes-caixas').classList.add('hidden');
       document.getElementById('resumo-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixasConfigs[id].totalDoces} unidades)`;
@@ -567,11 +564,13 @@
       const inputQtd = document.getElementById('input-qtd-caixas-degustacao');
       if (inputQtd) { inputQtd.value = 1; }
       
-      caixaAtiva = caixasConfigs['degustacao'];
+      caixaAtiva = { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00 };
       quantidades = {};
       
       document.getElementById('modal-titulo-dinamico').innerText = "Configurar Sua Caixa Degustação! 🌟";
       document.getElementById('modal-instrucao-opcionais').innerText = "Adicione mimos para presente caso queira:";
+      
+      // EXIBIÇÃO EXPLÍCITA DOS BLOCOS EMBUTIDOS DE DEGUSTAÇÃO DO SEU MODAL ORIGINAL
       document.getElementById('wrapper-tamanhos-degustacao').classList.remove('hidden');
       document.getElementById('btn-upgrade-caixa').classList.add('hidden');
       document.getElementById('btn-seguir-comprando').classList.remove('hidden');
@@ -672,6 +671,21 @@
     function removerCaixaDoCarrinho(index) {
       carrinhoDeCaixasConcluidas.splice(index, 1);
       atualizarPainelCarrinhoLateral();
+    }
+
+    function toggleOpcional(tipo) {
+      if(tipo === 'laco') {
+        lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
+        const box = document.getElementById('chk-laco');
+        box.className = lacoDecorativoSelecionado ? "w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-[#8B4513]" : "w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-white";
+        box.querySelector('i').className = lacoDecorativoSelecionado ? "fa-solid fa-check" : "opacity-0";
+      } else if(tipo === 'placa') {
+        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada;
+        const box = document.getElementById('chk-placa');
+        box.className = placaPersonalizadaSelecionada ? "w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-[#8B4513]" : "w-4 h-4 rounded border border-[#8B4513] flex items-center justify-center text-white text-[10px] bg-white";
+        box.querySelector('i').className = placaPersonalizadaSelecionada ? "fa-solid fa-check" : "opacity-0";
+      }
+      atualizarInterface();
     }
 
     function toggleOpcional(tipo) {
@@ -888,6 +902,8 @@
       
       texto += `*OPCIONAIS:* ${lacoDecorativoSelecionado ? "Com Laço (🎀)" : "Sem laço"} | ${placaPersonalizadaSelecionada ? "Com Placa (🏷️)" : "Sem placa"}\n`;
       texto += `*VALOR GERAL DO PEDIDO:* ${total}`;
+      
+      // RESTAURAÇÃO EXCLUSIVA DO DIRECIONAMENTO LIMPO DA CONEXÃO DO WHATSAPP (SEM O TEXTO CORROMPIDO)
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
     }
   </script>
