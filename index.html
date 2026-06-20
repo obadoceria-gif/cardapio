@@ -9,54 +9,58 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
     body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; background-color: #FAF5F0; color: #3B2A1E; }
-    .hidden { display: none !important; }
     .fade-page { animation: fadeIn 0.4s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="antialiased">
 
-  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-12 opacity-0 pointer-events-none bg-[#8B4513] text-white text-sm font-bold">
-    <span id="toast-text"></span>
+  <div id="custom-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-12 opacity-0 pointer-events-none bg-[#8B4513] text-white">
+    <span id="toast-text" class="font-medium text-center w-full text-sm"></span>
   </div>
 
-  <div id="modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
-    <div class="bg-white max-w-sm w-full rounded-3xl relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/20 text-white rounded-full w-8 h-8 flex items-center justify-center">✕</button>
-      <img id="modal-img" src="" class="w-full aspect-square object-cover">
-      <div class="p-6 text-center">
-        <h2 id="modal-title" class="text-xl font-bold text-[#8B4513]"></h2>
-        <button id="modal-add-btn" class="mt-4 w-full py-3 bg-[#8B4513] text-white rounded-xl text-xs uppercase font-bold">Adicionar</button>
+  <div id="modal-decorados" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white max-w-2xl w-full rounded-3xl p-6 md:p-10 relative shadow-2xl fade-page">
+      <button onclick="document.getElementById('modal-decorados').classList.add('hidden')" class="absolute top-5 right-5 text-gray-400">✕</button>
+      <div id="pers-view-info" class="space-y-6">
+        <h2 class="text-xl font-semibold text-[#8B4513] text-center">Doces Personalizados & Decorados</h2>
+        <button onclick="avancarFormularioPersonalizados()" class="w-full py-4 bg-[#8B4513] text-white rounded-2xl text-xs uppercase">Preencher Dados</button>
+      </div>
+      <div id="pers-view-inputs" class="space-y-4 hidden">
+        <input type="text" id="pers-tema" placeholder="Tema?" class="w-full p-3.5 bg-gray-50 border rounded-xl">
+        <input type="date" id="pers-data" class="w-full p-3.5 bg-gray-50 border rounded-xl">
+        <button onclick="enviarOrcamentoEspecial('personalizados')" class="w-full py-4 bg-green-600 text-white rounded-xl text-xs uppercase">Enviar via WhatsApp</button>
       </div>
     </div>
   </div>
 
   <section id="pag-capa" class="min-h-screen flex flex-col items-center justify-center p-6 fade-page">
-    <img src="Images/Logo_Oba/logo-vertical.png" class="h-48 mb-10">
-    <button onclick="navegarPara(3)" class="px-8 py-4 bg-[#8B4513] text-white rounded-2xl text-xs uppercase tracking-widest">Descobrir Cardápio</button>
+    <button onclick="navegarPara(3)" class="px-8 py-4 bg-[#8B4513] text-white rounded-2xl text-xs uppercase">Ver Cardápio</button>
   </section>
 
   <section id="pag-seletor" class="min-h-screen hidden flex flex-col items-center justify-center p-6 fade-page">
-    <div class="grid grid-cols-1 gap-4 w-full max-w-md">
-      <button onclick="entFluxoCaixas()" class="p-6 bg-[#8B4513] text-white rounded-3xl">Montar Caixa</button>
-      <button onclick="abrirBannerDegustacao()" class="p-6 bg-white border border-[#8B4513] text-[#8B4513] rounded-3xl">Caixa Degustação</button>
+    <div class="grid gap-4 w-full max-w-sm">
+      <button onclick="entFluxoCaixas()" class="p-6 bg-[#8B4513] text-white rounded-3xl">Montagem de Caixa</button>
+      <button onclick="abrirBannerDegustacao()" class="p-6 border border-[#8B4513] text-[#8B4513] rounded-3xl">Caixa Degustação</button>
     </div>
   </section>
 
-  <main id="fluxo-principal" class="hidden fade-page max-w-6xl mx-auto p-6">
-    <button onclick="navegarPara(3)" class="mb-6 text-xs uppercase font-bold text-gray-400">← Voltar</button>
-    <div id="opcoes-caixas" class="grid grid-cols-2 gap-4">
+  <main id="fluxo-principal" class="hidden p-6 max-w-6xl mx-auto fade-page">
+    <button onclick="navegarPara(3)" class="text-xs uppercase font-bold text-gray-400">← Voltar</button>
+    <div id="opcoes-caixas" class="grid grid-cols-2 gap-4 mt-6">
       <button onclick="selecionarCaixa('25')" class="p-4 bg-white border rounded-2xl">Caixa 25</button>
-      </div>
+      <button onclick="selecionarCaixa('35')" class="p-4 bg-white border rounded-2xl">Caixa 35</button>
+    </div>
     <div id="cardapio-grid" class="grid grid-cols-2 gap-4 mt-8"></div>
   </main>
 
   <script>
-    // --- LÓGICA OPERACIONAL IMPORTADA ---
-    let caixaAtiva = null; let quantidades = {}; let carrinhoDeCaixasConcluidas = [];
-    
+    // --- LÓGICA INTEGRADA ---
+    let caixaAtiva = null; let quantidades = {};
+    const caixasConfigs = { '25': { id: '25', totalDoces: 25 }, '35': { id: '35', totalDoces: 35 }, 'degustacao': { id: 'degustacao', totalDoces: 25 } };
+
     function navegarPara(n) {
       document.getElementById('pag-capa').classList.add('hidden');
       document.getElementById('pag-seletor').classList.add('hidden');
@@ -66,35 +70,36 @@
       if(n === 4) document.getElementById('fluxo-principal').classList.remove('hidden');
     }
 
-    function entFluxoCaixas() { navegarPara(4); renderizarDoces(); }
+    function entFluxoCaixas() { navegarPara(4); }
 
     function abrirBannerDegustacao() {
       navegarPara(4);
-      // Lógica do modal de degustação aqui...
-      alert("Abrindo modal de degustação...");
+      alert("Abrindo configuração de degustação...");
     }
 
     function selecionarCaixa(id) {
-      caixaAtiva = id; 
-      renderizarDoces();
+      caixaAtiva = caixasConfigs[id];
+      document.getElementById('opcoes-caixas').classList.add('hidden');
+      alert("Caixa selecionada, agora escolha os sabores.");
     }
     
-    function alterarQtd(id, delta) {
-      // Logica original de verificação de caixa cheia
-      quantidades[id] = (quantidades[id] || 0) + delta;
-      if (checkCaixaCheia()) {
-         alert("Caixa cheia! Abrindo modal...");
-      }
+    function abrirModalEspecial(tipo) {
+      if(tipo === 'personalizados') document.getElementById('modal-decorados').classList.remove('hidden');
+    }
+    
+    function avancarFormularioPersonalizados() {
+      document.getElementById('pers-view-info').classList.add('hidden');
+      document.getElementById('pers-view-inputs').classList.remove('hidden');
+    }
+    
+    function voltarLAteralPersonalizados() {
+      document.getElementById('pers-view-inputs').classList.add('hidden');
+      document.getElementById('pers-view-info').classList.remove('hidden');
     }
 
-    function checkCaixaCheia() {
-      // Regra original
-      return true; // Simulação
-    }
-
-    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-    function fecharModalCompleta() {}
-    function mostrarNotificacao(m) { alert(m); }
+    function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
+    function fecharModalEventos() { document.getElementById('modal-eventos').classList.add('hidden'); }
+    function enviarOrcamentoEspecial(tipo) { alert("Enviando orçamento de " + tipo); }
   </script>
 </body>
 </html>
