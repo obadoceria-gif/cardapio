@@ -28,7 +28,6 @@
     <span id="toast-text" class="font-bold text-center w-full text-sm"></span>
   </div>
 
-  <!-- POP-UP REATIVO DE FINALIZAÇÃO / AUTOMÁTICO DE CAIXA CHEIA E DEGUSTAÇÃO -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
@@ -64,7 +63,7 @@
         <div class="space-y-2 text-left">
           <div onclick="toggleOpcional('laco')" class="border-2 border-orange-100 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer select-none bg-[#FFFDF9] hover:border-orange-300 transition-all active:scale-[0.98]">
             <div class="flex items-center gap-3">
-              <div id="chk-laco" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0"></i></div>
+              <div id="chk-laco" class="w-4 h-4 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0"></i></div>
               <div>
                 <h4 class="text-xs font-extrabold text-[#8B4513] uppercase tracking-wide">Adicionar Laço Decorativo 🎀</h4>
                 <p class="text-[10px] text-gray-400">Embalagem clássica e elegante para presente.</p>
@@ -74,7 +73,7 @@
           </div>
           <div onclick="toggleOpcional('placa')" class="border-2 border-orange-100 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer select-none bg-[#FFFDF9] hover:border-orange-300 transition-all active:scale-[0.98]">
             <div class="flex items-center gap-3">
-              <div id="chk-placa" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0"></i></div>
+              <div id="chk-placa" class="w-4 h-4 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0"></i></div>
               <div>
                 <h4 class="text-xs font-extrabold text-[#8B4513] uppercase tracking-wide">Placa Personalizada 🏷️</h4>
                 <p class="text-[10px] text-gray-400">Mini placa (Ex: "Com Carinho", "Parabéns").</p>
@@ -85,7 +84,7 @@
         </div>
 
         <div class="flex flex-col gap-2.5 pt-2">
-          <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> + Salvar e Montar Outra Caixa</button>
+          <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> Quero acrescentar uma nova caixa de doces</button>
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores</button>
           <button id="btn-seguir-comprando" onclick="fecharModalCompleta()" class="w-full py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-black text-xs rounded-xl shadow-sm uppercase hidden items-center justify-center gap-2"><i class="fa-solid fa-cart-plus"></i> Seguir Comprando Outras Caixas</button>
           <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual</button>
@@ -121,7 +120,6 @@
     </div>
   </div>
 
-  <!-- Modal Detalhes do Doce Individual -->
   <div id="modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="closeModal()">
     <div class="bg-white max-w-sm w-full rounded-[2.5rem] relative shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
       <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/20 text-white rounded-full w-8 h-8 flex items-center justify-center z-20">✕</button>
@@ -138,13 +136,12 @@
     </div>
   </div>
 
-  <!-- Modal Personalizados -->
   <div id="modal-decorados" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalPersonalizados()">
     <div class="bg-white max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
       <div class="text-center">
         <span class="text-[#8B4513] text-[10px] font-bold uppercase tracking-widest">OBA DOCERIA 2026</span>
-        <h2 class="text-xl font-bold text-[#8B4513] mt-2">DOCES EXCLUSIVOS</h2>
+        <h2 class="text-xl font-bold text-[#8B4513] mt-2">DOCES ESPECIAIS</h2>
       </div>
       <div id="pers-view-info" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -189,7 +186,6 @@
     </div>
   </div>
 
-  <!-- Modal Eventos -->
   <div id="modal-eventos" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 overflow-y-auto" onclick="fecharModalEventos()">
     <div class="bg-white max-w-xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8 space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalEventos()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
@@ -227,7 +223,6 @@
     </div>
   </div>
 
-  <!-- PÁGINA 1: CAPA DE ABERTURA -->
   <section id="pag-capa" class="min-h-screen flex flex-col items-center justify-center p-6 fade-page">
     <img src="Images/Logo_Oba/logo-vertical.png" class="h-48 md:h-64 mb-10 drop-shadow-sm" alt="Logo Vertical">
     <div class="text-center space-y-4 max-w-md">
@@ -237,7 +232,6 @@
     </div>
   </section>
 
-  <!-- PÁGINA 2: APRESENTAÇÃO INSTITUCIONAL -->
   <section id="pag-sobre" class="min-h-screen hidden flex flex-col items-center justify-center p-6 fade-page">
     <div class="max-w-xl w-full bg-white/60 p-8 md:p-12 rounded-[3rem] border border-orange-100 text-center space-y-6">
       <img src="Images/Logo_Oba/logo-circular.png" class="h-32 mx-auto mb-4" alt="Logo Circular">
@@ -254,7 +248,6 @@
     </div>
   </section>
 
-  <!-- PÁGINA 3: SELETOR DE EXPERIÊNCIAS -->
   <section id="pag-seletor" class="min-h-screen hidden flex flex-col items-center justify-center p-6 fade-page">
     <header class="text-center mb-10">
       <img src="Images/Logo_Oba/logo-horizontal.png" class="h-12 mx-auto mb-4" alt="Logo Horizontal">
@@ -288,7 +281,6 @@
     <button onclick="navegarPara(2)" class="mt-8 text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-[#8B4513] transition-colors">← Nossa História</button>
   </section>
 
-  <!-- PÁGINA 4: FLUXO DE PEDIDOS -->
   <main id="fluxo-principal" class="max-w-6xl mx-auto px-4 hidden fade-page mt-6">
     <header class="text-center mb-8">
       <img src="Images/Logo_Oba/logo-horizontal.png" class="h-12 mx-auto mb-2" alt="Logo">
@@ -354,11 +346,11 @@
       <p id="mobile-resumo-caixa" class="text-[9px] uppercase font-bold text-gray-400">Total Pedido</p>
       <p id="mobile-resumo-total" class="text-lg font-bold text-[#8B4513]">R$ 0,00</p>
     </div>
-    <button onclick="focarFormularioCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg">Concluir</button>
+    <button onclick="focarFormularioCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg">Concluir</button>
   </div>
 
   <script>
-    // ESCOPO GLOBAL UNIFICADO INICIALIZADO NO TOPO DO ARQUIVO
+    // DECLARAÇÃO DO MOTOR EM ESCOPO GLOBAL ÚNICO - EVITA SOBRESCRITA E ERRO EM RUNTIME
     let caixaAtiva = null; 
     let quantidades = {}; 
     let categoryActive = "Todos"; 
@@ -470,31 +462,34 @@
       }
     ];
 
-    function abrirBannerDegustacao() {
-      // FORÇA A TRANSIÇÃO DE NAVEGAÇÃO ENTRE AS PÁGINAS DO NOVO LAYOUT
+    function navegarPara(num) {
+      document.getElementById('pag-capa').classList.add('hidden');
+      document.getElementById('pag-sobre').classList.add('hidden');
+      document.getElementById('pag-seletor').classList.add('hidden');
+      document.getElementById('fluxo-principal').classList.add('hidden');
+      if(num === 1) document.getElementById('pag-capa').classList.remove('hidden');
+      if(num === 2) document.getElementById('pag-sobre').classList.remove('hidden');
+      if(num === 3) document.getElementById('pag-seletor').classList.remove('hidden');
+    }
+
+    function entFluxoCaixas() {
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
       document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
+      renderiasAbasCategorias();
+      renderizarDoces();
+      atualizarInterface();
+    }
 
-      modoDegustacaoAtivo = true;
-      multiplicadorCaixasDegustacao = 1;
-      
-      caixaAtiva = caixasConfigs['degustacao'];
-      quantidades = {};
-      
-      document.getElementById('modal-titulo-dinamico').innerText = "Configurar Sua Caixa Degustação! 🌟";
-      document.getElementById('modal-instrucao-opcionais').innerText = "Adicione mimos para presente caso queira:";
-      document.getElementById('wrapper-tamanhos-degustacao').classList.remove('hidden');
-      document.getElementById('btn-upgrade-caixa').classList.add('hidden');
-      document.getElementById('btn-seguir-comprando').classList.remove('hidden');
-      document.getElementById('btn-revisar-sabores').classList.add('hidden');
-      
-      definirTamanhoDegustacao(25, 75);
-      document.getElementById('modal-caixa-completa').classList.remove('hidden');
+    function retornarParaMenuSeletor() {
+      if(Object.values(quantidades).reduce((a,b)=>a+b,0) > 0 && !confirm("As escolhas desta caixa aberta serão perdidas. Voltar?")) return;
+      caixaAtiva = null; quantidades = {};
+      document.getElementById('fluxo-principal').classList.add('hidden');
+      document.getElementById('pag-seletor').classList.remove('hidden');
     }
 
     function selecionarCaixa(id) {
-      // FORÇA A TRANSIÇÃO DE NAVEGAÇÃO ENTRE AS PÁGINAS DO NOVO LAYOUT
+      // ADAPTAÇÃO DE NAVEGAÇÃO DOS STORIES ATIVA NOS BASTIDORES
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
 
@@ -508,33 +503,40 @@
       renderizarDoces(); atualizarInterface();
     }
 
-    function alterarQtd(id, delta) {
-      if (!caixaAtiva || modoDegustacaoAtivo) return;
-      const totalDoces = Object.values(quantidades).reduce((a, b) => a + b, 0);
-      if(delta > 0 && totalDoces >= caixaAtiva.totalDoces) { mostrarNotificacao("Caixa cheia!"); return; }
-      quantidades[id] = (quantidades[id] || 0) + delta;
-      if(quantidades[id] <= 0) delete quantidades[id];
-      renderizarDoces(); atualizarInterface();
-      
-      // GATILHO ORIGINAL DO DISPARO AUTOMÁTICO DE CAIXA CHEIA REINTEGRADO
-      if(Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
-        document.getElementById('modal-caixa-completa').classList.remove('hidden');
-      }
+    function resetarSelecaoCaixa() {
+      if(Object.values(quantidades).reduce((a,b)=>a+b,0) > 0 && !confirm("Se alterar o tamanho agora, as escolhas atuais desta caixa serão perdidas. Continuar?")) return;
+      caixaAtiva = null; quantidades = {};
+      document.getElementById('opcoes-caixas').classList.remove('hidden');
+      document.getElementById('resumo-caixa-selecionada').classList.add('hidden');
+      document.getElementById('btn-alterar-caixa').classList.add('hidden');
+      document.getElementById('secao-passo2').classList.add('hidden');
+      atualizarInterface();
     }
 
-    function digitarQtd(id, valor) {
-      if (!caixaAtiva || modoDegustacaoAtivo) return;
-      let qtdDigitada = parseInt(valor) || 0; if (qtdDigitada < 0) qtdDigitada = 0;
-      const totalOutros = Object.values(quantidades).reduce((a, b) => a + b, 0) - (quantidades[id] || 0);
-      const espacoLivre = caixaAtiva.totalDoces - totalOutros;
-      if (qtdDigitada > espacoLivre) { mostrarNotificacao("Limite atingido!"); qtdDigitada = espacoLivre; }
-      if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
-      atualizarInterface();
+    function abrirBannerDegustacao() {
+      // GARANTE ROTEAMENTO VIRTUAL ENTRE AS TELAS ANTES DE MOSTRAR O POP-UP
+      document.getElementById('pag-seletor').classList.add('hidden');
+      document.getElementById('fluxo-principal').classList.remove('hidden');
+      document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
+
+      modoDegustacaoAtivo = true;
+      multiplicadorCaixasDegustacao = 1;
       
-      // GATILHO ORIGINAL DO DISPARO AUTOMÁTICO DE CAIXA CHEIA REINTEGRADO
-      if(Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
-        document.getElementById('modal-caixa-completa').classList.remove('hidden');
-      }
+      const inputQtd = document.getElementById('input-qtd-caixas-degustacao');
+      if (inputQtd) { inputQtd.value = 1; }
+      
+      caixaAtiva = caixasConfigs['degustacao'];
+      quantidades = {};
+      
+      document.getElementById('modal-titulo-dinamico').innerText = "Configurar Sua Caixa Degustação! 🌟";
+      document.getElementById('modal-instrucao-opcionais').innerText = "Adicione mimos para presente caso queira:";
+      document.getElementById('wrapper-tamanhos-degustacao').classList.remove('hidden');
+      document.getElementById('btn-upgrade-caixa').classList.add('hidden');
+      document.getElementById('btn-seguir-comprando').classList.remove('hidden');
+      document.getElementById('btn-revisar-sabores').classList.add('hidden');
+      
+      definirTamanhoDegustacao(25, 75);
+      document.getElementById('modal-caixa-completa').classList.remove('hidden');
     }
 
     function definirTamanhoDegustacao(unidades, valorFixo) {
@@ -551,6 +553,35 @@
         }
       });
       atualizarInterface();
+    }
+
+    function alterarQtd(id, delta) {
+      if (!caixaAtiva || modoDegustacaoAtivo) return;
+      const totalDoces = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      if(delta > 0 && totalDoces >= caixaAtiva.totalDoces) { mostrarNotificacao("Caixa cheia!"); return; }
+      quantidades[id] = (quantidades[id] || 0) + delta;
+      if(quantidades[id] <= 0) delete quantidades[id];
+      renderizarDoces(); atualizarInterface();
+      verificarCaixaCompleta();
+    }
+
+    function digitarQtd(id, valor) {
+      if (!caixaAtiva || modoDegustacaoAtivo) return;
+      let qtdDigitada = parseInt(valor) || 0; if (qtdDigitada < 0) qtdDigitada = 0;
+      const totalOutros = Object.values(quantidades).reduce((a, b) => a + b, 0) - (quantidades[id] || 0);
+      const espacoLivre = caixaAtiva.totalDoces - totalOutros;
+      if (qtdDigitada > espacoLivre) { mostrarNotificacao("Limite atingido!"); qtdDigitada = espacoLivre; }
+      if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
+      atualizarInterface();
+      verificarCaixaCompleta();
+    }
+
+    function verificarCaixaCompleta() {
+      if (!caixaAtiva || modoDegustacaoAtivo) return;
+      const total = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      if (total === caixaAtiva.totalDoces) {
+        document.getElementById('modal-caixa-completa').classList.remove('hidden');
+      }
     }
 
     function alterarMultiplicadorDegustacao(delta) {
