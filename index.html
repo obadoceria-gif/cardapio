@@ -238,7 +238,7 @@
       <h2 class="text-lg font-medium tracking-widest text-[#8B4513] uppercase">Nossa Essência</h2>
       <div class="w-12 h-0.5 bg-orange-200 mx-auto"></div>
       <p class="text-xs text-gray-600 leading-relaxed font-light">
-        Na OBA Doceria, cada brigadeiro é uma obra of arte. Criamos receitas exclusivas com rigor técnico e os melhores insumos, resultando em doces menos açucarados e intensamente cremosos.
+        Na OBA Doceria, cada brigadeiro é uma obra de arte. Criamos receitas exclusivas com rigor técnico e os melhores insumos, resultando em doces menos açucarados e intensamente cremosos.
       </p>
       <p class="text-xs text-gray-500 italic font-light">"Feito à mão, com amor e precisão."</p>
     </div>
@@ -350,7 +350,7 @@
   </div>
 
   <script>
-    // 1. ESCOPO GLOBAL DECLARADO COM RIGOR NO TOPO DO ARQUIVO
+    // ESCOPO GLOBAL UNIFICADO INICIALIZADO COM RIGOR NO TOPO DO ARQUIVO
     let caixaAtiva = null; 
     let quantidades = {}; 
     let categoryActive = "Todos"; 
@@ -462,6 +462,12 @@
       }
     ];
 
+    window.onload = function() {
+      renderiasAbasCategorias();
+      renderizarDoces();
+      actualizarEstadoBotao();
+    };
+
     function navegarPara(num) {
       document.getElementById('pag-capa').classList.add('hidden');
       document.getElementById('pag-sobre').classList.add('hidden');
@@ -489,7 +495,7 @@
     }
 
     function selecionarCaixa(id) {
-      // ADAPTAÇÃO CIRÚRGICA DE PÁGINAS ATIVADA PARA MUDAR DO SELETOR PARA O CARDÁPIO
+      // ADAPTAÇÃO DE ROTEAMENTO DAS PÁGINAS DO STORIES ATIVA
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
 
@@ -514,7 +520,7 @@
     }
 
     function abrirBannerDegustacao() {
-      // ADAPTAÇÃO EXCLUSIVA DE TRANSIÇÃO ENTRE AS PÁGINAS DO STORIES ADICIONADA COM SUCESSO
+      // ADAPTAÇÃO DE ROTEAMENTO DAS PÁGINAS DO STORIES ATIVA
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
       document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
@@ -563,7 +569,7 @@
       if(quantidades[id] <= 0) delete quantidades[id];
       renderizarDoces(); atualizarInterface();
       
-      // DISPARO AUTOMÁTICO DE ENCOMENDA COMPLETA DO SEU CÓDIGO ESTÁVEL ANTIGO
+      // DISPARO AUTOMÁTICO REATIVO DO SEU CÓDIGO ORIGINAL INTEGRADO COM SUCESSO
       if(Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
@@ -578,7 +584,7 @@
       if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
       atualizarInterface();
       
-      // DISPARO AUTOMÁTICO DE ENCOMENDA COMPLETA DO SEU CÓDIGO ESTÁVEL ANTIGO
+      // DISPARO AUTOMÁTICO REATIVO DO SEU CÓDIGO ORIGINAL INTEGRADO COM SUCESSO
       if(Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
@@ -656,6 +662,11 @@
       atualizarInterface();
     }
 
+    function removerCaixaDoCarrinho(index) {
+      carrinhoDeCaixasConcluidas.splice(index, 1);
+      atualizarPainelCarrinhoLateral();
+    }
+
     function toggleOpcional(tipo) {
       if(tipo === 'laco') {
         lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
@@ -669,6 +680,100 @@
         box.querySelector('i').className = placaPersonalizadaSelecionada ? "fa-solid fa-check" : "opacity-0";
       }
       atualizarInterface();
+    }
+
+    function calcularValorTotalDoPedido() {
+      let subtotal = 0;
+      carrinhoDeCaixasConcluidas.forEach(cx => subtotal += cx.precoCalculado);
+      if (caixaAtiva) {
+        if (caixaAtiva.precoFixo) { 
+          subtotal += caixaAtiva.precoFixo * multiplicadorCaixasDegustacao; 
+        } else {
+          Object.entries(quantidades).forEach(([id, q]) => {
+            const item = encontrarDoce(id); if (item) subtotal += item.preco * q;
+          });
+        }
+        if (lacoDecorativoSelecionado) subtotal += 4.50;
+        if (placaPersonalizadaSelecionada) subtotal += 3.50;
+      }
+      return subtotal;
+    }
+
+    function aplicarUpgradeCaixa() {
+      if(!caixaAtiva || !caixaAtiva.proximoId) {
+        mostrarNotificacao("Você já está no tamanho máximo de caixa!");
+        fecharModalCompleta();
+        return;
+      }
+      const novoId = caixaAtiva.proximoId;
+      caixaAtiva = caixasConfigs[novoId];
+      document.getElementById('txt-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixaAtiva.totalDoces} unidades)`;
+      renderizarDoces();
+      atualizarInterface();
+      fecharModalCompleta();
+    }
+
+    function sincronizarCampos(campo, valor) {
+      if (campo === 'nome') { document.getElementById('nome-cliente').value = valor; if(document.getElementById('modal-nome-cliente')) document.getElementById('modal-nome-cliente').value = valor; } 
+      else if (campo === 'data') { document.getElementById('data-desejada').value = valor; if(document.getElementById('modal-data-desejada')) document.getElementById('modal-data-desejada').value = valor; } 
+      else if (campo === 'hora') { document.getElementById('hora-desejada').value = valor; if(document.getElementById('modal-hora-desejada')) document.getElementById('modal-hora-desejada').value = valor; }
+      actualizarEstadoBotao();
+    }
+
+    function atualizarInterface() {
+      const container = document.getElementById('lista-selecionados'); if (!container) return;
+      container.innerHTML = "";
+      
+      const totalDocesNaCaixaAtual = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      const totalGeralValue = calcularValorTotalDoPedido();
+
+      document.getElementById('contagem-doces').innerText = caixaAtiva && modoDegustacaoAtivo ? caixaAtiva.totalDoces * multiplicadorCaixasDegustacao : totalDocesNaCaixaAtual;
+      document.getElementById('total-doces').innerText = caixaAtiva ? (modoDegustacaoAtivo ? caixaAtiva.totalDoces * multiplicadorCaixasDegustacao : caixaAtiva.totalDoces) : 0;
+
+      if(totalGeralValue > 0 || carrinhoDeCaixasConcluidas.length > 0) {
+         document.getElementById('barra-mobile-checkout').classList.remove('hidden');
+         document.getElementById('secao-checkout').classList.remove('hidden');
+      } else {
+         document.getElementById('barra-mobile-checkout').classList.add('hidden');
+         if(window.innerWidth < 1024) document.getElementById('secao-checkout').classList.add('hidden');
+      }
+      
+      if(caixaAtiva) {
+        document.getElementById('label-progresso-caixa').innerText = "Progresso da Caixa Atual:";
+        if (caixaAtiva.precoFixo) {
+          container.innerHTML = `<div class="flex justify-between text-gray-700 py-0.5"><span>Caixa Degustação (${caixaAtiva.totalDoces} un.)</span><span class="font-bold">x${multiplicadorCaixasDegustacao}</span></div>`; 
+        } else {
+          Object.entries(quantidades).forEach(([id, q]) => {
+            const doce = encontrarDoce(id); 
+            if (doce && q > 0) { container.innerHTML += `<div class="flex justify-between text-gray-700 py-0.5"><span>${doce.nome}</span><span class="font-bold">x${q}</span></div>`; }
+          });
+          if (totalDocesNaCaixaAtual === 0) container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Nenhum sabor selecionado nesta caixa.</p>`;
+        }
+      } else {
+        document.getElementById('label-progresso-caixa').innerText = "Nenhuma Caixa Aberta";
+        if (carrinhoDeCaixasConcluidas.length === 0) {
+          container.innerHTML = `<p class="text-gray-400 text-center py-2 italic">Ainda não escolheu nenhum sabor.</p>`;
+        } else {
+          container.innerHTML = `<p class="text-green-700 font-bold text-center py-1 text-[11px]"><i class="fa-solid fa-circle-check"></i> Combinações guardadas com sucesso!</p>`;
+        }
+      }
+
+      if (lacoDecorativoSelecionado) container.innerHTML += `<div class="flex justify-between text-orange-700 font-bold border-t border-dashed border-gray-200 pt-1 mt-1"><span>🎀 Laço Decorativo</span><span>+ R$ 4,50</span></div>`;
+      if (placaPersonalizadaSelecionada) container.innerHTML += `<div class="flex justify-between text-amber-700 font-bold border-t border-dashed border-gray-200 pt-1 mt-1"><span>🏷️ Placa Personalizada</span><span>+ R$ 3,50</span></div>`;
+      
+      const txtTotal = "R$ " + totalGeralValue.toFixed(2).replace('.', ',');
+      document.getElementById('valor-total').innerText = txtTotal;
+      if(document.getElementById('modal-subtotal-pedido')) document.getElementById('modal-subtotal-pedido').innerText = txtTotal;
+      document.getElementById('mobile-resumo-total').innerText = txtTotal;
+      
+      if (caixaAtiva) {
+        document.getElementById('mobile-resumo-caixa').innerText = `${caixaAtiva.titulo}`;
+      } else {
+        document.getElementById('mobile-resumo-caixa').innerText = `${carrinhoDeCaixasConcluidas.length} Caixas prontas`;
+      }
+      
+      if(totalGeralValue > 0 || carrinhoDeCaixasConcluidas.length > 0) document.getElementById('barra-mobile-checkout').classList.remove('hidden');
+      actualizarEstadoBotao();
     }
 
     function fecharModalPersonalizados() { document.getElementById('modal-decorados').classList.add('hidden'); }
@@ -698,8 +803,6 @@
         document.getElementById('modal-eventos').classList.remove('hidden');
       }
     }
-
-    function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
 
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
