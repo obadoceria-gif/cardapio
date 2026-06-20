@@ -28,7 +28,7 @@
     <span id="toast-text" class="font-bold text-center w-full text-sm"></span>
   </div>
 
-  <!-- POP-UP REATIVO DE CONFIGURAÇÃO DE COMBO / CAIXA CHEIA AUTODESPOLETADO -->
+  <!-- POP-UP REATIVO DE FINALIZAÇÃO / AUTOMÁTICO DE CAIXA CHEIA E DEGUSTAÇÃO -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2 text-gray-500 text-sm">✕</button>
@@ -85,7 +85,7 @@
         </div>
 
         <div class="flex flex-col gap-2.5 pt-2">
-          <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> Quero acrescentar uma nova caixa de doces</button>
+          <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> + Salvar e Montar Outra Caixa</button>
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores</button>
           <button id="btn-seguir-comprando" onclick="fecharModalCompleta()" class="w-full py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-black text-xs rounded-xl shadow-sm uppercase hidden items-center justify-center gap-2"><i class="fa-solid fa-cart-plus"></i> Seguir Comprando Outras Caixas</button>
           <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual</button>
@@ -144,13 +144,13 @@
       <button onclick="fecharModalPersonalizados()" class="absolute top-4 right-4 bg-gray-100 rounded-full p-2.5 text-gray-500 font-bold">✕</button>
       <div class="text-center">
         <span class="text-[#8B4513] text-[10px] font-bold uppercase tracking-widest">OBA DOCERIA 2026</span>
-        <h2 class="text-xl font-bold text-[#8B4513] mt-2">DOCES PERSONALIZADOS & DECORADOS</h2>
+        <h2 class="text-xl font-bold text-[#8B4513] mt-2">DOCES EXCLUSIVOS</h2>
       </div>
       <div id="pers-view-info" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
             <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
-            <p>• Banda decorada produzida com pasta de leite em pó.</p>
+            <p>• Sabores especiais modelados artesanalmente à mão livre.</p>
             <p>• Pedido mínimo: 20 doces (variados).</p>
             <p>• Usamos forminhas de acetato transparente.</p>
             <p>• O doce da base é um brigadeiro gourmet (branco ou ao leite).</p>
@@ -170,7 +170,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Tema Pretendido *</label>
-            <input type="text" id="pers-tema" placeholder="Ex: Safari, Princesas" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
+            <input type="text" id="pers-tema" placeholder="Ex: Linha Especial, Festas" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm outline-none bg-white">
           </div>
           <div>
             <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Data Pretendida *</label>
@@ -272,7 +272,7 @@
       <button onclick="abrirModalEspecial('personalizados')" class="group flex items-center justify-between p-6 bg-white border border-[#8B4513]/20 text-[#8B4513] rounded-3xl transition-all active:scale-95 hover:bg-white/80">
         <div class="text-left">
           <span class="block text-[10px] uppercase tracking-widest opacity-50 mb-1">Exclusivo</span>
-          <span class="text-sm font-medium">Doces Personalizados</span>
+          <span class="text-sm font-medium">Doces Especiais</span>
         </div>
         <i class="fa-solid fa-wand-magic-sparkles text-xl opacity-20"></i>
       </button>
@@ -354,11 +354,11 @@
       <p id="mobile-resumo-caixa" class="text-[9px] uppercase font-bold text-gray-400">Total Pedido</p>
       <p id="mobile-resumo-total" class="text-lg font-bold text-[#8B4513]">R$ 0,00</p>
     </div>
-    <button onclick="focarFormularioCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg">Concluir</button>
+    <button onclick="focarFormularioCheckout()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg">Concluir</button>
   </div>
 
   <script>
-    // INICIALIZAÇÃO LÓGICA DO MOTOR EM ESCOPO GLOBAL ÚNICO
+    // ESCOPO GLOBAL UNIFICADO INICIALIZADO NO TOPO DO ARQUIVO
     let caixaAtiva = null; 
     let quantidades = {}; 
     let categoryActive = "Todos"; 
@@ -471,16 +471,13 @@
     ];
 
     function abrirBannerDegustacao() {
-      // FORÇA A ATIVAÇÃO VISUAL DA PÁGINA ANTES DO MODAL SALTADO
+      // FORÇA A TRANSIÇÃO DE NAVEGAÇÃO ENTRE AS PÁGINAS DO NOVO LAYOUT
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
       document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
 
       modoDegustacaoAtivo = true;
       multiplicadorCaixasDegustacao = 1;
-      
-      const inputQtd = document.getElementById('input-qtd-caixas-degustacao');
-      if (inputQtd) { inputQtd.value = 1; }
       
       caixaAtiva = caixasConfigs['degustacao'];
       quantidades = {};
@@ -497,7 +494,7 @@
     }
 
     function selecionarCaixa(id) {
-      // FORÇA A ATIVAÇÃO VISUAL DA PÁGINA ANTES DA EXIBIÇÃO DOS SABORES
+      // FORÇA A TRANSIÇÃO DE NAVEGAÇÃO ENTRE AS PÁGINAS DO NOVO LAYOUT
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
 
@@ -519,7 +516,7 @@
       if(quantidades[id] <= 0) delete quantidades[id];
       renderizarDoces(); atualizarInterface();
       
-      // DISPARO AUTOMÁTICO REATIVO RESTAURADO DA VERSÃO ANTERIOR
+      // GATILHO ORIGINAL DO DISPARO AUTOMÁTICO DE CAIXA CHEIA REINTEGRADO
       if(Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
@@ -534,7 +531,7 @@
       if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
       atualizarInterface();
       
-      // DISPARO AUTOMÁTICO REATIVO RESTAURADO DA VERSÃO ANTERIOR
+      // GATILHO ORIGINAL DO DISPARO AUTOMÁTICO DE CAIXA CHEIA REINTEGRADO
       if(Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
@@ -770,8 +767,14 @@
       }
     }
 
-    function resetarSelecaoCaixaFix() { resetarSelecaoCaixa(); }
-    function lembreteCaixa() { mostrarNotificacao("Por favor, selecione primeiro o tamanho da sua caixa no Passo 1."); }
+    function renderiasAbasCategorias() {
+      const container = document.getElementById('abas-categorias'); if (!container) return;
+      let html = `<button onclick="filtrarCategoria('Todos')" class="px-5 py-2 rounded-xl text-xs font-medium border border-[#8B4513]/10 bg-white shadow-sm transition-all whitespace-nowrap">Todos</button>`;
+      catalogo.forEach(g => {
+        html += `<button onclick="filtrarCategoria('${g.categoria}')" class="px-5 py-2 rounded-xl text-xs font-medium border border-[#8B4513]/10 bg-white transition-all whitespace-nowrap">${g.categoria.split(" (")[0]}</button>`;
+      });
+      container.innerHTML = html;
+    }
 
     function actualizarEstadoBotao() {
       const btn = document.getElementById('btn-whatsapp'); if (!btn) return;
