@@ -51,9 +51,9 @@
           <div class="pt-2 text-left bg-orange-50/60 p-3 rounded-2xl border border-orange-100">
             <label class="block text-[10px] font-extrabold uppercase text-orange-900 mb-1">Quantidade de caixas desta degustação:</label>
             <div class="flex items-center justify-between bg-white border border-orange-200 rounded-xl p-1 max-w-[140px]">
-              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-8 h-8 rounded-lg font-black bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center shadow-sm">-</button>
+              <button onclick="alterarMultiplicadorDegustacao(-1)" class="w-7 h-7 rounded-lg font-black bg-[#FAF5F0] text-[#8B4513] flex items-center justify-center shadow-sm">-</button>
               <input type="number" id="input-qtd-caixas-degustacao" value="1" min="1" oninput="atualizarMultiplicadorDegustacaoManual(this.value)" class="w-10 text-center font-bold text-sm bg-transparent outline-none text-[#3B2A1E]">
-              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-8 h-8 rounded-lg font-black bg-[#8B4513] text-white flex items-center justify-center shadow-sm">+</button>
+              <button onclick="alterarMultiplicadorDegustacao(1)" class="w-7 h-7 rounded-lg font-black bg-[#8B4513] text-white flex items-center justify-center shadow-sm">+</button>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@
         </div>
 
         <div class="flex flex-col gap-2.5 pt-2">
-          <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> + Salvar e Montar Outra Caixa</button>
+          <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2 tracking-wider"><i class="fa-solid fa-box-archive"></i> + Salvar e Montar Outra Caixa</button>
           <button id="btn-upgrade-caixa" onclick="aplicarUpgradeCaixa()" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-black text-xs rounded-xl shadow-sm uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-plus"></i> Quero Adicionar Mais Sabores</button>
           <button id="btn-seguir-comprando" onclick="fecharModalCompleta()" class="w-full py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-black text-xs rounded-xl shadow-sm uppercase hidden items-center justify-center gap-2"><i class="fa-solid fa-cart-plus"></i> Seguir Comprando Outras Caixas</button>
           <button onclick="mostrarFormularioInternoModal()" class="w-full py-3.5 bg-[#8B4513] hover:bg-[#6e3710] text-white font-black text-xs rounded-xl shadow-md uppercase flex items-center justify-center gap-2"><i class="fa-solid fa-basket-shopping"></i> Finalizar Pedido Atual</button>
@@ -146,7 +146,7 @@
       <div id="pers-view-info" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
-            <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
+            <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-circle-info"></i> Informações importantes:</h4>
             <p>• Produzidos com pasta de leite em pó, 100% comestíveis.</p>
             <p>• Pedido mínimo: 20 doces (variados).</p>
             <p>• Usamos forminhas de acetato transparente.</p>
@@ -154,7 +154,7 @@
             <p>• Necessário fazer o pedido com antecedência mínima de 20 dias.</p>
           </div>
           <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 text-xs text-gray-700 tracking-wide space-y-2 text-left shadow-inner">
-            <h4 class="font-extrabold text-[#8B4513] uppercase tracking-wide"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
+            <h4 class="font-semibold text-[#8B4513]"><i class="fa-solid fa-tags"></i> PREÇOS COM DESCONTO (ATÉ 60% OFF):</h4>
             <p>• Pacote de 20 doces: <b>R$ 196,00</b></p>
             <p>• Pacote de 25 doces: <b>R$ 225,00</b></p>
             <p>• Pacote de 35 doces: <b>R$ 280,00</b></p>
@@ -350,7 +350,7 @@
   </div>
 
   <script>
-    // ESCOPO GLOBAL PROTEGIDO
+    // ESCOPO GLOBAL DECLARADO COM MANUTENÇÃO REATIVA DE VARIÁVEIS ANTES DO CARREGAMENTO DO DOM
     let caixaAtiva = null; 
     let quantidades = {}; 
     let categoryActive = "Todos"; 
@@ -418,7 +418,7 @@
         categoria: "Especiais I (R$ 3,00)",
         idFiltro: "especiais_1",
         itens: [
-          { id: "damasco_amendoas_275", nome: "Damasco e Amêndoas", preco: 3.00, img: "Images/Damasco e Amêndoas.jpeg" },
+          { id: "damasco_amendoas_275", nome: "Damasco e Amêndoas", preco: 3.00, img: "Images/Damasco e Amêendoas.jpeg" },
           { id: "maracuja_300", nome: "Maracujá", preco: 3.00, img: "Images/Maracujá.jpeg" },
           { id: "maracuja_leite_275", nome: "Maracujá ao Leite", preco: 3.00, img: "Images/Maracujá ao Leite.jpeg" },
           { id: "maracuja_nutella_300", nome: "Maracujá com Nutella", preco: 3.00, img: "Images/Maracujá e Nutella.jpeg" },
@@ -463,7 +463,7 @@
     ];
 
     function abrirBannerDegustacao() {
-      // ADAPTAÇÃO DE PÁGINAS DO NOVO LAYOUT ATIVA NOS BASTIDORES
+      // AJUSTE DE TRANSIÇÃO DA PÁGINA VIRTUAL NO NOVO LAYOUT
       document.getElementById('pag-seletor').classList.add('hidden');
       document.getElementById('fluxo-principal').classList.remove('hidden');
       document.getElementById('secao-checkout').classList.remove('hidden', 'lg:hidden');
@@ -474,12 +474,11 @@
       const inputQtd = document.getElementById('input-qtd-caixas-degustacao');
       if (inputQtd) { inputQtd.value = 1; }
       
-      caixaAtiva = { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00 };
+      caixaAtiva = caixasConfigs['degustacao'];
       quantidades = {};
       
       document.getElementById('modal-titulo-dinamico').innerText = "Configurar Sua Caixa Degustação! 🌟";
       document.getElementById('modal-instrucao-opcionais').innerText = "Adicione mimos para presente caso queira:";
-      
       document.getElementById('wrapper-tamanhos-degustacao').classList.remove('hidden');
       document.getElementById('btn-upgrade-caixa').classList.add('hidden');
       document.getElementById('btn-seguir-comprando').classList.remove('hidden');
@@ -487,6 +486,22 @@
       
       definirTamanhoDegustacao(25, 75);
       document.getElementById('modal-caixa-completa').classList.remove('hidden');
+    }
+
+    function definirTamanhoDegustacao(unidades, valorFixo) {
+      if(!modoDegustacaoAtivo) return;
+      caixaAtiva.totalDoces = unidades;
+      caixaAtiva.precoFixo = valorFixo;
+      
+      ['12', '25', '35'].forEach(u => {
+        const btn = document.getElementById(`btn-deg-${u}`);
+        if(btn) {
+          btn.className = (parseInt(u) === unidades) 
+            ? "py-2.5 rounded-xl border-2 border-[#8B4513] font-black text-xs text-white bg-[#8B4513] transition-all shadow-sm" 
+            : "py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all";
+        }
+      });
+      atualizarInterface();
     }
 
     function selecionarCaixa(id) {
@@ -515,7 +530,7 @@
       if(quantidades[id] <= 0) delete quantidades[id];
       renderizarDoces(); atualizarInterface();
       
-      // LÓGICA DO LAYOUT ANTIGO RESTAURADA 100% PARA O MODAL REATIVO AUTOMÁTICO
+      // DISPARO AUTOMÁTICO DE ENCOMENDA COMPLETA DO CÓDIGO ANTIGO
       if(Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
@@ -530,26 +545,10 @@
       if (qtdDigitada === 0) delete quantidades[id]; else quantidades[id] = qtdDigitada;
       atualizarInterface();
       
-      // LÓGICA DO LAYOUT ANTIGO RESTAURADA 100% PARA O MODAL REATIVO AUTOMÁTICO
+      // DISPARO AUTOMÁTICO DE ENCOMENDA COMPLETA DO CÓDIGO ANTIGO
       if(Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
         document.getElementById('modal-caixa-completa').classList.remove('hidden');
       }
-    }
-
-    function definirTamanhoDegustacao(unidades, valorFixo) {
-      if(!modoDegustacaoAtivo) return;
-      caixaAtiva.totalDoces = unidades;
-      caixaAtiva.precoFixo = valorFixo;
-      
-      ['12', '25', '35'].forEach(u => {
-        const btn = document.getElementById(`btn-deg-${u}`);
-        if(btn) {
-          btn.className = (parseInt(u) === unidades) 
-            ? "py-2.5 rounded-xl border-2 border-[#8B4513] font-black text-xs text-white bg-[#8B4513] transition-all shadow-sm" 
-            : "py-2.5 rounded-xl border-2 border-orange-200 font-black text-xs text-[#8B4513] bg-white transition-all";
-        }
-      });
-      atualizarInterface();
     }
 
     function alterarMultiplicadorDegustacao(delta) {
@@ -624,11 +623,6 @@
       atualizarInterface();
     }
 
-    function removerCaixaDoCarrinho(index) {
-      carrinhoDeCaixasConcluidas.splice(index, 1);
-      atualizarPainelCarrinhoLateral();
-    }
-
     function toggleOpcional(tipo) {
       if(tipo === 'laco') {
         lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
@@ -643,8 +637,6 @@
       }
       atualizarInterface();
     }
-
-    function buttonOpcionalToggleFix(tipo) { toggleOpcional(tipo); }
 
     function calcularValorTotalDoPedido() {
       let subtotal = 0;
@@ -661,20 +653,6 @@
         if (placaPersonalizadaSelecionada) subtotal += 3.50;
       }
       return subtotal;
-    }
-
-    function aplicarUpgradeCaixa() {
-      if(!caixaAtiva || !caixaAtiva.proximoId) {
-        mostrarNotificacao("Você já está no tamanho máximo de caixa!");
-        fecharModalCompleta();
-        return;
-      }
-      const novoId = caixaAtiva.proximoId;
-      caixaAtiva = caixasConfigs[novoId];
-      document.getElementById('txt-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixaAtiva.totalDoces} unidades)`;
-      renderizarDoces();
-      atualizarInterface();
-      fecharModalCompleta();
     }
 
     function sincronizarCampos(campo, valor) {
@@ -811,19 +789,6 @@
       texto += `*VALOR GERAL DO PEDIDO:* ${total}`;
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
     }
-
-    function enviarOrcamentoEspecial(tipo) {
-      if(tipo === 'personalizados') {
-        const nome = document.getElementById('modal-nome-cliente').value.trim() || "Cliente"; const tema = document.getElementById('pers-tema').value.trim(); const data = document.getElementById('pers-data').value; const qtd = document.getElementById('pers-qtd').value || "Não informada"; if (!tema || !data) { alert("Preencha os campos obrigatórios!"); return; } const d = data.split('-');
-        const msg = `Olá, OBA Doceria! Solicito reserva de *Doces Personalizados & Decorados*:\n\n*Nome:* ${nome}\n*Tema:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Quantidade:* ${qtd}`;
-        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalPersonalizados();
-      } else {
-        const nome = document.getElementById('eve-nome').value.trim(); const tipoEv = document.getElementById('eve-tipo').value.trim(); const data = document.getElementById('eve-data').value; const conv = document.getElementById('eve-convidados').value || "Não informado"; const qtd = document.getElementById('eve-qtd').value || "Não informada"; if (!nome || !tipoEv || !data) { alert("Preencha os campos obrigatórios!"); return; } const d = data.split('-');
-        const msg = `Olá, OBA Doceria! Solicito orçamento para *Casamentos, Formaturas & Eventos*:\n\n*Nome:* ${nome}\n*Tipo:* ${tipoEv}\n*Data:* ${d[2]}/${d[1]}/${d[0]}\n*Convidados:* ${conv}\n*Quantidade de Doces:* ${qtd}`;
-        window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank'); fecharModalEventos();
-      }
-    }
-    function mostrarNotificacao(m) { const toast = document.getElementById('custom-toast'); const txt = document.getElementById('toast-text'); if (txt && toast) { txt.innerText = m; toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-white opacity-100 bg-[#8B4513] transition-all"; setTimeout(() => { toast.className = "fixed bottom-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl opacity-0 pointer-events-none"; }, 3000); } }
     function closeModal() { document.getElementById('modal').classList.add('hidden'); }
   </script>
 </body>
