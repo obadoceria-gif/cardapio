@@ -5,41 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OBA Doceria | Experiência Gourmet</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     body { font-family: 'Poppins', sans-serif; background-color: #FDFBF7; color: #5D3A1A; }
-    .hidden { display: none; }
+    .fade-in { animation: fadeIn 0.4s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <!-- NAVEGAÇÃO -->
+  <!-- CONTAINER DE NAVEGAÇÃO -->
   <div id="app-container">
-    <!-- TELA 1 -->
-    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6">
-      <h1 class="text-2xl font-black mb-8">BEM-VINDO</h1>
-      <button onclick="navegarPara('pag-2')" class="bg-[#8B4513] text-white px-10 py-4 rounded-2xl font-bold">DESCOBRIR NOSSA HISTÓRIA</button>
+    
+    <!-- TELA 1: BOAS-VINDAS -->
+    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6 fade-in">
+        <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-vertical.png" class="w-40 mb-8">
+        <h1 class="text-2xl font-black mb-2">BEM-VINDO</h1>
+        <p class="text-sm opacity-70 text-center mb-10 max-w-[200px]">Prepare-se para descobrir o verdadeiro sabor artesanal em cada detalhe.</p>
+        <button onclick="navegarPara('pag-2')" class="bg-[#965121] text-white px-10 py-4 rounded-full font-bold shadow-xl transition-all hover:bg-[#7a421a]">
+            DESCOBRIR NOSSA HISTÓRIA <i class="fa-solid fa-chevron-right text-xs ml-2"></i>
+        </button>
     </section>
 
-    <!-- TELA 2 -->
-    <section id="pag-2" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
-      <div class="bg-white p-8 rounded-3xl shadow-lg text-center max-w-xs">
-        <h2 class="font-black text-xl mb-4">NOSSA ESSÊNCIA</h2>
-        <p class="text-sm mb-6">Na OBA Doceria, cada brigadeiro é uma obra de arte.</p>
-        <button onclick="navegarPara('pag-3')" class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs">VER O CARDÁPIO</button>
-      </div>
-    </section>
+    <!-- PÁGINAS 2 E 3 FICARÃO AQUI -->
+    <section id="pag-2" class="hidden">...</section>
+    <section id="pag-3" class="hidden">...</section>
+  </div>
 
-    <!-- TELA 3 -->
-    <section id="pag-3" class="hidden min-h-screen flex flex-col p-6 max-w-sm mx-auto justify-center">
-      <h2 class="text-center font-black text-xl mb-8">ESCOLHA SUA EXPERIÊNCIA</h2>
-      <!-- Aqui entrarão os botões originais -->
-    </section>
+  <!-- FLUXO DE MONTAGEM (INTEGRADO) -->
+  <div id="fluxo-montagem" class="hidden">
+      <!-- AQUI ENTRA TODO O SEU CONTEÚDO ORIGINAL DE VITRINE E MODAIS -->
   </div>
 
   <script>
+    // FUNÇÃO DE NAVEGAÇÃO
     function navegarPara(id) {
-        document.querySelectorAll('#app-container > section').forEach(s => s.classList.add('hidden'));
+        document.querySelectorAll('#app-container > section, #fluxo-montagem').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
+    }
+
+    function iniciarMontagem() {
+        navegarPara('fluxo-montagem');
+        // As funções de renderizar são do seu código original
+        renderizarAbasCategorias();
+        renderizarDoces();
     }
   </script>
 </body>
