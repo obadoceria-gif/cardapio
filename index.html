@@ -17,15 +17,25 @@
   <!-- CONTAINER DE NAVEGAÇÃO -->
   <div id="app-container">
     
-    <!-- TELA 1: BOAS-VINDAS -->
-    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6 fade-in">
-        <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-vertical.png" class="w-40 mb-8">
-        <h1 class="text-2xl font-black mb-2">BEM-VINDO</h1>
-        <p class="text-sm opacity-70 text-center mb-10 max-w-[200px]">Prepare-se para descobrir o verdadeiro sabor artesanal em cada detalhe.</p>
-        <button onclick="navegarPara('pag-2')" class="bg-[#965121] text-white px-10 py-4 rounded-full font-bold shadow-xl transition-all hover:bg-[#7a421a]">
-            DESCOBRIR NOSSA HISTÓRIA <i class="fa-solid fa-chevron-right text-xs ml-2"></i>
-        </button>
-    </section>
+   <!-- TELA 1: BOAS-VINDAS MODERNIZADA -->
+<section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6 bg-[#FDFBF7] fade-in">
+    
+    <!-- Logo maior (w-48) para impacto visual -->
+    <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-vertical.png" 
+         class="w-48 mb-10 drop-shadow-md">
+    
+    <!-- Frase e Título com mais destaque -->
+    <h1 class="text-3xl font-black text-[#5D3A1A] mb-4 tracking-tight">BEM-VINDO</h1>
+    <p class="text-base text-[#8B4513] opacity-80 text-center mb-12 max-w-xs leading-relaxed">
+        Prepare-se para descobrir o verdadeiro sabor artesanal em cada detalhe.
+    </p>
+
+    <!-- Botão de Ação -->
+    <button onclick="navegarPara('pag-2')" 
+            class="bg-[#965121] text-white px-10 py-4 rounded-full font-bold shadow-lg shadow-[#965121]/30 transition-all hover:bg-[#7a421a] hover:scale-105 flex items-center gap-2">
+        DESCOBRIR NOSSA HISTÓRIA <i class="fa-solid fa-chevron-right text-xs"></i>
+    </button>
+</section>
 
     <!-- PÁGINAS 2 E 3 FICARÃO AQUI -->
     <section id="pag-2" class="hidden">...</section>
