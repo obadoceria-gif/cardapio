@@ -5,40 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OBA Doceria | Experiência Gourmet</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
     body { font-family: 'Poppins', sans-serif; background-color: #FDFBF7; color: #5D3A1A; }
-    .hidden { display: none; }
+    .fade-in { animation: fadeIn 0.4s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <!-- NAVEGAÇÃO -->
   <div id="app-container">
-    <!-- TELA 1 -->
-    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6">
-      <h1 class="text-2xl font-black mb-8">BEM-VINDO</h1>
-      <button onclick="navegarPara('pag-2')" class="bg-[#8B4513] text-white px-10 py-4 rounded-2xl font-bold">DESCOBRIR NOSSA HISTÓRIA</button>
+    
+    <!-- TELA 1: BOAS-VINDAS IMERSIVA -->
+    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        <!-- Fundo Desfocado -->
+        <div class="absolute inset-0 bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center blur-sm scale-105"></div>
+        <!-- Camada de sobreposição -->
+        <div class="absolute inset-0 bg-[#FDFBF7]/90"></div>
+
+        <!-- Conteúdo -->
+        <div class="relative z-10 flex flex-col items-center">
+            <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-vertical.png" 
+                 class="w-56 mb-10 drop-shadow-lg">
+            
+            <h1 class="text-3xl font-black text-[#5D3A1A] mb-4 tracking-tight">BEM-VINDO</h1>
+            <p class="text-base text-[#8B4513] font-medium text-center mb-12 max-w-xs leading-relaxed">
+                Prepare-se para descobrir o verdadeiro sabor artesanal em cada detalhe.
+            </p>
+
+            <button onclick="navegarPara('pag-2')" 
+                    class="bg-[#965121] text-white px-10 py-4 rounded-full font-bold shadow-2xl transition-all hover:bg-[#7a421a] hover:scale-105 flex items-center gap-2">
+                DESCOBRIR NOSSA HISTÓRIA <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+        </div>
     </section>
 
-    <!-- TELA 2 -->
-    <section id="pag-2" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
-      <div class="bg-white p-8 rounded-3xl shadow-lg text-center max-w-xs">
-        <h2 class="font-black text-xl mb-4">NOSSA ESSÊNCIA</h2>
-        <p class="text-sm mb-6">Na OBA Doceria, cada brigadeiro é uma obra de arte.</p>
-        <button onclick="navegarPara('pag-3')" class="w-full py-3 bg-[#8B4513] text-white rounded-xl font-bold text-xs">VER O CARDÁPIO</button>
-      </div>
+    <!-- TELA 2: ESSÊNCIA (VAZIA PARA O PRÓXIMO PASSO) -->
+    <section id="pag-2" class="hidden min-h-screen flex flex-col items-center justify-center p-6 fade-in">
+        <button onclick="navegarPara('pag-3')" class="bg-[#8B4513] text-white px-10 py-4 rounded-2xl font-bold">AVANÇAR</button>
     </section>
 
-    <!-- TELA 3 -->
-    <section id="pag-3" class="hidden min-h-screen flex flex-col p-6 max-w-sm mx-auto justify-center">
-      <h2 class="text-center font-black text-xl mb-8">ESCOLHA SUA EXPERIÊNCIA</h2>
-      <!-- Aqui entrarão os botões originais -->
-    </section>
+    <!-- TELA 3: ESCOLHA (VAZIA PARA O PRÓXIMO PASSO) -->
+    <section id="pag-3" class="hidden min-h-screen flex flex-col p-6 fade-in">...</section>
+
+    <!-- FLUXO DE MONTAGEM -->
+    <div id="fluxo-montagem" class="hidden">
+        <!-- AQUI ENTRARÁ O CÓDIGO ORIGINAL DA VITRINE -->
+    </div>
   </div>
 
   <script>
     function navegarPara(id) {
-        document.querySelectorAll('#app-container > section').forEach(s => s.classList.add('hidden'));
+        document.querySelectorAll('#app-container > section, #fluxo-montagem').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
     }
   </script>
