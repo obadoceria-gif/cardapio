@@ -7,33 +7,40 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body { font-family: 'Poppins', sans-serif; }
+    body { font-family: 'Poppins', sans-serif; background-color: #FAF7F2; color: #5D3A1A; }
     .fade-in { animation: fadeIn 0.4s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
-<body class="bg-[#FDFBF7] text-[#5D3A1A]">
+<body>
 
   <div id="app-container">
-    <!-- PÁGINA 1: BOAS-VINDAS (IMERSIVA) -->
-    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center blur-md scale-105"></div>
-        <div class="absolute inset-0 bg-[#FDFBF7]/80"></div>
+    
+    <!-- PÁGINA 1: BOAS-VINDAS (REFINADA) -->
+    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-between py-12 px-6 relative overflow-hidden fade-in">
+        <!-- Fundo sutil -->
+        <div class="absolute inset-0 opacity-[0.06] bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center"></div>
 
-        <div class="relative z-10 flex flex-col items-center w-full max-w-lg px-4">
-            <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal%20(fundo%20transparente).png" 
-                 class="w-full max-w-[320px] mb-12 drop-shadow-2xl">
-            
-            <h1 class="text-3xl font-black text-[#5D3A1A] mb-4 tracking-tight">BEM-VINDO</h1>
-            <p class="text-lg text-[#8B4513] font-medium text-center mb-12 leading-relaxed px-4">
+        <!-- Área do Logo -->
+        <div class="flex-1 flex items-center justify-center relative z-10">
+            <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" 
+                 class="w-full max-w-[280px] transition-all duration-700 ease-in-out hover:scale-105" 
+                 alt="Logo OBA">
+        </div>
+
+        <!-- Área de Texto -->
+        <div class="text-center mb-16 relative z-10">
+            <h1 class="text-2xl font-semibold mb-3 tracking-widest uppercase">Bem-vindo</h1>
+            <p class="text-[#8B4513]/70 leading-relaxed max-w-[250px] mx-auto text-sm font-light">
                 Prepare-se para descobrir o verdadeiro sabor artesanal em cada detalhe.
             </p>
-
-            <button onclick="navegarPara('pag-2')" 
-                    class="bg-[#965121] text-white px-12 py-5 rounded-full font-bold shadow-2xl transition-all hover:bg-[#7a421a] hover:scale-105 flex items-center gap-3">
-                DESCOBRIR NOSSA HISTÓRIA <i class="fa-solid fa-chevron-right text-xs"></i>
-            </button>
         </div>
+
+        <!-- Botão -->
+        <button onclick="navegarPara('pag-2')" 
+                class="w-full max-w-xs bg-[#5D3A1A] text-[#FAF7F2] py-4 rounded-full font-bold shadow-lg shadow-[#5D3A1A]/20 active:translate-y-1 transition-all relative z-10">
+            DESCOBRIR NOSSA HISTÓRIA
+        </button>
     </section>
 
     <!-- PÁGINAS 2 e 3 (VAZIAS PARA TESTE) -->
@@ -52,9 +59,9 @@
     </section>
   </div>
 
-  <!-- FLUXO DE MONTAGEM (TUDO DO ORIGINAL INTEGRADO) -->
+  <!-- FLUXO DE MONTAGEM -->
   <div id="fluxo-montagem" class="hidden">
-      <!-- Aqui entrará o seu conteúdo original (Vitrine e Modais) -->
+      <!-- Aqui entrará o seu conteúdo original -->
   </div>
 
   <script>
@@ -65,7 +72,6 @@
 
     function iniciarMontagem() {
         navegarPara('fluxo-montagem');
-        // Você precisará colar aqui as funções de renderizar do seu código original
     }
   </script>
 </body>
