@@ -1,29 +1,72 @@
-<!-- TELA 1: BOAS-VINDAS ELEGANTE -->
-<section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-    
-    <!-- Fundo Desfocado (Manteremos assim, pois é moderno) -->
-    <div class="absolute inset-0 bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center blur-[6px] scale-105"></div>
-    
-    <!-- Camada de sobreposição mais sutil para o fundo aparecer melhor -->
-    <div class="absolute inset-0 bg-[#FDFBF7]/80"></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBA Doceria | Experiência Gourmet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .fade-in { animation: fadeIn 0.4s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body class="bg-[#FDFBF7] text-[#5D3A1A]">
 
-    <!-- Conteúdo Principal -->
-    <div class="relative z-10 flex flex-col items-center w-full max-w-sm">
-        
-        <!-- Logo Transparente (Sem fundo creme) -->
-        <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal (fundo transparente).png" 
-             class="w-64 mb-8 drop-shadow-2xl brightness-105">
-        
-        <!-- Texto com mais espaçamento -->
-        <h1 class="text-3xl font-black text-[#5D3A1A] mb-4 tracking-tighter">BEM-VINDO</h1>
-        <p class="text-lg text-[#8B4513] font-medium text-center mb-12 leading-relaxed px-4">
-            Prepare-se para descobrir o verdadeiro sabor artesanal em cada detalhe.
-        </p>
+  <div id="app-container">
+    <!-- PÁGINA 1: BOAS-VINDAS (IMERSIVA) -->
+    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center blur-md scale-105"></div>
+        <div class="absolute inset-0 bg-[#FDFBF7]/80"></div>
 
-        <!-- Botão com sombra e efeito hover -->
-        <button onclick="navegarPara('pag-2')" 
-                class="bg-[#965121] text-white px-12 py-5 rounded-full font-bold shadow-2xl transition-all hover:bg-[#7a421a] hover:scale-105 hover:shadow-[#965121]/40 flex items-center gap-3">
-            DESCOBRIR NOSSA HISTÓRIA <i class="fa-solid fa-chevron-right text-xs"></i>
-        </button>
-    </div>
-</section>
+        <div class="relative z-10 flex flex-col items-center w-full max-w-lg px-4">
+            <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal%20(fundo%20transparente).png" 
+                 class="w-full max-w-[320px] mb-12 drop-shadow-2xl">
+            
+            <h1 class="text-3xl font-black text-[#5D3A1A] mb-4 tracking-tight">BEM-VINDO</h1>
+            <p class="text-lg text-[#8B4513] font-medium text-center mb-12 leading-relaxed px-4">
+                Prepare-se para descobrir o verdadeiro sabor artesanal em cada detalhe.
+            </p>
+
+            <button onclick="navegarPara('pag-2')" 
+                    class="bg-[#965121] text-white px-12 py-5 rounded-full font-bold shadow-2xl transition-all hover:bg-[#7a421a] hover:scale-105 flex items-center gap-3">
+                DESCOBRIR NOSSA HISTÓRIA <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- PÁGINAS 2 e 3 (VAZIAS PARA TESTE) -->
+    <section id="pag-2" class="hidden min-h-screen flex items-center justify-center fade-in">
+        <div class="text-center p-6">
+            <h2 class="text-2xl font-black mb-6">Página 2: Nossa Essência</h2>
+            <button onclick="navegarPara('pag-3')" class="bg-[#8B4513] text-white px-8 py-3 rounded-xl">Próximo</button>
+        </div>
+    </section>
+
+    <section id="pag-3" class="hidden min-h-screen flex items-center justify-center fade-in">
+        <div class="text-center p-6">
+            <h2 class="text-2xl font-black mb-6">Página 3: Escolha a Experiência</h2>
+            <button onclick="iniciarMontagem()" class="bg-[#8B4513] text-white px-8 py-3 rounded-xl">Ir para o Cardápio</button>
+        </div>
+    </section>
+  </div>
+
+  <!-- FLUXO DE MONTAGEM (TUDO DO ORIGINAL INTEGRADO) -->
+  <div id="fluxo-montagem" class="hidden">
+      <!-- Aqui entrará o seu conteúdo original (Vitrine e Modais) -->
+  </div>
+
+  <script>
+    function navegarPara(id) {
+        document.querySelectorAll('#app-container > section, #fluxo-montagem').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    function iniciarMontagem() {
+        navegarPara('fluxo-montagem');
+        // Você precisará colar aqui as funções de renderizar do seu código original
+    }
+  </script>
+</body>
+</html>
