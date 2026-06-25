@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OBA Doceria | Experiência Gourmet</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body { font-family: 'Poppins', sans-serif; background-color: #FAF7F2; color: #5D3A1A; }
-    .fade-in { animation: fadeIn 0.4s ease-in-out; }
+    body { font-family: 'Poppins', sans-serif; background-color: #FDFBF7; color: #5D3A1A; }
+    .fade-in { animation: fadeIn 0.6s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
@@ -16,34 +15,35 @@
 
   <div id="app-container">
     
-    <!-- PÁGINA 1: BOAS-VINDAS (REFINADA) -->
-    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-between py-12 px-6 relative overflow-hidden fade-in">
+    <!-- PÁGINA 1: BOAS-VINDAS (LAYOUT MINIMALISTA E SOFISTICADO) -->
+    <section id="pag-1" class="min-h-screen flex flex-col items-center justify-between py-16 px-8 relative overflow-hidden fade-in">
+        
         <!-- Fundo sutil -->
-        <div class="absolute inset-0 opacity-[0.06] bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center"></div>
+        <div class="absolute inset-0 opacity-[0.04] bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center"></div>
 
-        <!-- Área do Logo -->
-        <div class="flex-1 flex items-center justify-center relative z-10">
-            <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" 
-                 class="w-full max-w-[280px] transition-all duration-700 ease-in-out hover:scale-105" 
-                 alt="Logo OBA">
+        <!-- 1. Logo (Espaço no topo) -->
+        <div class="mt-8 z-10">
+            <img src="LINK_DO_SEU_LOGO_TRANSPARENTE.png" 
+                 class="w-40 md:w-56 mx-auto drop-shadow-sm" alt="Logo OBA">
         </div>
 
-        <!-- Área de Texto -->
-        <div class="text-center mb-16 relative z-10">
-            <h1 class="text-2xl font-semibold mb-3 tracking-widest uppercase">Bem-vindo</h1>
-            <p class="text-[#8B4513]/70 leading-relaxed max-w-[250px] mx-auto text-sm font-light">
+        <!-- 2. Texto (Centralizado com respiro) -->
+        <div class="text-center z-10 flex flex-col items-center">
+            <h1 class="text-2xl font-bold tracking-[0.2em] uppercase mb-4">Bem-vindo</h1>
+            <div class="h-px w-12 bg-[#5D3A1A]/20 mb-6"></div> 
+            <p class="text-[#8B4513]/80 leading-relaxed max-w-[220px] text-sm font-light">
                 Prepare-se para descobrir o verdadeiro sabor artesanal em cada detalhe.
             </p>
         </div>
 
-        <!-- Botão -->
+        <!-- 3. Botão (Design moderno "Outline") -->
         <button onclick="navegarPara('pag-2')" 
-                class="w-full max-w-xs bg-[#5D3A1A] text-[#FAF7F2] py-4 rounded-full font-bold shadow-lg shadow-[#5D3A1A]/20 active:translate-y-1 transition-all relative z-10">
+                class="w-full max-w-[280px] border border-[#5D3A1A] py-4 rounded-full font-bold tracking-widest text-xs hover:bg-[#5D3A1A] hover:text-white transition-all duration-500 z-10">
             DESCOBRIR NOSSA HISTÓRIA
         </button>
     </section>
 
-    <!-- PÁGINAS 2 e 3 (VAZIAS PARA TESTE) -->
+    <!-- PÁGINAS 2 e 3 -->
     <section id="pag-2" class="hidden min-h-screen flex items-center justify-center fade-in">
         <div class="text-center p-6">
             <h2 class="text-2xl font-black mb-6">Página 2: Nossa Essência</h2>
@@ -59,19 +59,12 @@
     </section>
   </div>
 
-  <!-- FLUXO DE MONTAGEM -->
-  <div id="fluxo-montagem" class="hidden">
-      <!-- Aqui entrará o seu conteúdo original -->
-  </div>
+  <div id="fluxo-montagem" class="hidden"></div>
 
   <script>
     function navegarPara(id) {
         document.querySelectorAll('#app-container > section, #fluxo-montagem').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
-    }
-
-    function iniciarMontagem() {
-        navegarPara('fluxo-montagem');
     }
   </script>
 </body>
