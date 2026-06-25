@@ -10,37 +10,47 @@
   <style>
     body { font-family: 'Montserrat', sans-serif; background-color: #FDFBF7; color: #5D3A1A; }
     .font-serif-gourmet { font-family: 'Playfair Display', serif; }
+    .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-6">
 
-  <!-- PÁGINA 1: BOAS-VINDAS - MODERNA E IMERSIVA -->
-  <section id="pag-1" class="w-full max-w-sm flex flex-col items-center animate-in fade-in duration-1000">
+  <!-- PÁGINA 1: BOAS-VINDAS - ESTILO BOUTIQUE -->
+  <section id="pag-1" class="w-full max-w-sm flex flex-col items-center fade-in">
       
-      <!-- 1. Logo (Maior, ocupando o espaço com autoridade) -->
-      <div class="w-full mb-12">
+      <!-- Logo: Ocupa o topo com autoridade -->
+      <div class="w-full mb-14">
           <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" 
-               class="w-full max-w-[320px] mx-auto drop-shadow-lg" 
+               class="w-full max-w-[280px] mx-auto drop-shadow-sm opacity-95" 
                alt="Logo OBA">
       </div>
 
-      <!-- 2. Área de Texto (Hierarquia refinada) -->
-      <div class="text-center mb-16 px-4">
-          <h1 class="font-serif-gourmet text-5xl italic text-[#5D3A1A] mb-8 tracking-tighter">Bem-vindo</h1>
-          <p class="text-[#8B4513]/70 text-lg leading-relaxed font-light">
-              Descubra o verdadeiro sabor artesanal, feito com <span class="font-semibold text-[#5D3A1A]">precisão</span> e <span class="font-semibold text-[#5D3A1A]">amor</span>.
+      <!-- Texto: Hierarquia poética e refinada -->
+      <div class="text-center mb-16 px-4 space-y-4">
+          <h1 class="font-serif-gourmet text-5xl italic text-[#5D3A1A]/90 leading-tight">Bem-vindo</h1>
+          <p class="text-[#8B4513]/60 text-lg font-light tracking-wide pt-2 italic">
+              Sabor artesanal em cada detalhe.
           </p>
       </div>
 
-      <!-- 3. Botão (Moderno, minimalista e com toque premium) -->
+      <!-- Botão: Design "Soft Touch" -->
       <button onclick="navegarPara('pag-2')" 
-              class="w-full py-5 rounded-2xl bg-[#5D3A1A] text-white font-bold tracking-[0.2em] uppercase text-xs shadow-xl transition-all active:scale-95 hover:bg-[#4a2e16]">
-          Descobrir Nossa História
+              class="w-full py-5 bg-[#5D3A1A] text-[#FDFBF7] rounded-full font-semibold tracking-[0.2em] uppercase text-[10px] shadow-2xl shadow-[#5D3A1A]/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+          Iniciar Jornada
       </button>
   </section>
 
+  <!-- ESTRUTURA DE NAVEGAÇÃO -->
+  <section id="pag-2" class="hidden min-h-screen flex items-center justify-center fade-in">
+      <div class="text-center p-6"><h2 class="text-2xl font-black text-[#5D3A1A]">Nossa Essência</h2></div>
+  </section>
+
   <script>
-    function navegarPara(id) { /* Logica de navegação */ }
+    function navegarPara(id) {
+        document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }
   </script>
 </body>
 </html>
