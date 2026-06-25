@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OBA Doceria | Experiência Gourmet</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Fontes Google para sofisticação -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
   
   <style>
@@ -17,24 +16,21 @@
 </head>
 <body class="bg-[#F8F5F0] flex items-center justify-center min-h-screen p-4">
 
-  <!-- CONTAINER PRINCIPAL -->
   <div id="app-container" class="w-full">
     
-    <!-- PÁGINA 1: BOAS-VINDAS (LAYOUT LUXO) -->
+    <!-- PÁGINA 1: BOAS-VINDAS (VERSÃO LUXO) -->
     <section id="pag-1" class="w-full max-w-md mx-auto min-h-[85vh] bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(93,58,26,0.08)] border border-[#EFEBE4] flex flex-col items-center justify-between p-8 text-center relative overflow-hidden fade-in">
         
-        <!-- Detalhe de fundo suave -->
         <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center"></div>
 
-        <!-- 1. Logo (Espaço no topo) -->
+        <!-- 1. Logo (Caminho corrigido) -->
         <div class="w-full pt-8 flex justify-center z-10">
-            <!-- Ao substituir pelo logo transparente, remova as classes 'bg-...' e 'border' do container abaixo -->
-            <img src="LINK_DO_SEU_LOGO_TRANSPARENTE.png" 
+            <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" 
                  class="w-[60%] h-auto object-contain drop-shadow-sm" 
                  alt="Logo OBA">
         </div>
 
-        <!-- 2. Área de Texto (Elegante) -->
+        <!-- 2. Área de Texto -->
         <div class="my-6 px-2 z-10 flex flex-col items-center">
             <h1 class="font-serif-gourmet text-4xl italic text-[#5D3A1A] mb-6 tracking-wide">Bem-vindo</h1>
             <div class="h-[1px] w-8 bg-[#965121]/20 mb-6"></div> 
@@ -43,7 +39,7 @@
             </p>
         </div>
 
-        <!-- 3. Botão (Ação imponente) -->
+        <!-- 3. Botão -->
         <div class="w-full pb-2 z-10">
             <button onclick="navegarPara('pag-2')" 
                     class="w-full bg-[#7A431D] text-white py-4 rounded-[1.2rem] font-bold tracking-widest text-[11px] uppercase shadow-lg shadow-[#7A431D]/15 transition-all active:scale-95">
@@ -52,7 +48,7 @@
         </div>
     </section>
 
-    <!-- ESTRUTURA DE NAVEGAÇÃO -->
+    <!-- PÁGINAS 2 -->
     <section id="pag-2" class="hidden min-h-screen flex items-center justify-center fade-in">
         <div class="text-center p-6"><h2 class="text-2xl font-black mb-6">Nossa Essência</h2></div>
     </section>
