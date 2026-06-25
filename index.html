@@ -5,60 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OBA Doceria | Experiência Gourmet</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
   
   <style>
     body { font-family: 'Montserrat', sans-serif; background-color: #FDFBF7; color: #5D3A1A; }
     .font-serif-gourmet { font-family: 'Playfair Display', serif; }
-    .fade-in { animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
-<body class="bg-[#F8F5F0] flex items-center justify-center min-h-screen p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-6">
 
-  <div id="app-container" class="w-full">
-    
-    <!-- PÁGINA 1: BOAS-VINDAS (VERSÃO LUXO) -->
-    <section id="pag-1" class="w-full max-w-md mx-auto min-h-[85vh] bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(93,58,26,0.08)] border border-[#EFEBE4] flex flex-col items-center justify-between p-8 text-center relative overflow-hidden fade-in">
-        
-        <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Imagens_Layout/Captura%20de%20tela%202026-06-23%20131033.png')] bg-cover bg-center"></div>
+  <!-- PÁGINA 1: BOAS-VINDAS - MODERNA E IMERSIVA -->
+  <section id="pag-1" class="w-full max-w-sm flex flex-col items-center animate-in fade-in duration-1000">
+      
+      <!-- 1. Logo (Maior, ocupando o espaço com autoridade) -->
+      <div class="w-full mb-12">
+          <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" 
+               class="w-full max-w-[320px] mx-auto drop-shadow-lg" 
+               alt="Logo OBA">
+      </div>
 
-        <!-- 1. Logo (Caminho corrigido) -->
-        <div class="w-full pt-8 flex justify-center z-10">
-            <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" 
-                 class="w-[60%] h-auto object-contain drop-shadow-sm" 
-                 alt="Logo OBA">
-        </div>
+      <!-- 2. Área de Texto (Hierarquia refinada) -->
+      <div class="text-center mb-16 px-4">
+          <h1 class="font-serif-gourmet text-5xl italic text-[#5D3A1A] mb-8 tracking-tighter">Bem-vindo</h1>
+          <p class="text-[#8B4513]/70 text-lg leading-relaxed font-light">
+              Descubra o verdadeiro sabor artesanal, feito com <span class="font-semibold text-[#5D3A1A]">precisão</span> e <span class="font-semibold text-[#5D3A1A]">amor</span>.
+          </p>
+      </div>
 
-        <!-- 2. Área de Texto -->
-        <div class="my-6 px-2 z-10 flex flex-col items-center">
-            <h1 class="font-serif-gourmet text-4xl italic text-[#5D3A1A] mb-6 tracking-wide">Bem-vindo</h1>
-            <div class="h-[1px] w-8 bg-[#965121]/20 mb-6"></div> 
-            <p class="text-[#8B4513]/70 text-sm leading-relaxed max-w-[240px] font-light">
-                Descubra o verdadeiro sabor artesanal, feito com <span class="font-semibold text-[#5D3A1A]">precisão</span> e <span class="font-semibold text-[#5D3A1A]">amor</span> em cada detalhe.
-            </p>
-        </div>
-
-        <!-- 3. Botão -->
-        <div class="w-full pb-2 z-10">
-            <button onclick="navegarPara('pag-2')" 
-                    class="w-full bg-[#7A431D] text-white py-4 rounded-[1.2rem] font-bold tracking-widest text-[11px] uppercase shadow-lg shadow-[#7A431D]/15 transition-all active:scale-95">
-                Descobrir Nossa História
-            </button>
-        </div>
-    </section>
-
-    <!-- PÁGINAS 2 -->
-    <section id="pag-2" class="hidden min-h-screen flex items-center justify-center fade-in">
-        <div class="text-center p-6"><h2 class="text-2xl font-black mb-6">Nossa Essência</h2></div>
-    </section>
-  </div>
+      <!-- 3. Botão (Moderno, minimalista e com toque premium) -->
+      <button onclick="navegarPara('pag-2')" 
+              class="w-full py-5 rounded-2xl bg-[#5D3A1A] text-white font-bold tracking-[0.2em] uppercase text-xs shadow-xl transition-all active:scale-95 hover:bg-[#4a2e16]">
+          Descobrir Nossa História
+      </button>
+  </section>
 
   <script>
-    function navegarPara(id) {
-        document.querySelectorAll('#app-container > section').forEach(s => s.classList.add('hidden'));
-        document.getElementById(id).classList.remove('hidden');
-    }
+    function navegarPara(id) { /* Logica de navegação */ }
   </script>
 </body>
 </html>
