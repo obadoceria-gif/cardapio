@@ -1,20 +1,108 @@
-function entFluxoPresenteaveis() {
-      // 1. Navega para a página 4 (fluxo-principal)
-      navegarPara(4);
-      
-      // 2. Garante que os containers de layout estejam visíveis
-      const containerFluxo = document.getElementById('fluxo-principal');
-      containerFluxo.classList.remove('hidden');
-      containerFluxo.classList.add('flex');
-      
-      // 3. Oculta o que não pertence aos presentes
-      document.getElementById('secao-passo1').classList.add('hidden');
-      document.getElementById('secao-passo2').classList.add('hidden');
-      
-      // 4. Exibe a vitrine de kits e renderiza
-      const secaoKits = document.getElementById('secao-kits');
-      secaoKits.classList.remove('hidden');
-      
-      renderizarKits();
-      atualizarInterface();
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>OBA Doceria | Experiência Gourmet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Poppins', sans-serif; background-color: #FAF5F0; color: #3B2A1E; }
+    .fade-page { animation: fadeIn 0.4s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="antialiased pb-20">
+
+  <div id="app-container" class="w-full max-w-6xl mx-auto overflow-hidden relative min-h-screen">
+
+    <section id="pag-3" class="min-h-screen flex flex-col items-center justify-center px-6 py-10 fade-page max-w-md mx-auto">
+      <header class="text-center mb-10 w-full">
+        <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" class="w-36 mx-auto mb-6 object-contain" alt="Logo">
+        <h2 class="text-[11px] text-[#8B4513]/60 font-semibold uppercase tracking-[0.2em]">Escolha sua Experiência</h2>
+      </header>
+      <div class="w-full space-y-4">
+        <button onclick="entFluxoCaixas()" class="w-full p-6 bg-[#8B4513] text-white rounded-[2rem] shadow-xl text-left flex justify-between items-center active:scale-95 transition-all">
+          <div><span class="block text-[9px] uppercase tracking-widest opacity-70 mb-1">Montagem</span><span class="text-sm font-medium">Caixas de Doces</span></div><i class="fa-solid fa-box-open text-xl opacity-40"></i>
+        </button>
+        <button onclick="entFluxoPresenteaveis()" class="w-full p-6 bg-white border border-[#8B4513]/10 text-[#8B4513] rounded-[2rem] text-left flex justify-between items-center active:scale-95 transition-all shadow-sm">
+          <div><span class="block text-[9px] uppercase tracking-widest opacity-50 mb-1">Kits & Presentes</span><span class="text-sm font-medium">Presenteáveis / Especiais</span></div><i class="fa-solid fa-gift text-xl opacity-20"></i>
+        </button>
+      </div>
+    </section>
+
+    <section id="fluxo-principal" class="min-h-screen hidden flex-col px-4 py-8 fade-page max-w-5xl mx-auto">
+      <header class="text-center mb-8">
+        <button onclick="retornarParaMenuSeletor()" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest border border-gray-200 px-4 py-1.5 rounded-full">← Voltar ao Menu</button>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-8 space-y-6">
+          <div id="secao-kits" class="hidden space-y-6">
+             <h3 class="font-black text-lg text-[#8B4513] uppercase tracking-widest"><i class="fa-solid fa-gift mr-2"></i> Vitrine de Presentes</h3>
+             <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+          </div>
+          <div id="secao-passo1" class="hidden bg-white p-6 rounded-[2rem] border border-[#E8D5B5]">
+            <h3 class="font-black text-sm text-[#8B4513] uppercase mb-4">1. Escolha o tamanho da caixa</h3>
+            <div class="grid grid-cols-2 gap-3" id="opcoes-caixas">
+              <button onclick="selecionarCaixa('25')" class="p-4 bg-white border border-[#E8D5B5] rounded-2xl">Caixa 25 Doces</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const kitsPresenteaveis = [
+      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake, frutas e doces.', preco: 180.00, img: 'https://placehold.co/400x300?text=Tábua' },
+      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', preco: 75.00, img: 'https://placehold.co/400x300?text=Caixa' }
+    ];
+    let carrinhoDeCaixasConcluidas = [];
+
+    function navegarPara(num) {
+      document.getElementById('pag-3').classList.add('hidden');
+      document.getElementById('fluxo-principal').classList.add('hidden');
+      if(num === 3) document.getElementById('pag-3').classList.remove('hidden');
+      if(num === 4) document.getElementById('fluxo-principal').classList.remove('hidden');
     }
+
+    function retornarParaMenuSeletor() { navegarPara(3); }
+
+    function entFluxoCaixas() {
+      navegarPara(4);
+      document.getElementById('secao-kits').classList.add('hidden');
+      document.getElementById('secao-passo1').classList.remove('hidden');
+    }
+
+    function entFluxoPresenteaveis() {
+      navegarPara(4);
+      document.getElementById('secao-kits').classList.remove('hidden');
+      document.getElementById('secao-passo1').classList.add('hidden');
+      renderizarKits();
+    }
+
+    function renderizarKits() {
+      const grid = document.getElementById('kits-grid');
+      grid.innerHTML = "";
+      kitsPresenteaveis.forEach(kit => {
+        grid.innerHTML += `
+          <div class="bg-white p-4 rounded-2xl shadow border border-gray-100 text-center">
+            <img src="${kit.img}" class="w-full h-32 object-cover rounded-xl mb-3">
+            <h3 class="font-black text-xs text-[#8B4513]">${kit.nome}</h3>
+            <p class="text-[10px] text-gray-500 mb-2">${kit.desc}</p>
+            <button onclick="adicionarKitAoCarrinho('${kit.id}')" class="w-full py-2 bg-[#8B4513] text-white text-[10px] font-bold rounded-lg uppercase">Adicionar R$ ${kit.preco.toFixed(2).replace('.', ',')}</button>
+          </div>`;
+      });
+    }
+
+    function adicionarKitAoCarrinho(idKit) {
+      const kit = kitsPresenteaveis.find(k => k.id === idKit);
+      carrinhoDeCaixasConcluidas.push({ titulo: kit.nome, precoCalculado: kit.preco, detalhes: "Kit Fechado", isKit: true });
+      alert(kit.nome + " adicionado!");
+    }
+  </script>
+</body>
+</html>
