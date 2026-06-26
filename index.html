@@ -17,7 +17,7 @@
 </head>
 <body class="antialiased pb-20">
 
-  <!-- MODAL UNIFICADO -->
+  <!-- MODAL DE CONFIGURAÇÃO UNIFICADO -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 font-bold text-gray-500">✕</button>
@@ -35,38 +35,45 @@
           <span class="text-[11px] font-black text-[#8B4513]">+ R$ 3,50</span>
         </div>
       </div>
-      <button onclick="adicionarAoCarrinhoFinal()" class="w-full py-4 bg-[#8B4513] text-white font-black text-xs rounded-xl uppercase tracking-widest">CONFIRMAR E SALVAR</button>
+      <button onclick="adicionarAoCarrinhoFinal()" class="w-full py-4 bg-[#8B4513] text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-md">CONFIRMAR E SALVAR</button>
     </div>
   </div>
 
-  <div id="app-container" class="w-full max-w-6xl mx-auto min-h-screen">
+  <div id="app-container" class="w-full max-w-6xl mx-auto overflow-hidden relative min-h-screen">
+    
     <!-- PÁGINA 3 -->
     <section id="pag-3" class="min-h-screen flex flex-col items-center justify-center px-6 py-10 max-w-md mx-auto fade-page">
       <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" class="w-36 h-auto mx-auto mb-10 object-contain">
       <div class="w-full space-y-4">
-        <button onclick="entFluxoCaixas()" class="w-full p-6 bg-[#8B4513] text-white rounded-[2rem] shadow-xl text-left flex justify-between items-center active:scale-95 transition-all">
-          <div><span class="block text-[9px] uppercase opacity-70 mb-1">Montagem</span><span class="text-sm font-medium">Caixas de Doces</span></div><i class="fa-solid fa-box-open opacity-40"></i>
+        <button onclick="entFluxoCaixas()" class="w-full p-6 bg-[#8B4513] text-white rounded-[2rem] shadow-xl text-left flex justify-between items-center active:scale-95">
+          <div><span class="block text-[9px] uppercase tracking-widest opacity-70 mb-1">Montagem</span><span class="text-sm font-medium">Caixas de Doces</span></div><i class="fa-solid fa-box-open opacity-40"></i>
         </button>
-        <button onclick="entFluxoPresenteaveis()" class="w-full p-6 bg-white border border-[#8B4513]/10 text-[#8B4513] rounded-[2rem] text-left flex justify-between items-center active:scale-95 transition-all shadow-sm">
-          <div><span class="block text-[9px] uppercase opacity-50 mb-1">Kits & Presentes</span><span class="text-sm font-medium">Presenteáveis / Especiais</span></div><i class="fa-solid fa-gift opacity-20"></i>
+        <button onclick="entFluxoPresenteaveis()" class="w-full p-6 bg-white border border-[#8B4513]/10 text-[#8B4513] rounded-[2rem] text-left flex justify-between items-center active:scale-95 shadow-sm">
+          <div><span class="block text-[9px] uppercase tracking-widest opacity-50 mb-1">Kits & Presentes</span><span class="text-sm font-medium">Presenteáveis / Especiais</span></div><i class="fa-solid fa-gift opacity-20"></i>
         </button>
       </div>
     </section>
 
     <!-- PÁGINA 4 -->
     <section id="fluxo-principal" class="min-h-screen hidden flex-col px-4 py-8 max-w-5xl mx-auto fade-page">
-      <header class="text-center mb-8"><button onclick="retornarParaMenuSeletor()" class="text-[10px] font-bold text-gray-400 border px-4 py-1.5 rounded-full">← Voltar</button></header>
-      <div id="secao-kits" class="hidden space-y-6">
-         <h3 class="font-black text-lg text-[#8B4513] uppercase tracking-widest"><i class="fa-solid fa-gift mr-2"></i> Vitrine de Presentes</h3>
-         <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl mx-auto"></div>
+      <header class="text-center mb-8">
+        <button onclick="navegarPara(3)" class="text-[10px] font-bold text-gray-400 border px-4 py-1.5 rounded-full">← Voltar</button>
+      </header>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-8 space-y-6">
+          <div id="secao-kits" class="hidden space-y-6">
+             <h3 class="font-black text-lg text-[#8B4513] uppercase tracking-widest"><i class="fa-solid fa-gift mr-2"></i> Vitrine de Presentes</h3>
+             <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl mx-auto"></div>
+          </div>
+        </div>
       </div>
     </section>
   </div>
 
   <script>
     const kitsPresenteaveis = [
-      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake, frutas e doces.', preco: 180.00, img: 'https://placehold.co/400x300?text=Tábua' },
-      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', preco: 75.00, img: 'https://placehold.co/400x300?text=Caixa' }
+      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake, frutas e doces.', preco: 180.00, img: 'https://placehold.co/400x300' },
+      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', preco: 75.00, img: 'https://placehold.co/400x300' }
     ];
     let carrinhoDeCaixasConcluidas = [];
     let caixaAtiva = null; 
@@ -80,6 +87,8 @@
       if(num === 4) document.getElementById('fluxo-principal').classList.remove('hidden');
     }
 
+    function entFluxoCaixas() { /* Lógica de caixas original */ }
+
     function entFluxoPresenteaveis() {
       navegarPara(4);
       document.getElementById('secao-kits').classList.remove('hidden');
@@ -90,46 +99,38 @@
       const grid = document.getElementById('kits-grid'); grid.innerHTML = "";
       kitsPresenteaveis.forEach(kit => {
         grid.innerHTML += `
-          <div class="bg-white rounded-[2rem] shadow-sm border border-[#E8D5B5] p-6 flex flex-col items-center text-center">
-            <img src="${kit.img}" class="w-full h-32 object-cover rounded-xl mb-3">
+          <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center transition-all hover:border-[#8B4513]">
+            <img src="${kit.img}" class="w-full h-32 object-cover rounded-2xl mb-4">
             <h3 class="font-black text-sm text-[#8B4513] mb-1">${kit.nome}</h3>
-            <p class="text-[10px] text-gray-500 mb-3">${kit.desc}</p>
-            <button onclick="abrirModalKit('${kit.id}')" class="w-full py-4 bg-[#8B4513] text-white font-bold text-[11px] uppercase tracking-widest rounded-[1.25rem] transition-all active:scale-95">CONFIGURAR KIT</button>
+            <p class="text-[10px] text-gray-500 mb-4">${kit.desc}</p>
+            <button onclick="abrirModalKit('${kit.id}')" class="w-full py-4 bg-[#8B4513] text-white font-black text-[10px] uppercase tracking-widest rounded-[1.25rem] shadow-md transition-all active:scale-95">CONFIGURAR KIT</button>
           </div>`;
       });
     }
 
     function abrirModalKit(idKit) {
       const kit = kitsPresenteaveis.find(k => k.id === idKit);
-      caixaAtiva = { id: kit.id, titulo: kit.nome, precoFixo: kit.preco, isKit: true };
+      caixaAtiva = { titulo: kit.nome, precoFixo: kit.preco, isKit: true };
       document.getElementById('modal-titulo-dinamico').innerText = kit.nome;
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + kit.preco.toFixed(2).replace('.', ',');
       document.getElementById('modal-caixa-completa').classList.remove('hidden');
     }
 
     function toggleOpcional(tipo) {
-      if(tipo === 'laco') {
-        lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
-        document.getElementById('chk-laco').classList.toggle('bg-[#8B4513]', lacoDecorativoSelecionado);
-        document.getElementById('chk-laco').querySelector('i').classList.toggle('opacity-0', !lacoDecorativoSelecionado);
-      } else if(tipo === 'placa') {
-        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada;
-        document.getElementById('chk-placa').classList.toggle('bg-[#8B4513]', placaPersonalizadaSelecionada);
-        document.getElementById('chk-placa').querySelector('i').classList.toggle('opacity-0', !placaPersonalizadaSelecionada);
-      }
+      if(tipo === 'laco') { lacoDecorativoSelecionado = !lacoDecorativoSelecionado; document.getElementById('chk-laco').classList.toggle('bg-[#8B4513]', lacoDecorativoSelecionado); document.getElementById('chk-laco').querySelector('i').classList.toggle('opacity-0', !lacoDecorativoSelecionado); }
+      else if(tipo === 'placa') { placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada; document.getElementById('chk-placa').classList.toggle('bg-[#8B4513]', placaPersonalizadaSelecionada); document.getElementById('chk-placa').querySelector('i').classList.toggle('opacity-0', !placaPersonalizadaSelecionada); }
       let total = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
     }
 
     function adicionarAoCarrinhoFinal() {
       let total = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
-      carrinhoDeCaixasConcluidas.push({ titulo: caixaAtiva.titulo, precoCalculado: total, detalhes: "Kit Fechado" });
+      carrinhoDeCaixasConcluidas.push({ titulo: caixaAtiva.titulo, precoCalculado: total, detalhes: "Kit Fechado + Opcionais" });
       alert("Adicionado com sucesso!");
       fecharModalCompleta();
     }
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
-    function retornarParaMenuSeletor() { navegarPara(3); }
   </script>
 </body>
 </html>
