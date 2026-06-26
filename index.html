@@ -9,58 +9,71 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-    body { font-family: 'Poppins', sans-serif; background-color: #FAF5F0; color: #3B2A1E; }
+    body { font-family: 'Poppins', sans-serif; background-color: #FAF5F0; color: #3B2A1E; -webkit-tap-highlight-color: transparent; }
+    .glass-card { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px); border: 1px solid rgba(139, 69, 19, 0.08); }
     .fade-page { animation: fadeIn 0.4s ease-out forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="antialiased pb-20">
 
-  <div id="app-container" class="w-full max-w-6xl mx-auto overflow-hidden relative min-h-screen">
+  <!-- MODAL DE FINALIZAÇÃO (USADO TANTO PARA CAIXAS QUANTO PARA KITS) -->
+  <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalCompleta()">
+    <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
+      <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 text-gray-500 font-bold">✕</button>
+      <div id="modal-completa-estado-escolha" class="space-y-4">
+        <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513]">Resumo do Item</h2>
+        <p class="text-sm font-semibold">Total: <span id="modal-subtotal-pedido" class="text-[#8B4513] text-xl font-black">R$ 0,00</span></p>
+        
+        <p class="text-[11px] text-amber-800 font-bold bg-amber-50 py-1.5 px-3 rounded-lg">Deseja adicionar detalhes para presente?</p>
+        <div class="space-y-2 text-left">
+          <div onclick="toggleOpcional('laco')" class="border p-3 rounded-2xl flex items-center justify-between cursor-pointer">
+            <div class="flex items-center gap-3"><div id="chk-laco" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0"></i></div><h4 class="text-[11px] font-bold text-[#8B4513]">Laço Decorativo 🎀</h4></div>
+            <span class="text-[11px] font-black text-[#8B4513]">+ R$ 4,50</span>
+          </div>
+          <div onclick="toggleOpcional('placa')" class="border p-3 rounded-2xl flex items-center justify-between cursor-pointer">
+            <div class="flex items-center gap-3"><div id="chk-placa" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0"></i></div><h4 class="text-[11px] font-bold text-[#8B4513]">Placa Personalizada 🏷️</h4></div>
+            <span class="text-[11px] font-black text-[#8B4513]">+ R$ 3,50</span>
+          </div>
+        </div>
+        <button onclick="adicionarAoCarrinhoFinal()" class="w-full py-4 bg-[#8B4513] text-white font-black text-xs rounded-xl uppercase">Confirmar e Salvar</button>
+      </div>
+    </div>
+  </div>
 
-    <section id="pag-3" class="min-h-screen flex flex-col items-center justify-center px-6 py-10 fade-page max-w-md mx-auto">
-      <header class="text-center mb-10 w-full">
-        <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" class="w-36 mx-auto mb-6 object-contain" alt="Logo">
-        <h2 class="text-[11px] text-[#8B4513]/60 font-semibold uppercase tracking-[0.2em]">Escolha sua Experiência</h2>
-      </header>
+  <!-- CONTAINER PÁGINAS -->
+  <div id="app-container" class="w-full max-w-6xl mx-auto overflow-hidden min-h-screen">
+    <!-- PÁGINA 3 -->
+    <section id="pag-3" class="min-h-screen flex flex-col items-center justify-center px-6 py-10 max-w-md mx-auto fade-page">
       <div class="w-full space-y-4">
-        <button onclick="entFluxoCaixas()" class="w-full p-6 bg-[#8B4513] text-white rounded-[2rem] shadow-xl text-left flex justify-between items-center active:scale-95 transition-all">
-          <div><span class="block text-[9px] uppercase tracking-widest opacity-70 mb-1">Montagem</span><span class="text-sm font-medium">Caixas de Doces</span></div><i class="fa-solid fa-box-open text-xl opacity-40"></i>
+        <button onclick="entFluxoCaixas()" class="w-full p-6 bg-[#8B4513] text-white rounded-[2rem] text-left flex justify-between items-center active:scale-95">
+          <div><span class="block text-[9px] uppercase opacity-70">Montagem</span><span class="text-sm font-medium">Caixas de Doces</span></div><i class="fa-solid fa-box-open opacity-40"></i>
         </button>
-        <button onclick="entFluxoPresenteaveis()" class="w-full p-6 bg-white border border-[#8B4513]/10 text-[#8B4513] rounded-[2rem] text-left flex justify-between items-center active:scale-95 transition-all shadow-sm">
-          <div><span class="block text-[9px] uppercase tracking-widest opacity-50 mb-1">Kits & Presentes</span><span class="text-sm font-medium">Presenteáveis / Especiais</span></div><i class="fa-solid fa-gift text-xl opacity-20"></i>
+        <button onclick="entFluxoPresenteaveis()" class="w-full p-6 bg-white border border-[#8B4513]/10 text-[#8B4513] rounded-[2rem] text-left flex justify-between items-center active:scale-95">
+          <div><span class="block text-[9px] uppercase opacity-50">Kits & Presentes</span><span class="text-sm font-medium">Presenteáveis / Especiais</span></div><i class="fa-solid fa-gift opacity-20"></i>
         </button>
       </div>
     </section>
 
-    <section id="fluxo-principal" class="min-h-screen hidden flex-col px-4 py-8 fade-page max-w-5xl mx-auto">
-      <header class="text-center mb-8">
-        <button onclick="retornarParaMenuSeletor()" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest border border-gray-200 px-4 py-1.5 rounded-full">← Voltar ao Menu</button>
-      </header>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div class="lg:col-span-8 space-y-6">
-          <div id="secao-kits" class="hidden space-y-6">
-             <h3 class="font-black text-lg text-[#8B4513] uppercase tracking-widest"><i class="fa-solid fa-gift mr-2"></i> Vitrine de Presentes</h3>
-             <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-          </div>
-          <div id="secao-passo1" class="hidden bg-white p-6 rounded-[2rem] border border-[#E8D5B5]">
-            <h3 class="font-black text-sm text-[#8B4513] uppercase mb-4">1. Escolha o tamanho da caixa</h3>
-            <div class="grid grid-cols-2 gap-3" id="opcoes-caixas">
-              <button onclick="selecionarCaixa('25')" class="p-4 bg-white border border-[#E8D5B5] rounded-2xl">Caixa 25 Doces</button>
-            </div>
-          </div>
-        </div>
+    <!-- PÁGINA 4 -->
+    <section id="fluxo-principal" class="min-h-screen hidden flex-col px-4 py-8 max-w-5xl mx-auto fade-page">
+      <button onclick="navegarPara(3)" class="text-[10px] font-bold text-gray-400 border px-4 py-1.5 rounded-full mb-6">← Voltar</button>
+      <div id="secao-kits" class="hidden space-y-6">
+         <h3 class="font-black text-[#8B4513] uppercase">Vitrine de Presentes</h3>
+         <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
       </div>
     </section>
   </div>
 
   <script>
     const kitsPresenteaveis = [
-      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake, frutas e doces.', preco: 180.00, img: 'https://placehold.co/400x300?text=Tábua' },
-      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', preco: 75.00, img: 'https://placehold.co/400x300?text=Caixa' }
+      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake, frutas e doces.', preco: 180.00, img: 'https://placehold.co/400x300' },
+      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros.', preco: 75.00, img: 'https://placehold.co/400x300' }
     ];
     let carrinhoDeCaixasConcluidas = [];
+    let caixaAtiva = null; 
+    let lacoDecorativoSelecionado = false; 
+    let placaPersonalizadaSelecionada = false;
 
     function navegarPara(num) {
       document.getElementById('pag-3').classList.add('hidden');
@@ -69,40 +82,63 @@
       if(num === 4) document.getElementById('fluxo-principal').classList.remove('hidden');
     }
 
-    function retornarParaMenuSeletor() { navegarPara(3); }
-
-    function entFluxoCaixas() {
-      navegarPara(4);
-      document.getElementById('secao-kits').classList.add('hidden');
-      document.getElementById('secao-passo1').classList.remove('hidden');
-    }
-
     function entFluxoPresenteaveis() {
       navegarPara(4);
       document.getElementById('secao-kits').classList.remove('hidden');
-      document.getElementById('secao-passo1').classList.add('hidden');
       renderizarKits();
     }
 
     function renderizarKits() {
-      const grid = document.getElementById('kits-grid');
-      grid.innerHTML = "";
+      const grid = document.getElementById('kits-grid'); grid.innerHTML = "";
       kitsPresenteaveis.forEach(kit => {
         grid.innerHTML += `
-          <div class="bg-white p-4 rounded-2xl shadow border border-gray-100 text-center">
-            <img src="${kit.img}" class="w-full h-32 object-cover rounded-xl mb-3">
+          <div class="bg-white p-4 rounded-2xl shadow border">
             <h3 class="font-black text-xs text-[#8B4513]">${kit.nome}</h3>
-            <p class="text-[10px] text-gray-500 mb-2">${kit.desc}</p>
-            <button onclick="adicionarKitAoCarrinho('${kit.id}')" class="w-full py-2 bg-[#8B4513] text-white text-[10px] font-bold rounded-lg uppercase">Adicionar R$ ${kit.preco.toFixed(2).replace('.', ',')}</button>
+            <button onclick="abrirModalKit('${kit.id}')" class="w-full py-2 bg-[#8B4513] text-white text-[10px] font-bold rounded-lg uppercase mt-2">Configurar Kit</button>
           </div>`;
       });
     }
 
-    function adicionarKitAoCarrinho(idKit) {
+    function abrirModalKit(idKit) {
       const kit = kitsPresenteaveis.find(k => k.id === idKit);
-      carrinhoDeCaixasConcluidas.push({ titulo: kit.nome, precoCalculado: kit.preco, detalhes: "Kit Fechado", isKit: true });
-      alert(kit.nome + " adicionado!");
+      caixaAtiva = { id: kit.id, titulo: kit.nome, precoFixo: kit.preco, isKit: true };
+      document.getElementById('modal-titulo-dinamico').innerText = kit.nome;
+      document.getElementById('modal-subtotal-pedido').innerText = "R$ " + kit.preco.toFixed(2).replace('.', ',');
+      document.getElementById('modal-caixa-completa').classList.remove('hidden');
     }
+
+    function toggleOpcional(tipo) {
+      if(tipo === 'laco') {
+        lacoDecorativoSelecionado = !lacoDecorativoSelecionado;
+        const box = document.getElementById('chk-laco'); 
+        box.querySelector('i').classList.toggle('opacity-0', !lacoDecorativoSelecionado);
+        box.classList.toggle('bg-[#8B4513]', lacoDecorativoSelecionado);
+      } else if(tipo === 'placa') {
+        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada;
+        const box = document.getElementById('chk-placa');
+        box.querySelector('i').classList.toggle('opacity-0', !placaPersonalizadaSelecionada);
+        box.classList.toggle('bg-[#8B4513]', placaPersonalizadaSelecionada);
+      }
+      atualizarTotalModal();
+    }
+
+    function atualizarTotalModal() {
+      let total = caixaAtiva.precoFixo;
+      if (lacoDecorativoSelecionado) total += 4.50;
+      if (placaPersonalizadaSelecionada) total += 3.50;
+      document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
+    }
+
+    function adicionarAoCarrinhoFinal() {
+      let total = caixaAtiva.precoFixo;
+      if (lacoDecorativoSelecionado) total += 4.50;
+      if (placaPersonalizadaSelecionada) total += 3.50;
+      carrinhoDeCaixasConcluidas.push({ titulo: caixaAtiva.titulo, precoCalculado: total, detalhes: "Kit Fechado + Opcionais" });
+      alert("Adicionado com sucesso!");
+      fecharModalCompleta();
+    }
+
+    function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
   </script>
 </body>
 </html>
