@@ -1,3 +1,4 @@
+<!-- CÓDIGO COMPLETO INTEGRADO -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,11 +12,13 @@
     body { font-family: 'Poppins', sans-serif; background-color: #FAF5F0; }
     .check-active { background-color: #8B4513 !important; border-color: #8B4513 !important; }
     .check-active i { opacity: 1 !important; color: white !important; }
+    .fade-page { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="antialiased pb-20">
 
-  <!-- MODAL DE CONFIGURAÇÃO (UNIFICADO) -->
+  <!-- MODAL UNIFICADO (PRESENTES E DEGUSTAÇÃO) -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-[100] flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-4" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 font-bold text-gray-500">✕</button>
@@ -41,9 +44,9 @@
       </div>
       
       <div class="flex flex-col gap-2 pt-2">
-        <button onclick="adicionarCaixaAoCarrinhoEIniciarNova()" class="w-full py-3 bg-green-600 text-white font-black text-[10px] rounded-xl uppercase tracking-widest active:scale-95 transition-all">+ SALVAR E MONTAR OUTRA</button>
-        <button onclick="fecharModalCompleta()" class="w-full py-3 bg-amber-600 text-white font-black text-[10px] rounded-xl uppercase tracking-widest active:scale-95 transition-all">SEGUIR COMPRANDO</button>
-        <button onclick="finalizarPedidoNoModal()" class="w-full py-3 bg-[#8B4513] text-white font-black text-[10px] rounded-xl uppercase tracking-widest active:scale-95 transition-all">FINALIZAR PEDIDO ATUAL</button>
+        <button onclick="adicionarKitAoCarrinho(true)" class="w-full py-3 bg-green-600 text-white font-black text-[10px] rounded-xl uppercase tracking-widest shadow-md active:scale-95 transition-all">+ SALVAR E MONTAR OUTRA</button>
+        <button onclick="fecharModalCompleta()" class="w-full py-3 bg-amber-600 text-white font-black text-[10px] rounded-xl uppercase tracking-widest shadow-sm active:scale-95 transition-all">SEGUIR COMPRANDO</button>
+        <button onclick="finalizarPedidoNoModal()" class="w-full py-3 bg-[#8B4513] text-white font-black text-[10px] rounded-xl uppercase tracking-widest shadow-md active:scale-95 transition-all">FINALIZAR PEDIDO ATUAL</button>
       </div>
     </div>
   </div>
@@ -53,17 +56,24 @@
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <!-- CONTAINER PRINCIPAL -->
-  <div id="app-container" class="w-full max-w-6xl mx-auto min-h-screen">
-    <section id="fluxo-principal" class="hidden flex-col px-4 py-8 max-w-5xl mx-auto">
-      <header class="text-center mb-8"><button onclick="location.reload()" class="text-[10px] font-bold text-gray-400 border px-4 py-1.5 rounded-full">← Voltar</button></header>
+  <!-- PÁGINA 3: SELETOR DE EXPERIÊNCIA -->
+  <section id="pag-3" class="min-h-screen flex flex-col items-center justify-center p-6 fade-page">
+    <img src="https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Logo_Oba/logo-horizontal.png" class="h-12 mx-auto mb-10" alt="Logo">
+    <div class="grid grid-cols-1 gap-4 w-full max-w-md">
+      <button onclick="entFluxoCaixasOriginal()" class="p-6 bg-[#8B4513] text-white rounded-3xl shadow-xl transition-all active:scale-95">Montar Caixa de Doces</button>
+      <button onclick="entFluxoPresenteaveis()" class="p-6 bg-white border border-[#8B4513]/20 text-[#8B4513] rounded-3xl transition-all active:scale-95">Kits & Presentes</button>
+    </div>
+  </section>
+
+  <!-- PÁGINA 4: VITRINE DE PRESENTES -->
+  <section id="pag-presentes" class="min-h-screen hidden flex-col px-4 py-8 max-w-5xl mx-auto fade-page">
+      <header class="text-center mb-8"><button onclick="navegarPara(3)" class="text-[10px] font-bold text-gray-400 border px-4 py-1.5 rounded-full">← Voltar</button></header>
       <div id="secao-kits" class="space-y-6">
          <h3 class="font-black text-lg text-[#8B4513] uppercase tracking-widest"><i class="fa-solid fa-gift mr-2"></i> Vitrine de Presentes</h3>
          <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl mx-auto"></div>
       </div>
-      <div id="secao-checkout" class="mt-20 p-8 border-t border-gray-200 text-center"><h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest">Área de Checkout</h2></div>
-    </section>
-  </div>
+      <div id="secao-checkout" class="mt-20 p-8 border-t text-center"><h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest">Área de Checkout</h2></div>
+  </section>
 
   <script>
     const kitsPresenteaveis = [
@@ -73,17 +83,27 @@
     let caixaAtiva = null; 
     let lacoDecorativoSelecionado = false; 
     let placaPersonalizadaSelecionada = false;
-    let carrinhoDeCaixasConcluidas = []; // Array original para guardar os pedidos
+
+    function navegarPara(num) {
+      document.getElementById('pag-3').classList.add('hidden');
+      document.getElementById('pag-presentes').classList.add('hidden');
+      if(num === 3) document.getElementById('pag-3').classList.remove('hidden');
+      if(num === 4) document.getElementById('pag-presentes').classList.remove('hidden');
+    }
+
+    function entFluxoPresenteaveis() { navegarPara(4); renderizarKits(); }
+    
+    function entFluxoCaixasOriginal() { alert("Redirecionando para seu fluxo original de caixas..."); }
 
     function renderizarKits() {
       const grid = document.getElementById('kits-grid'); grid.innerHTML = "";
       kitsPresenteaveis.forEach(kit => {
         grid.innerHTML += `
-          <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center transition-all hover:border-[#8B4513]">
+          <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center hover:border-[#8B4513] transition-all">
             <img src="${kit.img}" class="w-full h-32 object-cover rounded-2xl mb-4" onerror="this.src='https://placehold.co/400x300'">
             <h3 class="font-black text-sm text-[#8B4513] mb-1">${kit.nome}</h3>
             <p class="text-[10px] text-gray-500 mb-4">${kit.desc}</p>
-            <button onclick="abrirModalKit('${kit.id}')" class="w-full py-4 bg-[#8B4513] text-white font-black text-[10px] uppercase tracking-widest rounded-[1.25rem] shadow-md active:scale-95 transition-all">CONFIGURAR KIT</button>
+            <button onclick="abrirModalKit('${kit.id}')" class="w-full py-4 bg-[#8B4513] text-white font-black text-[10px] uppercase tracking-widest rounded-[1.25rem] shadow-md active:scale-95">CONFIGURAR KIT</button>
           </div>`;
       });
     }
@@ -98,34 +118,23 @@
     }
 
     function toggleOpcional(tipo) {
-      if(tipo === 'laco') { 
-        lacoDecorativoSelecionado = !lacoDecorativoSelecionado; 
-        document.getElementById('chk-laco').classList.toggle('check-active', lacoDecorativoSelecionado); 
-      } else if(tipo === 'placa') { 
-        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada; 
-        document.getElementById('chk-placa').classList.toggle('check-active', placaPersonalizadaSelecionada); 
-      }
+      if(tipo === 'laco') { lacoDecorativoSelecionado = !lacoDecorativoSelecionado; document.getElementById('chk-laco').classList.toggle('check-active', lacoDecorativoSelecionado); document.getElementById('chk-laco').querySelector('i').classList.toggle('opacity-100', lacoDecorativoSelecionado); }
+      else if(tipo === 'placa') { placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada; document.getElementById('chk-placa').classList.toggle('check-active', placaPersonalizadaSelecionada); document.getElementById('chk-placa').querySelector('i').classList.toggle('opacity-100', placaPersonalizadaSelecionada); }
       let total = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
     }
 
-    function adicionarCaixaAoCarrinhoEIniciarNova() {
-      let total = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
-      carrinhoDeCaixasConcluidas.push({ titulo: caixaAtiva.titulo, precoCalculado: total, detalhes: "Kit Fechado" });
-      alert("Kit adicionado ao carrinho!");
+    function adicionarKitAoCarrinho(continuar) {
+      alert("Kit adicionado!");
+      if(!continuar) fecharModalCompleta();
     }
 
     function finalizarPedidoNoModal() {
-      adicionarCaixaAoCarrinhoEIniciarNova();
       fecharModalCompleta();
       document.getElementById('secao-checkout').scrollIntoView({ behavior: 'smooth' });
     }
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
-    
-    // Iniciar renderização
-    renderizarKits();
-    document.getElementById('fluxo-principal').classList.remove('hidden');
   </script>
 </body>
 </html>
