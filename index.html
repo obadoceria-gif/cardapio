@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>OBA Doceria | Experiência Gourmet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Poppins', sans-serif; background-color: #FAF5F0; color: #3B2A1E; }
+    .check-active { background-color: #8B4513 !important; border-color: #8B4513 !important; }
+    .check-active i { opacity: 1 !important; color: white !important; }
+  </style>
+</head>
+<body class="antialiased pb-20">
 
+  <!-- MODAL DE CONFIGURAÇÃO (COMPLETO) -->
+  <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-[100] flex items-center justify-center p-4" onclick="fecharModalCompleta()">
+    <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-4" onclick="event.stopPropagation()">
+      <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 font-bold text-gray-500">✕</button>
+      <h2 id="modal-titulo-dinamico" class="text-lg font-black text-[#8B4513]">Resumo</h2>
+      <p class="text-sm font-semibold">Total: <span id="modal-subtotal-pedido" class="text-[#8B4513] text-xl font-black">R$ 0,00</span></p>
+      
+      <p class="text-[10px] text-amber-800 font-bold bg-amber-50 py-1.5 px-3 rounded-lg">Deseja adicionar detalhes para presente?</p>
+      <h4 class="text-[9px] font-black text-gray-500 uppercase text-left mt-2">Adicionar itens:</h4>
+      
+      <div class="space-y-2 text-left">
+        <div onclick="toggleOpcional('laco')" class="border-2 border-orange-100 p-3 rounded-2xl flex items-center justify-between cursor-pointer transition-all">
+          <div class="flex items-center gap-3"><div id="chk-laco" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0"></i></div><h4 class="text-[10px] font-bold text-[#8B4513] uppercase">Laço Decorativo 🎀</h4></div>
+          <span class="text-[10px] font-black text-[#8B4513]">+ R$ 4,50</span>
+        </div>
+        <div onclick="toggleOpcional('placa')" class="border-2 border-orange-100 p-3 rounded-2xl flex items-center justify-between cursor-pointer transition-all">
+          <div class="flex items-center gap-3"><div id="chk-placa" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0"></i></div><h4 class="text-[10px] font-bold text-[#8B4513] uppercase">Placa Personalizada 🏷️</h4></div>
+          <span class="text-[10px] font-black text-[#8B4513]">+ R$ 3,50</span>
+        </div>
+      </div>
+
+      <div class="text-center mt-2">
+        <p class="text-[10px] text-gray-500">Ainda com dúvida? <a href="https://wa.me/5555999117626" target="_blank" class="font-bold text-[#8B4513] underline">Clique aqui e fale conosco</a>.</p>
+      </div>
+      
+      <div class="flex flex-col gap-2 pt-2">
+        <button onclick="adicionarKitAoCarrinho(true)" class="w-full py-3 bg-green-600 text-white font-black text-[10px] rounded-xl uppercase tracking-widest shadow-md active:scale-95 transition-all">+ SALVAR E MONTAR OUTRA</button>
+        <button onclick="adicionarKitAoCarrinho(false)" class="w-full py-3 bg-amber-600 text-white font-black text-[10px] rounded-xl uppercase tracking-widest shadow-sm active:scale-95 transition-all">SEGUIR COMPRANDO</button>
+        <button onclick="finalizarPedidoNoModal()" class="w-full py-3 bg-[#8B4513] text-white font-black text-[10px] rounded-xl uppercase tracking-widest shadow-md active:scale-95 transition-all">FINALIZAR PEDIDO ATUAL</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-container" class="w-full max-w-6xl mx-auto min-h-screen">
+    <section id="fluxo-principal" class="flex flex-col px-4 py-8 max-w-5xl mx-auto">
+      <header class="text-center mb-8"><button onclick="history.back()" class="text-[10px] font-bold text-gray-400 border px-4 py-1.5 rounded-full">← Voltar</button></header>
+      <div id="secao-kits" class="space-y-6">
+         <h3 class="font-black text-lg text-[#8B4513] uppercase tracking-widest"><i class="fa-solid fa-gift mr-2"></i> Vitrine de Presentes</h3>
+         <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl mx-auto"></div>
+      </div>
+      <div id="secao-checkout" class="mt-20 p-8 border-t border-gray-200 text-center"><h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest">Área de Checkout</h2></div>
+    </section>
+  </div>
+
+  <script>
+    const kitsPresenteaveis = [
+      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake, frutas e doces.', preco: 180.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_1.png' },
+      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', preco: 75.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_2.png' }
+    ];
+    let carrinhoDeCaixasConcluidas = [];
+    let caixaAtiva = null; 
+    let lacoDecorativoSelecionado = false; 
+    let placaPersonalizadaSelecionada = false;
+
+    function renderizarKits() {
+      const grid = document.getElementById('kits-grid'); grid.innerHTML = "";
+      kitsPresenteaveis.forEach(kit => {
+        grid.innerHTML += `
+          <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-[#E8D5B5] flex flex-col items-center text-center transition-all hover:border-[#8B4513]">
+            <img src="${kit.img}" class="w-full h-32 object-cover rounded-2xl mb-4" onerror="this.src='https://placehold.co/400x300'">
+            <h3 class="font-black text-sm text-[#8B4513] mb-1">${kit.nome}</h3>
+            <p class="text-[10px] text-gray-500 mb-4">${kit.desc}</p>
+            <button onclick="abrirModalKit('${kit.id}')" class="w-full py-4 bg-[#8B4513] text-white font-black text-[10px] uppercase tracking-widest rounded-[1.25rem] shadow-md active:scale-95 transition-all">CONFIGURAR KIT</button>
+          </div>`;
+      });
+    }
+
+    function abrirModalKit(idKit) {
+      const kit = kitsPresenteaveis.find(k => k.id === idKit);
+      caixaAtiva = { titulo: kit.nome, precoFixo: kit.preco };
+      lacoDecorativoSelecionado = false; placaPersonalizadaSelecionada = false;
+      document.getElementById('modal-titulo-dinamico').innerText = kit.nome;
+      document.getElementById('modal-subtotal-pedido').innerText = "R$ " + kit.preco.toFixed(2).replace('.', ',');
+      document.getElementById('modal-caixa-completa').classList.remove('hidden');
+    }
+
+    function toggleOpcional(tipo) {
+      if(tipo === 'laco') { 
+        lacoDecorativoSelecionado = !lacoDecorativoSelecionado; 
+        document.getElementById('chk-laco').classList.toggle('check-active', lacoDecorativoSelecionado); 
+      } else if(tipo === 'placa') { 
+        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada; 
+        document.getElementById('chk-placa').classList.toggle('check-active', placaPersonalizadaSelecionada); 
+      }
+      let total = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
+      document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
+    }
+
+    function adicionarKitAoCarrinho(continuarMontando) {
+      let total = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
+      carrinhoDeCaixasConcluidas.push({ titulo: caixaAtiva.titulo, precoCalculado: total, detalhes: "Kit Fechado" });
+      alert("Kit adicionado ao carrinho!");
+      if (!continuarMontando) fecharModalCompleta();
+    }
+
+    function finalizarPedidoNoModal() {
+      fecharModalCompleta();
+      document.getElementById('secao-checkout').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
+    renderizarKits();
+  </script>
+</body>
+</html>
