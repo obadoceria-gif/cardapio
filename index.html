@@ -19,14 +19,25 @@
 </head>
 <body class="antialiased pb-20">
 
-  <!-- MODAL DE CONFIGURAÇÃO -->
+  <!-- BOTÃO FLUTUANTE WHATSAPP (GLOBAL) -->
+  <a href="https://wa.me/5555999117626" target="_blank" class="fixed bottom-6 right-6 z-[60] bg-green-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-green-600 transition-all">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- MODAL DE CONFIGURAÇÃO DO KIT -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-[100] flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-4" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold">✕</button>
       
       <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-square-check"></i></div>
-      <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513]">Sua Caixa Está Completa! 🎉</h2>
-      <p class="text-sm text-gray-500 font-semibold">Valor Total: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
+      
+      <!-- Título, Descrição e Preço Dinâmicos -->
+      <div>
+        <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513]">Nome do Kit</h2>
+        <p id="modal-desc-dinamica" class="text-[11px] text-gray-500 mt-1 px-4 leading-tight">Descrição detalhada do kit aparece aqui.</p>
+      </div>
+      
+      <p class="text-sm text-gray-500 font-semibold mt-2">Total do Item: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
 
       <p class="text-[11px] text-amber-800 font-bold bg-amber-50 py-1.5 px-3 rounded-lg mt-4">Deseja adicionar detalhes para presente?</p>
       
@@ -47,9 +58,17 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-2.5 pt-4">
-        <button onclick="adicionarKitAoCarrinho(true)" class="w-full py-3.5 bg-green-600 text-white font-bold text-xs rounded-xl shadow-md uppercase">+ Salvar e Adicionar Outro</button>
-        <button onclick="adicionarKitAoCarrinho(false)" class="w-full py-3.5 bg-amber-600 text-white font-bold text-xs rounded-xl shadow-sm uppercase">Seguir Comprando</button>
+      <!-- Atalho WhatsApp Interno -->
+      <div class="text-center mt-3 pt-3 border-t border-gray-100">
+        <p class="text-[10px] text-gray-500">
+          Ainda com dúvida? <a href="https://wa.me/5555999117626" target="_blank" class="font-bold text-[#8B4513] underline hover:text-[#6e3710]">Clique aqui e fale com a gente</a>
+        </p>
+      </div>
+
+      <!-- Botões de Ação Atualizados -->
+      <div class="flex flex-col gap-2 pt-2">
+        <button onclick="adicionarKitAoCarrinhoEContinuar()" class="w-full py-3.5 bg-green-600 text-white font-bold text-xs rounded-xl shadow-md uppercase flex justify-center items-center gap-2"><i class="fa-solid fa-cart-plus"></i> Salvar e Escolher Outro</button>
+        <button onclick="adicionarKitAoCarrinhoEFinalizar()" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-xs rounded-xl shadow-sm uppercase flex justify-center items-center gap-2"><i class="fa-solid fa-basket-shopping"></i> Ver Carrinho / Finalizar</button>
       </div>
     </div>
   </div>
@@ -62,16 +81,22 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
-      <!-- ESQUERDA: VITRINE DE KITS (COM O LAYOUT CORRIGIDO) -->
+      <!-- ESQUERDA: VITRINE DE KITS -->
       <div class="lg:col-span-8 space-y-6">
         <section id="secao-kits" class="bg-white p-6 md:p-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm space-y-6">
-          <div class="flex justify-between items-center border-b border-[#E8D5B5] pb-4 mb-2">
+          
+          <!-- Cabeçalho com Botão de Dúvida -->
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-[#E8D5B5] pb-4 mb-2 gap-3">
             <div>
               <h3 class="font-bold text-[#8B4513] uppercase tracking-widest text-sm flex items-center gap-2">
                 <span class="btn-step-icon"><i class="fa-solid fa-gift text-[10px]"></i></span> Vitrine de Presentes
               </h3>
               <p class="text-[10px] text-gray-500 mt-1">Nossas opções exclusivas já vêm montadas com carinho.</p>
             </div>
+            
+            <a href="https://wa.me/5555999117626" target="_blank" class="flex items-center gap-2 px-4 py-2 border border-green-200 bg-green-50 text-green-700 rounded-full text-[10px] font-bold uppercase transition-all hover:bg-green-100">
+              <i class="fa-brands fa-whatsapp text-sm"></i> Precisa de ajuda?
+            </a>
           </div>
           
           <!-- GRID DENTRO DO CARTÃO BRANCO -->
@@ -81,7 +106,7 @@
 
       <!-- DIREITA: CARRINHO -->
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
-        <section class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-6">
+        <section id="area-checkout" class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-6">
           <div class="border-b border-[#E8D5B5] pb-3"><h2 class="text-sm font-black text-[#8B4513]">Seu Carrinho</h2></div>
           
           <div id="wrapper-carrinho-multiplas-caixas" class="space-y-2 hidden border-b border-gray-100 pb-2">
@@ -91,7 +116,7 @@
 
           <div class="border-t pt-4 space-y-4 mt-4">
             <div class="flex justify-between items-center"><span class="text-xs font-bold text-gray-400 uppercase">Total Geral:</span><span class="text-2xl font-black text-[#8B4513]" id="valor-total">R$ 0,00</span></div>
-            <button class="w-full py-4 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg">Finalizar Teste</button>
+            <button class="w-full py-4 bg-[#8B4513] text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg">Ir para Pagamento</button>
           </div>
         </section>
       </div>
@@ -99,9 +124,10 @@
   </main>
 
   <script>
+    // Banco de Dados com Imagens do Git
     const kitsPresenteaveis = [
-      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake, frutas e doces.', precoFixo: 180.00, img: 'https://placehold.co/400x300?text=Tabua' },
-      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', precoFixo: 75.00, img: 'https://placehold.co/400x300?text=Caixa' }
+      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake de brigadeiro, uva verde, morangos e doces variados em tábua redonda de MDF.', precoFixo: 180.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_1.png' },
+      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', precoFixo: 75.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_2.png' }
     ];
 
     let caixaAtiva = null;
@@ -116,7 +142,7 @@
         grid.innerHTML += `
           <div class="bg-white rounded-[1.5rem] shadow-sm border border-[#E8D5B5] flex flex-col overflow-hidden w-full transition-all hover:border-[#8B4513]">
             <div class="w-full aspect-[4/3] bg-gray-50">
-              <img src="${kit.img}" class="h-full w-full object-cover">
+              <img src="${kit.img}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Oba+Kit'">
             </div>
             <div class="p-5 flex flex-col justify-between flex-1">
               <div>
@@ -145,6 +171,7 @@
       document.getElementById('chk-placa').querySelector('i').classList.add('opacity-0');
       
       document.getElementById('modal-titulo-dinamico').innerText = kit.nome;
+      document.getElementById('modal-desc-dinamica').innerText = kit.desc;
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + kit.precoFixo.toFixed(2).replace('.', ',');
       document.getElementById('modal-caixa-completa').classList.remove('hidden');
     }
@@ -166,9 +193,9 @@
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
     }
 
-    function adicionarKitAoCarrinho(fecharEContinuar) {
+    // Função Interna para não repetir código
+    function processarAdicaoAoCarrinho() {
       if(!caixaAtiva) return;
-      
       let precoCalculado = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
       let detalhes = "Kit Fechado";
       if (lacoDecorativoSelecionado) detalhes += " + Laço";
@@ -179,10 +206,19 @@
         precoCalculado: precoCalculado, 
         detalhes: detalhes 
       });
-
       atualizarPainelCarrinhoLateral();
-      if (!fecharEContinuar) fecharModalCompleta();
-      else alert('Salvo! Pode adicionar outro kit.');
+    }
+
+    function adicionarKitAoCarrinhoEContinuar() {
+      processarAdicaoAoCarrinho();
+      fecharModalCompleta();
+      alert('Adicionado! Você pode escolher outro item agora.');
+    }
+
+    function adicionarKitAoCarrinhoEFinalizar() {
+      processarAdicaoAoCarrinho();
+      fecharModalCompleta();
+      document.getElementById('area-checkout').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function atualizarPainelCarrinhoLateral() {
@@ -202,8 +238,8 @@
       carrinhoDeCaixasConcluidas.forEach((cx, index) => {
         totalGeral += cx.precoCalculado;
         containerLista.innerHTML += `
-          <div class="bg-gray-50 border border-gray-200 p-2.5 rounded-xl relative text-left">
-            <button onclick="removerItem(${index})" class="absolute top-1 right-2 text-red-500 font-bold text-[10px]">✕</button>
+          <div class="bg-gray-50 border border-gray-200 p-2.5 rounded-xl relative text-left transition-all">
+            <button onclick="removerItem(${index})" class="absolute top-1 right-2 text-red-500 font-bold text-[10px] hover:text-red-700">✕</button>
             <p class="font-extrabold text-[#8B4513] text-[11px] pr-4">${cx.titulo}</p>
             <p class="text-[10px] text-gray-500 line-clamp-2 mt-0.5 leading-tight">${cx.detalhes}</p>
             <p class="text-[11px] font-black text-gray-700 mt-1">R$ ${cx.precoCalculado.toFixed(2).replace('.', ',')}</p>
@@ -220,7 +256,7 @@
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
 
-    // Iniciar
+    // Iniciar renderização inicial
     renderizarKits();
   </script>
 </body>
