@@ -66,15 +66,16 @@
         </a>
       </div>
 
-      <!-- BOTÕES DE AÇÃO -->
+      <!-- 3 BOTÕES DE AÇÃO (Conforme solicitado) -->
       <div class="flex flex-col gap-2 pt-2">
-        <button onclick="adicionarAoCarrinho(false)" class="w-full py-3.5 bg-green-600 text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-wider active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus mr-1"></i> Adicionar e Continuar</button>
-        <button onclick="adicionarAoCarrinho(true)" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-sm uppercase tracking-wider active:scale-95 transition-transform"><i class="fa-solid fa-basket-shopping mr-1"></i> Ver Meu Carrinho</button>
+        <button onclick="adicionarAoCarrinho('continuar')" class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl shadow-md uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus mr-1"></i> Adicionar e Continuar Comprando</button>
+        <button onclick="adicionarAoCarrinho('carrinho')" class="w-full py-3.5 bg-white border-2 border-[#8B4513] text-[#8B4513] font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-basket-shopping mr-1"></i> Ver Meu Carrinho</button>
+        <button onclick="adicionarAoCarrinho('finalizar')" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95 transition-transform">Finalizar Pedido <i class="fa-solid fa-arrow-right ml-1"></i></button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 2: O NOVO QUADRO DE CARRINHO (GERENCIADOR) -->
+  <!-- MODAL 2: O QUADRO DE CARRINHO (GERENCIADOR) -->
   <div id="modal-carrinho" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-end sm:items-center justify-center sm:p-4" onclick="fecharModalCarrinho()">
     <div class="bg-white w-full sm:max-w-lg rounded-t-[2rem] sm:rounded-[2rem] p-6 relative shadow-2xl flex flex-col max-h-[85vh]" onclick="event.stopPropagation()">
       
@@ -90,7 +91,7 @@
         <!-- Itens injetados via JS -->
       </div>
       
-      <!-- Rodapé do Carrinho -->
+      <!-- Rodapé do Carrinho com Atalho de Dúvida e Botões -->
       <div class="border-t border-[#E8D5B5] pt-4 mt-2 space-y-4">
         <div class="flex justify-between items-center bg-[#FAF5F0] p-4 rounded-xl border border-orange-100">
           <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total do Pedido:</span>
@@ -99,7 +100,14 @@
         
         <div class="flex gap-2">
           <button onclick="fecharModalCarrinho()" class="w-1/3 py-3 border border-gray-200 text-gray-500 font-bold text-[10px] rounded-xl uppercase tracking-widest hover:bg-gray-50 transition-all active:scale-95 text-center leading-tight">Continuar<br>Comprando</button>
-          <button onclick="irParaPagamento()" class="w-2/3 py-3 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest flex justify-center items-center gap-2 hover:bg-[#6e3710] transition-all active:scale-95">Ir para Pagamento <i class="fa-solid fa-arrow-right"></i></button>
+          <button onclick="irParaCheckoutFinal()" class="w-2/3 py-3 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest flex justify-center items-center gap-2 hover:bg-[#6e3710] transition-all active:scale-95">Finalizar Pedido <i class="fa-brands fa-whatsapp text-sm"></i></button>
+        </div>
+
+        <!-- Atalho Extra no Carrinho -->
+        <div class="text-center mt-1">
+          <a href="https://wa.me/5555999117626" target="_blank" class="text-[10px] text-green-600 font-bold uppercase tracking-widest hover:underline flex items-center justify-center gap-1">
+            <i class="fa-brands fa-whatsapp text-sm"></i> Dúvidas? Fale com a gente
+          </a>
         </div>
       </div>
     </div>
@@ -109,7 +117,7 @@
   <main class="max-w-6xl mx-auto px-4 py-8">
     <header class="text-center mb-8">
       <h1 class="text-2xl font-black text-[#8B4513] tracking-widest uppercase">Oficina Presenteáveis</h1>
-      <p class="text-sm text-gray-500">Ambiente de testes com novo Carrinho</p>
+      <p class="text-sm text-gray-500">Imagens padronizadas e novos fluxos de botões</p>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -132,7 +140,6 @@
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
         <section class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-6">
           
-          <!-- NOVO QUADRO DE RESUMO LATERAL -->
           <div class="text-center space-y-3">
             <h2 class="text-sm font-black text-[#8B4513] uppercase tracking-widest">Resumo da Compra</h2>
             <div class="bg-[#FAF5F0] p-4 rounded-2xl border border-orange-100">
@@ -145,8 +152,8 @@
           </div>
 
           <div class="border-t border-[#E8D5B5] pt-6 mt-4" id="area-checkout">
-            <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest text-center mb-4">Área de Checkout (Pagamento)</h2>
-            <p class="text-[10px] text-gray-400 text-center italic">Aqui ficará o formulário do sistema principal.</p>
+            <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest text-center mb-4">Área de Checkout</h2>
+            <p class="text-[10px] text-gray-400 text-center italic border border-dashed border-gray-300 p-4 rounded-xl">No sistema oficial, ao clicar em "Finalizar Pedido", a tela rolará até aqui para o cliente preencher o Nome e Data antes de disparar o WhatsApp.</p>
           </div>
         </section>
       </div>
@@ -162,8 +169,6 @@
     let caixaAtiva = null;
     let lacoDecorativoSelecionado = false; 
     let placaPersonalizadaSelecionada = false;
-    
-    // O array agora guarda a "quantidade" de cada item
     let carrinhoDeItens = []; 
 
     function renderizarKits() {
@@ -172,8 +177,9 @@
       kitsPresenteaveis.forEach(kit => {
         grid.innerHTML += `
           <div class="bg-white rounded-[1.5rem] shadow-sm border border-[#E8D5B5] flex flex-col overflow-hidden w-full transition-all hover:border-[#8B4513]">
-            <div class="w-full aspect-[4/3] bg-gray-50">
-              <img src="${kit.img}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Oba+Kit'">
+            <!-- CORREÇÃO DAS IMAGENS: aspect-square para forçar o mesmo tamanho -->
+            <div class="w-full aspect-square bg-gray-50 border-b border-[#E8D5B5]">
+              <img src="${kit.img}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/400x400?text=Oba+Kit'">
             </div>
             <div class="p-5 flex flex-col justify-between flex-1">
               <div>
@@ -225,10 +231,8 @@
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
     }
 
-    // Processamento do Carrinho
-    function adicionarAoCarrinho(abrirCarrinhoDireto) {
+    function processarAdicaoAoCarrinho() {
       if(!caixaAtiva) return;
-      
       let precoUnitario = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
       let detalhes = "Kit Fechado";
       if (lacoDecorativoSelecionado) detalhes += " + Laço Decorativo";
@@ -243,15 +247,22 @@
 
       atualizarResumoLateral();
       fecharModalCompleta();
+    }
+
+    // Gerenciador dos 3 botões do modal de configuração
+    function adicionarAoCarrinho(acao) {
+      processarAdicaoAoCarrinho();
       
-      if (abrirCarrinhoDireto) {
+      if (acao === 'continuar') {
+        alert("Adicionado! Fique à vontade para escolher mais opções.");
+      } else if (acao === 'carrinho') {
         abrirModalCarrinho();
-      } else {
-        alert("Produto adicionado ao carrinho com sucesso!");
+      } else if (acao === 'finalizar') {
+        irParaCheckoutFinal();
       }
     }
 
-    // --- LÓGICA DO NOVO QUADRO DE CARRINHO ---
+    // --- LÓGICA DO QUADRO DE CARRINHO ---
 
     function abrirModalCarrinho() {
       renderizarConteudoModalCarrinho();
@@ -287,19 +298,14 @@
 
         container.innerHTML += `
           <div class="bg-gray-50 border border-[#E8D5B5] p-4 rounded-2xl relative flex flex-col gap-2">
-            
-            <!-- Botão de Lixeira (Cancelar Produto) -->
             <button onclick="removerItemCarrinho(${index})" class="absolute top-4 right-4 text-red-400 hover:text-red-600 transition-colors bg-red-50 w-7 h-7 rounded-lg flex items-center justify-center" title="Remover Produto">
               <i class="fa-solid fa-trash-can text-[11px]"></i>
             </button>
-            
             <div class="pr-10">
               <p class="font-black text-[#8B4513] text-sm">${item.titulo}</p>
-              <p class="text-[10px] text-gray-500 leading-tight mt-1 tracking-wide">${item.detalhes}</p>
+              <p class="text-[10px] text-gray-500 leading-tight mt-1 tracking-wide uppercase">${item.detalhes}</p>
             </div>
-            
             <div class="flex justify-between items-end mt-2 pt-2 border-t border-gray-200 border-dashed">
-              <!-- Controle de Quantidade -->
               <div>
                 <p class="text-[8px] font-bold text-gray-400 uppercase mb-1">QTD.</p>
                 <div class="flex items-center gap-1 bg-white border border-[#E8D5B5] rounded-xl px-1 py-1 shadow-sm w-fit">
@@ -308,14 +314,11 @@
                   <button onclick="alterarQtdCarrinho(${index}, 1)" class="w-6 h-6 rounded-lg bg-[#8B4513] text-white font-bold hover:bg-[#6e3710] transition-all">+</button>
                 </div>
               </div>
-              
-              <!-- Subtotal do Item -->
               <div class="text-right">
                 <p class="text-[8px] font-bold text-gray-400 uppercase mb-1">Subtotal</p>
                 <p class="text-sm font-black text-[#8B4513]">R$ ${totalItem.toFixed(2).replace('.', ',')}</p>
               </div>
             </div>
-
           </div>
         `;
       });
@@ -348,7 +351,7 @@
       document.getElementById('resumo-lateral-total').innerText = "R$ " + totalGeral.toFixed(2).replace('.', ',');
     }
 
-    function irParaPagamento() {
+    function irParaCheckoutFinal() {
       if (carrinhoDeItens.length === 0) {
         alert("Adicione um produto ao carrinho primeiro.");
         return;
