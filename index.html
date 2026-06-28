@@ -2,64 +2,103 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Carrinho com Segurança</title>
+  <title>Carrinho Estilizado</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 20px; }
     .cart {
-      width: 350px;
-      border: 1px solid #ccc;
+      width: 400px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background: #fff;
       display: flex;
       flex-direction: column;
     }
-    .cart-header, .cart-footer {
-      padding: 10px;
-      background: #f5f5f5;
+    .cart-header {
+      padding: 15px;
+      background: #007bff;
+      color: #fff;
+      font-weight: bold;
     }
     .cart-items {
-      max-height: 200px; /* limita altura */
-      overflow-y: auto;  /* ativa scroll interno */
-      padding: 10px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding: 15px;
     }
     .cart-item {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+    .cart-item span:first-child {
+      font-weight: 500;
+      color: #333;
+    }
+    .cart-item span:last-child {
+      font-weight: bold;
+      color: #28a745;
+    }
+    .cart-footer {
+      padding: 15px;
+      background: #f9f9f9;
+      border-top: 1px solid #eee;
+    }
+    .cart-footer p {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0 0 10px;
     }
     button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: #28a745;
-      color: #fff;
+      width: 100%;
+      padding: 10px;
       border: none;
+      border-radius: 5px;
+      font-size: 15px;
       cursor: pointer;
     }
-    button:hover { background: #218838; }
+    .btn-primary { background: #007bff; color: #fff; }
+    .btn-secondary { background: #28a745; color: #fff; margin-top: 10px; }
     #order-summary {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #ccc;
-      background: #fafafa;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    #order-summary h3 {
+      margin-top: 0;
+      color: #007bff;
+    }
+    #order-summary p {
+      margin: 6px 0;
+      font-size: 14px;
+    }
+    #order-summary strong {
+      font-size: 16px;
+      color: #28a745;
     }
   </style>
 </head>
 <body>
 
-<h2>Exemplo de Carrinho</h2>
+<h2>🛒 Exemplo de Carrinho Estilizado</h2>
 <div class="cart">
   <div class="cart-header">
-    <h3>Carrinho (<span id="cart-count">0</span> itens)</h3>
+    Carrinho (<span id="cart-count">0</span> itens)
   </div>
   <div class="cart-items"></div>
   <div class="cart-footer">
     <p>Total: R$ <span id="cart-total">0,00</span></p>
-    <button onclick="gerarResumo()">Finalizar Pedido</button>
+    <button class="btn-primary" onclick="gerarResumo()">Finalizar Pedido</button>
+    <button class="btn-secondary" onclick="gerarImagem()">Gerar Imagem Segura</button>
   </div>
 </div>
 
 <div id="order-summary"></div>
-<button onclick="gerarImagem()">Gerar Imagem Segura</button>
 
-<!-- Biblioteca para gerar imagem -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 let cart = [];
@@ -74,7 +113,7 @@ function renderCart() {
   cart.forEach(item => {
     total += item.price;
     itemsDiv.innerHTML += `<div class="cart-item">
-      <span>${item.name}</span>
+      <span>🍫 ${item.name}</span>
       <span>R$ ${item.price.toFixed(2)}</span>
     </div>`;
   });
@@ -82,35 +121,33 @@ function renderCart() {
   document.getElementById('cart-total').innerText = total.toFixed(2);
 }
 
-// Gera resumo do pedido
+// Gera resumo detalhado
 function gerarResumo() {
   let resumoDiv = document.getElementById('order-summary');
-  resumoDiv.innerHTML = "<h3>Pedido #" + Date.now() + "</h3>";
+  resumoDiv.innerHTML = "<h3>📦 Pedido #" + Date.now() + "</h3>";
   let total = 0;
   cart.forEach(item => {
-    resumoDiv.innerHTML += `<p>${item.name} - R$ ${item.price.toFixed(2)}</p>`;
+    resumoDiv.innerHTML += `<p>• ${item.name} — <strong>R$ ${item.price.toFixed(2)}</strong></p>`;
     total += item.price;
   });
   resumoDiv.innerHTML += `<p><strong>Total: R$ ${total.toFixed(2)}</strong></p>`;
+  resumoDiv.innerHTML += `<p><em>Data: ${new Date().toLocaleString()}</em></p>`;
 }
 
-// Gera imagem segura do resumo
+// Gera imagem segura
 function gerarImagem() {
   html2canvas(document.querySelector("#order-summary")).then(canvas => {
     const imgData = canvas.toDataURL("image/png");
-    // Mostra a imagem gerada na tela
     let img = document.createElement("img");
     img.src = imgData;
-    img.style.maxWidth = "350px";
+    img.style.maxWidth = "400px";
+    img.style.marginTop = "15px";
     document.body.appendChild(img);
-
-    // Aqui você poderia enviar a imagem para o servidor
-    // e gerar link para WhatsApp com a imagem anexada
     alert("Imagem do pedido gerada com segurança!");
   });
 }
 
-// Teste inicial com alguns produtos
+// Teste inicial
 addToCart("Tábua Doce Artesanal", 188);
 addToCart("Caixa Presente Clássica", 75);
 addToCart("Produto Extra", 120);
