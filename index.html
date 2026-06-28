@@ -20,23 +20,21 @@
 <body class="antialiased pb-20">
 
   <!-- BOTÃO FLUTUANTE WHATSAPP (GLOBAL) -->
-  <a href="https://wa.me/5555999117626" target="_blank" class="fixed bottom-6 right-6 z-[60] bg-green-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-green-600 transition-all">
+  <a href="https://wa.me/5555999117626" target="_blank" class="fixed bottom-6 right-6 z-[60] bg-[#25D366] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-green-600 transition-all">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <!-- MODAL DE CONFIGURAÇÃO DO KIT -->
+  <!-- MODAL 1: CONFIGURAÇÃO DO KIT -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-[100] flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-4" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold hover:bg-gray-200 transition-all">✕</button>
       
-      <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-square-check"></i></div>
-      
       <div>
-        <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513]">Nome do Kit</h2>
-        <p id="modal-desc-dinamica" class="text-[11px] text-gray-500 mt-1 px-4 leading-tight">Descrição detalhada do kit aparece aqui.</p>
+        <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513] mt-2">Nome do Kit</h2>
+        <p id="modal-desc-dinamica" class="text-[11px] text-gray-500 mt-2 px-2 leading-tight">Descrição detalhada do kit aparece aqui.</p>
       </div>
       
-      <p class="text-sm text-gray-500 font-semibold mt-2">Total do Item: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
+      <p class="text-sm text-gray-500 font-semibold mt-2 border-b border-gray-100 pb-3">Valor do Item: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
 
       <p class="text-[11px] text-amber-800 font-bold bg-amber-50 py-1.5 px-3 rounded-lg mt-4">Deseja adicionar detalhes para presente?</p>
       
@@ -57,22 +55,26 @@
         </div>
       </div>
 
-      <!-- NOVO ATALHO WHATSAPP DESTACADO -->
-      <div class="text-center mt-4 pt-4 border-t border-gray-100">
-        <p class="text-[10px] text-gray-400 mb-2 font-semibold uppercase tracking-widest">Dúvidas sobre este presente?</p>
-        <a href="https://wa.me/5555999117626" target="_blank" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-green-50 border border-green-200 text-green-700 rounded-xl font-bold text-[11px] uppercase tracking-wider hover:bg-green-100 transition-all">
-          <i class="fa-brands fa-whatsapp text-sm"></i> Fale com a gente
+      <!-- DESTAQUE DO WHATSAPP -->
+      <div class="mt-4 p-3.5 bg-green-50 rounded-2xl border border-green-200 flex items-center justify-between">
+        <div class="text-left">
+          <p class="text-[10px] font-black text-green-800 uppercase tracking-widest">Ficou com dúvida?</p>
+          <p class="text-[9px] text-green-700 mt-0.5">Fale direto com a gente!</p>
+        </div>
+        <a href="https://wa.me/5555999117626" target="_blank" class="w-10 h-10 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-md hover:bg-green-600 transition-all active:scale-95">
+          <i class="fa-brands fa-whatsapp text-xl"></i>
         </a>
       </div>
 
+      <!-- BOTÕES DE AÇÃO -->
       <div class="flex flex-col gap-2 pt-2">
-        <button onclick="adicionarKitAoCarrinhoEContinuar()" class="w-full py-3.5 bg-green-600 text-white font-bold text-xs rounded-xl shadow-md uppercase flex justify-center items-center gap-2 active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus"></i> Salvar e Escolher Outro</button>
-        <button onclick="adicionarKitAoCarrinhoEFinalizar()" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-xs rounded-xl shadow-sm uppercase flex justify-center items-center gap-2 active:scale-95 transition-transform"><i class="fa-solid fa-basket-shopping"></i> Ver Carrinho / Finalizar</button>
+        <button onclick="adicionarAoCarrinho(false)" class="w-full py-3.5 bg-green-600 text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-wider active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus mr-1"></i> Adicionar e Continuar</button>
+        <button onclick="adicionarAoCarrinho(true)" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-sm uppercase tracking-wider active:scale-95 transition-transform"><i class="fa-solid fa-basket-shopping mr-1"></i> Ver Meu Carrinho</button>
       </div>
     </div>
   </div>
 
-  <!-- NOVO MODAL: CARRINHO DE COMPRAS -->
+  <!-- MODAL 2: O NOVO QUADRO DE CARRINHO (GERENCIADOR) -->
   <div id="modal-carrinho" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-end sm:items-center justify-center sm:p-4" onclick="fecharModalCarrinho()">
     <div class="bg-white w-full sm:max-w-lg rounded-t-[2rem] sm:rounded-[2rem] p-6 relative shadow-2xl flex flex-col max-h-[85vh]" onclick="event.stopPropagation()">
       
@@ -83,7 +85,7 @@
         <button onclick="fecharModalCarrinho()" class="bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold hover:bg-gray-200 transition-all">✕</button>
       </div>
       
-      <!-- Lista de Itens do Carrinho -->
+      <!-- Lista de Produtos -->
       <div id="conteudo-modal-carrinho" class="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-2">
         <!-- Itens injetados via JS -->
       </div>
@@ -96,17 +98,18 @@
         </div>
         
         <div class="flex gap-2">
-          <button onclick="fecharModalCarrinho()" class="w-1/3 py-3.5 border border-gray-200 text-gray-500 font-bold text-[10px] rounded-xl uppercase tracking-widest hover:bg-gray-50 transition-all active:scale-95 text-center">Continuar<br>Comprando</button>
-          <button onclick="irParaPagamento()" class="w-2/3 py-3.5 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest flex justify-center items-center gap-2 hover:bg-[#6e3710] transition-all active:scale-95">Ir para Pagamento <i class="fa-solid fa-arrow-right"></i></button>
+          <button onclick="fecharModalCarrinho()" class="w-1/3 py-3 border border-gray-200 text-gray-500 font-bold text-[10px] rounded-xl uppercase tracking-widest hover:bg-gray-50 transition-all active:scale-95 text-center leading-tight">Continuar<br>Comprando</button>
+          <button onclick="irParaPagamento()" class="w-2/3 py-3 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest flex justify-center items-center gap-2 hover:bg-[#6e3710] transition-all active:scale-95">Ir para Pagamento <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- CONTEÚDO PRINCIPAL (VITRINE) -->
   <main class="max-w-6xl mx-auto px-4 py-8">
     <header class="text-center mb-8">
       <h1 class="text-2xl font-black text-[#8B4513] tracking-widest uppercase">Oficina Presenteáveis</h1>
-      <p class="text-sm text-gray-500">Ambiente de testes isolado</p>
+      <p class="text-sm text-gray-500">Ambiente de testes com novo Carrinho</p>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -114,30 +117,36 @@
       <!-- ESQUERDA: VITRINE DE KITS -->
       <div class="lg:col-span-8 space-y-6">
         <section id="secao-kits" class="bg-white p-6 md:p-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm space-y-6">
-          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-[#E8D5B5] pb-4 mb-2 gap-3">
-            <div>
-              <h3 class="font-bold text-[#8B4513] uppercase tracking-widest text-sm flex items-center gap-2">
-                <span class="btn-step-icon"><i class="fa-solid fa-gift text-[10px]"></i></span> Vitrine de Presentes
-              </h3>
-              <p class="text-[10px] text-gray-500 mt-1">Nossas opções exclusivas já vêm montadas com carinho.</p>
-            </div>
-            
-            <a href="https://wa.me/5555999117626" target="_blank" class="flex items-center gap-2 px-4 py-2 border border-green-200 bg-green-50 text-green-700 rounded-full text-[10px] font-bold uppercase transition-all hover:bg-green-100">
-              <i class="fa-brands fa-whatsapp text-sm"></i> Precisa de ajuda?
-            </a>
+          <div class="border-b border-[#E8D5B5] pb-4 mb-2">
+            <h3 class="font-bold text-[#8B4513] uppercase tracking-widest text-sm flex items-center gap-2">
+              <span class="btn-step-icon"><i class="fa-solid fa-gift text-[10px]"></i></span> Vitrine de Presentes
+            </h3>
+            <p class="text-[10px] text-gray-500 mt-1">Nossas opções exclusivas já vêm montadas com carinho.</p>
           </div>
           
           <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mx-auto"></div>
         </section>
       </div>
 
-      <!-- DIREITA: ÁREA DE PAGAMENTO (CHECKOUT FALSO PARA TESTE) -->
+      <!-- DIREITA: RESUMO SIMPLIFICADO E ÁREA DE PAGAMENTO FAKE -->
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
-        <section id="area-checkout" class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-6">
-          <div class="border-b border-[#E8D5B5] pb-3"><h2 class="text-sm font-black text-[#8B4513] uppercase tracking-widest">Área de Pagamento</h2></div>
-          <p class="text-xs text-gray-500 text-center py-4">Aqui ficará o formulário de nome, data e hora no sistema principal.</p>
-          <div class="border-t border-[#E8D5B5] pt-4 mt-4 text-center">
-            <button onclick="abrirModalCarrinho()" class="px-6 py-2 bg-gray-100 text-[#8B4513] font-bold text-[10px] uppercase rounded-full border border-gray-200 hover:bg-gray-200 transition-all"><i class="fa-solid fa-eye"></i> Revisar Carrinho</button>
+        <section class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-6">
+          
+          <!-- NOVO QUADRO DE RESUMO LATERAL -->
+          <div class="text-center space-y-3">
+            <h2 class="text-sm font-black text-[#8B4513] uppercase tracking-widest">Resumo da Compra</h2>
+            <div class="bg-[#FAF5F0] p-4 rounded-2xl border border-orange-100">
+              <p class="text-[10px] uppercase font-bold text-gray-400 mb-1">Total Atual</p>
+              <p class="text-2xl font-black text-[#8B4513]" id="resumo-lateral-total">R$ 0,00</p>
+            </div>
+            <button onclick="abrirModalCarrinho()" class="w-full py-4 bg-gray-100 text-[#8B4513] border border-gray-200 rounded-xl font-bold text-[11px] uppercase tracking-widest hover:bg-gray-200 transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-eye"></i> Visualizar Meu Carrinho
+            </button>
+          </div>
+
+          <div class="border-t border-[#E8D5B5] pt-6 mt-4" id="area-checkout">
+            <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest text-center mb-4">Área de Checkout (Pagamento)</h2>
+            <p class="text-[10px] text-gray-400 text-center italic">Aqui ficará o formulário do sistema principal.</p>
           </div>
         </section>
       </div>
@@ -153,7 +162,9 @@
     let caixaAtiva = null;
     let lacoDecorativoSelecionado = false; 
     let placaPersonalizadaSelecionada = false;
-    let carrinhoDeCaixasConcluidas = [];
+    
+    // O array agora guarda a "quantidade" de cada item
+    let carrinhoDeItens = []; 
 
     function renderizarKits() {
       const grid = document.getElementById('kits-grid');
@@ -167,11 +178,11 @@
             <div class="p-5 flex flex-col justify-between flex-1">
               <div>
                 <h3 class="font-black text-sm mb-1 text-[#3B2A1E]">${kit.nome}</h3>
-                <p class="text-[10px] text-gray-500 leading-tight mb-3">${kit.desc}</p>
+                <p class="text-[10px] text-gray-500 leading-tight mb-3 line-clamp-2">${kit.desc}</p>
                 <p class="text-sm text-[#8B4513] font-black mb-4">R$ ${kit.precoFixo.toFixed(2).replace('.', ',')}</p>
               </div>
               <button onclick="abrirModalKit('${kit.id}')" class="w-full py-3 bg-[#8B4513] text-white rounded-xl text-[11px] font-bold uppercase tracking-wider shadow-sm active:scale-95 transition-all">
-                Configurar Kit
+                Configurar Presente
               </button>
             </div>
           </div>
@@ -179,6 +190,7 @@
       });
     }
 
+    // Abertura do Produto
     function abrirModalKit(idKit) {
       const kit = kitsPresenteaveis.find(k => k.id === idKit);
       caixaAtiva = { ...kit };
@@ -213,34 +225,33 @@
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
     }
 
-    function processarAdicaoAoCarrinho() {
+    // Processamento do Carrinho
+    function adicionarAoCarrinho(abrirCarrinhoDireto) {
       if(!caixaAtiva) return;
+      
       let precoUnitario = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
       let detalhes = "Kit Fechado";
-      if (lacoDecorativoSelecionado) detalhes += " + Laço";
-      if (placaPersonalizadaSelecionada) detalhes += " + Placa";
+      if (lacoDecorativoSelecionado) detalhes += " + Laço Decorativo";
+      if (placaPersonalizadaSelecionada) detalhes += " + Placa Personalizada";
 
-      carrinhoDeCaixasConcluidas.push({ 
+      carrinhoDeItens.push({ 
         titulo: caixaAtiva.nome, 
-        precoCalculadoUnitario: precoUnitario, // Mudança: armazena unitário
-        quantidade: 1,                         // Nova propriedade: Quantidade
+        precoCalculadoUnitario: precoUnitario, 
+        quantidade: 1,
         detalhes: detalhes 
       });
-    }
 
-    function adicionarKitAoCarrinhoEContinuar() {
-      processarAdicaoAoCarrinho();
+      atualizarResumoLateral();
       fecharModalCompleta();
-      alert('Produto salvo no carrinho! Fique à vontade para escolher mais.');
+      
+      if (abrirCarrinhoDireto) {
+        abrirModalCarrinho();
+      } else {
+        alert("Produto adicionado ao carrinho com sucesso!");
+      }
     }
 
-    function adicionarKitAoCarrinhoEFinalizar() {
-      processarAdicaoAoCarrinho();
-      fecharModalCompleta();
-      abrirModalCarrinho();
-    }
-
-    // --- NOVA LÓGICA DO MODAL DE CARRINHO ---
+    // --- LÓGICA DO NOVO QUADRO DE CARRINHO ---
 
     function abrirModalCarrinho() {
       renderizarConteudoModalCarrinho();
@@ -255,11 +266,14 @@
       const container = document.getElementById('conteudo-modal-carrinho');
       let totalGeral = 0;
 
-      if (carrinhoDeCaixasConcluidas.length === 0) {
+      if (carrinhoDeItens.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-10">
-            <i class="fa-solid fa-basket-shopping text-4xl text-gray-200 mb-3"></i>
-            <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">Seu carrinho está vazio</p>
+          <div class="text-center py-10 flex flex-col items-center justify-center">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+              <i class="fa-solid fa-basket-shopping text-2xl text-gray-300"></i>
+            </div>
+            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest">Seu carrinho está vazio</p>
+            <p class="text-[10px] text-gray-400 mt-2">Adicione produtos para continuar.</p>
           </div>
         `;
         document.getElementById('modal-carrinho-total').innerText = "R$ 0,00";
@@ -267,35 +281,37 @@
       }
 
       container.innerHTML = "";
-      carrinhoDeCaixasConcluidas.forEach((item, index) => {
+      carrinhoDeItens.forEach((item, index) => {
         let totalItem = item.precoCalculadoUnitario * item.quantidade;
         totalGeral += totalItem;
 
         container.innerHTML += `
-          <div class="bg-gray-50 border border-[#E8D5B5] p-4 rounded-[1.5rem] relative flex flex-col gap-2">
+          <div class="bg-gray-50 border border-[#E8D5B5] p-4 rounded-2xl relative flex flex-col gap-2">
             
-            <button onclick="removerDoModalCarrinho(${index})" class="absolute top-3 right-4 text-red-400 hover:text-red-600 transition-colors" title="Cancelar Produto">
-              <i class="fa-solid fa-trash-can text-sm"></i>
+            <!-- Botão de Lixeira (Cancelar Produto) -->
+            <button onclick="removerItemCarrinho(${index})" class="absolute top-4 right-4 text-red-400 hover:text-red-600 transition-colors bg-red-50 w-7 h-7 rounded-lg flex items-center justify-center" title="Remover Produto">
+              <i class="fa-solid fa-trash-can text-[11px]"></i>
             </button>
             
-            <div class="pr-8">
+            <div class="pr-10">
               <p class="font-black text-[#8B4513] text-sm">${item.titulo}</p>
-              <p class="text-[10px] text-gray-500 leading-tight mt-1 uppercase tracking-wider">${item.detalhes}</p>
+              <p class="text-[10px] text-gray-500 leading-tight mt-1 tracking-wide">${item.detalhes}</p>
             </div>
             
-            <div class="flex justify-between items-end mt-2">
+            <div class="flex justify-between items-end mt-2 pt-2 border-t border-gray-200 border-dashed">
               <!-- Controle de Quantidade -->
               <div>
-                <p class="text-[9px] font-bold text-gray-400 uppercase mb-1">Quantidade</p>
-                <div class="flex items-center gap-2 bg-white border border-[#E8D5B5] rounded-xl px-2 py-1 shadow-sm w-fit">
-                  <button onclick="alterarQtdCarrinho(${index}, -1)" class="w-6 h-6 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200">-</button>
+                <p class="text-[8px] font-bold text-gray-400 uppercase mb-1">QTD.</p>
+                <div class="flex items-center gap-1 bg-white border border-[#E8D5B5] rounded-xl px-1 py-1 shadow-sm w-fit">
+                  <button onclick="alterarQtdCarrinho(${index}, -1)" class="w-6 h-6 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all">-</button>
                   <span class="text-xs font-black w-6 text-center text-[#8B4513]">${item.quantidade}</span>
-                  <button onclick="alterarQtdCarrinho(${index}, 1)" class="w-6 h-6 rounded-lg bg-[#8B4513] text-white font-bold hover:bg-[#6e3710]">+</button>
+                  <button onclick="alterarQtdCarrinho(${index}, 1)" class="w-6 h-6 rounded-lg bg-[#8B4513] text-white font-bold hover:bg-[#6e3710] transition-all">+</button>
                 </div>
               </div>
               
+              <!-- Subtotal do Item -->
               <div class="text-right">
-                <p class="text-[9px] font-bold text-gray-400 uppercase mb-0.5">Subtotal</p>
+                <p class="text-[8px] font-bold text-gray-400 uppercase mb-1">Subtotal</p>
                 <p class="text-sm font-black text-[#8B4513]">R$ ${totalItem.toFixed(2).replace('.', ',')}</p>
               </div>
             </div>
@@ -308,38 +324,41 @@
     }
 
     function alterarQtdCarrinho(index, delta) {
-      let novaQtd = carrinhoDeCaixasConcluidas[index].quantidade + delta;
+      let novaQtd = carrinhoDeItens[index].quantidade + delta;
       if (novaQtd < 1) {
-        if(confirm("Deseja remover este item do carrinho?")) {
-          removerDoModalCarrinho(index);
+        if(confirm("Tem certeza que deseja cancelar este produto?")) {
+          removerItemCarrinho(index);
         }
         return;
       }
-      carrinhoDeCaixasConcluidas[index].quantidade = novaQtd;
+      carrinhoDeItens[index].quantidade = novaQtd;
       renderizarConteudoModalCarrinho();
+      atualizarResumoLateral();
     }
 
-    function removerDoModalCarrinho(index) {
-      carrinhoDeCaixasConcluidas.splice(index, 1);
+    function removerItemCarrinho(index) {
+      carrinhoDeItens.splice(index, 1);
       renderizarConteudoModalCarrinho();
-      if(carrinhoDeCaixasConcluidas.length === 0) {
-        // Se esvaziar, pode fechar automaticamente ou manter para mostrar a mensagem vazia
-        setTimeout(fecharModalCarrinho, 1500); 
-      }
+      atualizarResumoLateral();
+    }
+
+    function atualizarResumoLateral() {
+      let totalGeral = 0;
+      carrinhoDeItens.forEach(item => { totalGeral += (item.precoCalculadoUnitario * item.quantidade); });
+      document.getElementById('resumo-lateral-total').innerText = "R$ " + totalGeral.toFixed(2).replace('.', ',');
     }
 
     function irParaPagamento() {
-      if (carrinhoDeCaixasConcluidas.length === 0) {
-        alert("Seu carrinho está vazio.");
+      if (carrinhoDeItens.length === 0) {
+        alert("Adicione um produto ao carrinho primeiro.");
         return;
       }
       fecharModalCarrinho();
-      document.getElementById('area-checkout').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('area-checkout').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
 
-    // Iniciar
     renderizarKits();
   </script>
 </body>
