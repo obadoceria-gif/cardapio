@@ -19,7 +19,6 @@
 </head>
 <body class="antialiased pb-20">
 
-  <!-- BOTÃO FLUTUANTE WHATSAPP (GLOBAL) -->
   <a href="https://wa.me/5555999117626" target="_blank" class="fixed bottom-6 right-6 z-[60] bg-[#25D366] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-green-600 transition-all">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
@@ -66,16 +65,16 @@
         </a>
       </div>
 
-      <!-- 3 BOTÕES DE AÇÃO (Conforme solicitado) -->
+      <!-- 3 BOTÕES DE AÇÃO -->
       <div class="flex flex-col gap-2 pt-2">
-        <button onclick="adicionarAoCarrinho('continuar')" class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl shadow-md uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus mr-1"></i> Adicionar e Continuar Comprando</button>
+        <button onclick="adicionarAoCarrinho('continuar')" class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl shadow-md uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus mr-1"></i> Adicionar e Continuar</button>
         <button onclick="adicionarAoCarrinho('carrinho')" class="w-full py-3.5 bg-white border-2 border-[#8B4513] text-[#8B4513] font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-basket-shopping mr-1"></i> Ver Meu Carrinho</button>
-        <button onclick="adicionarAoCarrinho('finalizar')" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95 transition-transform">Finalizar Pedido <i class="fa-solid fa-arrow-right ml-1"></i></button>
+        <button onclick="adicionarAoCarrinho('finalizar')" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2">Finalizar Pedido <i class="fa-brands fa-whatsapp text-sm"></i></button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 2: O QUADRO DE CARRINHO (GERENCIADOR) -->
+  <!-- MODAL 2: CARRINHO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-end sm:items-center justify-center sm:p-4" onclick="fecharModalCarrinho()">
     <div class="bg-white w-full sm:max-w-lg rounded-t-[2rem] sm:rounded-[2rem] p-6 relative shadow-2xl flex flex-col max-h-[85vh]" onclick="event.stopPropagation()">
       
@@ -86,12 +85,8 @@
         <button onclick="fecharModalCarrinho()" class="bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold hover:bg-gray-200 transition-all">✕</button>
       </div>
       
-      <!-- Lista de Produtos -->
-      <div id="conteudo-modal-carrinho" class="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-2">
-        <!-- Itens injetados via JS -->
-      </div>
+      <div id="conteudo-modal-carrinho" class="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-2"></div>
       
-      <!-- Rodapé do Carrinho com Atalho de Dúvida e Botões -->
       <div class="border-t border-[#E8D5B5] pt-4 mt-2 space-y-4">
         <div class="flex justify-between items-center bg-[#FAF5F0] p-4 rounded-xl border border-orange-100">
           <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total do Pedido:</span>
@@ -100,10 +95,9 @@
         
         <div class="flex gap-2">
           <button onclick="fecharModalCarrinho()" class="w-1/3 py-3 border border-gray-200 text-gray-500 font-bold text-[10px] rounded-xl uppercase tracking-widest hover:bg-gray-50 transition-all active:scale-95 text-center leading-tight">Continuar<br>Comprando</button>
-          <button onclick="irParaCheckoutFinal()" class="w-2/3 py-3 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest flex justify-center items-center gap-2 hover:bg-[#6e3710] transition-all active:scale-95">Finalizar Pedido <i class="fa-brands fa-whatsapp text-sm"></i></button>
+          <button onclick="irParaWhatsApp()" class="w-2/3 py-3 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest flex justify-center items-center gap-2 hover:bg-[#6e3710] transition-all active:scale-95">Finalizar Pedido <i class="fa-brands fa-whatsapp text-sm"></i></button>
         </div>
 
-        <!-- Atalho Extra no Carrinho -->
         <div class="text-center mt-1">
           <a href="https://wa.me/5555999117626" target="_blank" class="text-[10px] text-green-600 font-bold uppercase tracking-widest hover:underline flex items-center justify-center gap-1">
             <i class="fa-brands fa-whatsapp text-sm"></i> Dúvidas? Fale com a gente
@@ -113,16 +107,13 @@
     </div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL (VITRINE) -->
   <main class="max-w-6xl mx-auto px-4 py-8">
     <header class="text-center mb-8">
       <h1 class="text-2xl font-black text-[#8B4513] tracking-widest uppercase">Oficina Presenteáveis</h1>
-      <p class="text-sm text-gray-500">Imagens padronizadas e novos fluxos de botões</p>
+      <p class="text-sm text-gray-500">Imagens com altura rígida fixada e integração direta com WhatsApp</p>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      
-      <!-- ESQUERDA: VITRINE DE KITS -->
       <div class="lg:col-span-8 space-y-6">
         <section id="secao-kits" class="bg-white p-6 md:p-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm space-y-6">
           <div class="border-b border-[#E8D5B5] pb-4 mb-2">
@@ -131,15 +122,12 @@
             </h3>
             <p class="text-[10px] text-gray-500 mt-1">Nossas opções exclusivas já vêm montadas com carinho.</p>
           </div>
-          
-          <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mx-auto"></div>
+          <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full mx-auto"></div>
         </section>
       </div>
 
-      <!-- DIREITA: RESUMO SIMPLIFICADO E ÁREA DE PAGAMENTO FAKE -->
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
         <section class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-6">
-          
           <div class="text-center space-y-3">
             <h2 class="text-sm font-black text-[#8B4513] uppercase tracking-widest">Resumo da Compra</h2>
             <div class="bg-[#FAF5F0] p-4 rounded-2xl border border-orange-100">
@@ -149,11 +137,10 @@
             <button onclick="abrirModalCarrinho()" class="w-full py-4 bg-gray-100 text-[#8B4513] border border-gray-200 rounded-xl font-bold text-[11px] uppercase tracking-widest hover:bg-gray-200 transition-all flex items-center justify-center gap-2">
               <i class="fa-solid fa-eye"></i> Visualizar Meu Carrinho
             </button>
-          </div>
-
-          <div class="border-t border-[#E8D5B5] pt-6 mt-4" id="area-checkout">
-            <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest text-center mb-4">Área de Checkout</h2>
-            <p class="text-[10px] text-gray-400 text-center italic border border-dashed border-gray-300 p-4 rounded-xl">No sistema oficial, ao clicar em "Finalizar Pedido", a tela rolará até aqui para o cliente preencher o Nome e Data antes de disparar o WhatsApp.</p>
+            <!-- Botão de Finalizar adicionado à barra lateral também -->
+            <button onclick="irParaWhatsApp()" class="w-full py-4 bg-green-600 text-white rounded-xl font-bold text-[11px] uppercase tracking-widest hover:bg-green-700 transition-all flex items-center justify-center gap-2 shadow-lg">
+              <i class="fa-brands fa-whatsapp text-lg"></i> Finalizar no WhatsApp
+            </button>
           </div>
         </section>
       </div>
@@ -177,8 +164,8 @@
       kitsPresenteaveis.forEach(kit => {
         grid.innerHTML += `
           <div class="bg-white rounded-[1.5rem] shadow-sm border border-[#E8D5B5] flex flex-col overflow-hidden w-full transition-all hover:border-[#8B4513]">
-            <!-- CORREÇÃO DAS IMAGENS: aspect-square para forçar o mesmo tamanho -->
-            <div class="w-full aspect-square bg-gray-50 border-b border-[#E8D5B5]">
+            <!-- MÁSCARA RÍGIDA PARA AS IMAGENS: h-56 ou h-64 fixa a altura -->
+            <div class="w-full h-56 sm:h-64 bg-gray-50 border-b border-[#E8D5B5] overflow-hidden">
               <img src="${kit.img}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/400x400?text=Oba+Kit'">
             </div>
             <div class="p-5 flex flex-col justify-between flex-1">
@@ -196,7 +183,6 @@
       });
     }
 
-    // Abertura do Produto
     function abrirModalKit(idKit) {
       const kit = kitsPresenteaveis.find(k => k.id === idKit);
       caixaAtiva = { ...kit };
@@ -249,7 +235,6 @@
       fecharModalCompleta();
     }
 
-    // Gerenciador dos 3 botões do modal de configuração
     function adicionarAoCarrinho(acao) {
       processarAdicaoAoCarrinho();
       
@@ -258,11 +243,9 @@
       } else if (acao === 'carrinho') {
         abrirModalCarrinho();
       } else if (acao === 'finalizar') {
-        irParaCheckoutFinal();
+        irParaWhatsApp();
       }
     }
-
-    // --- LÓGICA DO QUADRO DE CARRINHO ---
 
     function abrirModalCarrinho() {
       renderizarConteudoModalCarrinho();
@@ -351,13 +334,28 @@
       document.getElementById('resumo-lateral-total').innerText = "R$ " + totalGeral.toFixed(2).replace('.', ',');
     }
 
-    function irParaCheckoutFinal() {
+    // NOVA FUNÇÃO: DIRECIONA O CARRINHO DIRETO PARA O WHATSAPP
+    function irParaWhatsApp() {
       if (carrinhoDeItens.length === 0) {
         alert("Adicione um produto ao carrinho primeiro.");
         return;
       }
+
+      let texto = "Olá, OBA Doceria! Gostaria de finalizar minha encomenda de presentes:\n\n";
+      let totalGeral = 0;
+
+      carrinhoDeItens.forEach((item) => {
+        let subtotal = item.precoCalculadoUnitario * item.quantidade;
+        totalGeral += subtotal;
+        texto += `*${item.quantidade}x ${item.titulo}*\n`;
+        texto += `Detalhes: ${item.detalhes}\n`;
+        texto += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
+      });
+
+      texto += `*TOTAL DO PEDIDO: R$ ${totalGeral.toFixed(2).replace('.', ',')}*`;
+      
+      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
       fecharModalCarrinho();
-      document.getElementById('area-checkout').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
