@@ -11,8 +11,13 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
     
+    /* Nova barra de rolagem elegante e fina para o Carrinho */
+    .cart-scroll::-webkit-scrollbar { width: 4px; }
+    .cart-scroll::-webkit-scrollbar-track { background: transparent; }
+    .cart-scroll::-webkit-scrollbar-thumb { background-color: #E8D5B5; border-radius: 10px; }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
     body { font-family: 'Poppins', sans-serif; background-color: #FAF5F0; color: #3B2A1E; }
     .btn-step-icon { background-color: #8B4513; color: white; width: 22px; height: 22px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
   </style>
@@ -23,7 +28,6 @@
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <!-- MODAL 1: CONFIGURAÇÃO DO KIT -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-[100] flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-4" onclick="event.stopPropagation()">
       <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold hover:bg-gray-200 transition-all">✕</button>
@@ -54,7 +58,6 @@
         </div>
       </div>
 
-      <!-- DESTAQUE DO WHATSAPP -->
       <div class="mt-4 p-3.5 bg-green-50 rounded-2xl border border-green-200 flex items-center justify-between">
         <div class="text-left">
           <p class="text-[10px] font-black text-green-800 uppercase tracking-widest">Ficou com dúvida?</p>
@@ -65,7 +68,6 @@
         </a>
       </div>
 
-      <!-- 3 BOTÕES DE AÇÃO -->
       <div class="flex flex-col gap-2 pt-2">
         <button onclick="adicionarAoCarrinho('continuar')" class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl shadow-md uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus mr-1"></i> Adicionar e Continuar</button>
         <button onclick="adicionarAoCarrinho('carrinho')" class="w-full py-3.5 bg-white border-2 border-[#8B4513] text-[#8B4513] font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-basket-shopping mr-1"></i> Ver Meu Carrinho</button>
@@ -74,7 +76,6 @@
     </div>
   </div>
 
-  <!-- MODAL 2: CARRINHO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-end sm:items-center justify-center sm:p-4" onclick="fecharModalCarrinho()">
     <div class="bg-white w-full sm:max-w-lg rounded-t-[2rem] sm:rounded-[2rem] p-6 relative shadow-2xl flex flex-col max-h-[85vh]" onclick="event.stopPropagation()">
       
@@ -85,7 +86,11 @@
         <button onclick="fecharModalCarrinho()" class="bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold hover:bg-gray-200 transition-all">✕</button>
       </div>
       
-      <div id="conteudo-modal-carrinho" class="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-2"></div>
+      <div id="conteudo-modal-carrinho" class="flex-1 overflow-y-auto cart-scroll space-y-3 pb-2 pr-1"></div>
+      
+      <div id="aviso-rolagem" class="hidden text-center animate-pulse pt-2">
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">↓ Role para ver mais itens ↓</p>
+      </div>
       
       <div class="border-t border-[#E8D5B5] pt-4 mt-2 space-y-4">
         <div class="flex justify-between items-center bg-[#FAF5F0] p-4 rounded-xl border border-orange-100">
@@ -110,7 +115,7 @@
   <main class="max-w-6xl mx-auto px-4 py-8">
     <header class="text-center mb-8">
       <h1 class="text-2xl font-black text-[#8B4513] tracking-widest uppercase">Oficina Presenteáveis</h1>
-      <p class="text-sm text-gray-500">Imagens com altura rígida fixada e integração direta com WhatsApp</p>
+      <p class="text-sm text-gray-500">Carrinho com rolagem e WhatsApp com segurança</p>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -137,7 +142,6 @@
             <button onclick="abrirModalCarrinho()" class="w-full py-4 bg-gray-100 text-[#8B4513] border border-gray-200 rounded-xl font-bold text-[11px] uppercase tracking-widest hover:bg-gray-200 transition-all flex items-center justify-center gap-2">
               <i class="fa-solid fa-eye"></i> Visualizar Meu Carrinho
             </button>
-            <!-- Botão de Finalizar adicionado à barra lateral também -->
             <button onclick="irParaWhatsApp()" class="w-full py-4 bg-green-600 text-white rounded-xl font-bold text-[11px] uppercase tracking-widest hover:bg-green-700 transition-all flex items-center justify-center gap-2 shadow-lg">
               <i class="fa-brands fa-whatsapp text-lg"></i> Finalizar no WhatsApp
             </button>
@@ -164,7 +168,6 @@
       kitsPresenteaveis.forEach(kit => {
         grid.innerHTML += `
           <div class="bg-white rounded-[1.5rem] shadow-sm border border-[#E8D5B5] flex flex-col overflow-hidden w-full transition-all hover:border-[#8B4513]">
-            <!-- MÁSCARA RÍGIDA PARA AS IMAGENS: h-56 ou h-64 fixa a altura -->
             <div class="w-full h-56 sm:h-64 bg-gray-50 border-b border-[#E8D5B5] overflow-hidden">
               <img src="${kit.img}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/400x400?text=Oba+Kit'">
             </div>
@@ -237,14 +240,9 @@
 
     function adicionarAoCarrinho(acao) {
       processarAdicaoAoCarrinho();
-      
-      if (acao === 'continuar') {
-        alert("Adicionado! Fique à vontade para escolher mais opções.");
-      } else if (acao === 'carrinho') {
-        abrirModalCarrinho();
-      } else if (acao === 'finalizar') {
-        irParaWhatsApp();
-      }
+      if (acao === 'continuar') { alert("Produto adicionado! Fique à vontade para escolher mais opções."); } 
+      else if (acao === 'carrinho') { abrirModalCarrinho(); } 
+      else if (acao === 'finalizar') { irParaWhatsApp(); }
     }
 
     function abrirModalCarrinho() {
@@ -252,15 +250,15 @@
       document.getElementById('modal-carrinho').classList.remove('hidden');
     }
 
-    function fecharModalCarrinho() {
-      document.getElementById('modal-carrinho').classList.add('hidden');
-    }
+    function fecharModalCarrinho() { document.getElementById('modal-carrinho').classList.add('hidden'); }
 
     function renderizarConteudoModalCarrinho() {
       const container = document.getElementById('conteudo-modal-carrinho');
+      const avisoRolagem = document.getElementById('aviso-rolagem');
       let totalGeral = 0;
 
       if (carrinhoDeItens.length === 0) {
+        avisoRolagem.classList.add('hidden');
         container.innerHTML = `
           <div class="text-center py-10 flex flex-col items-center justify-center">
             <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -306,15 +304,17 @@
         `;
       });
 
+      // Mostra o aviso se tiver mais de 2 itens
+      if (carrinhoDeItens.length > 2) { avisoRolagem.classList.remove('hidden'); } 
+      else { avisoRolagem.classList.add('hidden'); }
+
       document.getElementById('modal-carrinho-total').innerText = "R$ " + totalGeral.toFixed(2).replace('.', ',');
     }
 
     function alterarQtdCarrinho(index, delta) {
       let novaQtd = carrinhoDeItens[index].quantidade + delta;
       if (novaQtd < 1) {
-        if(confirm("Tem certeza que deseja cancelar este produto?")) {
-          removerItemCarrinho(index);
-        }
+        if(confirm("Tem certeza que deseja remover este produto?")) { removerItemCarrinho(index); }
         return;
       }
       carrinhoDeItens[index].quantidade = novaQtd;
@@ -334,25 +334,35 @@
       document.getElementById('resumo-lateral-total').innerText = "R$ " + totalGeral.toFixed(2).replace('.', ',');
     }
 
-    // NOVA FUNÇÃO: DIRECIONA O CARRINHO DIRETO PARA O WHATSAPP
+    // --- NOVA LÓGICA DE SEGURANÇA DO WHATSAPP ---
     function irParaWhatsApp() {
       if (carrinhoDeItens.length === 0) {
         alert("Adicione um produto ao carrinho primeiro.");
         return;
       }
 
-      let texto = "Olá, OBA Doceria! Gostaria de finalizar minha encomenda de presentes:\n\n";
+      // 1. Gera o Código Único do Pedido
+      let codPedido = Math.floor(1000 + Math.random() * 9000); 
+      
+      let texto = `🛒 *NOVO PEDIDO | OBA DOCERIA*\n`;
+      texto += `*Cod:* #${codPedido}\n`;
+      texto += `----------------------------\n\n`;
+      
       let totalGeral = 0;
 
       carrinhoDeItens.forEach((item) => {
         let subtotal = item.precoCalculadoUnitario * item.quantidade;
         totalGeral += subtotal;
         texto += `*${item.quantidade}x ${item.titulo}*\n`;
-        texto += `Detalhes: ${item.detalhes}\n`;
-        texto += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
+        texto += `↳ _${item.detalhes}_\n`;
+        texto += `↳ Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
       });
 
-      texto += `*TOTAL DO PEDIDO: R$ ${totalGeral.toFixed(2).replace('.', ',')}*`;
+      texto += `----------------------------\n`;
+      texto += `*VALOR TOTAL: R$ ${totalGeral.toFixed(2).replace('.', ',')}*\n\n`;
+      
+      // 2. Disclaimer de Segurança para a Doceria
+      texto += `_🔒 Os valores deste recibo digital são conferidos pelo nosso sistema no momento do atendimento._`;
       
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
       fecharModalCarrinho();
