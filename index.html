@@ -2,374 +2,93 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Oficina Presenteáveis | OBA Doceria</title>
-  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
   <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* Nova barra de rolagem elegante e fina para o Carrinho */
     .cart-scroll::-webkit-scrollbar { width: 4px; }
-    .cart-scroll::-webkit-scrollbar-track { background: transparent; }
     .cart-scroll::-webkit-scrollbar-thumb { background-color: #E8D5B5; border-radius: 10px; }
-
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
     body { font-family: 'Poppins', sans-serif; background-color: #FAF5F0; color: #3B2A1E; }
-    .btn-step-icon { background-color: #8B4513; color: white; width: 22px; height: 22px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
   </style>
 </head>
 <body class="antialiased pb-20">
 
-  <a href="https://wa.me/5555999117626" target="_blank" class="fixed bottom-6 right-6 z-[60] bg-[#25D366] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-green-600 transition-all">
-    <i class="fa-brands fa-whatsapp"></i>
-  </a>
-
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-[100] flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-4" onclick="event.stopPropagation()">
-      <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold hover:bg-gray-200 transition-all">✕</button>
+      <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold">✕</button>
+      
+      <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-square-check"></i></div>
       
       <div>
         <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513] mt-2">Nome do Kit</h2>
-        <p id="modal-desc-dinamica" class="text-[11px] text-gray-500 mt-2 px-2 leading-tight">Descrição detalhada do kit aparece aqui.</p>
+        <p id="modal-desc-dinamica" class="text-[11px] text-gray-500 mt-2 px-2 leading-tight"></p>
       </div>
       
-      <p class="text-sm text-gray-500 font-semibold mt-2 border-b border-gray-100 pb-3">Valor do Item: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
-
-      <p class="text-[11px] text-amber-800 font-bold bg-amber-50 py-1.5 px-3 rounded-lg mt-4">Deseja adicionar detalhes para presente?</p>
-      
-      <div class="space-y-2 text-left mt-3">
-        <div onclick="toggleOpcional('laco')" class="border border-orange-100 p-3 rounded-2xl flex items-center justify-between cursor-pointer select-none hover:border-orange-300 transition-all">
-          <div class="flex items-center gap-3">
-            <div id="chk-laco" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0 transition-opacity"></i></div>
-            <h4 class="text-[11px] font-bold text-[#8B4513] uppercase">Laço Decorativo 🎀</h4>
-          </div>
-          <span class="text-[11px] font-black text-[#8B4513]">+ R$ 4,50</span>
-        </div>
-        <div onclick="toggleOpcional('placa')" class="border border-orange-100 p-3 rounded-2xl flex items-center justify-between cursor-pointer select-none hover:border-orange-300 transition-all">
-          <div class="flex items-center gap-3">
-            <div id="chk-placa" class="w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white"><i class="fa-solid fa-check opacity-0 transition-opacity"></i></div>
-            <h4 class="text-[11px] font-bold text-[#8B4513] uppercase">Placa Personalizada 🏷️</h4>
-          </div>
-          <span class="text-[11px] font-black text-[#8B4513]">+ R$ 3,50</span>
-        </div>
-      </div>
-
-      <div class="mt-4 p-3.5 bg-green-50 rounded-2xl border border-green-200 flex items-center justify-between">
-        <div class="text-left">
-          <p class="text-[10px] font-black text-green-800 uppercase tracking-widest">Ficou com dúvida?</p>
-          <p class="text-[9px] text-green-700 mt-0.5">Fale direto com a gente!</p>
-        </div>
-        <a href="https://wa.me/5555999117626" target="_blank" class="w-10 h-10 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-md hover:bg-green-600 transition-all active:scale-95">
-          <i class="fa-brands fa-whatsapp text-xl"></i>
-        </a>
-      </div>
+      <p class="text-sm text-gray-500 font-semibold mt-2 border-b border-gray-100 pb-3">Valor: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
 
       <div class="flex flex-col gap-2 pt-2">
-        <button onclick="adicionarAoCarrinho('continuar')" class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl shadow-md uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus mr-1"></i> Adicionar e Continuar</button>
-        <button onclick="adicionarAoCarrinho('carrinho')" class="w-full py-3.5 bg-white border-2 border-[#8B4513] text-[#8B4513] font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-basket-shopping mr-1"></i> Ver Meu Carrinho</button>
-        <button onclick="adicionarAoCarrinho('finalizar')" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2">Finalizar Pedido <i class="fa-brands fa-whatsapp text-sm"></i></button>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-carrinho" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-end sm:items-center justify-center sm:p-4" onclick="fecharModalCarrinho()">
-    <div class="bg-white w-full sm:max-w-lg rounded-t-[2rem] sm:rounded-[2rem] p-6 relative shadow-2xl flex flex-col max-h-[85vh]" onclick="event.stopPropagation()">
-      
-      <div class="flex justify-between items-center border-b border-[#E8D5B5] pb-4 mb-4">
-        <h2 class="text-lg font-black text-[#8B4513] flex items-center gap-2 uppercase tracking-widest">
-          <i class="fa-solid fa-basket-shopping"></i> Seu Carrinho
-        </h2>
-        <button onclick="fecharModalCarrinho()" class="bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold hover:bg-gray-200 transition-all">✕</button>
-      </div>
-      
-      <div id="conteudo-modal-carrinho" class="flex-1 overflow-y-auto cart-scroll space-y-3 pb-2 pr-1"></div>
-      
-      <div id="aviso-rolagem" class="hidden text-center animate-pulse pt-2">
-        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">↓ Role para ver mais itens ↓</p>
-      </div>
-      
-      <div class="border-t border-[#E8D5B5] pt-4 mt-2 space-y-4">
-        <div class="flex justify-between items-center bg-[#FAF5F0] p-4 rounded-xl border border-orange-100">
-          <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total do Pedido:</span>
-          <span class="text-2xl font-black text-[#8B4513]" id="modal-carrinho-total">R$ 0,00</span>
-        </div>
-        
-        <div class="flex gap-2">
-          <button onclick="fecharModalCarrinho()" class="w-1/3 py-3 border border-gray-200 text-gray-500 font-bold text-[10px] rounded-xl uppercase tracking-widest hover:bg-gray-50 transition-all active:scale-95 text-center leading-tight">Continuar<br>Comprando</button>
-          <button onclick="irParaWhatsApp()" class="w-2/3 py-3 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest flex justify-center items-center gap-2 hover:bg-[#6e3710] transition-all active:scale-95">Finalizar Pedido <i class="fa-brands fa-whatsapp text-sm"></i></button>
-        </div>
-
-        <div class="text-center mt-1">
-          <a href="https://wa.me/5555999117626" target="_blank" class="text-[10px] text-green-600 font-bold uppercase tracking-widest hover:underline flex items-center justify-center gap-1">
-            <i class="fa-brands fa-whatsapp text-sm"></i> Dúvidas? Fale com a gente
-          </a>
-        </div>
+        <button onclick="adicionarAoCarrinho('continuar')" class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl shadow-md uppercase tracking-widest active:scale-95">Adicionar e Continuar</button>
+        <button onclick="adicionarAoCarrinho('finalizar')" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[10px] rounded-xl shadow-sm uppercase tracking-widest active:scale-95">Finalizar Pedido Blindado</button>
       </div>
     </div>
   </div>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
-    <header class="text-center mb-8">
-      <h1 class="text-2xl font-black text-[#8B4513] tracking-widest uppercase">Oficina Presenteáveis</h1>
-      <p class="text-sm text-gray-500">Carrinho com rolagem e WhatsApp com segurança</p>
-    </header>
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <div class="lg:col-span-8 space-y-6">
-        <section id="secao-kits" class="bg-white p-6 md:p-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm space-y-6">
-          <div class="border-b border-[#E8D5B5] pb-4 mb-2">
-            <h3 class="font-bold text-[#8B4513] uppercase tracking-widest text-sm flex items-center gap-2">
-              <span class="btn-step-icon"><i class="fa-solid fa-gift text-[10px]"></i></span> Vitrine de Presentes
-            </h3>
-            <p class="text-[10px] text-gray-500 mt-1">Nossas opções exclusivas já vêm montadas com carinho.</p>
-          </div>
-          <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full mx-auto"></div>
-        </section>
-      </div>
-
-      <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
-        <section class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-6">
-          <div class="text-center space-y-3">
-            <h2 class="text-sm font-black text-[#8B4513] uppercase tracking-widest">Resumo da Compra</h2>
-            <div class="bg-[#FAF5F0] p-4 rounded-2xl border border-orange-100">
-              <p class="text-[10px] uppercase font-bold text-gray-400 mb-1">Total Atual</p>
-              <p class="text-2xl font-black text-[#8B4513]" id="resumo-lateral-total">R$ 0,00</p>
-            </div>
-            <button onclick="abrirModalCarrinho()" class="w-full py-4 bg-gray-100 text-[#8B4513] border border-gray-200 rounded-xl font-bold text-[11px] uppercase tracking-widest hover:bg-gray-200 transition-all flex items-center justify-center gap-2">
-              <i class="fa-solid fa-eye"></i> Visualizar Meu Carrinho
-            </button>
-            <button onclick="irParaWhatsApp()" class="w-full py-4 bg-green-600 text-white rounded-xl font-bold text-[11px] uppercase tracking-widest hover:bg-green-700 transition-all flex items-center justify-center gap-2 shadow-lg">
-              <i class="fa-brands fa-whatsapp text-lg"></i> Finalizar no WhatsApp
-            </button>
-          </div>
-        </section>
-      </div>
-    </div>
+    <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full mx-auto"></div>
   </main>
 
   <script>
     const kitsPresenteaveis = [
-      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake de brigadeiro, uva verde, morangos e doces variados em tábua redonda de MDF.', precoFixo: 180.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_1.png' },
-      { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', precoFixo: 75.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_2.png' }
+      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake de brigadeiro, uva verde e morangos.', precoFixo: 180.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_1.png' }
     ];
 
     let caixaAtiva = null;
-    let lacoDecorativoSelecionado = false; 
-    let placaPersonalizadaSelecionada = false;
-    let carrinhoDeItens = []; 
-
-    function renderizarKits() {
-      const grid = document.getElementById('kits-grid');
-      grid.innerHTML = "";
-      kitsPresenteaveis.forEach(kit => {
-        grid.innerHTML += `
-          <div class="bg-white rounded-[1.5rem] shadow-sm border border-[#E8D5B5] flex flex-col overflow-hidden w-full transition-all hover:border-[#8B4513]">
-            <div class="w-full h-56 sm:h-64 bg-gray-50 border-b border-[#E8D5B5] overflow-hidden">
-              <img src="${kit.img}" class="h-full w-full object-cover" onerror="this.src='https://placehold.co/400x400?text=Oba+Kit'">
-            </div>
-            <div class="p-5 flex flex-col justify-between flex-1">
-              <div>
-                <h3 class="font-black text-sm mb-1 text-[#3B2A1E]">${kit.nome}</h3>
-                <p class="text-[10px] text-gray-500 leading-tight mb-3 line-clamp-2">${kit.desc}</p>
-                <p class="text-sm text-[#8B4513] font-black mb-4">R$ ${kit.precoFixo.toFixed(2).replace('.', ',')}</p>
-              </div>
-              <button onclick="abrirModalKit('${kit.id}')" class="w-full py-3 bg-[#8B4513] text-white rounded-xl text-[11px] font-bold uppercase tracking-wider shadow-sm active:scale-95 transition-all">
-                Configurar Presente
-              </button>
-            </div>
-          </div>
-        `;
-      });
-    }
+    let carrinhoDeItens = [];
+    const URL_WEB_APP = 'INSIRA_AQUI_A_SUA_URL_DO_GOOGLE_APPS_SCRIPT';
 
     function abrirModalKit(idKit) {
       const kit = kitsPresenteaveis.find(k => k.id === idKit);
       caixaAtiva = { ...kit };
-      
-      lacoDecorativoSelecionado = false; 
-      placaPersonalizadaSelecionada = false;
-      document.getElementById('chk-laco').className = "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-      document.getElementById('chk-laco').querySelector('i').classList.add('opacity-0');
-      document.getElementById('chk-placa').className = "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-      document.getElementById('chk-placa').querySelector('i').classList.add('opacity-0');
-      
       document.getElementById('modal-titulo-dinamico').innerText = kit.nome;
       document.getElementById('modal-desc-dinamica').innerText = kit.desc;
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + kit.precoFixo.toFixed(2).replace('.', ',');
       document.getElementById('modal-caixa-completa').classList.remove('hidden');
     }
 
-    function toggleOpcional(tipo) {
-      if(tipo === 'laco') { 
-        lacoDecorativoSelecionado = !lacoDecorativoSelecionado; 
-        const box = document.getElementById('chk-laco');
-        box.className = lacoDecorativoSelecionado ? "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]" : "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-        box.querySelector('i').classList.toggle('opacity-0', !lacoDecorativoSelecionado);
-      } else if(tipo === 'placa') { 
-        placaPersonalizadaSelecionada = !placaPersonalizadaSelecionada; 
-        const box = document.getElementById('chk-placa');
-        box.className = placaPersonalizadaSelecionada ? "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-[#8B4513]" : "w-5 h-5 rounded border-2 border-[#8B4513] flex items-center justify-center text-white text-xs bg-white";
-        box.querySelector('i').classList.toggle('opacity-0', !placaPersonalizadaSelecionada);
-      }
+    async function adicionarAoCarrinho(acao) {
+      let codPedido = "OBA-" + Math.floor(1000 + Math.random() * 9000);
+      let dadosPedido = {
+        cod: codPedido,
+        nome: "Cliente Teste", // Integrar com seu campo de nome depois
+        total: caixaAtiva.precoFixo,
+        detalhes: caixaAtiva.nome
+      };
+
+      // 1. Envia para o seu Google Sheets silenciosamente
+      try {
+        await fetch(URL_WEB_APP, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(dadosPedido)
+        });
+        console.log("Pedido registrado com segurança:", codPedido);
+      } catch (err) { console.error("Erro ao registrar no cofre:", err); }
+
+      // 2. Monta o WhatsApp com o Código Blindado
+      let texto = `🛒 *PEDIDO OFICIAL OBA*\n*Cod:* #${codPedido}\n\n*Item:* ${caixaAtiva.nome}\n*Total:* R$ ${caixaAtiva.precoFixo.toFixed(2)}\n\n_🔒 Conferido pelo sistema._`;
       
-      let total = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
-      document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
-    }
-
-    function processarAdicaoAoCarrinho() {
-      if(!caixaAtiva) return;
-      let precoUnitario = caixaAtiva.precoFixo + (lacoDecorativoSelecionado ? 4.50 : 0) + (placaPersonalizadaSelecionada ? 3.50 : 0);
-      let detalhes = "Kit Fechado";
-      if (lacoDecorativoSelecionado) detalhes += " + Laço Decorativo";
-      if (placaPersonalizadaSelecionada) detalhes += " + Placa Personalizada";
-
-      carrinhoDeItens.push({ 
-        titulo: caixaAtiva.nome, 
-        precoCalculadoUnitario: precoUnitario, 
-        quantidade: 1,
-        detalhes: detalhes 
-      });
-
-      atualizarResumoLateral();
+      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
       fecharModalCompleta();
     }
 
-    function adicionarAoCarrinho(acao) {
-      processarAdicaoAoCarrinho();
-      if (acao === 'continuar') { alert("Produto adicionado! Fique à vontade para escolher mais opções."); } 
-      else if (acao === 'carrinho') { abrirModalCarrinho(); } 
-      else if (acao === 'finalizar') { irParaWhatsApp(); }
-    }
-
-    function abrirModalCarrinho() {
-      renderizarConteudoModalCarrinho();
-      document.getElementById('modal-carrinho').classList.remove('hidden');
-    }
-
-    function fecharModalCarrinho() { document.getElementById('modal-carrinho').classList.add('hidden'); }
-
-    function renderizarConteudoModalCarrinho() {
-      const container = document.getElementById('conteudo-modal-carrinho');
-      const avisoRolagem = document.getElementById('aviso-rolagem');
-      let totalGeral = 0;
-
-      if (carrinhoDeItens.length === 0) {
-        avisoRolagem.classList.add('hidden');
-        container.innerHTML = `
-          <div class="text-center py-10 flex flex-col items-center justify-center">
-            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-              <i class="fa-solid fa-basket-shopping text-2xl text-gray-300"></i>
-            </div>
-            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest">Seu carrinho está vazio</p>
-            <p class="text-[10px] text-gray-400 mt-2">Adicione produtos para continuar.</p>
-          </div>
-        `;
-        document.getElementById('modal-carrinho-total').innerText = "R$ 0,00";
-        return;
-      }
-
-      container.innerHTML = "";
-      carrinhoDeItens.forEach((item, index) => {
-        let totalItem = item.precoCalculadoUnitario * item.quantidade;
-        totalGeral += totalItem;
-
-        container.innerHTML += `
-          <div class="bg-gray-50 border border-[#E8D5B5] p-4 rounded-2xl relative flex flex-col gap-2">
-            <button onclick="removerItemCarrinho(${index})" class="absolute top-4 right-4 text-red-400 hover:text-red-600 transition-colors bg-red-50 w-7 h-7 rounded-lg flex items-center justify-center" title="Remover Produto">
-              <i class="fa-solid fa-trash-can text-[11px]"></i>
-            </button>
-            <div class="pr-10">
-              <p class="font-black text-[#8B4513] text-sm">${item.titulo}</p>
-              <p class="text-[10px] text-gray-500 leading-tight mt-1 tracking-wide uppercase">${item.detalhes}</p>
-            </div>
-            <div class="flex justify-between items-end mt-2 pt-2 border-t border-gray-200 border-dashed">
-              <div>
-                <p class="text-[8px] font-bold text-gray-400 uppercase mb-1">QTD.</p>
-                <div class="flex items-center gap-1 bg-white border border-[#E8D5B5] rounded-xl px-1 py-1 shadow-sm w-fit">
-                  <button onclick="alterarQtdCarrinho(${index}, -1)" class="w-6 h-6 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all">-</button>
-                  <span class="text-xs font-black w-6 text-center text-[#8B4513]">${item.quantidade}</span>
-                  <button onclick="alterarQtdCarrinho(${index}, 1)" class="w-6 h-6 rounded-lg bg-[#8B4513] text-white font-bold hover:bg-[#6e3710] transition-all">+</button>
-                </div>
-              </div>
-              <div class="text-right">
-                <p class="text-[8px] font-bold text-gray-400 uppercase mb-1">Subtotal</p>
-                <p class="text-sm font-black text-[#8B4513]">R$ ${totalItem.toFixed(2).replace('.', ',')}</p>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      // Mostra o aviso se tiver mais de 2 itens
-      if (carrinhoDeItens.length > 2) { avisoRolagem.classList.remove('hidden'); } 
-      else { avisoRolagem.classList.add('hidden'); }
-
-      document.getElementById('modal-carrinho-total').innerText = "R$ " + totalGeral.toFixed(2).replace('.', ',');
-    }
-
-    function alterarQtdCarrinho(index, delta) {
-      let novaQtd = carrinhoDeItens[index].quantidade + delta;
-      if (novaQtd < 1) {
-        if(confirm("Tem certeza que deseja remover este produto?")) { removerItemCarrinho(index); }
-        return;
-      }
-      carrinhoDeItens[index].quantidade = novaQtd;
-      renderizarConteudoModalCarrinho();
-      atualizarResumoLateral();
-    }
-
-    function removerItemCarrinho(index) {
-      carrinhoDeItens.splice(index, 1);
-      renderizarConteudoModalCarrinho();
-      atualizarResumoLateral();
-    }
-
-    function atualizarResumoLateral() {
-      let totalGeral = 0;
-      carrinhoDeItens.forEach(item => { totalGeral += (item.precoCalculadoUnitario * item.quantidade); });
-      document.getElementById('resumo-lateral-total').innerText = "R$ " + totalGeral.toFixed(2).replace('.', ',');
-    }
-
-    // --- NOVA LÓGICA DE SEGURANÇA DO WHATSAPP ---
-    function irParaWhatsApp() {
-      if (carrinhoDeItens.length === 0) {
-        alert("Adicione um produto ao carrinho primeiro.");
-        return;
-      }
-
-      // 1. Gera o Código Único do Pedido
-      let codPedido = Math.floor(1000 + Math.random() * 9000); 
-      
-      let texto = `🛒 *NOVO PEDIDO | OBA DOCERIA*\n`;
-      texto += `*Cod:* #${codPedido}\n`;
-      texto += `----------------------------\n\n`;
-      
-      let totalGeral = 0;
-
-      carrinhoDeItens.forEach((item) => {
-        let subtotal = item.precoCalculadoUnitario * item.quantidade;
-        totalGeral += subtotal;
-        texto += `*${item.quantidade}x ${item.titulo}*\n`;
-        texto += `↳ _${item.detalhes}_\n`;
-        texto += `↳ Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
-      });
-
-      texto += `----------------------------\n`;
-      texto += `*VALOR TOTAL: R$ ${totalGeral.toFixed(2).replace('.', ',')}*\n\n`;
-      
-      // 2. Disclaimer de Segurança para a Doceria
-      texto += `_🔒 Os valores deste recibo digital são conferidos pelo nosso sistema no momento do atendimento._`;
-      
-      window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
-      fecharModalCarrinho();
-    }
-
     function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
-
+    function renderizarKits() {
+      const grid = document.getElementById('kits-grid');
+      kitsPresenteaveis.forEach(kit => {
+        grid.innerHTML += `<div class="bg-white p-4 rounded-3xl border shadow-sm"><h3 class="font-bold">${kit.nome}</h3><button onclick="abrirModalKit('${kit.id}')" class="mt-4 w-full py-2 bg-[#8B4513] text-white rounded-lg text-xs font-bold uppercase">Configurar</button></div>`;
+      });
+    }
     renderizarKits();
   </script>
 </body>
