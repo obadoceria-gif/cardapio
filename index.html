@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Oficina Presenteáveis | OBA Doceria</title>
-  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .cart-scroll::-webkit-scrollbar { width: 4px; }
@@ -19,7 +17,6 @@
 </head>
 <body class="antialiased pb-20">
 
-  <!-- BOTÃO FLUTUANTE WHATSAPP -->
   <a href="https://wa.me/5555999117626" target="_blank" class="fixed bottom-6 right-6 z-[60] bg-[#25D366] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-green-600 transition-all">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
@@ -27,27 +24,20 @@
   <!-- MODAL CONFIGURAÇÃO -->
   <div id="modal-caixa-completa" class="fixed inset-0 bg-black/80 hidden z-[100] flex items-center justify-center p-4" onclick="fecharModalCompleta()">
     <div class="bg-white max-w-md w-full rounded-[2rem] p-6 relative shadow-2xl text-center space-y-4" onclick="event.stopPropagation()">
-      <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 text-gray-500 font-bold">✕</button>
+      <button onclick="fecharModalCompleta()" class="absolute top-4 right-4 text-gray-500 font-bold hover:bg-gray-200 transition-all">✕</button>
       <div>
-        <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513]">Nome do Kit</h2>
+        <h2 id="modal-titulo-dinamico" class="text-xl font-black text-[#8B4513] mt-2">Nome do Kit</h2>
         <p id="modal-desc-dinamica" class="text-[11px] text-gray-500 mt-2 px-2"></p>
       </div>
-      <p class="text-sm font-semibold mt-2 border-b pb-3">Valor do Item: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
-      
+      <p class="text-sm font-semibold mt-2 border-b border-gray-100 pb-3">Valor do Item: <span id="modal-subtotal-pedido" class="font-black text-[#8B4513] text-xl">R$ 0,00</span></p>
       <div class="space-y-2 text-left mt-3">
-        <div onclick="toggleOpcional('laco')" class="border border-orange-100 p-3 rounded-2xl flex items-center justify-between cursor-pointer">
-          <div class="flex items-center gap-3"><div id="chk-laco" class="w-5 h-5 rounded border-2 border-[#8B4513] bg-white"></div><h4 class="text-[11px] font-bold uppercase">Laço Decorativo 🎀</h4></div>
-          <span class="text-[11px] font-black text-[#8B4513]">+ R$ 4,50</span>
-        </div>
-        <div onclick="toggleOpcional('placa')" class="border border-orange-100 p-3 rounded-2xl flex items-center justify-between cursor-pointer">
-          <div class="flex items-center gap-3"><div id="chk-placa" class="w-5 h-5 rounded border-2 border-[#8B4513] bg-white"></div><h4 class="text-[11px] font-bold uppercase">Placa Personalizada 🏷️</h4></div>
-          <span class="text-[11px] font-black text-[#8B4513]">+ R$ 3,50</span>
-        </div>
+        <div onclick="toggleOpcional('laco')" class="border border-orange-100 p-3 rounded-2xl flex items-center justify-between cursor-pointer"><div class="flex items-center gap-3"><div id="chk-laco" class="w-5 h-5 rounded border-2 border-[#8B4513] bg-white"><i class="fa-solid fa-check opacity-0"></i></div><h4 class="text-[11px] font-bold text-[#8B4513] uppercase">Laço Decorativo 🎀</h4></div><span class="text-[11px] font-black text-[#8B4513]">+ R$ 4,50</span></div>
+        <div onclick="toggleOpcional('placa')" class="border border-orange-100 p-3 rounded-2xl flex items-center justify-between cursor-pointer"><div class="flex items-center gap-3"><div id="chk-placa" class="w-5 h-5 rounded border-2 border-[#8B4513] bg-white"><i class="fa-solid fa-check opacity-0"></i></div><h4 class="text-[11px] font-bold text-[#8B4513] uppercase">Placa Personalizada 🏷️</h4></div><span class="text-[11px] font-black text-[#8B4513]">+ R$ 3,50</span></div>
       </div>
-      
       <div class="flex flex-col gap-2 pt-2">
-        <button onclick="adicionarAoCarrinho('continuar')" class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl uppercase">Adicionar e Continuar</button>
-        <button onclick="adicionarAoCarrinho('carrinho')" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[10px] rounded-xl uppercase">Ver Meu Carrinho</button>
+        <button onclick="adicionarAoCarrinho('continuar')" class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-cart-plus mr-1"></i> Adicionar e Continuar</button>
+        <button onclick="adicionarAoCarrinho('carrinho')" class="w-full py-3.5 bg-white border-2 border-[#8B4513] text-[#8B4513] font-bold text-[10px] rounded-xl uppercase tracking-widest active:scale-95 transition-transform"><i class="fa-solid fa-basket-shopping mr-1"></i> Ver Meu Carrinho</button>
+        <button onclick="adicionarAoCarrinho('finalizar')" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[10px] rounded-xl uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2">Finalizar Pedido Blindado</button>
       </div>
     </div>
   </div>
@@ -55,85 +45,105 @@
   <!-- MODAL CARRINHO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-end sm:items-center justify-center sm:p-4" onclick="fecharModalCarrinho()">
     <div class="bg-white w-full sm:max-w-lg rounded-t-[2rem] sm:rounded-[2rem] p-6 relative shadow-2xl flex flex-col max-h-[85vh]" onclick="event.stopPropagation()">
-      <div class="flex justify-between items-center border-b pb-4 mb-4">
-        <h2 class="text-lg font-black text-[#8B4513] uppercase"><i class="fa-solid fa-basket-shopping"></i> Seu Carrinho</h2>
-        <button onclick="fecharModalCarrinho()" class="text-gray-500 font-bold">✕</button>
-      </div>
-      <div id="conteudo-modal-carrinho" class="flex-1 overflow-y-auto cart-scroll space-y-3 pb-4"></div>
-      <div id="aviso-rolagem" class="hidden text-center text-[9px] font-bold text-gray-400 uppercase py-2 animate-bounce">↓ Role para ver mais ↓</div>
-      <div class="border-t pt-4">
-        <div class="flex justify-between items-center bg-[#FAF5F0] p-4 rounded-xl mb-4"><span class="text-xs font-bold text-gray-400">Total:</span><span class="text-2xl font-black text-[#8B4513]" id="modal-carrinho-total">R$ 0,00</span></div>
-        <button onclick="finalizarPedidoBlindado()" class="w-full py-4 bg-[#8B4513] text-white font-bold text-[11px] uppercase tracking-widest shadow-lg">Finalizar Pedido Seguro <i class="fa-brands fa-whatsapp"></i></button>
+      <div class="flex justify-between items-center border-b pb-4 mb-4"><h2 class="text-lg font-black text-[#8B4513] uppercase"><i class="fa-solid fa-basket-shopping"></i> Seu Carrinho</h2><button onclick="fecharModalCarrinho()" class="text-gray-500 font-bold">✕</button></div>
+      <div id="conteudo-modal-carrinho" class="flex-1 overflow-y-auto cart-scroll space-y-3 pb-2 pr-1"></div>
+      <div id="aviso-rolagem" class="hidden text-center mt-[-16px] mb-3 z-10 relative"><span class="bg-[#8B4513] text-white text-[9px] font-black uppercase py-1.5 px-5 rounded-full animate-bounce">↓ Role para ver mais ↓</span></div>
+      <div class="border-t pt-4 mt-2 space-y-4">
+        <div class="flex justify-between items-center bg-[#FAF5F0] p-4 rounded-xl border"><span class="text-xs font-bold text-gray-400 uppercase">Total do Pedido:</span><span class="text-2xl font-black text-[#8B4513]" id="modal-carrinho-total">R$ 0,00</span></div>
+        <button onclick="irParaWhatsAppBlindado()" class="w-full py-4 bg-green-600 text-white font-bold text-[11px] uppercase tracking-widest shadow-lg">Finalizar Pedido Seguro <i class="fa-brands fa-whatsapp"></i></button>
       </div>
     </div>
   </div>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
-    <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full"></div>
+    <div id="kits-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full mx-auto"></div>
   </main>
 
   <script>
     const kitsPresenteaveis = [
-      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake, uva verde e morangos.', precoFixo: 180.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_1.png' },
+      { id: 'kit_tabua', nome: 'Tábua Doce Artesanal', desc: 'Mini naked cake de brigadeiro, uva verde e morangos.', precoFixo: 180.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_1.png' },
       { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', precoFixo: 75.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_2.png' }
     ];
 
     let carrinhoDeItens = [];
     const URL_WEB_APP = 'https://script.google.com/macros/s/AKfycbzzexSBR6WVLjcWH2Fp5TfKuZivAR-BoT4m3CufvgnBoz_ku45ITasE1SxnuJ3HQxFXpw/exec';
 
-    // Funções de apoio
-    function abrirModalKit(id) {
-      let kit = kitsPresenteaveis.find(k => k.id === id);
-      window.kitAtivo = kit;
-      document.getElementById('modal-titulo-dinamico').innerText = kit.nome;
-      document.getElementById('modal-desc-dinamica').innerText = kit.desc;
-      document.getElementById('modal-subtotal-pedido').innerText = "R$ " + kit.precoFixo.toFixed(2).replace('.', ',');
-      document.getElementById('modal-caixa-completa').classList.remove('hidden');
+    function renderizarKits() {
+      const grid = document.getElementById('kits-grid');
+      kitsPresenteaveis.forEach(kit => {
+        grid.innerHTML += `
+          <div class="bg-white rounded-[1.5rem] shadow-sm border border-[#E8D5B5] flex flex-col overflow-hidden w-full transition-all hover:border-[#8B4513]">
+            <div class="w-full h-56 sm:h-64 bg-gray-50 border-b border-[#E8D5B5] overflow-hidden">
+              <img src="${kit.img}" class="h-full w-full object-cover">
+            </div>
+            <div class="p-5 flex-1">
+              <h3 class="font-black text-sm text-[#3B2A1E]">${kit.nome}</h3>
+              <p class="text-[10px] text-gray-500 line-clamp-2 mt-1">${kit.desc}</p>
+              <p class="text-sm font-black text-[#8B4513] my-4">R$ ${kit.precoFixo.toFixed(2).replace('.', ',')}</p>
+              <button onclick="abrirModalKit('${kit.id}')" class="w-full py-3 bg-[#8B4513] text-white rounded-xl text-[11px] font-bold uppercase shadow-sm">Configurar</button>
+            </div>
+          </div>
+        `;
+      });
     }
 
-    function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
-    function fecharModalCarrinho() { document.getElementById('modal-carrinho').classList.remove('hidden'); } // Correção lógica
-    function abrirModalCarrinho() { document.getElementById('modal-carrinho').classList.remove('hidden'); }
-    function fecharModalCarrinho() { document.getElementById('modal-carrinho').classList.add('hidden'); }
+    function abrirModalKit(id) {
+      window.kitAtivo = kitsPresenteaveis.find(k => k.id === id);
+      document.getElementById('modal-titulo-dinamico').innerText = window.kitAtivo.nome;
+      document.getElementById('modal-desc-dinamica').innerText = window.kitAtivo.desc;
+      document.getElementById('modal-subtotal-pedido').innerText = "R$ " + window.kitAtivo.precoFixo.toFixed(2).replace('.', ',');
+      document.getElementById('modal-caixa-completa').classList.remove('hidden');
+    }
 
     function toggleOpcional(tipo) {
       let box = document.getElementById('chk-'+tipo);
       box.classList.toggle('bg-[#8B4513]');
-      // Recalcular preço simplificado
       let total = window.kitAtivo.precoFixo + (document.getElementById('chk-laco').classList.contains('bg-[#8B4513]') ? 4.50 : 0) + (document.getElementById('chk-placa').classList.contains('bg-[#8B4513]') ? 3.50 : 0);
       document.getElementById('modal-subtotal-pedido').innerText = "R$ " + total.toFixed(2).replace('.', ',');
     }
 
     function adicionarAoCarrinho(acao) {
       let total = window.kitAtivo.precoFixo + (document.getElementById('chk-laco').classList.contains('bg-[#8B4513]') ? 4.50 : 0) + (document.getElementById('chk-placa').classList.contains('bg-[#8B4513]') ? 3.50 : 0);
-      carrinhoDeItens.push({ titulo: window.kitAtivo.nome, preco: total, quantidade: 1 });
-      fecharModalCompleta();
+      let det = "KIT FECHADO" + (document.getElementById('chk-laco').classList.contains('bg-[#8B4513]') ? " + LAÇO" : "") + (document.getElementById('chk-placa').classList.contains('bg-[#8B4513]') ? " + PLACA" : "");
+      carrinhoDeItens.push({ titulo: window.kitAtivo.nome, preco: total, quantidade: 1, detalhes: det });
+      renderizarConteudoModalCarrinho();
+      document.getElementById('modal-caixa-completa').classList.add('hidden');
       if(acao === 'carrinho') abrirModalCarrinho();
+      else if(acao === 'finalizar') irParaWhatsAppBlindado();
     }
 
-    // A LÓGICA DO COFRE
-    async function finalizarPedidoBlindado() {
+    async function irParaWhatsAppBlindado() {
+      if(carrinhoDeItens.length === 0) return alert("Carrinho vazio.");
       let cod = "OBA-" + Math.floor(1000 + Math.random() * 9000);
       let total = carrinhoDeItens.reduce((a, b) => a + (b.preco * b.quantidade), 0);
       
       try {
-        await fetch(URL_WEB_APP, {
-          method: 'POST', mode: 'no-cors',
-          body: JSON.stringify({ cod: cod, nome: "Cliente", total: total, detalhes: JSON.stringify(carrinhoDeItens) })
-        });
+        await fetch(URL_WEB_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ cod: cod, nome: "Cliente", total: total, detalhes: JSON.stringify(carrinhoDeItens) }) });
       } catch(e) {}
 
-      let msg = `🛒 *PEDIDO OBA*\n*Cod:* #${cod}\n\n`;
-      carrinhoDeItens.forEach(i => msg += `*${i.quantidade}x ${i.titulo}* - R$ ${i.preco.toFixed(2)}\n`);
+      let msg = `🛒 *PEDIDO OFICIAL OBA*\n*Cod:* #${cod}\n\n`;
+      carrinhoDeItens.forEach(i => msg += `*${i.quantidade}x ${i.titulo}* (${i.detalhes}) - R$ ${(i.preco * i.quantidade).toFixed(2)}\n`);
       msg += `\n*TOTAL:* R$ ${total.toFixed(2)}\n\n_🔒 Conferido pelo sistema #${cod}_`;
       window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    // Inicialização
-    const grid = document.getElementById('kits-grid');
-    kitsPresenteaveis.forEach(k => {
-      grid.innerHTML += `<div class="bg-white p-4 rounded-3xl border"><div class="h-56 overflow-hidden rounded-xl"><img src="${k.img}" class="h-full w-full object-cover"></div><h3 class="font-bold mt-4">${k.nome}</h3><button onclick="abrirModalKit('${k.id}')" class="mt-4 w-full py-2 bg-[#8B4513] text-white rounded-lg uppercase text-xs font-bold">Configurar</button></div>`;
-    });
+    function abrirModalCarrinho() { document.getElementById('modal-carrinho').classList.remove('hidden'); }
+    function fecharModalCarrinho() { document.getElementById('modal-carrinho').classList.add('hidden'); }
+    function fecharModalCompleta() { document.getElementById('modal-caixa-completa').classList.add('hidden'); }
+
+    function renderizarConteudoModalCarrinho() {
+      const container = document.getElementById('conteudo-modal-carrinho');
+      container.innerHTML = carrinhoDeItens.map((i, idx) => `
+        <div class="bg-gray-50 p-4 rounded-2xl border flex justify-between items-center">
+          <div><p class="font-black text-sm">${i.titulo}</p><p class="text-[9px] uppercase">${i.detalhes}</p></div>
+          <p class="font-black">R$ ${(i.preco*i.quantidade).toFixed(2)}</p>
+        </div>
+      `).join('');
+      document.getElementById('modal-carrinho-total').innerText = "R$ " + carrinhoDeItens.reduce((a, b) => a + (b.preco * b.quantidade), 0).toFixed(2);
+      if(carrinhoDeItens.length > 2) document.getElementById('aviso-rolagem').classList.remove('hidden');
+    }
+
+    renderizarKits();
   </script>
 </body>
 </html>
