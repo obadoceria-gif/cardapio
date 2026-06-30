@@ -693,28 +693,46 @@ function finalizarPedidoBlindado() {
   const d       = dataRaw.split('-');
   const dataFmt = `${d[2]}/${d[1]}/${d[0]}`;
 
-  // Monta itens e total
+  // Calcula total e prepara dados dos itens
   let total = 0;
-  const itensFmt = carrinhoDeCaixasConcluidas.map((item, i) => {
-    const qtd      = item.quantidade || 1;
-    const unit     = item.precoCalculadoUnitario || item.precoCalculado;
-    const subtotal = unit * qtd;
-    total += subtotal;
-    return `${qtd}x ${item.titulo} | ${item.detalhes} | R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-  }).join('\n');
+  carrinhoDeCaixasConcluidas.forEach(item => {
+    total += (item.precoCalculadoUnitario || item.precoCalculado) * (item.quantidade || 1);
+  });
 
-  // Payload para a planilha
+  // Gera código de rastreio único: OBA + data + aleatório
+  const agora       = new Date();
+  const dd          = String(agora.getDate()).padStart(2, '0');
+  const mm          = String(agora.getMonth() + 1).padStart(2, '0');
+  const aaaa        = agora.getFullYear();
+  const rand        = Math.floor(Math.random() * 9000) + 1000;
+  const codigoRastreio = `OBA-${aaaa}${mm}${dd}-${rand}`;
+
+  // Monta detalhes completos do pedido (entrega + pagamento + itens)
+  const detalhesFmt = [
+    `Entrega: ${dataFmt} às ${hora}`,
+    `Pagamento: ${pag}`,
+    `---`,
+    ...carrinhoDeCaixasConcluidas.map((item, i) => {
+      const qtd      = item.quantidade || 1;
+      const unit     = item.precoCalculadoUnitario || item.precoCalculado;
+      const subtotal = unit * qtd;
+      return `${i+1}. ${qtd}x ${item.titulo} | ${item.detalhes} | R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+    }),
+    `---`,
+    `Total: R$ ${total.toFixed(2).replace('.', ',')}`
+  ].join(' | ');
+
+  // Payload alinhado com o doPost (data.cod, data.nome, data.total, data.detalhes)
   const payload = {
-    cliente:    nome,
-    entrega:    `${dataFmt} às ${hora}`,
-    pagamento:  pag,
-    itens:      itensFmt,
-    total:      `R$ ${total.toFixed(2).replace('.', ',')}`,
-    timestamp:  new Date().toLocaleString('pt-BR')
+    cod:      codigoRastreio,
+    nome:     nome,
+    total:    `R$ ${total.toFixed(2).replace('.', ',')}`,
+    detalhes: detalhesFmt
   };
 
   // Monta mensagem do WhatsApp
   let textoWpp = `Olá, OBA Doceria! Seguem os dados do meu pedido:\n\n`;
+  textoWpp += `*CÓDIGO:* ${codigoRastreio}\n`;
   textoWpp += `*CLIENTE:* ${nome}\n`;
   textoWpp += `*ENTREGA:* ${dataFmt} às ${hora}\n`;
   textoWpp += `*PAGAMENTO:* ${pag}\n\n`;
