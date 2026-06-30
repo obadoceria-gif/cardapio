@@ -118,6 +118,7 @@
         <input type="text" id="nome-cliente" placeholder="Seu nome completo *"
                class="w-full p-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none"
                oninput="atualizarBotaoFinalizar()">
+        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest pt-1">Data e Hora da Entrega</p>
         <div class="grid grid-cols-2 gap-2">
           <input type="date" id="data-desejada"
                  class="p-3 bg-[#FFF8F0] border border-[#E8D5B5] rounded-xl text-xs outline-none"
@@ -132,8 +133,6 @@
           <option value="">Forma de pagamento *</option>
           <option value="Pix">Pix</option>
           <option value="Dinheiro">Dinheiro</option>
-          <option value="Cartão de Crédito">Cartão de Crédito</option>
-          <option value="Cartão de Débito">Cartão de Débito</option>
         </select>
       </div>
 
@@ -662,8 +661,10 @@ function removerItemCarrinho(index) {
 }
 
 // ================================================================
-// VALIDAÇÃO E FINALIZAÇÃO
+// VALIDAÇÃO E FINALIZAÇÃO (FASE C — BLINDADA)
 // ================================================================
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzzexSBR6WVLjcWH2Fp5TfKuZivAR-BoT4m3CufvgnBoz_ku45ITasE1SxnuJ3HQxFXpw/exec';
+
 function atualizarBotaoFinalizar() {
   const btn  = document.getElementById('btn-finalizar-modal');
   if (!btn) return;
@@ -674,28 +675,86 @@ function atualizarBotaoFinalizar() {
   btn.disabled = !(nome && data && hora && pag && carrinhoDeCaixasConcluidas.length > 0);
 }
 
+// Alias mantido para compatibilidade com chamadas existentes
 function irParaWhatsApp() {
+  finalizarPedidoBlindado();
+}
+
+function finalizarPedidoBlindado() {
   if (carrinhoDeCaixasConcluidas.length === 0) { alert('Adicione produtos primeiro.'); return; }
+
   const nome    = (document.getElementById('nome-cliente')?.value  || '').trim();
   const dataRaw = (document.getElementById('data-desejada')?.value || '');
   const hora    = (document.getElementById('hora-desejada')?.value || '');
   const pag     = (document.getElementById('forma-pagamento')?.value || '');
+
   if (!nome || !dataRaw || !hora || !pag) { alert('Preencha todos os campos de entrega.'); return; }
+
   const d       = dataRaw.split('-');
   const dataFmt = `${d[2]}/${d[1]}/${d[0]}`;
-  let texto     = `Olá, OBA Doceria! Seguem os dados do meu pedido:\n\n`;
-  texto += `*CLIENTE:* ${nome}\n*ENTREGA:* ${dataFmt} às ${hora}\n*PAGAMENTO:* ${pag}\n\n*ITENS DO PEDIDO:*\n`;
+
+  // Monta itens e total
   let total = 0;
-  carrinhoDeCaixasConcluidas.forEach((item, i) => {
-    const qtd     = item.quantidade || 1;
-    const unit    = item.precoCalculadoUnitario || item.precoCalculado;
+  const itensFmt = carrinhoDeCaixasConcluidas.map((item, i) => {
+    const qtd      = item.quantidade || 1;
+    const unit     = item.precoCalculadoUnitario || item.precoCalculado;
     const subtotal = unit * qtd;
     total += subtotal;
-    texto += `\n*${i+1}. ${qtd}x ${item.titulo}*\n   ${item.detalhes}\n   Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+    return `${qtd}x ${item.titulo} | ${item.detalhes} | R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+  }).join('\n');
+
+  // Payload para a planilha
+  const payload = {
+    cliente:    nome,
+    entrega:    `${dataFmt} às ${hora}`,
+    pagamento:  pag,
+    itens:      itensFmt,
+    total:      `R$ ${total.toFixed(2).replace('.', ',')}`,
+    timestamp:  new Date().toLocaleString('pt-BR')
+  };
+
+  // Monta mensagem do WhatsApp
+  let textoWpp = `Olá, OBA Doceria! Seguem os dados do meu pedido:\n\n`;
+  textoWpp += `*CLIENTE:* ${nome}\n`;
+  textoWpp += `*ENTREGA:* ${dataFmt} às ${hora}\n`;
+  textoWpp += `*PAGAMENTO:* ${pag}\n\n`;
+  textoWpp += `*ITENS DO PEDIDO:*\n`;
+  carrinhoDeCaixasConcluidas.forEach((item, i) => {
+    const qtd      = item.quantidade || 1;
+    const unit     = item.precoCalculadoUnitario || item.precoCalculado;
+    const subtotal = unit * qtd;
+    textoWpp += `\n*${i+1}. ${qtd}x ${item.titulo}*\n   ${item.detalhes}\n   Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
   });
-  texto += `\n*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*`;
-  window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(texto)}`, '_blank');
-  fecharModalCarrinho();
+  textoWpp += `\n*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*`;
+
+  const urlWpp = `https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(textoWpp)}`;
+
+  // Bloqueia o botão e mostra feedback visual
+  const btn = document.getElementById('btn-finalizar-modal');
+  const txtOriginal = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Enviando...';
+
+  // FETCH para a planilha — WhatsApp abre independente do resultado
+  fetch(SHEETS_URL, {
+    method:  'POST',
+    mode:    'no-cors', // Google Apps Script exige no-cors
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload)
+  })
+  .catch(() => { /* silencia erro de rede — WhatsApp já foi aberto */ })
+  .finally(() => {
+    // Restaura botão
+    btn.innerHTML = txtOriginal;
+    btn.disabled  = false;
+    // Abre WhatsApp SEMPRE, mesmo se fetch falhar
+    window.open(urlWpp, '_blank');
+    fecharModalCarrinho();
+    // Limpa carrinho após finalizar
+    carrinhoDeCaixasConcluidas = [];
+    atualizarPainelCarrinhoLateral();
+    mostrarNotificacao('Pedido registrado! Conclua pelo WhatsApp.');
+  });
 }
 </script>
 
