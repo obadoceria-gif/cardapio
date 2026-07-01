@@ -330,7 +330,7 @@
 
       <!-- COLUNA DIREITA: PAINEL LATERAL -->
       <div class="lg:col-span-4 lg:sticky lg:top-4 h-fit">
-        <section id="secao-checkout" class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-5 hidden lg:block">
+        <section id="secao-checkout" class="bg-white p-6 md:p-8 rounded-[2.5rem] border border-[#E8D5B5] shadow-xl space-y-5 hidden">
           <div class="border-b border-[#E8D5B5] pb-3">
             <h2 class="text-sm font-black text-[#8B4513]">Seu Carrinho</h2>
           </div>
@@ -707,27 +707,22 @@ function finalizarPedidoBlindado() {
   const rand        = Math.floor(Math.random() * 9000) + 1000;
   const codigoRastreio = `OBA-${aaaa}${mm}${dd}-${rand}`;
 
-  // Monta detalhes completos do pedido (entrega + pagamento + itens)
-  const detalhesFmt = [
-    `Entrega: ${dataFmt} às ${hora}`,
-    `Pagamento: ${pag}`,
-    `---`,
-    ...carrinhoDeCaixasConcluidas.map((item, i) => {
-      const qtd      = item.quantidade || 1;
-      const unit     = item.precoCalculadoUnitario || item.precoCalculado;
-      const subtotal = unit * qtd;
-      return `${i+1}. ${qtd}x ${item.titulo} | ${item.detalhes} | R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-    }),
-    `---`,
-    `Total: R$ ${total.toFixed(2).replace('.', ',')}`
-  ].join(' | ');
+  // Monta string de itens para a coluna "Itens do Pedido"
+  const itensFmt = carrinhoDeCaixasConcluidas.map((item, i) => {
+    const qtd      = item.quantidade || 1;
+    const unit     = item.precoCalculadoUnitario || item.precoCalculado;
+    const subtotal = unit * qtd;
+    return `${qtd}x ${item.titulo} (${item.detalhes}) - R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+  }).join(' | ');
 
-  // Payload alinhado com o doPost (data.cod, data.nome, data.total, data.detalhes)
+  // Payload com campos separados — bate com o novo doPost
   const payload = {
-    cod:      codigoRastreio,
-    nome:     nome,
-    total:    `R$ ${total.toFixed(2).replace('.', ',')}`,
-    detalhes: detalhesFmt
+    cod:       codigoRastreio,
+    nome:      nome,
+    entrega:   `${dataFmt} às ${hora}`,
+    pagamento: pag,
+    itens:     itensFmt,
+    total:     `R$ ${total.toFixed(2).replace('.', ',')}`
   };
 
   // Monta mensagem do WhatsApp
@@ -1004,8 +999,15 @@ function atualizarInterface() {
     ? `${carrinhoDeCaixasConcluidas.length} itens`
     : (caixaAtiva ? caixaAtiva.titulo : 'Ver carrinho');
 
-  if (total > 0) document.getElementById('barra-mobile-checkout').classList.remove('hidden');
-  else           document.getElementById('barra-mobile-checkout').classList.add('hidden');
+  // Painel lateral: só aparece (desktop) quando há valor acumulado
+  const checkout = document.getElementById('secao-checkout');
+  if (total > 0) {
+    checkout.classList.remove('hidden');
+    document.getElementById('barra-mobile-checkout').classList.remove('hidden');
+  } else {
+    checkout.classList.add('hidden');
+    document.getElementById('barra-mobile-checkout').classList.add('hidden');
+  }
 }
 
 // ================================================================
@@ -1060,7 +1062,7 @@ function mostrarNotificacao(msg) {
     toast.classList.remove('opacity-100');
     toast.classList.add('opacity-0','pointer-events-none');
   }, 3000);
-} 
+}
 </script>
 </body>
 </html>
