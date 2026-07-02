@@ -299,16 +299,16 @@
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="opcoes-caixas">
             <button id="btn-caixa-25" onclick="selecionarCaixa('25')" class="p-4 bg-white border border-[#E8D5B5] rounded-[1.5rem] text-left shadow-sm transition-all flex flex-col justify-between h-full">
-              <h3 class="font-black text-xs text-[#8B4513]">Caixa de 25 Doces</h3><p class="text-[10px] text-gray-400 mt-1">7 sabores</p>
+              <h3 class="font-black text-xs text-[#8B4513]">Caixa de 25 Doces</h3><p class="text-[10px] text-gray-400 mt-1">até 7 sabores</p>
             </button>
             <button id="btn-caixa-35" onclick="selecionarCaixa('35')" class="p-4 bg-white border border-[#E8D5B5] rounded-[1.5rem] text-left shadow-sm transition-all flex flex-col justify-between h-full">
-              <h3 class="font-black text-xs text-[#8B4513]">Caixa de 35 Doces</h3><p class="text-[10px] text-gray-400 mt-1">7 sabores</p>
+              <h3 class="font-black text-xs text-[#8B4513]">Caixa de 35 Doces</h3><p class="text-[10px] text-gray-400 mt-1">até 7 sabores</p>
             </button>
             <button id="btn-caixa-50" onclick="selecionarCaixa('50')" class="p-4 bg-white border border-[#E8D5B5] rounded-[1.5rem] text-left shadow-sm transition-all flex flex-col justify-between h-full">
-              <h3 class="font-black text-xs text-[#8B4513]">Caixa de 50 Doces</h3><p class="text-[10px] text-gray-400 mt-1">10 sabores</p>
+              <h3 class="font-black text-xs text-[#8B4513]">Caixa de 50 Doces</h3><p class="text-[10px] text-gray-400 mt-1">até 10 sabores</p>
             </button>
             <button id="btn-caixa-100" onclick="selecionarCaixa('100')" class="p-4 bg-white border border-[#E8D5B5] rounded-[1.5rem] text-left shadow-sm transition-all flex flex-col justify-between h-full">
-              <h3 class="font-black text-xs text-[#8B4513]">Caixa de 100 Doces</h3><p class="text-[10px] text-gray-400 mt-1">14 sabores</p>
+              <h3 class="font-black text-xs text-[#8B4513]">Caixa de 100 Doces</h3><p class="text-[10px] text-gray-400 mt-1">até 14 sabores</p>
             </button>
             <button onclick="abrirBannerDegustacao()" class="p-4 bg-gradient-to-br from-amber-50 to-orange-50 border border-orange-200 rounded-[1.5rem] text-left shadow-sm transition-all h-full">
               <h3 class="font-black text-xs text-orange-800">Caixa Degustação</h3><p class="text-[10px] text-orange-500 font-bold mt-1">Sortida</p>
@@ -381,35 +381,51 @@
 // ================================================================
 // DADOS
 // ================================================================
+
+// Base das imagens — troque aqui se o repositório mudar
+const BASE_URL = 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/';
+
 const kitsPresenteaveis = [
-  { id: 'kit_tabua',   nome: 'Tábua Doce Artesanal',    desc: 'Mini naked cake de brigadeiro, uva verde, morangos e doces variados em tábua redonda de MDF.', precoFixo: 180.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_1.png' },
-  { id: 'kit_classico', nome: 'Caixa Presente Clássica', desc: '12 brigadeiros em caixa com laço.', precoFixo: 75.00, img: 'https://raw.githubusercontent.com/obadoceria-gif/cardapio/main/Images/Presenteaveis/Opcao_2.png' }
+  {
+    id: 'kit_tabua',
+    nome: 'Tábua Doce Artesanal',
+    desc: 'Mini naked cake de brigadeiro, uva verde, morangos e doces variados em tábua redonda de MDF.',
+    precoFixo: 180.00,
+    img: BASE_URL + 'Presenteaveis/Opcao_1.png'
+  },
+  {
+    id: 'kit_classico',
+    nome: 'Caixa Presente Clássica',
+    desc: '12 brigadeiros em caixa com laço.',
+    precoFixo: 75.00,
+    img: BASE_URL + 'Presenteaveis/Opcao_2.png'
+  }
 ];
 
 const caixasConfigs = {
-  '25':         { id: '25',         titulo: 'Caixa de 25 Doces',         totalDoces: 25,  proximoId: '35'  },
-  '35':         { id: '35',         titulo: 'Caixa de 35 Doces',         totalDoces: 35,  proximoId: '50'  },
-  '50':         { id: '50',         titulo: 'Caixa de 50 Doces',         totalDoces: 50,  proximoId: '100' },
-  '100':        { id: '100',        titulo: 'Caixa de 100 Doces',        totalDoces: 100, proximoId: null  },
-  'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25, precoFixo: 75.00, proximoId: null }
+  '25':         { id: '25',         titulo: 'Caixa de 25 Doces',          totalDoces: 25,  maxSabores: 7,  proximoId: '35'  },
+  '35':         { id: '35',         titulo: 'Caixa de 35 Doces',          totalDoces: 35,  maxSabores: 7,  proximoId: '50'  },
+  '50':         { id: '50',         titulo: 'Caixa de 50 Doces',          totalDoces: 50,  maxSabores: 10, proximoId: '100' },
+  '100':        { id: '100',        titulo: 'Caixa de 100 Doces',         totalDoces: 100, maxSabores: 14, proximoId: null  },
+  'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25,  maxSabores: null, precoFixo: 75.00, proximoId: null }
 };
 
 const catalogo = [
   {
     categoria: "Tradicionais I (R$ 2,50)", idFiltro: "tradicionais_1",
     itens: [
-      { id: "cappuccino_250", nome: "Cappuccino",   preco: 2.50, img: "Images/Cappuccino.jpeg"    },
-      { id: "casadinho_250",  nome: "Casadinho",    preco: 2.50, img: "Images/Casadinho.jpeg"     },
-      { id: "coco_250",       nome: "Coco",         preco: 2.50, img: "Images/Coco.jpeg"          },
-      { id: "leite_250",      nome: "Leite Ninho",  preco: 2.50, img: "Images/Leite Ninho.jpeg"   }
+      { id: "cappuccino_250", nome: "Cappuccino",  preco: 2.50, img: BASE_URL + 'Sabores_Doces/Cappuccino.jpeg'   },
+      { id: "casadinho_250",  nome: "Casadinho",   preco: 2.50, img: BASE_URL + 'Sabores_Doces/Casadinho.jpeg'    },
+      { id: "coco_250",       nome: "Coco",        preco: 2.50, img: BASE_URL + 'Sabores_Doces/Coco.jpeg'         },
+      { id: "leite_250",      nome: "Leite Ninho", preco: 2.50, img: BASE_URL + 'Sabores_Doces/Leite Ninho.jpeg'  }
     ]
   },
   {
     categoria: "Clássicos (R$ 2,75)", idFiltro: "classicos",
     itens: [
-      { id: "charge_275",    nome: "Charge",    preco: 2.75, img: "Images/Charge.jpeg"    },
-      { id: "oreo_275",      nome: "Oreo",      preco: 2.75, img: "Images/Oreo.jpeg"      },
-      { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: "Images/Prestígio.jpeg" }
+      { id: "charge_275",    nome: "Charge",    preco: 2.75, img: BASE_URL + 'Sabores_Doces/Charge.jpeg'    },
+      { id: "oreo_275",      nome: "Oreo",      preco: 2.75, img: BASE_URL + 'Sabores_Doces/Oreo.jpeg'      },
+      { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: BASE_URL + 'Sabores_Doces/Prestígio.jpeg' }
     ]
   }
 ];
@@ -843,7 +859,10 @@ function selecionarCaixa(id) {
       : "bg-white p-4 rounded-[1.5rem] border border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm h-full hover:border-[#8B4513] transition-all";
   });
   document.getElementById('opcoes-caixas').classList.add('hidden');
-  document.getElementById('resumo-caixa-selecionada').innerText = `${caixaAtiva.titulo} aberta (Limite: ${caixaAtiva.totalDoces} unidades)`;
+  document.getElementById('resumo-caixa-selecionada').innerText =
+    caixaAtiva.maxSabores
+      ? `${caixaAtiva.titulo} — até ${caixaAtiva.maxSabores} sabores (${caixaAtiva.totalDoces} unidades)`
+      : `${caixaAtiva.titulo} aberta (${caixaAtiva.totalDoces} unidades)`;
   document.getElementById('resumo-caixa-selecionada').classList.remove('hidden');
   document.getElementById('btn-alterar-caixa').classList.remove('hidden');
   document.getElementById('secao-passo2').classList.remove('hidden');
