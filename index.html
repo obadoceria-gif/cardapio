@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -403,29 +403,99 @@ const kitsPresenteaveis = [
 ];
 
 const caixasConfigs = {
-  '25':         { id: '25',         titulo: 'Caixa de 25 Doces',          totalDoces: 25,  maxSabores: 7,  proximoId: '35'  },
-  '35':         { id: '35',         titulo: 'Caixa de 35 Doces',          totalDoces: 35,  maxSabores: 7,  proximoId: '50'  },
-  '50':         { id: '50',         titulo: 'Caixa de 50 Doces',          totalDoces: 50,  maxSabores: 10, proximoId: '100' },
-  '100':        { id: '100',        titulo: 'Caixa de 100 Doces',         totalDoces: 100, maxSabores: 14, proximoId: null  },
+  '25':         { id: '25',         titulo: 'Caixa de 25 Doces',          totalDoces: 25,  maxSabores: 7,    proximoId: '35'  },
+  '35':         { id: '35',         titulo: 'Caixa de 35 Doces',          totalDoces: 35,  maxSabores: 7,    proximoId: '50'  },
+  '50':         { id: '50',         titulo: 'Caixa de 50 Doces',          totalDoces: 50,  maxSabores: 10,   proximoId: '100' },
+  '100':        { id: '100',        titulo: 'Caixa de 100 Doces',         totalDoces: 100, maxSabores: 14,   proximoId: null  },
   'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25,  maxSabores: null, precoFixo: 75.00, proximoId: null }
 };
+
+const S = BASE_URL + 'Sabores_Doces/'; // atalho para os sabores
 
 const catalogo = [
   {
     categoria: "Tradicionais I (R$ 2,50)", idFiltro: "tradicionais_1",
     itens: [
-      { id: "cappuccino_250", nome: "Cappuccino",  preco: 2.50, img: BASE_URL + 'Sabores_Doces/Cappuccino.jpeg'   },
-      { id: "casadinho_250",  nome: "Casadinho",   preco: 2.50, img: BASE_URL + 'Sabores_Doces/Casadinho.jpeg'    },
-      { id: "coco_250",       nome: "Coco",        preco: 2.50, img: BASE_URL + 'Sabores_Doces/Coco.jpeg'         },
-      { id: "leite_250",      nome: "Leite Ninho", preco: 2.50, img: BASE_URL + 'Sabores_Doces/Leite Ninho.jpeg'  }
+      { id: "cappuccino_250",    nome: "Cappuccino",    preco: 2.50, img: S + "Cappuccino.jpeg"    },
+      { id: "casadinho_250",     nome: "Casadinho",     preco: 2.50, img: S + "Casadinho.jpeg"     },
+      { id: "coco_250",          nome: "Coco",          preco: 2.50, img: S + "Coco.jpeg"          },
+      { id: "coco_queimado_250", nome: "Coco Queimado", preco: 2.50, img: S + "Coco Queimado.jpeg" },
+      { id: "dois_amores_250",   nome: "Dois Amores",   preco: 2.50, img: S + "Dois Amores.jpeg"   },
+      { id: "leite_ninho_250",   nome: "Leite Ninho",   preco: 2.50, img: S + "Leite Ninho.jpeg"   },
+      { id: "napolitano_250",    nome: "Napolitano",    preco: 2.50, img: S + "Napolitano.jpeg"    },
+      { id: "nesquik_250",       nome: "Nesquik",       preco: 2.50, img: S + "Nesquik.jpeg"       }
+    ]
+  },
+  {
+    categoria: "Tradicionais II (R$ 2,60)", idFiltro: "tradicionais_2",
+    itens: [
+      { id: "amendoim_260",      nome: "Amendoim",      preco: 2.60, img: S + "Amendoim.jpeg"      },
+      { id: "amargo_260",        nome: "Amargo",        preco: 2.60, img: S + "Amargo.jpeg"        },
+      { id: "ao_leite_260",      nome: "Ao Leite",      preco: 2.60, img: S + "Ao Leite.jpeg"      },
+      { id: "branco_260",        nome: "Branco",        preco: 2.60, img: S + "Branco.jpeg"        },
+      { id: "cafe_260",          nome: "Café",          preco: 2.60, img: S + "Café.jpeg"          },
+      { id: "caramelo_260",      nome: "Caramelo",      preco: 2.60, img: S + "Caramelo.jpeg"      },
+      { id: "duo_amargo_260",    nome: "Duo Amargo",    preco: 2.60, img: S + "Duo Amargo.jpeg"    },
+      { id: "duo_ao_leite_260",  nome: "Duo Ao Leite",  preco: 2.60, img: S + "Duo Ao Leite.jpeg"  },
+      { id: "meio_amargo_260",   nome: "Meio Amargo",   preco: 2.60, img: S + "Meio Amargo.jpeg"   }
     ]
   },
   {
     categoria: "Clássicos (R$ 2,75)", idFiltro: "classicos",
     itens: [
-      { id: "charge_275",    nome: "Charge",    preco: 2.75, img: BASE_URL + 'Sabores_Doces/Charge.jpeg'    },
-      { id: "oreo_275",      nome: "Oreo",      preco: 2.75, img: BASE_URL + 'Sabores_Doces/Oreo.jpeg'      },
-      { id: "prestigio_275", nome: "Prestígio", preco: 2.75, img: BASE_URL + 'Sabores_Doces/Prestígio.jpeg' }
+      { id: "ameixa_275",          nome: "Ameixa",               preco: 2.75, img: S + "Ameixa.jpeg"               },
+      { id: "charge_275",          nome: "Charge",               preco: 2.75, img: S + "Charge.jpeg"               },
+      { id: "cocadinha_275",       nome: "Cocadinha",            preco: 2.75, img: S + "Cocadinha.jpeg"            },
+      { id: "confete_275",         nome: "Confete",              preco: 2.75, img: S + "Confete.jpeg"              },
+      { id: "damasco_275",         nome: "Damasco",              preco: 2.75, img: S + "Damasco.jpeg"              },
+      { id: "nesquik_nutella_275", nome: "Nesquik com Nutella",  preco: 2.75, img: S + "Nesquik com Nutella.jpeg"  },
+      { id: "ninho_nutella_275",   nome: "Ninho com Nutella",    preco: 2.75, img: S + "Ninho com Nutella.jpeg"    },
+      { id: "oreo_275",            nome: "Oreo",                 preco: 2.75, img: S + "Oreo.jpeg"                },
+      { id: "prestigio_275",       nome: "Prestígio",            preco: 2.75, img: S + "Prestígio.jpeg"            },
+      { id: "queijadinha_275",     nome: "Queijadinha",          preco: 2.75, img: S + "Queijadinha.jpeg"          }
+    ]
+  },
+  {
+    categoria: "Especiais I (R$ 3,00)", idFiltro: "especiais_1",
+    itens: [
+      { id: "damasco_amendoas_300",  nome: "Damasco e Amêndoas",        preco: 3.00, img: S + "Damasco e Amêndoas.jpeg"        },
+      { id: "maracuja_300",          nome: "Maracujá",                  preco: 3.00, img: S + "Maracujá.jpeg"                  },
+      { id: "maracuja_leite_300",    nome: "Maracujá ao Leite",         preco: 3.00, img: S + "Maracujá ao Leite.jpeg"         },
+      { id: "maracuja_nutella_300",  nome: "Maracujá com Nutella",      preco: 3.00, img: S + "Maracujá e Nutella.jpeg"        },
+      { id: "mega_300",              nome: "Mega",                      preco: 3.00, img: S + "Mega.jpeg"                      },
+      { id: "nozes_300",             nome: "Nozes",                     preco: 3.00, img: S + "Nozes.jpeg"                     },
+      { id: "queijo_doce_leite_300", nome: "Queijo e Doce de Leite",    preco: 3.00, img: S + "Queijo e Doce de Leite.jpeg"    },
+      { id: "queijo_goiabada_300",   nome: "Queijo e Goiabada",         preco: 3.00, img: S + "Queijo e Goiabada.jpeg"         }
+    ]
+  },
+  {
+    categoria: "Especiais II (R$ 3,50)", idFiltro: "especiais_2",
+    itens: [
+      { id: "abacaxi_coco_350",       nome: "Abacaxi com Coco",                   preco: 3.50, img: S + "Abacaxi com Coco.jpeg"                   },
+      { id: "bacon_abacaxi_350",      nome: "Bacon com Abacaxi",                  preco: 3.50, img: S + "Bacon com Abacaxi.jpeg"                  },
+      { id: "bacon_chocolate_350",    nome: "Bacon com Chocolate",                preco: 3.50, img: S + "Bacon com Chocolate.jpeg"                },
+      { id: "caramelo_salgado_350",   nome: "Caramelo Salgado",                   preco: 3.50, img: S + "Caramelo Salgado.jpeg"                   },
+      { id: "cheesecake_350",         nome: "Cheesecake",                         preco: 3.50, img: S + "Cheesecake.jpeg"                         },
+      { id: "crocante_nutella_350",   nome: "Crocante de Nutella",                preco: 3.50, img: S + "Crocante de Nutella.jpeg"                },
+      { id: "ferrero_350",            nome: "Ferrero",                            preco: 3.50, img: S + "Ferrero.jpeg"                            },
+      { id: "gorgonzola_damasco_350", nome: "Gorgonzola e Damasco",               preco: 3.50, img: S + "Gorgonzola e Damasco.jpeg"               },
+      { id: "gorgonzola_geleia_350",  nome: "Gorgonzola e Geléia",                preco: 3.50, img: S + "Gorgonzola e Geleia.jpeg"                },
+      { id: "laranja_amendoas_350",   nome: "Laranja com Amêndoas",               preco: 3.50, img: S + "Laranja com Amêndoas.jpeg"               },
+      { id: "laranja_coco_350",       nome: "Laranja com Coco",                   preco: 3.50, img: S + "Laranja com Coco.jpeg"                   },
+      { id: "nozes_figo_350",         nome: "Nozes e Figo",                       preco: 3.50, img: S + "Nozes e Figo.jpeg"                       },
+      { id: "uva_branco_350",         nome: "Uva com Brigadeiro Branco",          preco: 3.50, img: S + "Uva com Brigadeiro Branco.jpeg"          },
+      { id: "uva_leite_350",          nome: "Uva com Brigadeiro ao Leite",        preco: 3.50, img: S + "Uva com Brigadeiro ao Leite.jpeg"        },
+      { id: "uva_meio_amargo_350",    nome: "Uva com Brigadeiro Meio Amargo",     preco: 3.50, img: S + "Uva com Brigadeiro Meio Amargo.jpeg"     }
+    ]
+  },
+  {
+    categoria: "Especiais III (R$ 4,00)", idFiltro: "especiais_3",
+    itens: [
+      { id: "morango_ao_leite_400",    nome: "Morango com Brigadeiro ao Leite",   preco: 4.00, img: S + "Morango - Ao Leite.jpeg"   },
+      { id: "morango_branco_400",      nome: "Morango com Brigadeiro Branco",     preco: 4.00, img: S + "Morango - Branco.jpeg"     },
+      { id: "morango_meio_amargo_400", nome: "Morango com Brigadeiro Meio Amargo",preco: 4.00, img: S + "Morango - Meio Amargo.jpeg"},
+      { id: "pistache_400",            nome: "Pistache",                          preco: 4.00, img: S + "Pistache.jpeg"             },
+      { id: "pistache_geleia_400",     nome: "Pistache com Geléia",               preco: 4.00, img: S + "Pistache com Geleia.jpeg"  }
     ]
   }
 ];
