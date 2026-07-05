@@ -157,6 +157,27 @@
 </div>
 
 <!-- ================================================================ -->
+<!-- MODAL: CONFIRMAÇÃO DE CAIXA SELECIONADA                          -->
+<!-- ================================================================ -->
+<div id="modal-confirmacao-caixa" class="fixed inset-0 bg-black/80 hidden z-[120] flex items-center justify-center p-4" onclick="fecharModalConfirmacaoCaixa()">
+  <div class="bg-white max-w-sm w-full rounded-[2rem] p-7 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
+    <div class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mx-auto">
+      <i class="fa-solid fa-box-open text-[#8B4513] text-2xl"></i>
+    </div>
+    <div>
+      <h2 id="modal-conf-titulo" class="text-lg font-black text-[#8B4513]">Caixa de 25 Doces</h2>
+      <p id="modal-conf-desc" class="text-sm text-gray-500 mt-2 leading-relaxed">Escolha 25 doces com até 7 sabores diferentes.</p>
+    </div>
+    <div class="flex flex-col gap-2 pt-1">
+      <button onclick="confirmarSelecaoCaixa()" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest active:scale-95">
+        <i class="fa-solid fa-candy-cane mr-1"></i> Escolher Doces
+      </button>
+      <button onclick="cancelarSelecaoCaixa()" class="w-full py-2 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Sair</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
 <!-- MODAL: DOCES PERSONALIZADOS                                        -->
 <!-- ================================================================ -->
 <div id="modal-decorados" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4" onclick="fecharModalPersonalizados()">
@@ -321,8 +342,7 @@
         <div id="secao-passo2" class="hidden space-y-6">
           <div class="bg-white p-5 md:p-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm">
             <h3 class="step-title mb-4"><span class="btn-step-icon">2</span> Escolha os Sabores</h3>
-            <div class="flex flex-nowrap overflow-x-auto gap-2 pb-2 no-scrollbar" id="abas-categorias"></div>
-          </div>
+            <div class="flex flex-nowrap overflow-x-auto gap-2 pb-2 no-scrollbar" id="abas-categorias"></div>          </div>
           <div id="cardapio-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
         </div>
 
@@ -552,7 +572,10 @@ function entFluxoPresenteaveis() {
 
 function retornarParaMenuSeletor() {
   if (Object.values(quantidades).length > 0 && !confirm("As escolhas da caixa em aberto serão perdidas. Voltar?")) return;
-  caixaAtiva = null; quantidades = {};
+  // Zera tudo ao voltar — próxima entrada começa do zero
+  caixaAtiva = null; caixaPendente = null; quantidades = {};
+  lacoSelecionado = false; placaSelecionada = false;
+  resetarSelecaoCaixa();
   document.getElementById('barra-mobile-checkout').classList.add('hidden');
   navegarPara(3);
 }
@@ -869,9 +892,9 @@ function encontrarDoce(id) {
 function renderizarAbasCategorias() {
   const c = document.getElementById('abas-categorias');
   if (!c) return;
-  let html = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="px-5 py-2 rounded-full font-bold text-[11px] bg-[#8B4513] text-white shadow-sm transition-all whitespace-nowrap">Todos</button>`;
+  let html = `<button onclick="filtrarCategoria('Todos')" id="aba-Todos" class="flex-shrink-0 px-5 py-2 rounded-full font-bold text-[11px] bg-[#8B4513] text-white shadow-sm transition-all whitespace-nowrap">Todos</button>`;
   catalogo.forEach(g => {
-    html += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.idFiltro}" class="px-5 py-2 rounded-full font-bold text-[11px] bg-white text-[#8B4513] border border-[#E8D5B5] transition-all whitespace-nowrap">${g.categoria.split(' (')[0]}</button>`;
+    html += `<button onclick="filtrarCategoria('${g.categoria}')" id="aba-${g.idFiltro}" class="flex-shrink-0 px-5 py-2 rounded-full font-bold text-[11px] bg-white text-[#8B4513] border border-[#E8D5B5] transition-all whitespace-nowrap">${g.categoria.split(' (')[0]}</button>`;
   });
   c.innerHTML = html;
 }
@@ -918,25 +941,50 @@ function renderizarDoces() {
   });
 }
 
+// Guarda qual caixa está sendo configurada antes da confirmação
+let caixaPendente = null;
+
 function selecionarCaixa(id) {
+  caixaPendente = caixasConfigs[id];
+  // Abre modal de confirmação com as informações da caixa
+  document.getElementById('modal-conf-titulo').innerText = caixaPendente.titulo;
+  document.getElementById('modal-conf-desc').innerText =
+    caixaPendente.maxSabores
+      ? `Escolha ${caixaPendente.totalDoces} doces com até ${caixaPendente.maxSabores} sabores diferentes.`
+      : `Caixa sortida com ${caixaPendente.totalDoces} unidades.`;
+  document.getElementById('modal-confirmacao-caixa').classList.remove('hidden');
+}
+
+function confirmarSelecaoCaixa() {
+  if (!caixaPendente) return;
   modoDegustacao = false;
-  caixaAtiva = caixasConfigs[id];
+  caixaAtiva = caixaPendente;
+  caixaPendente = null;
   quantidades = {}; lacoSelecionado = false; placaSelecionada = false;
+  // Destaca o botão selecionado
   Object.keys(caixasConfigs).forEach(bId => {
     const btn = document.getElementById(`btn-caixa-${bId}`);
-    if (btn) btn.className = bId === id
+    if (btn) btn.className = bId === caixaAtiva.id
       ? "bg-[#FFF8F0] p-4 rounded-[1.5rem] border-2 border-[#8B4513] text-left shadow-md flex flex-col justify-between h-full transition-all"
       : "bg-white p-4 rounded-[1.5rem] border border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm h-full hover:border-[#8B4513] transition-all";
   });
   document.getElementById('opcoes-caixas').classList.add('hidden');
   document.getElementById('resumo-caixa-selecionada').innerText =
-    caixaAtiva.maxSabores
-      ? `${caixaAtiva.titulo} — até ${caixaAtiva.maxSabores} sabores (${caixaAtiva.totalDoces} unidades)`
-      : `${caixaAtiva.titulo} aberta (${caixaAtiva.totalDoces} unidades)`;
+    `${caixaAtiva.titulo} — até ${caixaAtiva.maxSabores ?? caixaAtiva.totalDoces} sabores (${caixaAtiva.totalDoces} unidades)`;
   document.getElementById('resumo-caixa-selecionada').classList.remove('hidden');
   document.getElementById('btn-alterar-caixa').classList.remove('hidden');
   document.getElementById('secao-passo2').classList.remove('hidden');
-  renderizarDoces(); atualizarInterface(); fecharModalCompleta();
+  fecharModalConfirmacaoCaixa();
+  renderizarDoces(); atualizarInterface();
+}
+
+function cancelarSelecaoCaixa() {
+  caixaPendente = null;
+  fecharModalConfirmacaoCaixa();
+}
+
+function fecharModalConfirmacaoCaixa() {
+  document.getElementById('modal-confirmacao-caixa').classList.add('hidden');
 }
 
 function resetarSelecaoCaixa() {
