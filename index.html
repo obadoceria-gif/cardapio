@@ -157,7 +157,37 @@
 </div>
 
 <!-- ================================================================ -->
-<!-- MODAL: CONFIRMAÇÃO DE CAIXA SELECIONADA                          -->
+<!-- MODAL: CONCLUSÃO DE CAIXA DE DOCES (quando todos os doces foram escolhidos) -->
+<!-- ================================================================ -->
+<div id="modal-caixa-concluida" class="fixed inset-0 bg-black/80 hidden z-[105] flex items-center justify-center p-4" onclick="fecharModalCaixaConcluida()">
+  <div class="bg-white max-w-sm w-full rounded-[2rem] p-7 relative shadow-2xl text-center space-y-4" onclick="event.stopPropagation()">
+    <button onclick="fecharModalCaixaConcluida()" class="absolute top-4 right-4 bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center text-gray-500 font-bold hover:bg-gray-200">✕</button>
+    <div class="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto">
+      <i class="fa-solid fa-circle-check text-green-600 text-2xl"></i>
+    </div>
+    <div>
+      <h2 id="modal-concl-titulo" class="text-lg font-black text-[#8B4513]">Caixa Completa! 🎉</h2>
+      <p id="modal-concl-desc" class="text-sm text-gray-500 mt-1">Sua caixa está montada.</p>
+      <p class="text-2xl font-black text-[#8B4513] mt-2" id="modal-concl-valor">R$ 0,00</p>
+    </div>
+    <!-- Lista resumida dos sabores -->
+    <div id="modal-concl-sabores" class="text-left bg-[#FAF5F0] rounded-2xl p-4 text-xs text-gray-600 space-y-1 max-h-32 overflow-y-auto no-scrollbar"></div>
+    <div class="flex flex-col gap-2 pt-1">
+      <button onclick="salvarCaixaEContinuar()"
+              class="w-full py-3.5 bg-green-600 text-white font-bold text-[10px] rounded-xl shadow-md uppercase tracking-widest active:scale-95">
+        <i class="fa-solid fa-box-archive mr-1"></i> Salvar e Montar Outra
+      </button>
+      <button onclick="salvarCaixaEVerCarrinho()"
+              class="w-full py-3.5 bg-white border-2 border-[#8B4513] text-[#8B4513] font-bold text-[10px] rounded-xl uppercase tracking-widest active:scale-95">
+        <i class="fa-solid fa-basket-shopping mr-1"></i> Ver Meu Carrinho
+      </button>
+      <button onclick="salvarCaixaEFinalizar()"
+              class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[10px] rounded-xl uppercase tracking-widest active:scale-95 flex items-center justify-center gap-2">
+        Finalizar Pedido <i class="fa-brands fa-whatsapp text-sm"></i>
+      </button>
+    </div>
+  </div>
+</div>
 <!-- ================================================================ -->
 <div id="modal-confirmacao-caixa" class="fixed inset-0 bg-black/80 hidden z-[120] flex items-center justify-center p-4" onclick="fecharModalConfirmacaoCaixa()">
   <div class="bg-white max-w-sm w-full rounded-[2rem] p-7 relative shadow-2xl text-center space-y-5" onclick="event.stopPropagation()">
@@ -413,9 +443,16 @@
     <p id="mobile-resumo-caixa" class="text-[9px] uppercase font-bold text-gray-400 tracking-wider">Ver seu carrinho</p>
     <p id="mobile-resumo-total" class="text-xl font-black text-[#8B4513]">R$ 0,00</p>
   </div>
-  <button onclick="abrirModalCarrinho()" class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-[11px] uppercase tracking-widest shadow-lg">
-    Finalizar
-  </button>
+  <div class="flex gap-2">
+    <button onclick="abrirModalCarrinho()"
+            class="px-4 py-3 border-2 border-[#8B4513] text-[#8B4513] rounded-xl font-bold text-[10px] uppercase tracking-widest">
+      <i class="fa-solid fa-basket-shopping"></i>
+    </button>
+    <button onclick="abrirModalCarrinho()"
+            class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-[11px] uppercase tracking-widest shadow-lg">
+      Finalizar
+    </button>
+  </div>
 </div>
 
 <script>
@@ -1082,8 +1119,51 @@ function verificarCaixaCompleta() {
   if (!caixaAtiva || modoDegustacao) return;
   if (Object.values(quantidades).reduce((a, b) => a + b, 0) === caixaAtiva.totalDoces) {
     atualizarInterface();
-    document.getElementById('modal-caixa-completa').classList.remove('hidden');
+    // Abre modal específico de conclusão de caixa (com sabores + valor correto)
+    const valorCaixa = Object.entries(quantidades).reduce((acc, [id, q]) => acc + (encontrarDoce(id)?.preco || 0) * q, 0);
+    document.getElementById('modal-concl-titulo').innerText = `${caixaAtiva.titulo} Completa! 🎉`;
+    document.getElementById('modal-concl-desc').innerText   = `${caixaAtiva.totalDoces} doces escolhidos`;
+    document.getElementById('modal-concl-valor').innerText  = 'R$ ' + valorCaixa.toFixed(2).replace('.', ',');
+    // Lista de sabores
+    const saboresEl = document.getElementById('modal-concl-sabores');
+    saboresEl.innerHTML = Object.entries(quantidades)
+      .filter(([, q]) => q > 0)
+      .map(([id, q]) => {
+        const d = encontrarDoce(id);
+        return `<div class="flex justify-between"><span>${d?.nome}</span><span class="font-bold">${q}x — R$ ${((d?.preco || 0) * q).toFixed(2).replace('.', ',')}</span></div>`;
+      }).join('');
+    document.getElementById('modal-caixa-concluida').classList.remove('hidden');
   }
+}
+
+function _registrarCaixaNoCarrinho() {
+  if (!caixaAtiva) return;
+  const valor    = Object.entries(quantidades).reduce((acc, [id, q]) => acc + (encontrarDoce(id)?.preco || 0) * q, 0);
+  const detalhes = Object.entries(quantidades).filter(([, q]) => q > 0).map(([id, q]) => `${q}x ${encontrarDoce(id)?.nome}`).join(', ');
+  carrinhoDeCaixasConcluidas.push({ titulo: caixaAtiva.titulo, precoCalculado: valor, precoCalculadoUnitario: valor, quantidade: 1, detalhes });
+  atualizarPainelCarrinhoLateral();
+}
+
+function fecharModalCaixaConcluida() { document.getElementById('modal-caixa-concluida').classList.add('hidden'); }
+
+function salvarCaixaEContinuar() {
+  _registrarCaixaNoCarrinho();
+  resetarSelecaoCaixa();
+  fecharModalCaixaConcluida();
+  mostrarNotificacao('Caixa salva! Pode montar a próxima.');
+}
+
+function salvarCaixaEVerCarrinho() {
+  _registrarCaixaNoCarrinho();
+  resetarSelecaoCaixa();
+  fecharModalCaixaConcluida();
+  abrirModalCarrinho();
+}
+
+function salvarCaixaEFinalizar() {
+  _registrarCaixaNoCarrinho();
+  fecharModalCaixaConcluida();
+  abrirModalCarrinho();
 }
 
 function adicionarCaixaAoCarrinhoEIniciarNova() {
