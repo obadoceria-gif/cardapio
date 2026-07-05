@@ -360,9 +360,9 @@
 
         <!-- PASSO 2: SABORES -->
         <div id="secao-passo2" class="hidden space-y-6">
-          <div class="bg-white pt-5 md:pt-8 pb-4 px-5 md:px-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm overflow-hidden">
+          <div class="bg-white pt-5 md:pt-8 pb-4 px-5 md:px-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm">
             <h3 class="step-title mb-4"><span class="btn-step-icon">2</span> Escolha os Sabores</h3>
-            <div class="flex flex-nowrap overflow-x-auto gap-2 pb-2 no-scrollbar -mx-5 md:-mx-8 px-5 md:px-8" id="abas-categorias"></div>
+            <div class="flex flex-wrap gap-2 pb-1" id="abas-categorias"></div>
           </div>
           <div id="cardapio-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
         </div>
@@ -448,8 +448,8 @@ const caixasConfigs = {
   '35':         { id: '35',         titulo: 'Caixa de 35 Doces',          totalDoces: 35,  maxSabores: 7,    proximoId: '50'  },
   '50':         { id: '50',         titulo: 'Caixa de 50 Doces',          totalDoces: 50,  maxSabores: 10,   proximoId: '100' },
   '100':        { id: '100',        titulo: 'Caixa de 100 Doces',         totalDoces: 100, maxSabores: 14,   proximoId: null  },
-  'degustacao_12': { id: 'degustacao_12', titulo: 'Caixa Degustação 12',  totalDoces: 12,  maxSabores: null, precoFixo: 40.00, proximoId: null, imgDeg: BASE_URL + 'Caixa_Degustacao/Degustacao_12.jpeg'  },
-  'degustacao_25': { id: 'degustacao_25', titulo: 'Caixa Degustação 25',  totalDoces: 25,  maxSabores: null, precoFixo: 75.00, proximoId: null, imgDeg: BASE_URL + 'Caixa_Degustacao/Degustacao_25.jpeg'  },
+  'degustacao_12': { id: 'degustacao_12', titulo: 'Caixa Degustação 12 Sabores', totalDoces: 12, maxSabores: null, precoFixo: 40.00, proximoId: null, imgDeg: BASE_URL + 'Caixa_Degustacao/Degustacao_12_Sabores.jpeg' },
+  'degustacao_25': { id: 'degustacao_25', titulo: 'Caixa Degustação 25 Sabores', totalDoces: 25, maxSabores: null, precoFixo: 75.00, proximoId: null, imgDeg: BASE_URL + 'Caixa_Degustacao/Degustacao_25_Sabores.jpeg' },
 };
 
 const S = BASE_URL + 'Sabores_Doces/'; // atalho para os sabores
@@ -649,24 +649,26 @@ function abrirModalKit(idKit) {
 
 function adicionarAoCarrinho(acao) {
   if (!caixaAtiva) return;
-  const preco = caixaAtiva.precoFixo + (lacoSelecionado ? 4.50 : 0) + (placaSelecionada ? 3.50 : 0);
+  // kits têm `nome`; configs de caixa têm `titulo` — unifica aqui
+  const nomeItem = caixaAtiva.nome || caixaAtiva.titulo || 'Item';
+  const preco    = (caixaAtiva.precoFixo || 0) + (lacoSelecionado ? 4.50 : 0) + (placaSelecionada ? 3.50 : 0);
   let detalhes = 'Kit Fechado';
   if (lacoSelecionado)  detalhes += ' + Laço Decorativo';
   if (placaSelecionada) detalhes += ' + Placa Personalizada';
 
-  const existente = carrinhoDeCaixasConcluidas.find(i => i.titulo === caixaAtiva.nome && i.detalhes === detalhes);
+  const existente = carrinhoDeCaixasConcluidas.find(i => i.titulo === nomeItem && i.detalhes === detalhes);
   if (existente) {
     existente.quantidade++;
     existente.precoCalculado = existente.precoCalculadoUnitario * existente.quantidade;
   } else {
-    carrinhoDeCaixasConcluidas.push({ titulo: caixaAtiva.nome, precoCalculadoUnitario: preco, precoCalculado: preco, quantidade: 1, detalhes });
+    carrinhoDeCaixasConcluidas.push({ titulo: nomeItem, precoCalculadoUnitario: preco, precoCalculado: preco, quantidade: 1, detalhes });
   }
 
   fecharModalCompleta();
   atualizarPainelCarrinhoLateral();
 
   if (acao === 'continuar') {
-    mostrarNotificacao(`${caixaAtiva.nome} adicionado ao carrinho!`);
+    mostrarNotificacao(`${nomeItem} adicionado ao carrinho!`);
   } else if (acao === 'carrinho') {
     abrirModalCarrinho();
   } else if (acao === 'finalizar') {
