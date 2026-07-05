@@ -168,7 +168,27 @@
       <h2 id="modal-conf-titulo" class="text-lg font-black text-[#8B4513]">Caixa de 25 Doces</h2>
       <p id="modal-conf-desc" class="text-sm text-gray-500 mt-2 leading-relaxed">Escolha 25 doces com até 7 sabores diferentes.</p>
     </div>
-    <div class="flex flex-col gap-2 pt-1">
+
+    <!-- Seleção de tamanho (só aparece na Degustação) -->
+    <div id="modal-conf-deg-opcoes" class="hidden space-y-3">
+      <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Selecione o tamanho:</p>
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="selecionarTamanhoDeg('degustacao_12')" id="btn-deg-opcao-12"
+                class="p-4 bg-white border-2 border-[#E8D5B5] rounded-2xl text-center active:scale-95 transition-all">
+          <img src="" id="img-deg-12" class="w-full h-20 object-cover rounded-xl mb-2" alt="Degustação 12">
+          <p class="font-black text-xs text-[#8B4513]">12 doces</p>
+          <p class="text-[10px] text-gray-400">R$ 40,00</p>
+        </button>
+        <button onclick="selecionarTamanhoDeg('degustacao_25')" id="btn-deg-opcao-25"
+                class="p-4 bg-white border-2 border-[#E8D5B5] rounded-2xl text-center active:scale-95 transition-all">
+          <img src="" id="img-deg-25" class="w-full h-20 object-cover rounded-xl mb-2" alt="Degustação 25">
+          <p class="font-black text-xs text-[#8B4513]">25 doces</p>
+          <p class="text-[10px] text-gray-400">R$ 75,00</p>
+        </button>
+      </div>
+    </div>
+
+    <div id="modal-conf-botoes-padrao" class="flex flex-col gap-2 pt-1">
       <button onclick="confirmarSelecaoCaixa()" class="w-full py-3.5 bg-[#8B4513] text-white font-bold text-[11px] rounded-xl shadow-md uppercase tracking-widest active:scale-95">
         <i class="fa-solid fa-candy-cane mr-1"></i> Escolher Doces
       </button>
@@ -340,9 +360,10 @@
 
         <!-- PASSO 2: SABORES -->
         <div id="secao-passo2" class="hidden space-y-6">
-          <div class="bg-white p-5 md:p-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm">
+          <div class="bg-white pt-5 md:pt-8 pb-4 px-5 md:px-8 rounded-[2rem] border border-[#E8D5B5] shadow-sm overflow-hidden">
             <h3 class="step-title mb-4"><span class="btn-step-icon">2</span> Escolha os Sabores</h3>
-            <div class="flex flex-nowrap overflow-x-auto gap-2 pb-2 no-scrollbar" id="abas-categorias"></div>          </div>
+            <div class="flex flex-nowrap overflow-x-auto gap-2 pb-2 no-scrollbar -mx-5 md:-mx-8 px-5 md:px-8" id="abas-categorias"></div>
+          </div>
           <div id="cardapio-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
         </div>
 
@@ -427,7 +448,8 @@ const caixasConfigs = {
   '35':         { id: '35',         titulo: 'Caixa de 35 Doces',          totalDoces: 35,  maxSabores: 7,    proximoId: '50'  },
   '50':         { id: '50',         titulo: 'Caixa de 50 Doces',          totalDoces: 50,  maxSabores: 10,   proximoId: '100' },
   '100':        { id: '100',        titulo: 'Caixa de 100 Doces',         totalDoces: 100, maxSabores: 14,   proximoId: null  },
-  'degustacao': { id: 'degustacao', titulo: 'Caixa Degustação (Sortida)', totalDoces: 25,  maxSabores: null, precoFixo: 75.00, proximoId: null }
+  'degustacao_12': { id: 'degustacao_12', titulo: 'Caixa Degustação 12',  totalDoces: 12,  maxSabores: null, precoFixo: 40.00, proximoId: null, imgDeg: BASE_URL + 'Caixa_Degustacao/Degustacao_12.jpeg'  },
+  'degustacao_25': { id: 'degustacao_25', titulo: 'Caixa Degustação 25',  totalDoces: 25,  maxSabores: null, precoFixo: 75.00, proximoId: null, imgDeg: BASE_URL + 'Caixa_Degustacao/Degustacao_25.jpeg'  },
 };
 
 const S = BASE_URL + 'Sabores_Doces/'; // atalho para os sabores
@@ -985,6 +1007,11 @@ function cancelarSelecaoCaixa() {
 
 function fecharModalConfirmacaoCaixa() {
   document.getElementById('modal-confirmacao-caixa').classList.add('hidden');
+  // Reseta estado do modal para uso normal (não-degustação)
+  document.getElementById('modal-conf-deg-opcoes').classList.add('hidden');
+  document.getElementById('modal-conf-botoes-padrao').classList.remove('hidden');
+  const btnConfirmar = document.getElementById('modal-conf-botoes-padrao').querySelector('button:first-child');
+  btnConfirmar.innerHTML = '<i class="fa-solid fa-candy-cane mr-1"></i> Escolher Doces';
 }
 
 function resetarSelecaoCaixa() {
@@ -1022,13 +1049,31 @@ function digitarQtd(id, valor) {
 }
 
 function abrirBannerDegustacao() {
-  modoDegustacao = true; multDegustacao = 1;
-  caixaAtiva = { id: 'degustacao', titulo: 'Caixa Degustação', totalDoces: 25, precoFixo: 75.00, proximoId: null };
-  quantidades = {};
-  document.getElementById('modal-titulo-dinamico').innerText = 'Configurar Caixa Degustação 🌟';
-  document.getElementById('modal-desc-dinamica').innerText   = 'Caixa sortida com uma seleção dos nossos melhores sabores.';
-  document.getElementById('modal-subtotal-pedido').innerText = 'R$ 75,00';
-  document.getElementById('modal-caixa-completa').classList.remove('hidden');
+  // Abre o modal de confirmação no modo degustação (com seleção de tamanho)
+  document.getElementById('modal-conf-titulo').innerText = 'Caixa Degustação';
+  document.getElementById('modal-conf-desc').innerText = 'Caixa sortida com os melhores sabores. Escolha o tamanho:';
+  // Carrega imagens
+  document.getElementById('img-deg-12').src = caixasConfigs['degustacao_12'].imgDeg;
+  document.getElementById('img-deg-25').src = caixasConfigs['degustacao_25'].imgDeg;
+  // Mostra seletor de tamanho, oculta botões padrão
+  document.getElementById('modal-conf-deg-opcoes').classList.remove('hidden');
+  document.getElementById('modal-conf-botoes-padrao').classList.add('hidden');
+  document.getElementById('modal-confirmacao-caixa').classList.remove('hidden');
+}
+
+function selecionarTamanhoDeg(id) {
+  // Destaca o botão selecionado
+  ['degustacao_12','degustacao_25'].forEach(k => {
+    const suffix = k === 'degustacao_12' ? '12' : '25';
+    const btn = document.getElementById(`btn-deg-opcao-${suffix}`);
+    if (btn) btn.className = k === id
+      ? "p-4 bg-[#FFF8F0] border-2 border-[#8B4513] rounded-2xl text-center active:scale-95 transition-all"
+      : "p-4 bg-white border-2 border-[#E8D5B5] rounded-2xl text-center active:scale-95 transition-all";
+  });
+  caixaPendente = caixasConfigs[id];
+  // Mostra botão de confirmar
+  document.getElementById('modal-conf-botoes-padrao').classList.remove('hidden');
+  document.getElementById('modal-conf-botoes-padrao').querySelector('button:first-child').innerText = `✓ Confirmar ${caixasConfigs[id].totalDoces} doces — R$ ${caixasConfigs[id].precoFixo.toFixed(2).replace('.',',')}`;
 }
 
 function verificarCaixaCompleta() {
