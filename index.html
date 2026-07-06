@@ -23,8 +23,8 @@
 </head>
 <body class="antialiased selection:bg-[#8B4513] selection:text-white pb-20">
 
-<!-- BOTÃO FLUTUANTE WHATSAPP -->
-<a href="https://wa.me/5555999117626" target="_blank"
+<!-- BOTÃO FLUTUANTE WHATSAPP — só aparece fora do fluxo principal -->
+<a id="btn-wpp-flutuante" href="https://wa.me/5555999117626" target="_blank"
    class="fixed bottom-6 right-6 z-[60] bg-[#25D366] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-green-600 transition-all">
   <i class="fa-brands fa-whatsapp"></i>
 </a>
@@ -425,7 +425,7 @@
               <span class="text-xs font-bold text-gray-400 uppercase">Valor Geral:</span>
               <span class="text-2xl font-black text-[#8B4513]" id="valor-total">R$ 0,00</span>
             </div>
-            <button onclick="abrirModalCarrinho()" class="w-full py-4 bg-[#8B4513] text-white rounded-xl font-bold text-[11px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all">
+            <button onclick="verCarrinhoComVerificacao()" class="w-full py-4 bg-[#8B4513] text-white rounded-xl font-bold text-[11px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all">
               <i class="fa-solid fa-basket-shopping"></i> Ver Carrinho e Finalizar
             </button>
           </div>
@@ -444,12 +444,12 @@
     <p id="mobile-resumo-total" class="text-xl font-black text-[#8B4513]">R$ 0,00</p>
   </div>
   <div class="flex gap-2">
-    <button onclick="abrirModalCarrinho()"
-            class="px-4 py-3 border-2 border-[#8B4513] text-[#8B4513] rounded-xl font-bold text-[10px] uppercase tracking-widest">
-      <i class="fa-solid fa-basket-shopping"></i>
+    <button onclick="verCarrinhoComVerificacao()"
+            class="px-4 py-3 border-2 border-[#8B4513] text-[#8B4513] rounded-xl font-bold text-[10px] uppercase tracking-widest whitespace-nowrap">
+      Ver Carrinho
     </button>
-    <button onclick="abrirModalCarrinho()"
-            class="px-6 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-[11px] uppercase tracking-widest shadow-lg">
+    <button onclick="verCarrinhoComVerificacao()"
+            class="px-5 py-3 bg-[#8B4513] text-white rounded-xl font-bold text-[10px] uppercase tracking-widest shadow-lg whitespace-nowrap">
       Finalizar
     </button>
   </div>
@@ -603,6 +603,9 @@ function navegarPara(num) {
   const alvo = num === 4 ? 'fluxo-principal' : `pag-${num}`;
   document.getElementById(alvo).classList.remove('hidden');
   document.getElementById(alvo).classList.add('flex');
+  // Botão WhatsApp: visível nas páginas iniciais, oculto no fluxo principal
+  const btnWpp = document.getElementById('btn-wpp-flutuante');
+  if (btnWpp) btnWpp.style.display = num === 4 ? 'none' : 'flex';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1145,6 +1148,18 @@ function _registrarCaixaNoCarrinho() {
 }
 
 function fecharModalCaixaConcluida() { document.getElementById('modal-caixa-concluida').classList.add('hidden'); }
+
+// Chamado pela barra mobile — salva caixa em aberto antes de abrir o carrinho
+function verCarrinhoComVerificacao() {
+  const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+  // Se há caixa em aberto com todos os doces escolhidos, salva automaticamente
+  if (caixaAtiva && !caixaAtiva.precoFixo && totalSelecionado === caixaAtiva.totalDoces) {
+    _registrarCaixaNoCarrinho();
+    resetarSelecaoCaixa();
+    mostrarNotificacao('Caixa salva no carrinho!');
+  }
+  abrirModalCarrinho();
+}
 
 function salvarCaixaEContinuar() {
   _registrarCaixaNoCarrinho();
