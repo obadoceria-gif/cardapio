@@ -1032,13 +1032,26 @@ function confirmarSelecaoCaixa() {
       ? "bg-[#FFF8F0] p-4 rounded-[1.5rem] border-2 border-[#8B4513] text-left shadow-md flex flex-col justify-between h-full transition-all"
       : "bg-white p-4 rounded-[1.5rem] border border-[#E8D5B5] text-left flex flex-col justify-between shadow-sm h-full hover:border-[#8B4513] transition-all";
   });
+  fecharModalConfirmacaoCaixa();
+
+  // Se é degustação (preço fixo), abre diretamente o modal de conclusão
+  if (caixaAtiva.precoFixo) {
+    document.getElementById('modal-concl-titulo').innerText = `${caixaAtiva.titulo} 🎉`;
+    document.getElementById('modal-concl-desc').innerText   = `Caixa sortida — ${caixaAtiva.totalDoces} doces`;
+    document.getElementById('modal-concl-valor').innerText  = 'R$ ' + caixaAtiva.precoFixo.toFixed(2).replace('.', ',');
+    document.getElementById('modal-concl-sabores').innerHTML =
+      `<div class="text-center text-gray-400 italic">Seleção surpresa dos melhores sabores da OBA 🍫</div>`;
+    document.getElementById('modal-caixa-concluida').classList.remove('hidden');
+    return;
+  }
+
+  // Se é caixa de doces, mostra o Passo 2 normalmente
   document.getElementById('opcoes-caixas').classList.add('hidden');
   document.getElementById('resumo-caixa-selecionada').innerText =
     `${caixaAtiva.titulo} — até ${caixaAtiva.maxSabores ?? caixaAtiva.totalDoces} sabores (${caixaAtiva.totalDoces} unidades)`;
   document.getElementById('resumo-caixa-selecionada').classList.remove('hidden');
   document.getElementById('btn-alterar-caixa').classList.remove('hidden');
   document.getElementById('secao-passo2').classList.remove('hidden');
-  fecharModalConfirmacaoCaixa();
   renderizarDoces(); atualizarInterface();
 }
 
