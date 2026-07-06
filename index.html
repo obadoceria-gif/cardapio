@@ -1141,8 +1141,16 @@ function verificarCaixaCompleta() {
 
 function _registrarCaixaNoCarrinho() {
   if (!caixaAtiva) return;
-  const valor    = Object.entries(quantidades).reduce((acc, [id, q]) => acc + (encontrarDoce(id)?.preco || 0) * q, 0);
-  const detalhes = Object.entries(quantidades).filter(([, q]) => q > 0).map(([id, q]) => `${q}x ${encontrarDoce(id)?.nome}`).join(', ');
+  let valor, detalhes;
+  if (caixaAtiva.precoFixo) {
+    // Degustação — preço fixo, sem seleção de sabores
+    valor    = caixaAtiva.precoFixo;
+    detalhes = `Caixa sortida — ${caixaAtiva.totalDoces} doces`;
+  } else {
+    // Caixa de doces — calcula pela seleção
+    valor    = Object.entries(quantidades).reduce((acc, [id, q]) => acc + (encontrarDoce(id)?.preco || 0) * q, 0);
+    detalhes = Object.entries(quantidades).filter(([, q]) => q > 0).map(([id, q]) => `${q}x ${encontrarDoce(id)?.nome}`).join(', ');
+  }
   carrinhoDeCaixasConcluidas.push({ titulo: caixaAtiva.titulo, precoCalculado: valor, precoCalculadoUnitario: valor, quantidade: 1, detalhes });
   atualizarPainelCarrinhoLateral();
 }
@@ -1151,12 +1159,21 @@ function fecharModalCaixaConcluida() { document.getElementById('modal-caixa-conc
 
 // Chamado pela barra mobile — salva caixa em aberto antes de abrir o carrinho
 function verCarrinhoComVerificacao() {
-  const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
-  // Se há caixa em aberto com todos os doces escolhidos, salva automaticamente
-  if (caixaAtiva && !caixaAtiva.precoFixo && totalSelecionado === caixaAtiva.totalDoces) {
-    _registrarCaixaNoCarrinho();
-    resetarSelecaoCaixa();
-    mostrarNotificacao('Caixa salva no carrinho!');
+  if (caixaAtiva) {
+    if (caixaAtiva.precoFixo) {
+      // Degustação ou kit com preço fixo — salva direto
+      _registrarCaixaNoCarrinho();
+      resetarSelecaoCaixa();
+      mostrarNotificacao('Item salvo no carrinho!');
+    } else {
+      // Caixa de doces — só salva se estiver completa
+      const totalSelecionado = Object.values(quantidades).reduce((a, b) => a + b, 0);
+      if (totalSelecionado === caixaAtiva.totalDoces) {
+        _registrarCaixaNoCarrinho();
+        resetarSelecaoCaixa();
+        mostrarNotificacao('Caixa salva no carrinho!');
+      }
+    }
   }
   abrirModalCarrinho();
 }
