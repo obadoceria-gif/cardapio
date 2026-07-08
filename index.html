@@ -1037,3 +1037,217 @@ function mostrarNotificacao(msg) {
 </script>
 </body>
 </html>
+
+<script>
+// ================================================================
+// MODAL 3 — CONCLUSÃO DE CAIXA
+// ================================================================
+function abrirModalCaixaConcluida() {
+  if (!caixaAtiva) return;
+  let valor, descSabores;
+  if (caixaAtiva.precoFixo) {
+    valor = caixaAtiva.precoFixo;
+    descSabores = '<div class="text-center text-gray-400 italic">Seleção surpresa dos melhores sabores da OBA 🍫</div>';
+  } else {
+    valor = Object.entries(quantidades).reduce((acc,[id,q]) => acc + (encontrarDoce(id)?.preco||0)*q, 0);
+    descSabores = Object.entries(quantidades).filter(([,q])=>q>0)
+      .map(([id,q]) => {
+        const d = encontrarDoce(id);
+        return `<div class="flex justify-between"><span>${d?.nome}</span><span class="font-bold">${q}x — R$ ${((d?.preco||0)*q).toFixed(2).replace('.',',')}</span></div>`;
+      }).join('');
+  }
+  document.getElementById('mcc-titulo').innerText = `${caixaAtiva.titulo} 🎉`;
+  document.getElementById('mcc-desc').innerText   = caixaAtiva.precoFixo ? `Caixa sortida — ${caixaAtiva.totalDoces} doces` : `${caixaAtiva.totalDoces} doces escolhidos`;
+  document.getElementById('mcc-valor').innerText  = 'R$ ' + valor.toFixed(2).replace('.', ',');
+  document.getElementById('mcc-sabores').innerHTML = descSabores;
+  document.getElementById('modal-caixa-concluida').classList.remove('hidden');
+}
+
+function fecharModalCaixaConcluida() { document.getElementById('modal-caixa-concluida').classList.add('hidden'); }
+
+function _registrarCaixaNoCarrinho() {
+  if (!caixaAtiva) return;
+  const valor = caixaAtiva.precoFixo
+    ? caixaAtiva.precoFixo
+    : Object.entries(quantidades).reduce((acc,[id,q]) => acc + (encontrarDoce(id)?.preco||0)*q, 0);
+  const detalhes = caixaAtiva.precoFixo
+    ? `Caixa sortida — ${caixaAtiva.totalDoces} doces`
+    : Object.entries(quantidades).filter(([,q])=>q>0).map(([id,q])=>`${q}x ${encontrarDoce(id)?.nome}`).join(', ');
+  carrinhoDeCaixasConcluidas.push({ titulo:caixaAtiva.titulo, precoCalculadoUnitario:valor, precoCalculado:valor, quantidade:1, detalhes });
+  atualizarPainelLateral();
+}
+
+function salvarCaixaEContinuar()    { _registrarCaixaNoCarrinho(); resetarSelecaoCaixa(); fecharModalCaixaConcluida(); mostrarNotificacao('Caixa salva! Pode montar a próxima.'); }
+function salvarCaixaEVerCarrinho()  { _registrarCaixaNoCarrinho(); resetarSelecaoCaixa(); fecharModalCaixaConcluida(); abrirModalCarrinho(); }
+function salvarCaixaEFinalizar()    { _registrarCaixaNoCarrinho(); fecharModalCaixaConcluida(); abrirModalCarrinho(); }
+
+// ================================================================
+// MODAL 4 — CARRINHO
+// ================================================================
+function abrirModalCarrinho() {
+  renderizarModalCarrinho();
+  document.getElementById('modal-carrinho').classList.remove('hidden');
+}
+function fecharModalCarrinho() { document.getElementById('modal-carrinho').classList.add('hidden'); }
+
+function renderizarModalCarrinho() {
+  const lista   = document.getElementById('mc-lista');
+  const form    = document.getElementById('mc-form');
+  const btnFin  = document.getElementById('btn-finalizar-modal');
+  let total = 0;
+
+  if (carrinhoDeCaixasConcluidas.length === 0) {
+    lista.innerHTML = `<div class="text-center py-10 flex flex-col items-center"><div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4"><i class="fa-solid fa-basket-shopping text-2xl text-gray-300"></i></div><p class="text-sm font-bold text-gray-500 uppercase tracking-widest">Carrinho vazio</p><p class="text-[10px] text-gray-400 mt-2">Adicione produtos para continuar.</p></div>`;
+    document.getElementById('mc-total').innerText = 'R$ 0,00';
+    form.classList.add('hidden'); btnFin.disabled = true; return;
+  }
+
+  form.classList.remove('hidden');
+  lista.innerHTML = '';
+  carrinhoDeCaixasConcluidas.forEach((item, i) => {
+    const qtd  = item.quantidade || 1;
+    const unit = item.precoCalculadoUnitario || item.precoCalculado;
+    const sub  = unit * qtd;
+    total += sub;
+    lista.innerHTML += `
+      <div class="bg-gray-50 border border-[#E8D5B5] p-4 rounded-2xl relative flex flex-col gap-2">
+        <button onclick="removerItemCarrinho(${i})" class="absolute top-3 right-3 text-red-400 bg-red-50 w-7 h-7 rounded-lg flex items-center justify-center hover:text-red-600">
+          <i class="fa-solid fa-trash-can text-[11px]"></i>
+        </button>
+        <div class="pr-8">
+          <p class="font-black text-[#8B4513] text-sm">${item.titulo}</p>
+          <p class="text-[10px] text-gray-500 leading-tight mt-1 uppercase">${item.detalhes}</p>
+        </div>
+        <div class="flex justify-between items-end pt-2 border-t border-dashed border-gray-200">
+          <div>
+            <p class="text-[8px] font-bold text-gray-400 uppercase mb-1">QTD.</p>
+            <div class="flex items-center gap-1 bg-white border border-[#E8D5B5] rounded-xl px-1 py-1 shadow-sm w-fit">
+              <button onclick="alterarQtdCarrinho(${i},-1)" class="w-6 h-6 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200">-</button>
+              <span class="text-xs font-black w-6 text-center text-[#8B4513]">${qtd}</span>
+              <button onclick="alterarQtdCarrinho(${i}, 1)" class="w-6 h-6 rounded-lg bg-[#8B4513] text-white font-bold hover:bg-[#6e3710]">+</button>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="text-[8px] font-bold text-gray-400 uppercase mb-1">Subtotal</p>
+            <p class="text-sm font-black text-[#8B4513]">R$ ${sub.toFixed(2).replace('.',',')}</p>
+          </div>
+        </div>
+      </div>`;
+  });
+  document.getElementById('mc-total').innerText = 'R$ ' + total.toFixed(2).replace('.',',');
+  atualizarBotaoFinalizar();
+}
+
+function alterarQtdCarrinho(i, delta) {
+  const item = carrinhoDeCaixasConcluidas[i];
+  const nova = (item.quantidade||1) + delta;
+  if (nova < 1) { if (confirm('Remover este item?')) removerItemCarrinho(i); return; }
+  item.quantidade = nova; item.precoCalculado = (item.precoCalculadoUnitario||item.precoCalculado) * nova;
+  renderizarModalCarrinho(); atualizarPainelLateral();
+}
+function removerItemCarrinho(i) { carrinhoDeCaixasConcluidas.splice(i,1); renderizarModalCarrinho(); atualizarPainelLateral(); }
+
+function atualizarBotaoFinalizar() {
+  const btn = document.getElementById('btn-finalizar-modal'); if (!btn) return;
+  const nome = (document.getElementById('nome-cliente')?.value||'').trim();
+  const data = document.getElementById('data-desejada')?.value||'';
+  const hora = document.getElementById('hora-desejada')?.value||'';
+  const pag  = document.getElementById('forma-pagamento')?.value||'';
+  btn.disabled = !(nome && data && hora && pag && carrinhoDeCaixasConcluidas.length > 0);
+}
+
+// ================================================================
+// FINALIZAÇÃO BLINDADA
+// ================================================================
+function finalizarPedidoBlindado() {
+  if (!carrinhoDeCaixasConcluidas.length) { alert('Carrinho vazio.'); return; }
+  const nome    = (document.getElementById('nome-cliente')?.value||'').trim();
+  const dataRaw = document.getElementById('data-desejada')?.value||'';
+  const hora    = document.getElementById('hora-desejada')?.value||'';
+  const pag     = document.getElementById('forma-pagamento')?.value||'';
+  if (!nome||!dataRaw||!hora||!pag) { alert('Preencha todos os campos.'); return; }
+  const d = dataRaw.split('-'); const dataFmt = `${d[2]}/${d[1]}/${d[0]}`;
+  const agora = new Date(); const cod = `OBA-${agora.getFullYear()}${String(agora.getMonth()+1).padStart(2,'0')}${String(agora.getDate()).padStart(2,'0')}-${Math.floor(Math.random()*9000)+1000}`;
+  let total = 0;
+  const itensFmt = carrinhoDeCaixasConcluidas.map((item,i) => {
+    const qtd = item.quantidade||1; const unit = item.precoCalculadoUnitario||item.precoCalculado; const sub = unit*qtd; total += sub;
+    return `${i+1}. ${qtd}x ${item.titulo} | ${item.detalhes} | R$ ${sub.toFixed(2).replace('.',',')}`;
+  }).join(' || ');
+  const payload = { cod, nome, total:`R$ ${total.toFixed(2).replace('.',',')}`, detalhes:`Entrega: ${dataFmt} às ${hora} | Pag: ${pag} | ${itensFmt}` };
+  let textoWpp = `Olá, OBA Doceria!\n\n*CÓDIGO:* ${cod}\n*CLIENTE:* ${nome}\n*ENTREGA:* ${dataFmt} às ${hora}\n*PAGAMENTO:* ${pag}\n\n*ITENS:*\n`;
+  carrinhoDeCaixasConcluidas.forEach((item,i) => { const qtd=item.quantidade||1; const sub=(item.precoCalculadoUnitario||item.precoCalculado)*qtd; textoWpp+=`\n*${i+1}. ${qtd}x ${item.titulo}*\n   ${item.detalhes}\n   Subtotal: R$ ${sub.toFixed(2).replace('.',',')}\n`; });
+  textoWpp += `\n*TOTAL: R$ ${total.toFixed(2).replace('.',',')}*`;
+  const urlWpp = `https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(textoWpp)}`;
+  const btn = document.getElementById('btn-finalizar-modal');
+  const orig = btn.innerHTML; btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Enviando...';
+  fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .catch(()=>{}).finally(()=>{ btn.innerHTML=orig; btn.disabled=false; window.open(urlWpp,'_blank'); fecharModalCarrinho(); carrinhoDeCaixasConcluidas=[]; atualizarPainelLateral(); mostrarNotificacao('Pedido registrado!'); });
+}
+
+// "Ver carrinho" da barra mobile — salva caixa em aberto se completa/degustação
+function verCarrinhoComVerificacao() {
+  if (caixaAtiva) {
+    if (caixaAtiva.precoFixo) { _registrarCaixaNoCarrinho(); resetarSelecaoCaixa(); mostrarNotificacao('Item salvo!'); }
+    else { const t = Object.values(quantidades).reduce((a,b)=>a+b,0); if (t===caixaAtiva.totalDoces) { _registrarCaixaNoCarrinho(); resetarSelecaoCaixa(); mostrarNotificacao('Caixa salva!'); } }
+  }
+  abrirModalCarrinho();
+}
+</script>
+
+<script>
+// ================================================================
+// MODAIS ESPECIAIS (Personalizados + Eventos)
+// ================================================================
+function abrirModalEspecial(tipo) {
+  if (tipo === 'personalizados') {
+    document.getElementById('pers-view-inputs').classList.add('hidden');
+    document.getElementById('pers-view-info').classList.remove('hidden');
+    document.getElementById('modal-decorados').classList.remove('hidden');
+  } else {
+    document.getElementById('modal-eventos').classList.remove('hidden');
+  }
+}
+function avancarFormularioPersonalizados()  { document.getElementById('pers-view-info').classList.add('hidden');    document.getElementById('pers-view-inputs').classList.remove('hidden'); }
+function voltarLAteralPersonalizados()       { document.getElementById('pers-view-inputs').classList.add('hidden'); document.getElementById('pers-view-info').classList.remove('hidden'); }
+function fecharModalPersonalizados()         { document.getElementById('modal-decorados').classList.add('hidden'); }
+function fecharModalEventos()                { document.getElementById('modal-eventos').classList.add('hidden'); }
+
+function enviarOrcamentoEspecial(tipo) {
+  if (tipo === 'personalizados') {
+    const tema = document.getElementById('pers-tema').value.trim();
+    const data = document.getElementById('pers-data').value;
+    if (!tema || !data) { alert('Preencha os campos!'); return; }
+    const d = data.split('-');
+    window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(`Olá! Solicito reserva de *Doces Personalizados*:\n\n*Tema:* ${tema}\n*Data:* ${d[2]}/${d[1]}/${d[0]}`)}`, '_blank');
+    fecharModalPersonalizados();
+  } else {
+    const nome = document.getElementById('eve-nome').value.trim();
+    const tev  = document.getElementById('eve-tipo').value.trim();
+    const data = document.getElementById('eve-data').value;
+    if (!nome || !tev || !data) { alert('Preencha os campos!'); return; }
+    const d = data.split('-');
+    window.open(`https://api.whatsapp.com/send?phone=5555999117626&text=${encodeURIComponent(`Olá! Solicito orçamento para *Eventos*:\n\n*Nome:* ${nome}\n*Tipo:* ${tev}\n*Data:* ${d[2]}/${d[1]}/${d[0]}`)}`, '_blank');
+    fecharModalEventos();
+  }
+}
+
+// ================================================================
+// TOAST
+// ================================================================
+function mostrarNotificacao(msg) {
+  const toast = document.getElementById('custom-toast');
+  const txt   = document.getElementById('toast-text');
+  if (!toast || !txt) return;
+  txt.innerText = msg;
+  toast.classList.remove('opacity-0','pointer-events-none');
+  toast.classList.add('opacity-100');
+  setTimeout(() => { toast.classList.remove('opacity-100'); toast.classList.add('opacity-0','pointer-events-none'); }, 3000);
+}
+
+// ================================================================
+// INIT
+// ================================================================
+renderizarKits();
+</script>
+</body>
+</html>
