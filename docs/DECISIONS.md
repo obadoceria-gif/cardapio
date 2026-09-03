@@ -1,4 +1,4 @@
-﻿# DECISIONS
+# DECISIONS
 
 ## D001 — GitHub como fonte canônica
 
@@ -55,3 +55,7 @@ O repositório deve conter contexto suficiente para continuidade em ChatGPT, Cla
 ## D012 — Scripts persistentes
 
 Evitar scripts extremamente longos colados diretamente no PSReadLine. Preferir scripts versionados em `.scripts/`.
+
+## D013 — Armazenamento de mídia zero custo no D1
+
+O Cloudflare R2 ou serviços externos de storage frequentemente exigem inserção de cartão de crédito. Para manter a premissa de zero custo e sem cartão, as imagens enviadas pela gestão são compactadas no navegador (Canvas HTML5) e persistidas em tabela dedicada (`catalog_media`) no Cloudflare D1 como Base64, sendo servidas publicamente via `/api/media/:id` com headers de cache imutável e ETag.

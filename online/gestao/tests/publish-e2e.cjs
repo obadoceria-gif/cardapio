@@ -37,13 +37,13 @@ must(
 );
 
 must(
-  worker.includes('"PUBLISHED_PROMOTED"'),
-  "PUBLISHED_PROMOTED ausente"
+  worker.includes('"PUBLISHED"'),
+  "PUBLISHED ausente"
 );
 
 must(
-  worker.includes('"PUBLISHED_ROLLBACK"'),
-  "PUBLISHED_ROLLBACK ausente"
+  worker.includes('"ROLLBACK"'),
+  "ROLLBACK ausente"
 );
 
 must(
@@ -62,8 +62,28 @@ must(
 );
 
 must(
+  worker.includes('url.pathname === "/api/publish/history"'),
+  "Rota publish/history ausente"
+);
+
+must(
   central.includes('id="oba-publish-8e9f"'),
   "Camada Central 8E.9F ausente"
+);
+
+must(
+  central.includes('id="oba-rollback-8e9g"'),
+  "Camada Central 8E.9G ausente"
+);
+
+must(
+  central.includes('id="modalHistorico"'),
+  "modalHistorico ausente"
+);
+
+must(
+  central.includes('id="historicoBtn"'),
+  "historicoBtn ausente"
 );
 
 must(

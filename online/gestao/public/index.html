@@ -36,6 +36,7 @@ dialog{border:0;border-radius:15px;padding:0;max-width:660px;width:calc(100% - 2
 <div class="topbar">
 <button class="secondary" id="previewBtn">Visualizar cardápio</button>
 <button class="primary" id="publicarBtn">Publicar alterações</button>
+<button class="secondary" id="historicoBtn">Histórico de versões</button>
 <span id="statusBadge" class="badge">Verificando...</span>
 </div>
 
@@ -69,6 +70,35 @@ dialog{border:0;border-radius:15px;padding:0;max-width:660px;width:calc(100% - 2
 </main>
 
 <dialog id="editor"><form class="modal" id="formEditor"><h2 id="editorTitulo">Editar</h2><div id="editorCampos" class="grid"></div><div class="actions"><button class="danger" type="button" id="arquivarBtn">Arquivar</button><button class="secondary" type="button" id="duplicarBtn">Duplicar</button><button class="secondary" type="button" id="cancelarBtn">Cancelar</button><button class="primary" type="submit">Salvar</button></div></form></dialog>
+
+<dialog id="modalHistorico">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="margin:0">Histórico de Versões & Rollback</h2>
+      <button class="secondary" type="button" id="fecharHistoricoX">✕</button>
+    </div>
+    <p class="hint" style="margin-top:0">Visualize as versões gravadas no Cloudflare D1 e restaure uma versão anterior instantaneamente.</p>
+    <div style="max-height:340px;overflow-y:auto;border:1px solid var(--line);border-radius:9px;margin:12px 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Data/Hora</th>
+            <th>Ação</th>
+            <th>Revisão</th>
+            <th>Status</th>
+            <th style="text-align:right">Restauração</th>
+          </tr>
+        </thead>
+        <tbody id="body-historico">
+          <tr><td colspan="5" style="text-align:center;padding:16px">Carregando histórico...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="actions">
+      <button class="secondary" type="button" id="fecharHistoricoBtn">Fechar</button>
+    </div>
+  </div>
+</dialog>
 
 <script>
 'use strict';
@@ -205,7 +235,17 @@ async function atualizarStatus(){
   }catch{}
 }
 
-function imageUrl(path){const p=String(path||'').replace(/\\/g,'/').replace(/^\/+/,'');return '/ui-desenvolvimento/'+p.split('/').map(encodeURIComponent).join('/')+'?imgcb='+Date.now()}
+function imageUrl(path){
+  const p = String(path || '').trim();
+  if (!p) return '';
+  if (p.startsWith('http://') || p.startsWith('https://') || p.startsWith('data:') || p.startsWith('blob:')) return p;
+  if (p.startsWith('/api/media/') || p.startsWith('api/media/')) {
+    return (p.startsWith('/') ? p : '/' + p) + '?cb=' + Date.now();
+  }
+  const clean = p.replace(/\\/g, '/').replace(/^\/+/, '');
+  return '/' + clean + '?imgcb=' + Date.now();
+}
+
 function imgField(item,tipo){
   const wrap=document.createElement('div');wrap.className='field full';
   const l=document.createElement('label');l.textContent='Foto do item';
@@ -214,7 +254,7 @@ function imgField(item,tipo){
   const preview=document.createElement('img');preview.className='preview-img';preview.id='imgPreview';preview.alt='Prévia da imagem';
   const tools=document.createElement('div');tools.className='image-tools';
   const file=document.createElement('input');file.id='edImagemFile';file.type='file';file.accept='.jpg,.jpeg,.png,.webp';
-  const hint=document.createElement('div');hint.className='hint';hint.textContent='Clique em “Escolher arquivo” para trocar a foto. JPG, PNG ou WEBP, até 5 MB.';
+  const hint=document.createElement('div');hint.className='hint';hint.textContent='Clique em "Escolher arquivo" para trocar a foto (redimensionada automaticamente para alta velocidade).';
   const path=document.createElement('div');path.className='image-path';path.textContent=cur.value?'Arquivo atual: '+cur.value:'Nenhuma imagem cadastrada';
   const err=document.createElement('div');err.className='image-error';err.textContent='A foto atual não foi encontrada. Você pode escolher uma nova imagem.';
   preview.onerror=()=>{err.style.display='block';preview.style.display='none'};
@@ -247,22 +287,66 @@ function selectField(id,label,options,value,full=false){
   w.append(l,s);return w;
 }
 
+async function obaCompressImage(file, maxDimension = 800, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Falha ao ler o arquivo de imagem.'));
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Formato de imagem inválido.'));
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        let mime = file.type || 'image/jpeg';
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(mime)) {
+          mime = 'image/jpeg';
+        }
+        const dataUrl = canvas.toDataURL(mime, quality);
+        const base64 = dataUrl.split(',')[1];
+        resolve({ base64, mimeType: mime, fileName: file.name });
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 async function uploadSeNecessario(tipo,item){
   const input=$('edImagemFile');
   if(!input||!input.files||!input.files[0])return item.imagem??'';
 
   const f=input.files[0];
-  if(f.size>5*1024*1024)throw new Error('Imagem excede 5 MB.');
-  const b64=await new Promise((resolve,reject)=>{
-    const r=new FileReader();r.onerror=()=>reject(new Error('Falha ao ler imagem.'));
-    r.onload=()=>resolve(String(r.result).split(',')[1]);r.readAsDataURL(f);
-  });
+  if(f.size>15*1024*1024)throw new Error('A imagem original não pode exceder 15 MB.');
 
-  const res=await api('/api/upload-image',{
+  const compressed=await obaCompressImage(f,800,0.85);
+
+  const res=await api('/api/media/upload',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({entity:tipo,itemId:item.id,fileName:f.name,base64:b64})
+    body:JSON.stringify({
+      entity:tipo,
+      itemId:item.id,
+      fileName:f.name,
+      mime_type:compressed.mimeType,
+      base64:compressed.base64
+    })
   });
+
+  if(!res||!res.path)throw new Error('Upload de mídia não retornado pela API.');
   return res.path;
 }
 
@@ -1662,6 +1746,134 @@ carregar().catch(e=>msg(String(e.message||e),'erro'));
   };
 
   window.obaPublishPreview = obaPublishPreview;
+})();
+</script>
+
+<script id="oba-rollback-8e9g">
+(function(){
+  async function obaCarregarHistorico(){
+    const dialog = document.getElementById('modalHistorico');
+    const tbody = document.getElementById('body-historico');
+    if (!dialog || !tbody) return;
+
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:16px">Carregando historico...</td></tr>';
+    if (typeof dialog.showModal === 'function') {
+      dialog.showModal();
+    } else {
+      dialog.style.display = 'block';
+    }
+
+    try {
+      const data = await api('/api/publish/history');
+      if (!data || !data.history || !data.history.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:16px">Nenhuma versao encontrada no historico.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = '';
+      for (const item of data.history) {
+        const tr = document.createElement('tr');
+        const dt = item.created_at ? new Date(item.created_at).toLocaleString('pt-BR') : '—';
+        const isCurrent = Boolean(item.is_published);
+        const revShort = item.to_revision_id ? item.to_revision_id.slice(0, 16) + '...' : '—';
+        const actionLabel = item.action === 'ROLLBACK' ? 'ROLLBACK' : (item.action || 'PUBLISHED');
+
+        tr.innerHTML = `
+          <td>${dt}</td>
+          <td><strong>${actionLabel}</strong></td>
+          <td><code>${revShort}</code></td>
+          <td>${isCurrent ? '<span class="badge" style="background:#eaf8ef;color:#145e36;font-weight:700">No ar</span>' : '<span class="badge" style="color:var(--muted)">Historica</span>'}</td>
+          <td style="text-align:right">
+            ${isCurrent
+              ? '<span class="hint">Versao ativa</span>'
+              : `<button class="danger" style="padding:5px 10px;font-size:12px;font-weight:600" data-rollback-rev="${item.to_revision_id}" data-dt="${dt}">Restaurar</button>`}
+          </td>
+        `;
+
+        const btn = tr.querySelector('[data-rollback-rev]');
+        if (btn) {
+          btn.onclick = async function(){
+            const revId = btn.getAttribute('data-rollback-rev');
+            const dataStr = btn.getAttribute('data-dt') || '';
+            await obaRestaurarVersao(revId, dataStr);
+          };
+        }
+
+        tbody.appendChild(tr);
+      }
+    }
+    catch (err) {
+      const msgErr = err && err.message ? err.message : String(err);
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--danger);padding:16px">Erro ao carregar historico: ${msgErr}</td></tr>`;
+    }
+  }
+
+  async function obaRestaurarVersao(revisionId, dataFormatada){
+    const dialog = document.getElementById('modalHistorico');
+    const confirmado = window.confirm(
+      'Deseja realmente restaurar o cardapio publico para a versao de ' + dataFormatada + '?\n\nRevisao: ' + revisionId
+    );
+    if (!confirmado) return;
+
+    try {
+      const res = await api('/api/publish/rollback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          confirm: 'ROLLBACK',
+          revision_id: revisionId
+        })
+      });
+
+      if (!res || !res.ok) {
+        throw new Error('Rollback nao confirmado pela API.');
+      }
+
+      if (dialog && typeof dialog.close === 'function') {
+        dialog.close();
+      }
+
+      if (typeof atualizarStatus === 'function') {
+        await atualizarStatus();
+      }
+
+      const sucessoMsg = 'Cardapio restaurado com sucesso para a versao de ' + dataFormatada + '!';
+      if (typeof msg === 'function') {
+        msg(sucessoMsg, 'ok');
+      } else {
+        alert(sucessoMsg);
+      }
+    }
+    catch (err) {
+      const m = err && err.message ? err.message : String(err);
+      if (typeof msg === 'function') {
+        msg('Erro no rollback: ' + m, 'erro');
+      } else {
+        alert('Erro no rollback: ' + m);
+      }
+    }
+  }
+
+  function fecharModal(){
+    const dialog = document.getElementById('modalHistorico');
+    if (dialog && typeof dialog.close === 'function') {
+      dialog.close();
+    } else if (dialog) {
+      dialog.style.display = 'none';
+    }
+  }
+
+  const histBtn = document.getElementById('historicoBtn');
+  if (histBtn) histBtn.onclick = obaCarregarHistorico;
+
+  const fecharBtn = document.getElementById('fecharHistoricoBtn');
+  if (fecharBtn) fecharBtn.onclick = fecharModal;
+
+  const fecharX = document.getElementById('fecharHistoricoX');
+  if (fecharX) fecharX.onclick = fecharModal;
+
+  window.obaCarregarHistorico = obaCarregarHistorico;
+  window.obaRestaurarVersao = obaRestaurarVersao;
 })();
 </script>
 </body>

@@ -1,3 +1,88 @@
+## FASE 8E.10 — Homologação Geral do Sistema
+Data de consolidacao: 2026-09-03
+
+### Adicionado
+- Suíte unificada de testes E2E ponta a ponta (`online/gestao/tests/homologacao-geral-e2e.cjs`) cobrindo 12 etapas críticas do sistema.
+- Script de automação e checkpoint de segurança (.scripts/8E9/EXECUTAR_8E10_HOMOLOGACAO.ps1 e atalho EXECUTAR-8E10-HOMOLOGACAO.cmd).
+
+### Validado
+- Healthcheck do serviço online (GET /health -> HTTP 200).
+- Isolamento total de rotas privadas contra acessos anônimos (9 endpoints bloqueados com HTTP 401/303).
+- Autenticação administrativa e emissão segura de cookies __Host e tokens CSRF.
+- Proteção CSRF obrigatória contra ataques de mutação em todos os endpoints sensíveis (HTTP 403).
+- Ciclo de Mídia Online: Upload autenticado de imagem, persistência atômica no D1 (`catalog_media`), entrega pública com cache imutável (`Cache-Control: public, max-age=31536000, immutable`), suporte a ETag (HTTP 304) e validação de galeria.
+- Ciclo de Catálogo: Carregamento e salvamento de DRAFT, promoção para PREVIEW, renderização privada de Preview (`/__preview`) com headers estritos de segurança (CSP, noindex).
+- Proteção contra `preview_stale` (HTTP 409) na tentativa de publicação com revisão divergente.
+- Promoção atômica PREVIEW -> PUBLISHED com preservação de integridade no D1.
+- Histórico de versões (GET /api/publish/history) e Rollback atômico seguro para a baseline inicial (`pub_c3b7ee083866bb26a7a0b881`).
+- Integridade de UI da Central e do Cardápio: ausência de alerts nativos, modais de confirmação funcionais e conformidade com regras comerciais.
+
+---
+
+## FASE 8E.9H — Pipeline de Mídia Online (Upload, D1 e Servimento Público)
+Data de consolidacao: 2026-09-03
+
+### Adicionado
+- Migration D1 `0002_catalog_media.sql` para tabela `catalog_media` com restrições e índices.
+- Endpoint público `GET /api/media/:id` com headers de cache imutável (`Cache-Control: public, max-age=31536000, immutable`), suporte a `ETag` (HTTP 304) e `X-Content-Type-Options: nosniff`.
+- Endpoint autenticado `POST /api/media/upload` (e compatibilidade `/api/upload-image`) com validação de payload, sanitização Base64 e proteção CSRF.
+- Endpoint autenticado `GET /api/media` para listagem de galeria de mídias cadastradas.
+- Compressão client-side na Central de Gestão (`obaCompressImage` via HTML5 Canvas) antes do upload, reduzindo tamanho de imagem para ~800px / JPEG 85%.
+- Teste E2E automatizado de mídia (`online/gestao/tests/media-e2e.cjs`).
+- Script de comando único para execução de pipeline (.scripts/8E9/EXECUTAR_8E9H_MIDIA.ps1 e EXECUTAR-8E9H-MIDIA.cmd).
+
+### Validado
+- Bloqueio anônimo em upload de mídia (HTTP 401).
+- Proteção contra CSRF em requisições de upload (HTTP 403).
+- Upload autenticado com geração de ID de mídia e gravação atômica no D1.
+- Servimento público com Content-Type, Content-Length e Cache-Control corretos.
+- Resposta HTTP 304 Not Modified sob validação de ETag / If-None-Match.
+- Consulta de galeria via GET /api/media.
+- Regressão completa de publicação e rollback (DRAFT -> PREVIEW -> PUBLISH -> ROLLBACK).
+- Integridade total do slot PUBLISHED e tabela catalog_media após homologação E2E.
+
+---
+
+## FASE 8E.9G — Rollback Operacional na Central de Gestão
+Data de consolidacao: 2026-09-02
+
+### Adicionado
+- Endpoint GET /api/publish/history para consulta de promoções, histórico de revisões e slot ativo.
+- Botão "Histórico de versões" na barra de ações superior (.topbar) da Central.
+- Modal `<dialog id="modalHistorico">` com listagem de versões históricas e badge "No ar" / "Histórica".
+- Ação interativa de restauração (Rollback) com confirmação explícita na Central.
+- Script de comando único para execução de pipeline (.scripts/8E9/EXECUTAR_8E9G_ROLLBACK.ps1 e EXECUTAR-8E9G-ROLLBACK.cmd).
+
+### Validado
+- Consulta autenticada de histórico via GET /api/publish/history.
+- Presença e comportamento dos elementos visuais de histórico e restauração na Central.
+- Rollback para revisão histórica inicial via API e UI.
+- Integridade total do slot PUBLISHED e auditoria D1.
+
+---
+
+## FASE 8E.9F — Publicação Segura e Rollback
+Data de consolidacao: 2026-09-02
+
+### Adicionado
+- Endpoint POST /api/publish para promoção atômica PREVIEW -> PUBLISHED.
+- Endpoint POST /api/publish/rollback para reversão controlada de revisões.
+- Proteção contra `preview_stale` (HTTP 409) fixando `expected_revision_id`.
+- Teste E2E automatizado integrado (online/gestao/tests/central-publish-e2e.cjs).
+- Script de comando único para execução de pipeline (.scripts/8E9/EXECUTAR_8E9F_PUBLICACAO.ps1 e EXECUTAR-8E9F-PUBLICACAO.cmd).
+
+### Corrigido
+- Sincronização de ações em catalog_promotions no D1 (PUBLISHED e ROLLBACK) em estrita conformidade com o schema e restrições CHECK do SQLite.
+
+### Validado
+- Bloqueio anônimo em endpoints privados (401/303).
+- Validação de sessão e CSRF em mutações.
+- Promoção DRAFT -> PREVIEW -> PUBLISHED no Cloudflare D1.
+- Rollback para revisão histórica inicial sem perda de dados.
+- Integridade total do slot PUBLISHED e tabela catalog_promotions.
+
+---
+
 ## R1.17-D - Continuidade do Fluxo Mobile
 
 ### Adicionado

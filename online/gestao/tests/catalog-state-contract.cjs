@@ -9,11 +9,10 @@ const ROOT =
     ".."
   );
 
-const SCHEMA =
+const MIGRATIONS_DIR =
   path.join(
     ROOT,
-    "migrations",
-    "0001_catalog_states.sql"
+    "migrations"
   );
 
 function pass(message) {
@@ -30,22 +29,27 @@ function fail(message) {
   process.exit(1);
 }
 
-if (!fs.existsSync(SCHEMA)) {
+if (!fs.existsSync(MIGRATIONS_DIR)) {
   fail(
-    "schema 0001 ausente"
+    "diretorio migrations ausente"
   );
 }
 
-const sql =
-  fs.readFileSync(
-    SCHEMA,
-    "utf8"
-  );
+const migrationFiles = fs.readdirSync(MIGRATIONS_DIR).filter(f => f.endsWith(".sql")).sort();
+if (migrationFiles.length === 0) {
+  fail("nenhuma migration encontrada");
+}
+
+let sql = "";
+for (const file of migrationFiles) {
+  sql += "\n" + fs.readFileSync(path.join(MIGRATIONS_DIR, file), "utf8");
+}
 
 const requiredTables = [
   "catalog_revisions",
   "catalog_slots",
-  "catalog_promotions"
+  "catalog_promotions",
+  "catalog_media"
 ];
 
 for (

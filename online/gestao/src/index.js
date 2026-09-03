@@ -1424,9 +1424,66 @@ async function obaHandlePreviewApi(request, env, url) {
 async function obaHandlePublishApi(request, env, url) {
   if (
     url.pathname !== "/api/publish" &&
-    url.pathname !== "/api/publish/rollback"
+    url.pathname !== "/api/publish/rollback" &&
+    url.pathname !== "/api/publish/history"
   ) {
     return null;
+  }
+
+  if (
+    url.pathname === "/api/publish/history" &&
+    request.method === "GET"
+  ) {
+    const published =
+      await obaLoadCatalogSlot(env, "PUBLISHED");
+    const preview =
+      await obaLoadCatalogSlot(env, "PREVIEW");
+    const draft =
+      await obaLoadCatalogSlot(env, "DRAFT");
+
+    const rows =
+      await env.DB
+        .prepare(
+          [
+            "SELECT",
+            "p.promotion_id,",
+            "p.action,",
+            "p.from_revision_id,",
+            "p.to_revision_id,",
+            "p.created_at,",
+            "p.created_by,",
+            "r.payload_sha256",
+            "FROM catalog_promotions p",
+            "LEFT JOIN catalog_revisions r",
+            "ON r.revision_id = p.to_revision_id",
+            "ORDER BY p.created_at DESC",
+            "LIMIT 30"
+          ].join(" ")
+        )
+        .all();
+
+    const history =
+      (rows.results || []).map(row => ({
+        promotion_id: row.promotion_id,
+        action: row.action,
+        from_revision_id: row.from_revision_id,
+        to_revision_id: row.to_revision_id,
+        revision_id: row.to_revision_id,
+        payload_sha256: row.payload_sha256,
+        created_at: row.created_at,
+        created_by: row.created_by,
+        is_published:
+          Boolean(published.revision_id && row.to_revision_id === published.revision_id)
+      }));
+
+    return obaApiJson({
+      ok: true,
+      current_published_id: published.revision_id,
+      current_preview_id: preview.revision_id,
+      current_draft_id: draft.revision_id,
+      history,
+      slots: await obaCatalogSlotsState(env)
+    });
   }
 
   if (
@@ -1558,7 +1615,7 @@ async function obaHandlePublishApi(request, env, url) {
         )
         .bind(
           promotionId,
-          "PUBLISHED_PROMOTED",
+          "PUBLISHED",
           published.revision_id,
           preview.revision_id,
           now,
@@ -1676,7 +1733,7 @@ async function obaHandlePublishApi(request, env, url) {
       )
       .bind(
         promotionId,
-        "PUBLISHED_ROLLBACK",
+        "ROLLBACK",
         published.revision_id,
         target.revision_id,
         now,
@@ -1704,7 +1761,156 @@ async function obaHandlePublishApi(request, env, url) {
   });
 }
 
-/* OBA_PUBLISH_API_END */
+/* OBA_MEDIA_API_BEGIN */
+
+async function obaHandleMediaServe(request, env, url) {
+  const mediaId = url.pathname.slice("/api/media/".length).trim();
+  if (!mediaId) {
+    return json({ ok: false, error: "media_id_required" }, 400);
+  }
+
+  const row = await env.DB
+    .prepare(
+      "SELECT media_id, mime_type, data_base64, size_bytes FROM catalog_media WHERE media_id = ? LIMIT 1"
+    )
+    .bind(mediaId)
+    .first();
+
+  if (!row) {
+    return json({ ok: false, error: "media_not_found" }, 404);
+  }
+
+  const ifNoneMatch = request.headers.get("if-none-match");
+  const etag = `"${row.media_id}"`;
+
+  if (ifNoneMatch && ifNoneMatch === etag) {
+    return new Response(null, {
+      status: 304,
+      headers: {
+        "ETag": etag,
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    });
+  }
+
+  try {
+    const raw = atob(row.data_base64);
+    const bytes = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) {
+      bytes[i] = raw.charCodeAt(i);
+    }
+
+    return new Response(bytes, {
+      status: 200,
+      headers: {
+        "Content-Type": row.mime_type || "image/jpeg",
+        "Content-Length": String(bytes.byteLength),
+        "Cache-Control": "public, max-age=31536000, immutable",
+        "ETag": etag,
+        "X-Content-Type-Options": "nosniff"
+      }
+    });
+  } catch {
+    return json({ ok: false, error: "media_corrupted" }, 500);
+  }
+}
+
+async function obaHandleMediaApi(request, env, url) {
+  if (
+    url.pathname !== "/api/media" &&
+    url.pathname !== "/api/media/upload" &&
+    url.pathname !== "/api/upload-image"
+  ) {
+    return null;
+  }
+
+  if (url.pathname === "/api/media" && request.method === "GET") {
+    const rows = await env.DB
+      .prepare(
+        "SELECT media_id, mime_type, size_bytes, created_at, created_by FROM catalog_media ORDER BY created_at DESC LIMIT 50"
+      )
+      .all();
+
+    return obaApiJson({
+      ok: true,
+      media: rows.results || []
+    });
+  }
+
+  if (
+    (url.pathname === "/api/media/upload" || url.pathname === "/api/upload-image") &&
+    request.method === "POST"
+  ) {
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return obaApiJson({ ok: false, error: "invalid_json_body" }, 400);
+    }
+
+    if (!body || !body.base64) {
+      return obaApiJson({ ok: false, error: "base64_data_required" }, 400);
+    }
+
+    const cleanBase64 = String(body.base64).replace(/^data:image\/[a-zA-Z0-9+]+;base64,/, "").trim();
+    if (cleanBase64.length < 10) {
+      return obaApiJson({ ok: false, error: "base64_too_short" }, 400);
+    }
+
+    if (cleanBase64.length > 2000000) {
+      return obaApiJson({ ok: false, error: "image_too_large_max_1mb" }, 413);
+    }
+
+    let mimeType = String(body.mime_type || "").toLowerCase();
+    if (!mimeType && body.fileName) {
+      const ext = String(body.fileName).split(".").pop().toLowerCase();
+      if (ext === "jpg" || ext === "jpeg") mimeType = "image/jpeg";
+      else if (ext === "png") mimeType = "image/png";
+      else if (ext === "webp") mimeType = "image/webp";
+      else if (ext === "gif") mimeType = "image/gif";
+    }
+
+    if (!["image/jpeg", "image/png", "image/webp", "image/gif"].includes(mimeType)) {
+      mimeType = "image/jpeg";
+    }
+
+    const sizeBytes = Math.floor((cleanBase64.length * 3) / 4);
+    const mediaId = "media_" + crypto.randomUUID().replaceAll("-", "").slice(0, 16);
+    const now = new Date().toISOString();
+
+    await env.DB
+      .prepare(
+        [
+          "INSERT INTO catalog_media",
+          "(media_id, mime_type, data_base64, size_bytes, created_at, created_by)",
+          "VALUES (?, ?, ?, ?, ?, ?)"
+        ].join(" ")
+      )
+      .bind(
+        mediaId,
+        mimeType,
+        cleanBase64,
+        sizeBytes,
+        now,
+        "admin"
+      )
+      .run();
+
+    const mediaPath = `/api/media/${mediaId}`;
+
+    return obaApiJson({
+      ok: true,
+      media_id: mediaId,
+      path: mediaPath,
+      mime_type: mimeType,
+      size_bytes: sizeBytes
+    });
+  }
+
+  return obaApiJson({ ok: false, error: "method_not_allowed" }, 405);
+}
+
+/* OBA_MEDIA_API_END */
 
 async function obaPrivatePreviewPage(request, env) {
   const preview = await obaLoadCatalogSlot(env, "PREVIEW");
@@ -1736,7 +1942,7 @@ async function obaPrivatePreviewPage(request, env) {
       "X-Content-Type-Options": "nosniff",
       "Referrer-Policy": "no-referrer",
       "X-Frame-Options": "DENY",
-      "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; img-src * data: blob:; connect-src 'self' https:; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
     }
   });
 }
@@ -1791,6 +1997,10 @@ export default {
       return handleLogout();
     }
 
+    if (url.pathname.startsWith("/api/media/") && request.method === "GET") {
+      return obaHandleMediaServe(request, env, url);
+    }
+
     const authenticated = await validateSession(request, env);
 
     if (!authenticated) {
@@ -1823,11 +2033,21 @@ export default {
       );
     }
 
-        if (url.pathname === "/__preview") {
+    if (url.pathname === "/__preview") {
       return obaPrivatePreviewPage(request, env);
     }
 
-if (url.pathname.startsWith("/api/")) {
+    if (url.pathname.startsWith("/api/")) {
+      const obaMediaResponse =
+        await obaHandleMediaApi(
+          request,
+          env,
+          url
+        );
+
+      if (obaMediaResponse) {
+        return obaMediaResponse;
+      }
 
       const obaPublishResponse =
         await obaHandlePublishApi(
@@ -1840,7 +2060,7 @@ if (url.pathname.startsWith("/api/")) {
         return obaPublishResponse;
       }
 
-            const obaPreviewResponse =
+      const obaPreviewResponse =
         await obaHandlePreviewApi(
           request,
           env,

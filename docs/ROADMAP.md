@@ -1,4 +1,4 @@
-﻿# ROADMAP
+# ROADMAP
 
 ## Concluído
 
@@ -12,67 +12,28 @@
 - Modelo de revisões e slots.
 - Baseline PUBLISHED.
 - Backend DRAFT.
+- 8E.9D-B — Central -> DRAFT.
+- 8E.9E — Preview privado (/__preview).
+- 8E.9F — Publicação segura (PREVIEW -> PUBLISHED) + Rollback automatizado.
+- 8E.9G — Rollback operacional na Central (Histórico de versões + UI de restauração).
+- 8E.9H — Pipeline de Mídia Online (Upload, D1, Servimento público com cache imutável e zero custo).
+- 8E.10 — Homologação Geral do Sistema (Gestão, Cardápio, Mídia, D1, Rollback e WhatsApp).
 - Handoff portátil do projeto.
 
 ## Em andamento
 
-### 8E.9D-B — Central -> DRAFT
-
-- carregar DRAFT automaticamente;
-- salvar edição no DRAFT;
-- arquivar no DRAFT;
-- salvar configurações no DRAFT;
-- remover escrita direta por endpoints legados.
-
-### 8E.9E — Preview privado
-
-- POST /api/preview;
-- GET /api/preview;
-- DRAFT -> PREVIEW;
-- /__preview autenticado;
-- E2E privado;
-- PUBLISHED intacto.
+### Encerramento e Consolidação
+- Descomissionamento / remoção da exposição da Central pública antiga;
+- Consolidação de tags Git e releases;
+- Documentação final do ecossistema Oba Doceria;
+- Backups finais e auditoria de encerramento.
 
 ## Próximos blocos
 
-### 8E.9F — Publicação segura
+### Produção Estável
+- Monitoramento contínuo;
+- Operação diária do cardápio e gestão.
 
-- PREVIEW -> PUBLISHED;
-- confirmação explícita;
-- auditoria;
-- smoke;
-- rollback automático.
-
-### Rollback operacional
-
-- selecionar última versão válida;
-- promover revisão anterior sem apagar histórico.
-
-### Mídia
-
-- integrar upload de imagens ao modelo online;
-- manter requisito zero custo/sem cartão.
-
-### Homologação
-
-- E2E completo;
-- regressão;
-- mobile;
-- desktop;
-- segurança;
-- fluxo do pedido;
-- gestão;
-- Preview;
-- publicação;
-- rollback.
-
-### Encerramento
-
-- remover/excluir exposição da Central pública antiga somente após homologação;
-- release final;
-- documentação final;
-- backups finais.
-
-## Atualizacao 8E.9D-B + 8E.9E
-Concluido: Central -> DRAFT -> PREVIEW privado.
-Proximo: 8E.9F PREVIEW -> PUBLISHED + rollback.
+## Atualizacao 8E.10
+Concluído: Homologação Geral do Sistema (12/12 etapas auditadas e aprovadas com sucesso absoluto).
+Próximo: Encerramento da migração e desativação da Central pública antiga.

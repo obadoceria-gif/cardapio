@@ -1,0 +1,3 @@
+@echo off
+echo Abrindo Central de Gestao Online Segura...
+start https://oba-cardapio-gestao.obadoceria.workers.dev/
